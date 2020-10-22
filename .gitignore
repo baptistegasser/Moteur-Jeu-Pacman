@@ -1,0 +1,7 @@
+# Intelij idea
+.idea/
+*.iml
+
+# Maven
+target/
+shade/
