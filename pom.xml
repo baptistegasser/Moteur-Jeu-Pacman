@@ -39,7 +39,6 @@
                     <showDeprecation>true</showDeprecation>
                     <source>${jdk.version}</source>
                     <target>${jdk.version}</target>
-                    <release>${jdk.version}</release>
                 </configuration>
             </plugin>
             <!-- Configuration du plugin maven-shade afin de créer un uber jar contenant les dépendances
