@@ -1,36 +1,38 @@
-# Moteur de Jeu et Pacman
+# Game Engine and Pac-Man
 [![GitHub license](https://img.shields.io/github/license/baptistegasser/Moteur-Jeu-Pacman.svg)](LICENSE)
-![Version](https://img.shields.io/badge/verson-0.1--alpha-informational)
 
-Ce projet contient un moteur de jeu 2D ainsi qu'un jeu de démo reprenant le concept de Pacman.
+> Project made for the Software Engineering course.
 
-## Installation
-### Pré-requis
-- git
-- maven
-- JDK >= 11
+The goal is to create a functional Game Engine and use it to create a Pac-Man like game
+to demonstrate its usability.
 
-### Instructions
-Cloner le repo avec git et se placer à la racine.
+## Install Dependencies
+- git to clone the project
+- Code written with Java JDK 11 as target and source version
+- Maven v3.6.3+ (previous version might work but might have unpredicted behaviors)
+
+### Getting started
+First, create a local copy of the repository :
 ```shell
 git clone https://github.com/baptistegasser/Moteur-Jeu-Pacman.git
+```
+
+Install the maven modules :
+```shell
 cd Moteur-Jeu-Pacman
+mvn clean install
 ```
 
-
-## Utilisation
-Afin que le projet soit cross-platform, un uber-jar est cré à l'aide de maven shade.
-
-Pour le construire, simplement utilisé maven :
+If you don't want the Pac-Man like game, install only the engine's packages :
 ```shell
-mvn package
+cd Moteur-Jeu-Pacman/engine
+mvn clean install
 ```
 
-Pour utiliser le jar:
-```shell
-java -jar shade/Pacman.jar
-```
+## Usage
+⚠ In construction
 
+[//]: # (TODO Readme usage section)
 
-## Licence
+## License
 [MIT](LICENSE)
