@@ -2,32 +2,22 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>engine</artifactId>
+        <groupId>fr.univ</groupId>
+        <version>0.1-alpha</version>
+    </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>fr.univ</groupId>
-    <artifactId>pacman</artifactId>
-    <version>0.1-alpha</version>
+    <artifactId>physic</artifactId>
 
     <inceptionYear>2020</inceptionYear>
     <url>https://github.com/baptistegasser/Moteur-Jeu-Pacman</url>
-    <description>A Pac-Man like game demonstrating the usage of our game engine.</description>
+    <description>The physic engine of the Game Engine.</description>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
     </properties>
-
-    <dependencies>
-        <dependency>
-            <groupId>fr.univ</groupId>
-            <artifactId>core</artifactId>
-            <version>0.1-alpha</version>
-        </dependency>
-        <dependency>
-            <groupId>fr.univ</groupId>
-            <artifactId>ui</artifactId>
-            <version>0.1-alpha</version>
-        </dependency>
-    </dependencies>
 </project>

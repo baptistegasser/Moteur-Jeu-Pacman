@@ -5,29 +5,22 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>fr.univ</groupId>
-    <artifactId>pacman</artifactId>
+    <artifactId>engine</artifactId>
+    <packaging>pom</packaging>
     <version>0.1-alpha</version>
+    <modules>
+        <module>core</module>
+        <module>physic</module>
+        <module>ui</module>
+    </modules>
 
     <inceptionYear>2020</inceptionYear>
     <url>https://github.com/baptistegasser/Moteur-Jeu-Pacman</url>
-    <description>A Pac-Man like game demonstrating the usage of our game engine.</description>
+    <description>A 2D JavaFX Game Engine.</description>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
     </properties>
-
-    <dependencies>
-        <dependency>
-            <groupId>fr.univ</groupId>
-            <artifactId>core</artifactId>
-            <version>0.1-alpha</version>
-        </dependency>
-        <dependency>
-            <groupId>fr.univ</groupId>
-            <artifactId>ui</artifactId>
-            <version>0.1-alpha</version>
-        </dependency>
-    </dependencies>
 </project>
