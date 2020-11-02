@@ -9,15 +9,21 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>engine</artifactId>
+    <artifactId>pacman</artifactId>
     <version>0.1-alpha</version>
 
-    <description>A 2D JavaFX Game Engine.</description>
+    <description>A Pac-Man like game.</description>
 
-    <packaging>pom</packaging>
-    <modules>
-        <module>core</module>
-        <module>physic</module>
-        <module>ui</module>
-    </modules>
+    <dependencies>
+        <dependency>
+            <groupId>fr.univ</groupId>
+            <artifactId>core</artifactId>
+            <version>0.1-alpha</version>
+        </dependency>
+        <dependency>
+            <groupId>fr.univ</groupId>
+            <artifactId>ui</artifactId>
+            <version>0.1-alpha</version>
+        </dependency>
+    </dependencies>
 </project>

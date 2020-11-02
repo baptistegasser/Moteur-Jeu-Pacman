@@ -5,17 +5,23 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>fr.univ</groupId>
-    <artifactId>pacman</artifactId>
-    <version>0.1-alpha</version>
+    <artifactId>projet-2</artifactId>
+    <version>1.0</version>
 
     <inceptionYear>2020</inceptionYear>
     <url>https://github.com/baptistegasser/Moteur-Jeu-Pacman</url>
-    <description>A Pac-Man like game demonstrating the usage of our game engine.</description>
+    <description>Project for 2020 course "Genie Logiciel" which consist in a Game Engine and a Pac-Man like game made with the created engine.</description>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>11</java.version>
     </properties>
+
+    <packaging>pom</packaging>
+    <modules>
+        <module>engine</module>
+        <module>pacman</module>
+    </modules>
 
     <build>
         <plugins>
@@ -30,17 +36,4 @@
             </plugin>
         </plugins>
     </build>
-
-    <dependencies>
-        <dependency>
-            <groupId>fr.univ</groupId>
-            <artifactId>core</artifactId>
-            <version>0.1-alpha</version>
-        </dependency>
-        <dependency>
-            <groupId>fr.univ</groupId>
-            <artifactId>ui</artifactId>
-            <version>0.1-alpha</version>
-        </dependency>
-    </dependencies>
 </project>
