@@ -1,6 +1,8 @@
 # Intelij idea
-.idea/
+.idea/*
 *.iml
+# Exception for Run/Debug configs
+!.idea/runConfigurations
 
 # Maven
 target/

@@ -1,0 +1,2 @@
+module fr.univ.physic {
+}
