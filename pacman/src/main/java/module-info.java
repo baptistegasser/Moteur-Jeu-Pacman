@@ -1,5 +1,4 @@
 module fr.univ.pacman {
-    requires fr.univ.core;
-
-    opens fr.univ.pacman to javafx.graphics;
+    requires fr.univ.engine;
+    requires javafx.graphics;
 }

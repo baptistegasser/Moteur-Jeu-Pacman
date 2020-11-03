@@ -14,10 +14,16 @@
 
     <description>A 2D JavaFX Game Engine.</description>
 
-    <packaging>pom</packaging>
-    <modules>
-        <module>core</module>
-        <module>physic</module>
-        <module>ui</module>
-    </modules>
+    <dependencies>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-graphics</artifactId>
+            <version>15</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-controls</artifactId>
+            <version>15</version>
+        </dependency>
+    </dependencies>
 </project>
