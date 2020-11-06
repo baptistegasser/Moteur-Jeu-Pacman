@@ -55,6 +55,8 @@ public final class JFXApp extends Application {
         stage.setWidth(window.width);
         stage.setHeight(window.height);
         stage.setTitle(window.title);
+        stage.setResizable(window.allowResize);
+
         stage.setScene(new Scene(stackPane));
 
         latch.countDown();

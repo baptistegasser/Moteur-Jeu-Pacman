@@ -51,6 +51,7 @@ public final class Core {
         while (!quit) {
             while (!pause) {
                 render.render();
+                Thread.sleep(10);
             }
         }
     }

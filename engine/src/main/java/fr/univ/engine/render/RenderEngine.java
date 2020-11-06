@@ -1,7 +1,11 @@
 package fr.univ.engine.render;
 
 import fr.univ.engine.core.CoreException;
+import fr.univ.engine.core.Entity;
 import fr.univ.engine.core.Scene;
+import fr.univ.engine.render.texture.TextureResolver;
+import fr.univ.engine.render.texture.Textured;
+import javafx.scene.image.Image;
 
 /**
  * The engine module charged of supervising all rendering related action.
@@ -16,20 +20,24 @@ public class RenderEngine {
      */
     public WindowConfig window;
 
+    public Camera camera;
+
     /**
      * The last time the render function was called.
      */
-    private static long lastCall = -1;
+    private static long lastCall = System.currentTimeMillis();
     /**
      * The rendered frame count.
      */
     private static int frame = 0;
 
+    private TextureResolver textureResolver;
+
     /**
      * Create a render engine with defaults values.
      */
     public RenderEngine() {
-        this.window = new WindowConfig(200, 200, "Game Engine", false);
+        this.window = new WindowConfig(200, 200, "Game Engine", false, true);
     }
 
     /**
@@ -40,6 +48,8 @@ public class RenderEngine {
             JFXApp.setWindowConfig(window);
             JFXApp.startApp();
             JFXApp.showWindow();
+            this.camera = new Camera(JFXApp.canvas);
+            this.camera.clear();
         } catch (InterruptedException e) {
             throw new CoreException("Failed to wait for JFX app start", e);
         } catch (Throwable t) {
@@ -61,24 +71,24 @@ public class RenderEngine {
      */
     public void render() {
         if (window.showFPSCounter) {
-            showFPS();
+            frame++;
+
+            long current = System.currentTimeMillis();
+            if ((current - lastCall) >= 1000) {
+                System.out.println("FPS: " + frame);
+                frame = 0;
+                lastCall = current;
+            }
+        }
+        for (Entity e : scene.getEntities()) {
+            if (e instanceof Textured) {
+                Image texture = textureResolver.getTexture(((Textured) e).getTexture());
+                camera.renderEntity(e, texture);
+            }
         }
     }
 
-    /**
-     * Show the Frame Per Second.
-     * TODO not display in terminal
-     */
-    private void showFPS() {
-        if (lastCall == -1 ) {
-            lastCall = System.currentTimeMillis();
-        }
-        frame++;
-
-        if (System.currentTimeMillis() - lastCall >= 1000) {
-            System.out.println(frame);
-            frame = 0;
-            lastCall += 1000;
-        }
+    public void setTextureResolver(TextureResolver resolver) {
+        this.textureResolver = resolver;
     }
 }

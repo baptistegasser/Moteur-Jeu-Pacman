@@ -20,11 +20,16 @@ public class WindowConfig {
      * Should the window show FPS ?
      */
     public boolean showFPSCounter;
+    /**
+     * Should the window be resizable ?
+     */
+    public boolean allowResize;
 
-    public WindowConfig(int width, int height, String title, boolean showFPSCounter) {
+    public WindowConfig(int width, int height, String title, boolean showFPSCounter, boolean allowResize) {
         this.width = width;
         this.height = height;
         this.title = title;
         this.showFPSCounter = showFPSCounter;
+        this.allowResize = allowResize;
     }
 }
