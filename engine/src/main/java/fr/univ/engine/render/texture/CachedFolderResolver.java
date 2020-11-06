@@ -26,7 +26,7 @@ public class CachedFolderResolver implements TextureResolver {
         }
 
         try {
-            Image texture = new Image("file://"+imgFile.getAbsolutePath());
+            Image texture = new Image("file:"+imgFile.getAbsolutePath());
             cache.put(name, texture);
             return texture;
         } catch (Exception e) {
