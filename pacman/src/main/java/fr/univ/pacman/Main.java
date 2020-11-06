@@ -2,10 +2,8 @@ package fr.univ.pacman;
 
 import fr.univ.engine.core.Core;
 import fr.univ.engine.render.WindowConfig;
-import fr.univ.engine.render.texture.CachedFolderResolver;
+import fr.univ.engine.render.texture.CachedResourcesResolver;
 import fr.univ.pacman.map.Map;
-
-import java.io.File;
 
 /**
  * The entry point of the Pac-Man Game
@@ -21,8 +19,7 @@ public class Main {
         cfg.allowResize = false;
         cfg.showFPSCounter = true;
 
-        System.out.println(Main.class.getResource("/assets").getPath().replace("%20", " "));
-        Core.render().setTextureResolver(new CachedFolderResolver(new File(Main.class.getResource("/assets").getPath().replace("%20", " "))));
+        Core.render().setTextureResolver(new CachedResourcesResolver("assets/"));
         Core.setScene(new Map());
 
         Core.start();
