@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>pacman</artifactId>
-    <version>0.1-alpha</version>
+    <version>1.0</version>
 
     <description>A Pac-Man like game.</description>
 
@@ -18,7 +18,7 @@
         <dependency>
             <groupId>fr.univ</groupId>
             <artifactId>engine</artifactId>
-            <version>0.1-alpha</version>
+            <version>1.3</version>
         </dependency>
     </dependencies>
 
