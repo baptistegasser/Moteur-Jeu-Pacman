@@ -15,7 +15,7 @@ public class PacMan extends Entity implements Textured {
     }
 
     @Override
-    public String getTexture() {
+    public String getTextureName() {
         return "sprites/pacman.png";
     }
 }

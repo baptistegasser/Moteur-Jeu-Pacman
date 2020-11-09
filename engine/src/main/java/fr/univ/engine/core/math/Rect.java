@@ -1,5 +1,8 @@
 package fr.univ.engine.core.math;
 
+/**
+ * Representation of a rectangle.
+ */
 public class Rect {
     public final double width;
     public final double height;

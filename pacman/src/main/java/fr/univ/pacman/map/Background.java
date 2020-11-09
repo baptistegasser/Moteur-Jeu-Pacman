@@ -15,7 +15,7 @@ public class Background extends Entity implements Textured {
     }
 
     @Override
-    public String getTexture() {
+    public String getTextureName() {
         return "map/map.png";
     }
 }

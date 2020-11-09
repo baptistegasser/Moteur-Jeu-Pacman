@@ -3,8 +3,17 @@ package fr.univ.engine.core;
 import fr.univ.engine.core.math.Point;
 import fr.univ.engine.core.math.Rect;
 
+/**
+ * Representation of an entity in the game engine.
+ */
 public class Entity {
+    /**
+     * It's position in space.
+     */
     private Point pos;
+    /**
+     * The size of this entity
+     */
     private Rect size;
     private int zIndex;
 

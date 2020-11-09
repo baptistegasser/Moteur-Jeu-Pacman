@@ -2,7 +2,7 @@ package fr.univ.pacman;
 
 import fr.univ.engine.core.Core;
 import fr.univ.engine.render.WindowConfig;
-import fr.univ.engine.render.texture.CachedResourcesResolver;
+import fr.univ.engine.render.texture.CachedResourcesLoader;
 import fr.univ.pacman.map.Map;
 
 /**
@@ -21,7 +21,7 @@ public class Main {
         cfg.showFPSCounter = true;
 
         // Create a resolver pointing to the assets dir inside the resources dir
-        CachedResourcesResolver resolver = new CachedResourcesResolver("assets/");
+        CachedResourcesLoader resolver = new CachedResourcesLoader("assets/");
         Core.render().setTextureResolver(resolver);
 
         Core.setScene(new Map()); // Set the Pac-Man map
