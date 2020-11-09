@@ -82,7 +82,7 @@ public class RenderEngine {
         }
         for (Entity e : scene.getEntities()) {
             if (e instanceof Textured) {
-                Image texture = textureResolver.getTexture(((Textured) e).getTexture());
+                Image texture = textureResolver.getTexture(((Textured) e).getTextureName());
                 camera.renderEntity(e, texture);
             }
         }

@@ -7,5 +7,5 @@ public interface Textured {
     /**
      * @return a unique identifier allowing to detect which texture should be used.
      */
-    String getTexture();
+    String getTextureName();
 }
