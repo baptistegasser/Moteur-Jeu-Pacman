@@ -8,6 +8,7 @@ import javafx.scene.image.Image;
  * and load a texture.
  * A texture is represented as a {@link javafx.scene.image.Image} instance.
  */
+@FunctionalInterface
 public interface TextureResolver {
     /**
      * Locate and load a texture matching the given key.
