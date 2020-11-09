@@ -20,7 +20,15 @@ public class RenderEngine {
      */
     public WindowConfig window;
 
+    /**
+     * The camera used to display content.
+     */
     public Camera camera;
+
+    /**
+     * The texture loader used by the render engine.
+     */
+    private TextureLoader textureLoader;
 
     /**
      * The last time the render function was called.
@@ -30,8 +38,6 @@ public class RenderEngine {
      * The rendered frame count.
      */
     private static int frame = 0;
-
-    private TextureLoader textureLoader;
 
     /**
      * Create a render engine with defaults values.
