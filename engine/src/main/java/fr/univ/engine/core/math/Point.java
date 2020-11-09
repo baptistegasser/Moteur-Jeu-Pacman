@@ -1,5 +1,8 @@
 package fr.univ.engine.core.math;
 
+/**
+ * Representation of a position in 2D space.
+ */
 public class Point {
     public final double x;
     public final double y;

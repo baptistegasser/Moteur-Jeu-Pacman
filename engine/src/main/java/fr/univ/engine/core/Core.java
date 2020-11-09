@@ -2,16 +2,34 @@ package fr.univ.engine.core;
 
 import fr.univ.engine.render.RenderEngine;
 
+/**
+ * The core engine, charged to link all subsequent engines.
+ */
 public final class Core {
+    /**
+     * Should the engine's main loop quit ?
+     */
     private static boolean quit = false;
+    /**
+     * Should the engine's main loop pause ?
+     */
     private static boolean pause = false;
 
+    /**
+     * The render engine instance used to render.
+     */
     private static RenderEngine render;
 
+    /**
+     * Initialize the engine.
+     */
     public static void init() {
         render = new RenderEngine();
     }
 
+    /**
+     * @return the render engine instance.
+     */
     public static RenderEngine render() {
         return render;
     }
@@ -56,11 +74,17 @@ public final class Core {
         }
     }
 
+    /**
+     * Quit the main loop, stop the engine.
+     */
     public static void quit() {
         pause();
         quit = true;
     }
 
+    /**
+     * Pause the main loop.
+     */
     public static void pause() {
         pause = true;
     }
