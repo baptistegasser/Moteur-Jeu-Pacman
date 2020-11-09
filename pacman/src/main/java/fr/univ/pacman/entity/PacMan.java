@@ -5,8 +5,10 @@ import fr.univ.engine.core.math.Point;
 import fr.univ.engine.core.math.Rect;
 import fr.univ.engine.render.texture.Textured;
 
+/**
+ * The class handling the logic of Pac-Man controlled by the player.
+ */
 public class PacMan extends Entity implements Textured {
-
     public PacMan() {
         super(new Point(0, 32), new Rect(16, 16));
         setZIndex(10);
