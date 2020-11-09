@@ -6,12 +6,13 @@ import fr.univ.engine.render.texture.CachedResourcesResolver;
 import fr.univ.pacman.map.Map;
 
 /**
- * The entry point of the Pac-Man Game
+ * The entry point of the Pac-Man Game, setup and start the game.
  */
 public class Main {
     public static void main(String[] args) {
-        Core.init();
+        Core.init(); // Initialize the engine
 
+        // Configure the windows
         WindowConfig cfg = Core.render().window;
         cfg.width = 510;
         cfg.height = 620;
@@ -19,9 +20,12 @@ public class Main {
         cfg.allowResize = false;
         cfg.showFPSCounter = true;
 
-        Core.render().setTextureResolver(new CachedResourcesResolver("assets/"));
-        Core.setScene(new Map());
+        // Create a resolver pointing to the assets dir inside the resources dir
+        CachedResourcesResolver resolver = new CachedResourcesResolver("assets/");
+        Core.render().setTextureResolver(resolver);
 
-        Core.start();
+        Core.setScene(new Map()); // Set the Pac-Man map
+
+        Core.start(); // Start the game
     }
 }

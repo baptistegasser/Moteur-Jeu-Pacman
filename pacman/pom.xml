@@ -12,7 +12,8 @@
     <artifactId>pacman</artifactId>
     <version>1.0</version>
 
-    <description>A Pac-Man like game.</description>
+    <inceptionYear>2020</inceptionYear>
+    <description>A Pac-Man like game made with our own engine.</description>
 
     <dependencies>
         <dependency>

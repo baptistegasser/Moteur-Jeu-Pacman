@@ -5,6 +5,9 @@ import fr.univ.engine.core.math.Point;
 import fr.univ.engine.core.math.Rect;
 import fr.univ.engine.render.texture.Textured;
 
+/**
+ * The background of the Pac-Man game, draw the labyrinth on screen.
+ */
 public class Background extends Entity implements Textured {
     public Background() {
         super(new Point(0, 0), new Rect(448, 496));
