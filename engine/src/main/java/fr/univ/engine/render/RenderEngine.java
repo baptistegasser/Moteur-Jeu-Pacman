@@ -3,7 +3,7 @@ package fr.univ.engine.render;
 import fr.univ.engine.core.CoreException;
 import fr.univ.engine.core.Entity;
 import fr.univ.engine.core.Scene;
-import fr.univ.engine.render.texture.TextureResolver;
+import fr.univ.engine.render.texture.TextureLoader;
 import fr.univ.engine.render.texture.Textured;
 import javafx.scene.image.Image;
 
@@ -31,7 +31,7 @@ public class RenderEngine {
      */
     private static int frame = 0;
 
-    private TextureResolver textureResolver;
+    private TextureLoader textureLoader;
 
     /**
      * Create a render engine with defaults values.
@@ -82,13 +82,13 @@ public class RenderEngine {
         }
         for (Entity e : scene.getEntities()) {
             if (e instanceof Textured) {
-                Image texture = textureResolver.getTexture(((Textured) e).getTextureName());
+                Image texture = textureLoader.getTexture(((Textured) e).getTextureName());
                 camera.renderEntity(e, texture);
             }
         }
     }
 
-    public void setTextureResolver(TextureResolver resolver) {
-        this.textureResolver = resolver;
+    public void setTextureResolver(TextureLoader resolver) {
+        this.textureLoader = resolver;
     }
 }

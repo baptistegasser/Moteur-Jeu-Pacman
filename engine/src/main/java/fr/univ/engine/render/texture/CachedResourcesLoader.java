@@ -2,15 +2,14 @@ package fr.univ.engine.render.texture;
 
 import javafx.scene.image.Image;
 
-import java.io.File;
 import java.net.URL;
 import java.util.HashMap;
 
-public class CachedResourcesResolver implements TextureResolver {
+public class CachedResourcesLoader implements TextureLoader {
     private final String folder;
     private final HashMap<String, Image> cache;
 
-    public CachedResourcesResolver(String folder) {
+    public CachedResourcesLoader(String folder) {
         this.folder = folder;
         this.cache = new HashMap<>();
     }
