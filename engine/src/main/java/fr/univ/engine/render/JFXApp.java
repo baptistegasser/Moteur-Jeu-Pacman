@@ -1,6 +1,5 @@
 package fr.univ.engine.render;
 
-import fr.univ.engine.core.Core;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Scene;
