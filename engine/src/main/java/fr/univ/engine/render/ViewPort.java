@@ -88,6 +88,7 @@ class ViewPort {
     private void setWidth(double width) {
         this.width = width;
         updateCenter();
+        clear(); // clear display to clean last render made on different size
     }
 
     /**
@@ -98,6 +99,7 @@ class ViewPort {
     private void setHeight(double height) {
         this.height = height;
         updateCenter();
+        clear(); // clear display to clean last render made on different size
     }
 
     /**
