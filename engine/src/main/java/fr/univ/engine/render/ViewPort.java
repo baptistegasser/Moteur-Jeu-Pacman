@@ -60,13 +60,22 @@ class ViewPort {
             return;
         }
 
-        ctx.drawImage(img, 0, 0, img.getWidth(), img.getHeight(), x1, y1, w, h);
+        RenderEngine.runOnFXThread(() -> ctx.drawImage(img, 0, 0, img.getWidth(), img.getHeight(), x1, y1, w, h));
     }
 
     /**
-     * Clear the display.
+     * Clear the display on the FX thread.
+     *
+     * @see #clearImpl() for the implementation
      */
     public void clear() {
+        RenderEngine.runOnFXThread(this::clearImpl);
+    }
+
+    /**
+     * The actual {@link #clear()} implementation.
+     */
+    private void clearImpl() {
         ctx.setFill(Color.BLACK);
         ctx.fillRect(0, 0, width, height);
     }
