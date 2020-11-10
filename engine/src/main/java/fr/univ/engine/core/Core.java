@@ -1,5 +1,6 @@
 package fr.univ.engine.core;
 
+import fr.univ.engine.render.JFXApp;
 import fr.univ.engine.render.RenderEngine;
 
 /**
@@ -27,6 +28,7 @@ public final class Core {
      */
     public Core() {
         this.renderEngine = new RenderEngine();
+        JFXApp.getIsClosingProperty().addListener(o -> this.quit()); // listen for render app closing TODO is this bad?
     }
 
     /**
