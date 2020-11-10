@@ -55,6 +55,8 @@ public final class JFXApp extends Application {
         stage.setHeight(window.height);
         stage.setTitle(window.title);
         stage.setResizable(window.allowResize);
+        stage.widthProperty().addListener(($, $$, width) -> canvas.setWidth((Double) width));
+        stage.heightProperty().addListener(($, $$, height) -> canvas.setHeight((Double) height));
 
         stage.setScene(new Scene(stackPane));
 
