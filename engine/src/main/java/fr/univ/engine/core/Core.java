@@ -9,29 +9,31 @@ public final class Core {
     /**
      * Should the engine's main loop quit ?
      */
-    private static boolean quit = false;
+    private boolean quit = false;
     /**
      * Should the engine's main loop pause ?
      */
-    private static boolean pause = false;
+    private boolean pause = false;
+
+    private Scene scene;
 
     /**
      * The render engine instance used to render.
      */
-    private static RenderEngine render;
+    private final RenderEngine renderEngine;
 
     /**
      * Initialize the engine.
      */
-    public static void init() {
-        render = new RenderEngine();
+    public Core() {
+        this.renderEngine = new RenderEngine();
     }
 
     /**
      * @return the render engine instance.
      */
-    public static RenderEngine render() {
-        return render;
+    public RenderEngine getRenderEngine() {
+        return renderEngine;
     }
 
     /**
@@ -39,19 +41,19 @@ public final class Core {
      *
      * @param scene the new scene
      */
-    public static void setScene(Scene scene) {
+    public void setScene(Scene scene) {
         if (scene == null) {
             throw new CoreException("The scene is null", new NullPointerException());
         }
 
-        render.setScene(scene);
+        this.scene = scene;
     }
 
     /**
      * Start the game engine.
      */
-    public static void start() {
-        render.start();
+    public void start() {
+        renderEngine.start();
 
         try {
             mainLoop();
@@ -65,10 +67,15 @@ public final class Core {
      *
      * @throws Exception something can fail in the loop or sub modules
      */
-    private static void mainLoop() throws Exception {
+    private void mainLoop() throws Exception {
         while (!quit) {
             while (!pause) {
-                render.render();
+                // TODO handling of delta time, framerate for physics
+                // TODO physic
+
+                for (GameObject o : scene.getObjects()) {
+                    renderEngine.renderObject(o.renderObject);
+                }
                 Thread.sleep(10);
             }
         }
@@ -77,7 +84,7 @@ public final class Core {
     /**
      * Quit the main loop, stop the engine.
      */
-    public static void quit() {
+    public void quit() {
         pause();
         quit = true;
     }
@@ -85,7 +92,14 @@ public final class Core {
     /**
      * Pause the main loop.
      */
-    public static void pause() {
+    public void pause() {
         pause = true;
+    }
+
+    /**
+     * Unpause the main loop.
+     */
+    public void unpause() {
+        pause = false;
     }
 }

@@ -4,7 +4,7 @@ module fr.univ.engine {
     opens fr.univ.engine.render to javafx.graphics;
 
     exports fr.univ.engine.core;
-    exports fr.univ.engine.core.math;
+    exports fr.univ.engine.math;
     exports fr.univ.engine.render;
     exports fr.univ.engine.render.texture;
 }

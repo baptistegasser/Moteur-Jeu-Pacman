@@ -1,6 +1,5 @@
 package fr.univ.engine.render;
 
-import fr.univ.engine.core.Core;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Scene;
@@ -59,13 +58,16 @@ public final class JFXApp extends Application {
 
         stage.setScene(new Scene(stackPane));
 
+        canvas.widthProperty().bind(stage.widthProperty());
+        canvas.heightProperty().bind(stage.heightProperty());
+
         latch.countDown();
     }
 
     @Override
     public void stop() throws Exception {
         super.stop();
-        Core.quit();
+        // TODO access core to quit ? Core.quit();
     }
 
     /**
@@ -74,15 +76,6 @@ public final class JFXApp extends Application {
     public static void showWindow() {
         if (stage != null && !stage.isShowing()) {
             Platform.runLater(stage::show);
-        }
-    }
-
-    /**
-     * Hide the window if it's showing.
-     */
-    public static void hideWindow() {
-        if (stage != null && stage.isShowing()) {
-            Platform.runLater(stage::hide);
         }
     }
 

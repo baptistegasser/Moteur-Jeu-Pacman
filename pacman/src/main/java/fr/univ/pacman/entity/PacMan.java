@@ -1,21 +1,17 @@
 package fr.univ.pacman.entity;
 
-import fr.univ.engine.core.Entity;
-import fr.univ.engine.core.math.Point;
-import fr.univ.engine.core.math.Rect;
-import fr.univ.engine.render.texture.Textured;
+import fr.univ.engine.core.GameObject;
+import fr.univ.engine.math.Point;
 
 /**
  * The class handling the logic of Pac-Man controlled by the player.
  */
-public class PacMan extends Entity implements Textured {
+public class PacMan extends GameObject {
     public PacMan() {
-        super(new Point(0, 32), new Rect(16, 16));
-        setZIndex(10);
-    }
-
-    @Override
-    public String getTextureName() {
-        return "sprites/pacman.png";
+        renderObject.pos = new Point(0, 32);
+        renderObject.width = 16;
+        renderObject.height = 16;
+        renderObject.zIndex = 10;
+        renderObject.textureName = "sprites/pacman.png";
     }
 }

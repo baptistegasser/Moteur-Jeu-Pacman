@@ -1,21 +1,17 @@
 package fr.univ.pacman.map;
 
-import fr.univ.engine.core.Entity;
-import fr.univ.engine.core.math.Point;
-import fr.univ.engine.core.math.Rect;
-import fr.univ.engine.render.texture.Textured;
+import fr.univ.engine.core.GameObject;
+import fr.univ.engine.math.Point;
 
 /**
  * The background of the Pac-Man game, draw the labyrinth on screen.
  */
-public class Background extends Entity implements Textured {
+public class Background extends GameObject {
     public Background() {
-        super(new Point(0, 0), new Rect(448, 496));
-        setZIndex(-100);
-    }
-
-    @Override
-    public String getTextureName() {
-        return "map/map.png";
+        renderObject.pos = new Point(0, 0);
+        renderObject.width = 448;
+        renderObject.height = 496;
+        renderObject.zIndex = -10;
+        renderObject.textureName = "map/map.png";
     }
 }
