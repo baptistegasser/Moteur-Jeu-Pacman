@@ -1,6 +1,7 @@
 package fr.univ.engine.render;
 
 import fr.univ.engine.render.texture.TextureLoader;
+import javafx.application.Platform;
 import javafx.scene.image.Image;
 
 /**
@@ -60,5 +61,20 @@ public class RenderEngine {
      */
     public void setTextureLoader(TextureLoader loader) {
         this.textureLoader = loader;
+    }
+
+    /**
+     * Util function that assert a runnable is run on the JavaFX Thread.
+     * Note: this should be used only for code that REALLY need the Thread as it had
+     * overhead and so increase time to execute.
+     *
+     * @param r the runnable to run
+     */
+    public static void runOnFXThread(Runnable r) {
+        if (Platform.isFxApplicationThread()) {
+            r.run();
+        } else {
+            Platform.runLater(r);
+        }
     }
 }
