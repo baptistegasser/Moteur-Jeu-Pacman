@@ -9,28 +9,28 @@ public final class Core {
     /**
      * Should the engine's main loop quit ?
      */
-    private static boolean quit = false;
+    private boolean quit = false;
     /**
      * Should the engine's main loop pause ?
      */
-    private static boolean pause = false;
+    private boolean pause = false;
 
     /**
      * The render engine instance used to render.
      */
-    private static RenderEngine render;
+    private RenderEngine render;
 
     /**
      * Initialize the engine.
      */
-    public static void init() {
-        render = new RenderEngine();
+    public Core() {
+        this.render = new RenderEngine();
     }
 
     /**
      * @return the render engine instance.
      */
-    public static RenderEngine render() {
+    public RenderEngine getRenderEngine() {
         return render;
     }
 
@@ -39,7 +39,7 @@ public final class Core {
      *
      * @param scene the new scene
      */
-    public static void setScene(Scene scene) {
+    public void setScene(Scene scene) {
         if (scene == null) {
             throw new CoreException("The scene is null", new NullPointerException());
         }
@@ -50,7 +50,7 @@ public final class Core {
     /**
      * Start the game engine.
      */
-    public static void start() {
+    public void start() {
         render.start();
 
         try {
@@ -65,7 +65,7 @@ public final class Core {
      *
      * @throws Exception something can fail in the loop or sub modules
      */
-    private static void mainLoop() throws Exception {
+    private void mainLoop() throws Exception {
         while (!quit) {
             while (!pause) {
                 render.render();
@@ -77,7 +77,7 @@ public final class Core {
     /**
      * Quit the main loop, stop the engine.
      */
-    public static void quit() {
+    public void quit() {
         pause();
         quit = true;
     }
@@ -85,7 +85,14 @@ public final class Core {
     /**
      * Pause the main loop.
      */
-    public static void pause() {
+    public void pause() {
         pause = true;
+    }
+
+    /**
+     * Unpause the main loop.
+     */
+    public void unpause() {
+        pause = false;
     }
 }

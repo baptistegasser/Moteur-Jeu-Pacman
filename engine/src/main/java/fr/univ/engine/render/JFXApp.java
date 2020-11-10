@@ -65,7 +65,7 @@ public final class JFXApp extends Application {
     @Override
     public void stop() throws Exception {
         super.stop();
-        Core.quit();
+        // TODO access core to quit ? Core.quit();
     }
 
     /**
