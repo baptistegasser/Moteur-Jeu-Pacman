@@ -32,8 +32,9 @@ class ViewPort {
     private final GraphicsContext ctx;
 
     public ViewPort(Canvas canvas) {
-        setWidth(canvas.getWidth());
-        setHeight(canvas.getHeight());
+        this.width = canvas.getWidth();
+        this.height = canvas.getHeight();
+        updateCenter();
         // When th canvas width or height change, set the new value
         canvas.widthProperty().addListener(o -> setWidth(canvas.getWidth()));
         canvas.heightProperty().addListener(o -> setHeight(canvas.getHeight()));
@@ -60,22 +61,13 @@ class ViewPort {
             return;
         }
 
-        RenderEngine.runOnFXThread(() -> ctx.drawImage(img, 0, 0, img.getWidth(), img.getHeight(), x1, y1, w, h));
+        ctx.drawImage(img, 0, 0, img.getWidth(), img.getHeight(), x1, y1, w, h);
     }
 
     /**
-     * Clear the display on the FX thread.
-     *
-     * @see #clearImpl() for the implementation
+     * Clear the display.
      */
     public void clear() {
-        RenderEngine.runOnFXThread(this::clearImpl);
-    }
-
-    /**
-     * The actual {@link #clear()} implementation.
-     */
-    private void clearImpl() {
         ctx.setFill(Color.BLACK);
         ctx.fillRect(0, 0, width, height);
     }
