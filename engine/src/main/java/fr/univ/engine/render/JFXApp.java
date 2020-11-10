@@ -2,6 +2,8 @@ package fr.univ.engine.render;
 
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.beans.property.ReadOnlyBooleanProperty;
+import javafx.beans.property.ReadOnlyBooleanWrapper;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.layout.StackPane;
@@ -21,6 +23,13 @@ public final class JFXApp extends Application {
      * A latch used to detect when the JavaFX app thread is started.
      */
     private static final CountDownLatch latch = new CountDownLatch(1);
+
+    /**
+     * Property following the status of the app.
+     * If the app is closing (closed the window) {@link ReadOnlyBooleanWrapper#getValue()} will return true.
+     * The property is read only to allow listeners to read but only this app to modify it.
+     */
+    private static final ReadOnlyBooleanWrapper isClosing = new ReadOnlyBooleanWrapper();
 
     /**
      * The Window of our app.
@@ -67,7 +76,7 @@ public final class JFXApp extends Application {
     @Override
     public void stop() throws Exception {
         super.stop();
-        // TODO access core to quit ? Core.quit();
+        isClosing.set(true);
     }
 
     /**
@@ -87,5 +96,12 @@ public final class JFXApp extends Application {
      */
     public static void setWindowConfig(WindowConfig window) {
         JFXApp.window = window;
+    }
+
+    /**
+     * @return the read only property value of {@link #isClosing}
+     */
+    public static ReadOnlyBooleanProperty getIsClosingProperty() {
+        return isClosing.getReadOnlyProperty();
     }
 }
