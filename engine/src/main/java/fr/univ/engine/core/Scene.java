@@ -1,27 +1,22 @@
 package fr.univ.engine.core;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * A scene representing a game's level.
  */
 public class Scene {
-    private final ArrayList<Entity> entities;
+    private final ArrayList<GameObject> objects;
 
     public Scene() {
-        this.entities = new ArrayList<>();
+        this.objects = new ArrayList<>();
     }
 
-    public Scene(List<Entity> entities) {
-        this.entities = new ArrayList<>(entities);
+    public ArrayList<GameObject> getObjects() {
+        return objects;
     }
 
-    public ArrayList<Entity> getEntities() {
-        return entities;
-    }
-
-    public void add(Entity e) {
-        this.entities.add(e);
+    public void add(GameObject e) {
+        this.objects.add(e);
     }
 }

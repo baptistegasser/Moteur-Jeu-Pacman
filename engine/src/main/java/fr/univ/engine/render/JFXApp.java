@@ -77,15 +77,6 @@ public final class JFXApp extends Application {
     }
 
     /**
-     * Hide the window if it's showing.
-     */
-    public static void hideWindow() {
-        if (stage != null && stage.isShowing()) {
-            Platform.runLater(stage::hide);
-        }
-    }
-
-    /**
      * Set the configuration of the window.
      * Will not affect the window after the app start.
      *

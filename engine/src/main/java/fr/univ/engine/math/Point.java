@@ -1,4 +1,4 @@
-package fr.univ.engine.core.math;
+package fr.univ.engine.math;
 
 /**
  * Representation of a position in 2D space.

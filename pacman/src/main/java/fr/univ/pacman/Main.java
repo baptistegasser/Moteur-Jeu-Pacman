@@ -17,12 +17,12 @@ public class Main {
         cfg.width = 510;
         cfg.height = 620;
         cfg.title = "Pac-Man";
-        cfg.allowResize = false;
+        cfg.allowResize = true;
         cfg.showFPSCounter = true;
 
         // Create a resolver pointing to the assets dir inside the resources dir
         CachedResourcesLoader resolver = new CachedResourcesLoader("assets/");
-        core.getRenderEngine().setTextureResolver(resolver);
+        core.getRenderEngine().setTextureLoader(resolver);
 
         core.setScene(new Map()); // Set the Pac-Man map
 

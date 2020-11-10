@@ -15,23 +15,25 @@ public final class Core {
      */
     private boolean pause = false;
 
+    private Scene scene;
+
     /**
      * The render engine instance used to render.
      */
-    private RenderEngine render;
+    private final RenderEngine renderEngine;
 
     /**
      * Initialize the engine.
      */
     public Core() {
-        this.render = new RenderEngine();
+        this.renderEngine = new RenderEngine();
     }
 
     /**
      * @return the render engine instance.
      */
     public RenderEngine getRenderEngine() {
-        return render;
+        return renderEngine;
     }
 
     /**
@@ -44,14 +46,14 @@ public final class Core {
             throw new CoreException("The scene is null", new NullPointerException());
         }
 
-        render.setScene(scene);
+        this.scene = scene;
     }
 
     /**
      * Start the game engine.
      */
     public void start() {
-        render.start();
+        renderEngine.start();
 
         try {
             mainLoop();
@@ -68,7 +70,12 @@ public final class Core {
     private void mainLoop() throws Exception {
         while (!quit) {
             while (!pause) {
-                render.render();
+                // TODO handling of delta time, framerate for physics
+                // TODO physic
+
+                for (GameObject o : scene.getObjects()) {
+                    renderEngine.renderObject(o.renderObject);
+                }
                 Thread.sleep(10);
             }
         }
