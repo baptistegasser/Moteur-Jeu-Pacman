@@ -36,7 +36,7 @@ public class RenderEngine {
     public void start() {
         try {
             JFXApp.setWindowConfig(window);
-            JFXApp.startApp();
+            JFXApp.startAndWaitUntilReady();
             JFXApp.showWindow();
             this.viewPort = new ViewPort(JFXApp.canvas);
             this.viewPort.clear();

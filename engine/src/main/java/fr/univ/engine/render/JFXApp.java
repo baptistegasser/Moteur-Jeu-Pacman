@@ -49,7 +49,7 @@ public final class JFXApp extends Application {
      *
      * @throws InterruptedException if the thread was interrupted while waiting
      */
-    public static void startApp() throws InterruptedException {
+    public static void startAndWaitUntilReady() throws InterruptedException {
         new Thread(Application::launch).start();
         latch.await();
     }
