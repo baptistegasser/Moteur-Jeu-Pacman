@@ -1,6 +1,7 @@
 package fr.univ.pacman.map;
 
 import fr.univ.engine.core.Scene;
+import fr.univ.pacman.entity.Ghost;
 import fr.univ.pacman.entity.PacMan;
 import fr.univ.pacman.item.Gomme;
 import fr.univ.pacman.item.SuperGomme;
@@ -34,5 +35,10 @@ public class Map extends Scene {
         add(new Gomme(-24, 80));
         add(new Gomme(-24, 96));
         add(new Gomme(-24, 112));
+
+        add(new Ghost(104,80,"orange"));
+        add(new Ghost(-32,32,"red"));
+        add(new Ghost(72,-32,"blue"));
+        add(new Ghost(200,-224,"pink"));
     }
 }
