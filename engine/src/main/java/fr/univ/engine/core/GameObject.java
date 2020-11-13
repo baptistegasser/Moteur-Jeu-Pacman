@@ -1,5 +1,7 @@
 package fr.univ.engine.core;
 
+import fr.univ.engine.math.Point;
+import fr.univ.engine.physic.PhysicObject;
 import fr.univ.engine.render.RenderObject;
 
 /**
@@ -11,7 +13,16 @@ public abstract class GameObject {
      */
     protected final RenderObject renderObject;
 
+    /**
+     * The render component used to display this object.
+     */
+    protected final PhysicObject physicObject;
+
+    protected Point point;
+
     protected GameObject() {
-        this.renderObject = new RenderObject();
+        this.point = new Point(0,0);
+        this.physicObject = new PhysicObject(this.point);
+        this.renderObject = new RenderObject(this.point);
     }
 }

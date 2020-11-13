@@ -1,5 +1,7 @@
 package fr.univ.engine.core;
 
+import fr.univ.engine.physic.PhysicEngine;
+import fr.univ.engine.physic.PhysicObject;
 import fr.univ.engine.render.JFXApp;
 import fr.univ.engine.render.RenderEngine;
 
@@ -24,10 +26,16 @@ public final class Core {
     private final RenderEngine renderEngine;
 
     /**
+     * The physic engine instance.
+     */
+    private final PhysicEngine physicEngine;
+
+    /**
      * Initialize the engine.
      */
     public Core() {
         this.renderEngine = new RenderEngine();
+        this.physicEngine = new PhysicEngine();
         JFXApp.getIsClosingProperty().addListener(o -> this.quit()); // listen for render app closing TODO is this bad?
     }
 
@@ -75,7 +83,10 @@ public final class Core {
                 // TODO handling of delta time, framerate for physics
                 // TODO physic
 
+                renderEngine.clearObjects();
+
                 for (GameObject o : scene.getObjects()) {
+                    physicEngine.physicObject(o.physicObject);
                     renderEngine.renderObject(o.renderObject);
                 }
                 Thread.sleep(10);

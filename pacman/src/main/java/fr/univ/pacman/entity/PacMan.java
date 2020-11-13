@@ -8,7 +8,8 @@ import fr.univ.engine.math.Point;
  */
 public class PacMan extends GameObject {
     public PacMan() {
-        renderObject.pos = new Point(0, 32);
+        renderObject.pos.x = 0;
+        renderObject.pos.y = 32;
         renderObject.width = 16;
         renderObject.height = 16;
         renderObject.zIndex = 10;

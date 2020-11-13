@@ -55,6 +55,13 @@ public class RenderEngine {
     }
 
     /**
+     * Function permit to clear display
+     */
+    public void clearObjects() {
+        viewPort.clear();
+    }
+
+    /**
      * Set the texture loader to be used by the engine to load textures.
      *
      * @param loader the loader to use
