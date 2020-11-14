@@ -1,6 +1,7 @@
 package fr.univ.engine.physic;
 
 import fr.univ.engine.core.GameObject;
+import fr.univ.engine.math.Point;
 import javafx.scene.shape.Path;
 import javafx.scene.shape.Shape;
 
@@ -17,8 +18,11 @@ public class PhysicEngine {
      */
     public void integrate(List<GameObject> objects, double t, double dt) {
         for (GameObject o : objects) {
+            Point oldPos = new Point(o.getPos());
             o.fixedUpdate(dt);
-            collision(objects, o);
+            if (!oldPos.equals(o.getPos())) {
+                collision(objects, o);
+            }
         }
     }
 
