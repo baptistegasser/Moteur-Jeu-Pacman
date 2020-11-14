@@ -6,9 +6,10 @@ import fr.univ.engine.math.Point;
 /**
  * The class handling the logic of Ghost.
  */
-public class Ghost extends GameObject {
+public class Ghost extends MobileEntity {
     public Ghost(int posX, int posY, String color) {
-        renderObject.pos = new Point(posX, posY);
+        renderObject.pos.x = posX;
+        renderObject.pos.y = posY;
         renderObject.width = 22;
         renderObject.height = 22;
         renderObject.zIndex = 9;
@@ -33,5 +34,7 @@ public class Ghost extends GameObject {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        movement = new Point(1,0);
     }
 }

@@ -14,4 +14,9 @@ public class SuperGomme extends GameObject {
         renderObject.zIndex = -10;
         renderObject.textureName = "item/superGomme.png";
     }
+
+    @Override
+    public void update() {
+
+    }
 }

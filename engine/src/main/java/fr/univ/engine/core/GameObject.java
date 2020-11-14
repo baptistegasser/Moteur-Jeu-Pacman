@@ -25,4 +25,9 @@ public abstract class GameObject {
         this.physicObject = new PhysicObject(this.point);
         this.renderObject = new RenderObject(this.point);
     }
+
+    /**
+     * Function permit to update objects in mainLoop
+     */
+    public abstract void update();
 }

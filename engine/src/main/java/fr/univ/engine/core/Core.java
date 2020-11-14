@@ -86,6 +86,7 @@ public final class Core {
                 renderEngine.clearObjects();
 
                 for (GameObject o : scene.getObjects()) {
+                    o.update();
                     physicEngine.physicObject(o.physicObject);
                     renderEngine.renderObject(o.renderObject);
                 }
