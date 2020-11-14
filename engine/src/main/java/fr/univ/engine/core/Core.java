@@ -77,11 +77,12 @@ public final class Core {
      * @throws Exception something can fail in the loop or sub modules
      */
     private void mainLoop() throws Exception {
-        double targetFPS = 80d;
+        double targetFPS = 60d;
         double secondPerFrame = 1/targetFPS;
 
         double t = 0.0;
-        double dt = 1 / targetFPS;
+        // Fix the time step. Better than being relative to fps as you can change target fps without changing the physic speed
+        double dt = 0.01;
         double accumulator = 0.0;
 
         while (!quit) {
