@@ -50,4 +50,8 @@ public abstract class GameObject {
     public PhysicObject getPhysicObject() {
         return physicObject;
     }
+
+    public Point getPos() {
+        return point;
+    }
 }
