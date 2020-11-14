@@ -4,6 +4,8 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.beans.property.ReadOnlyBooleanWrapper;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.layout.StackPane;
@@ -83,8 +85,24 @@ public final class JFXApp extends Application {
      * Show the window if it's not showing.
      */
     public static void showWindow() {
+        CountDownLatch showLatch = new CountDownLatch(1);
+        ChangeListener<Boolean> listener = new ChangeListener<>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if (newValue) {
+                    showLatch.countDown();
+                    stage.showingProperty().removeListener(this);
+                }
+            }
+        };
+        stage.showingProperty().addListener(listener);
         if (stage != null && !stage.isShowing()) {
             Platform.runLater(stage::show);
+        }
+        try {
+            showLatch.await();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 
