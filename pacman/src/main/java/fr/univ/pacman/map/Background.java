@@ -14,9 +14,4 @@ public class Background extends GameObject {
         renderObject.zIndex = -10;
         renderObject.textureName = "map/map.png";
     }
-
-    @Override
-    public void update() {
-
-    }
 }

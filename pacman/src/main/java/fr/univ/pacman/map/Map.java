@@ -14,7 +14,7 @@ public class Map extends Scene {
     public Map() {
         super();
         add(new Background());
-        add(new PacMan());
+        add(new PacMan(0,32));
 
         // Space between two gomme is 16 pixels
         add(new Gomme(72, 32));
@@ -37,7 +37,7 @@ public class Map extends Scene {
         add(new Gomme(-24, 112));
 
         add(new Ghost(104,80,"orange"));
-        add(new Ghost(-32,32,"red"));
+        add(new Ghost(72,32,"red"));
         add(new Ghost(72,-32,"blue"));
         add(new Ghost(200,-224,"pink"));
     }

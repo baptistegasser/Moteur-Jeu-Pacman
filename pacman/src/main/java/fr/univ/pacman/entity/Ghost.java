@@ -35,6 +35,6 @@ public class Ghost extends MobileEntity {
             e.printStackTrace();
         }
 
-        movement = new Point(1,0);
+        movement = new Point(0,0);
     }
 }

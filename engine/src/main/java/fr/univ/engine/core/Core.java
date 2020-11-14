@@ -100,7 +100,7 @@ public final class Core {
 
                 while (accumulator >= dt) {
                     // Integrate a step of time dt
-                    physicEngine.integrate(scene.getPhysicObjets(), t, dt);
+                    physicEngine.integrate(scene.getObjects(), t, dt);
                     // Decrease remaining time to integrate by dt
                     accumulator -= dt;
                     // Increase the time elapsed since engine start by dt

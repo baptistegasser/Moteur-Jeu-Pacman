@@ -30,7 +30,25 @@ public abstract class GameObject {
     /**
      * Function permit to update objects in mainLoop
      */
-    public abstract void update();
+    public boolean update() {
+        return false;
+    }
 
+    /**
+     * Function permit to update objects but better than update
+     */
     public void fixedUpdate(double dt) {}
+
+    /**
+     * Function call when two objects are in collision
+     */
+    public void onTriggerEnter() {}
+
+    public RenderObject getRenderObject() {
+        return renderObject;
+    }
+
+    public PhysicObject getPhysicObject() {
+        return physicObject;
+    }
 }

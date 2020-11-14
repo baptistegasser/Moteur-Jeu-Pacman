@@ -2,6 +2,7 @@ package fr.univ.pacman.entity;
 
 import fr.univ.engine.core.GameObject;
 import fr.univ.engine.math.Point;
+import javafx.scene.shape.Circle;
 
 public abstract class MobileEntity extends GameObject {
     /**
@@ -9,13 +10,28 @@ public abstract class MobileEntity extends GameObject {
      */
     Point movement;
 
+    public static int incr = 0;
+
     public MobileEntity() {
         movement = new Point(0,0);
+        this.physicObject.shape = new Circle(point.x, point.y, renderObject.width/2);
     }
 
     @Override
-    public void update() {
+    public boolean update() {
+        return true;
+    }
+
+    @Override
+    public void fixedUpdate(double dt) {
         this.point.x += this.movement.x;
         this.point.y += this.movement.y;
+
+        this.physicObject.shape = new Circle(point.x, point.y, renderObject.width/2);
+        incr += 1;
+        if (incr >= 1000) {
+            movement.x = 0;
+            movement.y = 0;
+        }
     }
 }

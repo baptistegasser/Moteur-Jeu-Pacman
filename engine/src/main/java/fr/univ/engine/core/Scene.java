@@ -43,4 +43,8 @@ public class Scene {
                 .map(gameObject -> gameObject.renderObject)
                 .collect(Collectors.toList());
     }
+
+    public ArrayList<GameObject> getObjects() {
+        return objects;
+    }
 }
