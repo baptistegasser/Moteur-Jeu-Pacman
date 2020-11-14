@@ -35,11 +35,12 @@ class ViewPort {
         this.width = canvas.getWidth();
         this.height = canvas.getHeight();
         updateCenter();
+
+        this.ctx = canvas.getGraphicsContext2D();
+
         // When th canvas width or height change, set the new value
         canvas.widthProperty().addListener(o -> setWidth(canvas.getWidth()));
         canvas.heightProperty().addListener(o -> setHeight(canvas.getHeight()));
-
-        this.ctx = canvas.getGraphicsContext2D();
     }
 
     /**
