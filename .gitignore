@@ -4,6 +4,8 @@
 # Exception for Run/Debug configs
 !.idea/runConfigurations
 
+JavaDoc/
+
 # Maven
 target/
 shade/
