@@ -1,7 +1,6 @@
 package fr.univ.engine.core;
 
 import fr.univ.engine.physic.PhysicEngine;
-import fr.univ.engine.physic.PhysicObject;
 import fr.univ.engine.render.JFXApp;
 import fr.univ.engine.render.RenderEngine;
 
@@ -78,19 +77,49 @@ public final class Core {
      * @throws Exception something can fail in the loop or sub modules
      */
     private void mainLoop() throws Exception {
+        double targetFPS = 80d;
+        double secondPerFrame = 1/targetFPS;
+
+        double t = 0.0;
+        double dt = 1 / targetFPS;
+        double accumulator = 0.0;
+
         while (!quit) {
+            double currentTime = System.currentTimeMillis() / 1000d;
+
+            int frames = 0;
+            double startFrames = currentTime;
+            double lastFrames = currentTime;
+
             while (!pause) {
-                // TODO handling of delta time, framerate for physics
-                // TODO physic
+                double newTime = System.currentTimeMillis() / 1000d;
+                double elapsedTime = newTime - currentTime;
+                currentTime = newTime;
 
-                renderEngine.clearObjects();
+                accumulator += elapsedTime; // accumulate
 
-                for (GameObject o : scene.getObjects()) {
-                    o.update();
-                    physicEngine.physicObject(o.physicObject);
-                    renderEngine.renderObject(o.renderObject);
+                while (accumulator >= dt) {
+                    // Integrate a step of time dt
+                    physicEngine.integrate(scene.getPhysicObjets(), t, dt);
+                    // Decrease remaining time to integrate by dt
+                    accumulator -= dt;
+                    // Increase the time elapsed since engine start by dt
+                    t += dt;
                 }
-                Thread.sleep(10);
+
+                // Render a frame if enough time have elapsed
+                if (currentTime - lastFrames >= secondPerFrame) {
+                    lastFrames = currentTime;
+                    renderEngine.render(scene.getRenderObjets());
+                    frames += 1;
+                }
+
+                // Display FPS TODO move to render
+                if (currentTime - startFrames >= 1) {
+                    startFrames = currentTime;
+                    System.out.println("FPS: " + frames);
+                    frames =0;
+                }
             }
         }
     }

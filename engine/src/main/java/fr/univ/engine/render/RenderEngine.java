@@ -4,6 +4,8 @@ import fr.univ.engine.render.texture.TextureLoader;
 import javafx.application.Platform;
 import javafx.scene.image.Image;
 
+import java.util.List;
+
 /**
  * The engine module charged of supervising all rendering related action.
  */
@@ -46,19 +48,27 @@ public class RenderEngine {
             throw new RenderException("Unknown error, failed to start JFX app", t);
         }
     }
+
     /**
-     * The main function of this engine module, render the current scene on screen.
+     * Display a list of objects on screen.
+     *
+     * @param objects the objects to render.
      */
-    public void renderObject(RenderObject o) {
-        Image texture = textureLoader.getTexture(o.textureName);
-        viewPort.drawImage(texture, o.pos.x, o.pos.y, o.width, o.height);
+    public void render(final List<RenderObject> objects) {
+        viewPort.clear();
+        for (RenderObject o : objects) {
+            renderObject(o);
+        }
     }
 
     /**
-     * Function permit to clear display
+     * Display a {@code RenderObject} on screen.
+     *
+     * @param o the object to render.
      */
-    public void clearObjects() {
-        viewPort.clear();
+    private void renderObject(RenderObject o) {
+        Image texture = textureLoader.getTexture(o.textureName);
+        viewPort.drawImage(texture, o.pos.x, o.pos.y, o.width, o.height);
     }
 
     /**
