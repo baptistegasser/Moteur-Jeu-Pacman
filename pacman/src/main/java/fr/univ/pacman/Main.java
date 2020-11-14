@@ -17,7 +17,7 @@ public class Main {
         cfg.width = 510;
         cfg.height = 620;
         cfg.title = "Pac-Man";
-        cfg.allowResize = true;
+        cfg.allowResize = false;
         cfg.showFPSCounter = true;
 
         // Create a resolver pointing to the assets dir inside the resources dir
