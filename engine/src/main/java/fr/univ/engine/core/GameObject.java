@@ -24,7 +24,6 @@ public abstract class GameObject {
         this.point = new Point(0,0);
         this.physicObject = new PhysicObject(this.point);
         this.renderObject = new RenderObject(this.point);
-        this.physicObject.setFixedUpdateImpl(this::fixedUpdate);
     }
 
     /**

@@ -10,8 +10,6 @@ public abstract class MobileEntity extends GameObject {
      */
     Point movement;
 
-    public static int incr = 0;
-
     public MobileEntity() {
         movement = new Point(0,0);
         this.physicObject.shape = new Circle(point.x, point.y, renderObject.width/2);
@@ -28,10 +26,5 @@ public abstract class MobileEntity extends GameObject {
         this.point.y += this.movement.y;
 
         this.physicObject.shape = new Circle(point.x, point.y, renderObject.width/2);
-        incr += 1;
-        if (incr >= 1000) {
-            movement.x = 0;
-            movement.y = 0;
-        }
     }
 }

@@ -1,7 +1,6 @@
 package fr.univ.engine.physic;
 
 import fr.univ.engine.core.GameObject;
-import fr.univ.engine.render.RenderObject;
 import javafx.scene.shape.Path;
 import javafx.scene.shape.Shape;
 
