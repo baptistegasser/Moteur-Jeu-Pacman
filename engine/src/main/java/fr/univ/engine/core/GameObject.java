@@ -24,10 +24,13 @@ public abstract class GameObject {
         this.point = new Point(0,0);
         this.physicObject = new PhysicObject(this.point);
         this.renderObject = new RenderObject(this.point);
+        this.physicObject.setFixedUpdateImpl(this::fixedUpdate);
     }
 
     /**
      * Function permit to update objects in mainLoop
      */
     public abstract void update();
+
+    public void fixedUpdate(double dt) {}
 }
