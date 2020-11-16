@@ -4,6 +4,7 @@ import javafx.scene.image.Image;
 
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * A texture loader attempting to find texture inside a dir from the app's resources.
@@ -55,6 +56,17 @@ public class CachedResourcesLoader implements TextureLoader {
             return texture;
         } catch (Exception e) {
             throw new IllegalArgumentException(String.format("Failed to load image from '%s'", folder + filePath), e);
+        }
+    }
+
+    /**
+     * Cache the given list of images by loading them once.
+     *
+     * @param paths the list of texture to load
+     */
+    public void precacheImages(List<String> paths) {
+        for (String filePath : paths) {
+            getTexture(filePath);
         }
     }
 }
