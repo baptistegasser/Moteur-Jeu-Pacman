@@ -1,10 +1,11 @@
 package fr.univ.engine.render;
 
-import fr.univ.engine.render.texture.TextureLoader;
+import fr.univ.engine.render.texture.CachedResourcesLoader;
 import javafx.application.Platform;
 import javafx.scene.image.Image;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * The engine module charged of supervising all rendering related action.
@@ -23,7 +24,7 @@ public class RenderEngine {
     /**
      * The texture loader used by the render engine.
      */
-    private TextureLoader textureLoader;
+    private CachedResourcesLoader textureLoader;
 
     /**
      * Create a render engine with defaults values.
@@ -76,7 +77,7 @@ public class RenderEngine {
      *
      * @param loader the loader to use
      */
-    public void setTextureLoader(TextureLoader loader) {
+    public void setTextureLoader(CachedResourcesLoader loader) {
         this.textureLoader = loader;
     }
 

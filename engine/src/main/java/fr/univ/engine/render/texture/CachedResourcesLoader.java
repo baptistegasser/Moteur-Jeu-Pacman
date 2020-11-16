@@ -13,7 +13,7 @@ import java.util.List;
  * @implNote this implementation use a simple cache, this might create memory usage trouble
  * for games with consequent amount of textures.
  */
-public class CachedResourcesLoader implements TextureLoader {
+public class CachedResourcesLoader {
     /**
      * The folder to search inside the resources.
      */
@@ -32,11 +32,12 @@ public class CachedResourcesLoader implements TextureLoader {
     }
 
     /**
-     * {@inheritDoc}
+     * Locate and load a texture matching the given key.
      *
-     * @param filePath the relative path of the texture file inside the root {@link #folder}.
+     * @param filePath the relative path of the texture file
+     * @return a texture represented as a {@link javafx.scene.image.Image} instance
+     * @throws IllegalArgumentException if the method fail to load a texture for the given key
      */
-    @Override
     public Image getTexture(String filePath) throws IllegalArgumentException {
         // If texture is cached return it
         if (cache.containsKey(filePath)) {
