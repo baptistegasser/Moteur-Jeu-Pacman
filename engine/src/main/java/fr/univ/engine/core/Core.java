@@ -65,6 +65,7 @@ public final class Core {
      */
     public void start() {
         renderEngine.start();
+        renderEngine.preRender(scene.getRenderObjets());
 
         try {
             mainLoop();
@@ -123,7 +124,7 @@ public final class Core {
                 if (currentTime - startFrames >= 1) {
                     startFrames = currentTime;
                     System.out.println("FPS: " + frames);
-                    frames =0;
+                    frames = 0;
                 }
             }
         }
