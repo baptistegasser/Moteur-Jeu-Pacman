@@ -38,14 +38,16 @@ public class PhysicEngine {
     /**
      * Fonction called at a fixed interval dt to update physic.
      *
-     * @param objects the list of game objects that have moved
-     * @param allObjects the list of game objects int the game
+     * @param objects the list of game objects int the game
      * @param t the time elapsed since engine started
      * @param dt the time-step elapsed between updates
      */
-    public void integrate(List<GameObject> objects, List<GameObject> allObjects, double t, double dt) {
+    public void integrate(List<GameObject> objects, double t, double dt) {
+        // Move all of object
+        List<GameObject> movedObjects = move(objects);
+        // Check for collision
         for (GameObject o : objects) {
-            collision(allObjects, o);
+            collision(movedObjects, o);
         }
     }
 

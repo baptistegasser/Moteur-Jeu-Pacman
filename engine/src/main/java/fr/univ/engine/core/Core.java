@@ -101,10 +101,8 @@ public final class Core {
                 accumulator += elapsedTime; // accumulate
 
                 while (accumulator >= dt) {
-                    // Move all of object
-                    List<GameObject> movedObjects = physicEngine.move(scene.objects());
                     // Integrate a step of time dt
-                    physicEngine.integrate(movedObjects, scene.objects(), t, dt);
+                    physicEngine.integrate(scene.objects(), t, dt);
                     // Decrease remaining time to integrate by dt
                     accumulator -= dt;
                     // Increase the time elapsed since engine start by dt
