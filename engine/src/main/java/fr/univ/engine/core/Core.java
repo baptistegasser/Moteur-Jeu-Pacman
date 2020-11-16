@@ -65,7 +65,7 @@ public final class Core {
      */
     public void start() {
         renderEngine.start();
-        renderEngine.preRender(scene.getRenderObjets());
+        renderEngine.preRender(scene.objects());
 
         try {
             mainLoop();
@@ -104,9 +104,9 @@ public final class Core {
 
                 while (accumulator >= dt) {
                     // Move all of object
-                    List<GameObject> movedObjects = physicEngine.move(scene.getObjects());
+                    List<GameObject> movedObjects = physicEngine.move(scene.objects());
                     // Integrate a step of time dt
-                    physicEngine.integrate(movedObjects, scene.getObjects(), t, dt);
+                    physicEngine.integrate(movedObjects, scene.objects(), t, dt);
                     // Decrease remaining time to integrate by dt
                     accumulator -= dt;
                     // Increase the time elapsed since engine start by dt
@@ -116,7 +116,7 @@ public final class Core {
                 // Render a frame if enough time have elapsed
                 if (currentTime - lastFrames >= secondPerFrame) {
                     lastFrames = currentTime;
-                    renderEngine.render(scene.getRenderObjets());
+                    renderEngine.render(scene.objects());
                     frames += 1;
                 }
 
