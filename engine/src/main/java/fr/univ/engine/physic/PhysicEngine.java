@@ -1,9 +1,6 @@
 package fr.univ.engine.physic;
 
-import com.sun.javafx.geom.Area;
-import com.sun.javafx.geom.PathIterator;
 import fr.univ.engine.core.GameObject;
-import fr.univ.engine.math.Point;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Path;
 import javafx.scene.shape.Shape;
@@ -19,7 +16,7 @@ public class PhysicEngine {
      * @param objects all Object in a game
      * @return only object that have moved
      */
-    public List<GameObject> move(List<GameObject> objects) {
+    private List<GameObject> move(List<GameObject> objects) {
         List<GameObject> returnObject = new ArrayList<>();
 
         for (GameObject object : objects) {
@@ -57,7 +54,7 @@ public class PhysicEngine {
      * @param objects the list of game objects int the game
      * @param object Object we want to test
      */
-    public void collision(List<GameObject> objects, GameObject object) {
+    private void collision(List<GameObject> objects, GameObject object) {
         for (GameObject target : objects) {
             if (target != object) {
                 //System.out.println(target.getRenderObject().textureName + " / " + object);
