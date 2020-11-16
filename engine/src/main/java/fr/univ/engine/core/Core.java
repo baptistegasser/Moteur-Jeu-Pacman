@@ -76,10 +76,8 @@ public final class Core {
 
     /**
      * The main loop of the game, call other modules such as render and physic.
-     *
-     * @throws Exception something can fail in the loop or sub modules
      */
-    private void mainLoop() throws Exception {
+    private void mainLoop() {
         double targetFPS = 60d;
         double secondPerFrame = 1/targetFPS;
 
