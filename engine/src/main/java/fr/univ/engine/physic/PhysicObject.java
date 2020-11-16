@@ -6,9 +6,15 @@ import javafx.scene.shape.Shape;
 
 public class PhysicObject {
 
+    /**
+     * The direction and velocity of the entity
+     */
+    public Point movement;
+
     public Shape shape;
 
-    public PhysicObject(Point point) {
+    public PhysicObject() {
+        movement = new Point(0,0);
         shape = new Rectangle(0,0,0,0);
     }
 }

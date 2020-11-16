@@ -18,12 +18,10 @@ public abstract class GameObject {
      */
     protected final PhysicObject physicObject;
 
-    protected Point point;
 
     protected GameObject() {
-        this.point = new Point(0,0);
-        this.physicObject = new PhysicObject(this.point);
-        this.renderObject = new RenderObject(this.point);
+        this.physicObject = new PhysicObject();
+        this.renderObject = new RenderObject();
     }
 
     /**
@@ -49,9 +47,5 @@ public abstract class GameObject {
 
     public PhysicObject getPhysicObject() {
         return physicObject;
-    }
-
-    public Point getPos() {
-        return point;
     }
 }

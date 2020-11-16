@@ -27,8 +27,8 @@ public class RenderObject {
      */
     public int zIndex;
 
-    public RenderObject(Point point) {
-        pos = point;
+    public RenderObject() {
+        pos = new Point(0,0);
         width = 1.0;
         height = 1.0;
         zIndex = 0;

@@ -1,11 +1,13 @@
 package fr.univ.pacman.entity;
 
+import fr.univ.engine.core.GameObject;
 import fr.univ.engine.math.Point;
+import javafx.scene.shape.Circle;
 
 /**
  * The class handling the logic of Pac-Man controlled by the player.
  */
-public class PacMan extends MobileEntity {
+public class PacMan extends GameObject {
     public PacMan(int posX, int posY) {
         renderObject.pos.x = posX;
         renderObject.pos.y = posY;
@@ -14,12 +16,15 @@ public class PacMan extends MobileEntity {
         renderObject.zIndex = 10;
         renderObject.textureName = "sprites/pacman.png";
 
-        movement = new Point(0.5,0);
-    }
+        physicObject.movement = new Point(0.5,0);
+
+        this.physicObject.shape = new Circle(this.renderObject.pos.x, this.renderObject.pos.y, this.renderObject.width/2);
+
+       }
 
     @Override
     public void onTriggerEnter() {
-        movement.x = 0;
-        movement.y = 0;
+        physicObject.movement.x = 0;
+        physicObject.movement.y = 0;
     }
 }

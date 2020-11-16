@@ -4,6 +4,8 @@ import fr.univ.engine.physic.PhysicEngine;
 import fr.univ.engine.render.JFXApp;
 import fr.univ.engine.render.RenderEngine;
 
+import java.util.List;
+
 /**
  * The core engine, charged to link all subsequent engines.
  */
@@ -100,8 +102,10 @@ public final class Core {
                 accumulator += elapsedTime; // accumulate
 
                 while (accumulator >= dt) {
+                    // Move all of object
+                    List<GameObject> movedObjects = physicEngine.move(scene.getObjects());
                     // Integrate a step of time dt
-                    physicEngine.integrate(scene.getObjects(), t, dt);
+                    physicEngine.integrate(movedObjects, scene.getObjects(), t, dt);
                     // Decrease remaining time to integrate by dt
                     accumulator -= dt;
                     // Increase the time elapsed since engine start by dt
