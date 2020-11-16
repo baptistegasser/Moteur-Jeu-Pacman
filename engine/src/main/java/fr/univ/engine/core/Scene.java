@@ -1,11 +1,7 @@
 package fr.univ.engine.core;
 
-import fr.univ.engine.physic.PhysicObject;
-import fr.univ.engine.render.RenderObject;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * A scene representing a game's level.
@@ -27,24 +23,16 @@ public class Scene {
     }
 
     /**
-     * @return the list containing the physic component of each GameObject
+     * Return the list of {@code GameObject} in the scene, all cast as another type.
+     * NOTE: NO CHECK ARE DONE BEFORE CASTING.
+     *
+     * @param <T> the target type of the list
+     * @return a list containing the casted objects
+     * @throws ClassCastException if the target class is not a parent class or an
+     *                            implemented interface of {@link GameObject}
      */
-    public List<PhysicObject> getPhysicObjets() {
-        return objects.parallelStream()
-                .map(gameObject -> gameObject.physicObject)
-                .collect(Collectors.toList());
-    }
-
-    /**
-     * @return the list containing the render component of each GameObject
-     */
-    public List<RenderObject> getRenderObjets() {
-        return objects.parallelStream()
-                .map(gameObject -> gameObject.renderObject)
-                .collect(Collectors.toList());
-    }
-
-    public ArrayList<GameObject> getObjects() {
-        return objects;
+    @SuppressWarnings("unchecked")
+    public <T> List<T> objects() {
+        return (List<T>) this.objects;
     }
 }
