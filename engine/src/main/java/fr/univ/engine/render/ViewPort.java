@@ -58,7 +58,6 @@ class ViewPort {
 
         // Skip drawing image out of viewport
         if (x1 >= this.width || y1 >= this.height || (x1 + w) <= 0 || (y1 + w) <= 0) {
-            System.out.println("skipping image"); //TODO remove print after test
             return;
         }
 
