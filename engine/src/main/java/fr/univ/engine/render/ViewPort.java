@@ -62,15 +62,17 @@ class ViewPort {
             return;
         }
 
-        ctx.drawImage(img, 0, 0, img.getWidth(), img.getHeight(), x1, y1, w, h);
+        RenderEngine.runOnFXThread(() -> ctx.drawImage(img, 0, 0, img.getWidth(), img.getHeight(), x1, y1, w, h));
     }
 
     /**
      * Clear the display.
      */
     public void clear() {
-        ctx.setFill(Color.BLACK);
-        ctx.fillRect(0, 0, width, height);
+        RenderEngine.runOnFXThread(() -> {
+            ctx.setFill(Color.BLACK);
+            ctx.fillRect(0, 0, width, height);
+        });
     }
 
     /**
