@@ -1,5 +1,7 @@
 package fr.univ.engine.render;
 
+import fr.univ.engine.physic.PhysicObject;
+
 /**
  * A Render entity is an entity able to be rendered.
  * It provide informations in the form of a {@link RenderObject} that contain necessary
@@ -16,5 +18,13 @@ public interface RenderEntity {
      * Provide a default update implementation that does nothing.
      */
     default void update() {
+    }
+
+    /**
+     * Method called when entering a collision with another object.
+     *
+     * @param collider the object we collided into
+     */
+    default void onCollisionEnter(PhysicObject collider) {
     }
 }
