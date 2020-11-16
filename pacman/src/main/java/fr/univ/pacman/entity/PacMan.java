@@ -27,4 +27,9 @@ public class PacMan extends GameObject {
         physicObject.movement.x = 0;
         physicObject.movement.y = 0;
     }
+
+    @Override
+    public void update() {
+        System.out.println("I am Pac-Man and this method is called every frame, much cool !");
+    }
 }
