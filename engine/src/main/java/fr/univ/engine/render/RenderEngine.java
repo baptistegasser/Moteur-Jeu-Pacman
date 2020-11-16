@@ -61,14 +61,15 @@ public class RenderEngine {
     }
 
     /**
-     * Display a list of objects on screen.
+     * Display a list of {@code RenderEntity} on screen.
      *
-     * @param objects the objects to render.
+     * @param entities the entities to render.
      */
-    public void render(final List<RenderObject> objects) {
+    public void render(final List<RenderEntity> entities) {
         viewPort.clear();
-        for (RenderObject o : objects) {
-            renderObject(o);
+        for (RenderEntity e : entities) {
+            e.update();
+            renderObject(e.getRenderObject());
         }
     }
 
