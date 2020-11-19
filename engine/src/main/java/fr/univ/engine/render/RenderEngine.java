@@ -1,6 +1,5 @@
 package fr.univ.engine.render;
 
-import fr.univ.engine.render.texture.CachedResourcesLoader;
 import javafx.application.Platform;
 import javafx.scene.image.Image;
 
@@ -80,7 +79,10 @@ public class RenderEngine {
      */
     private void renderObject(RenderObject o) {
         Image texture = textureLoader.getTexture(o.textureName);
-        viewPort.drawImage(texture, o.pos.x, o.pos.y, o.width, o.height);
+        // Ignore objects without texture
+        if (texture != null) {
+            viewPort.drawImage(texture, o.pos.x, o.pos.y, o.width, o.height);
+        }
     }
 
     /**

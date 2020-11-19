@@ -1,4 +1,4 @@
-package fr.univ.engine.render.texture;
+package fr.univ.engine.render;
 
 import javafx.scene.image.Image;
 
@@ -32,31 +32,55 @@ public class CachedResourcesLoader {
     }
 
     /**
-     * Locate and load a texture matching the given key.
+     * Load an image from the cache or file system.
      *
-     * @param filePath the relative path of the texture file
-     * @return a texture represented as a {@link javafx.scene.image.Image} instance
-     * @throws IllegalArgumentException if the method fail to load a texture for the given key
+     * @param filePath the path to the image file
+     * @return the image instance or null if not found/loaded
      */
-    public Image getTexture(String filePath) throws IllegalArgumentException {
+    public Image getTexture(String filePath) {
+        // Don't even bother with null values
+        if (filePath == null) {
+            return null;
+        }
+
         // If texture is cached return it
         if (cache.containsKey(filePath)) {
             return cache.get(filePath);
         }
 
+        try {
+            Image texture = tryLoadImage(filePath);
+            cache.put(filePath, texture);
+            return texture;
+        } catch (RenderException e) {
+            // We failed to load the image
+            // Log the error, cache the null value and return null
+            System.err.println("Failed to load texture:");
+            System.err.println(e.getMessage());
+            cache.put(filePath, null);
+            return null;
+        }
+    }
+
+    /**
+     * Attempt to load an image from a file.
+     *
+     * @param filePath the path to the image file
+     * @return a {@link javafx.scene.image.Image} instance containing the image data
+     * @throws IllegalArgumentException if the path is not valid or the image fail to load
+     */
+    private Image tryLoadImage(String filePath) throws RenderException {
         // Get InputStream, assert not null
         InputStream is = getClass().getClassLoader().getResourceAsStream(folder + filePath);
         if (is == null) {
-            throw new IllegalArgumentException(String.format("No file found at '%s'", folder + filePath));
+            throw new RenderException(String.format("No file found at '%s'", folder + filePath));
         }
 
         // Load texture, cache it, return it
         try {
-            Image texture = new Image(is);
-            cache.put(filePath, texture);
-            return texture;
+            return new Image(is);
         } catch (Exception e) {
-            throw new IllegalArgumentException(String.format("Failed to load image from '%s'", folder + filePath), e);
+            throw new RenderException(String.format("Error instantiating javafx.scene.image.Image from file '%s'", folder + filePath), e);
         }
     }
 
