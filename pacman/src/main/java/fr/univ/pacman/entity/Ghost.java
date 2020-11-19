@@ -39,8 +39,7 @@ public class Ghost extends GameObject {
 
         physicObject.movement = new Point(0,0);
 
-        //this.physicObject.shape = new Circle(this.renderObject.pos.x, this.renderObject.pos.y, this.renderObject.width/2);
-        this.physicObject.hitBox = new CircleHitBox(this.renderObject.pos.x, this.renderObject.pos.y, this.renderObject.width/2);
+        this.physicObject.hitBox = new CircleHitBox(this.renderObject.pos.x, this.renderObject.pos.y, 8);
     }
 
     @Override
