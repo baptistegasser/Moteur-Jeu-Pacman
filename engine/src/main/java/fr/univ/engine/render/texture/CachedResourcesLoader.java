@@ -38,6 +38,11 @@ public class CachedResourcesLoader {
      * @return the image instance or null if not found/loaded
      */
     public Image getTexture(String filePath) {
+        // Don't even bother with null values
+        if (filePath == null) {
+            return null;
+        }
+
         // If texture is cached return it
         if (cache.containsKey(filePath)) {
             return cache.get(filePath);
