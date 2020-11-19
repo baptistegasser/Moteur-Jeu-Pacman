@@ -21,4 +21,12 @@ public interface PhysicEntity {
      */
     default void fixedUpdate(double t, double dt) {
     }
+
+    /**
+     * Method called when entering a collision with another object.
+     *
+     * @param collider the object we collided into
+     */
+    default void onCollisionEnter(PhysicObject collider) {
+    }
 }

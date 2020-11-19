@@ -2,6 +2,7 @@ package fr.univ.pacman.item;
 
 import fr.univ.engine.core.GameObject;
 import fr.univ.engine.math.Point;
+import fr.univ.engine.physic.CircleHitBox;
 import javafx.scene.shape.Circle;
 
 /**
@@ -15,7 +16,7 @@ public class Gomme extends GameObject {
         renderObject.zIndex = 5;
         renderObject.textureName = "item/gomme.png";
 
-        this.physicObject.shape = new Circle(renderObject.pos.x,renderObject.pos.y,renderObject.width/2);
+        this.physicObject.hitBox = new CircleHitBox(renderObject.pos.x,renderObject.pos.y,renderObject.width/2);
     }
 
 }

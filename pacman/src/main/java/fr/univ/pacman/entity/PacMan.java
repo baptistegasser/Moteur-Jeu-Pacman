@@ -2,6 +2,8 @@ package fr.univ.pacman.entity;
 
 import fr.univ.engine.core.GameObject;
 import fr.univ.engine.math.Point;
+import fr.univ.engine.physic.CircleHitBox;
+import fr.univ.engine.physic.PhysicObject;
 import javafx.scene.shape.Circle;
 
 /**
@@ -18,14 +20,16 @@ public class PacMan extends GameObject {
 
         physicObject.movement = new Point(0.5,0);
 
-        this.physicObject.shape = new Circle(this.renderObject.pos.x, this.renderObject.pos.y, this.renderObject.width/2);
+        //this.physicObject.shape = new Circle(this.renderObject.pos.x, this.renderObject.pos.y, this.renderObject.width/2);
+        this.physicObject.hitBox = new CircleHitBox(this.renderObject.pos.x, this.renderObject.pos.y, this.renderObject.width/2);
 
        }
 
     @Override
-    public void onTriggerEnter() {
-        physicObject.movement.x = 0;
-        physicObject.movement.y = 0;
+    public void onCollisionEnter(PhysicObject collider) {
+        System.out.println("COLLISION PACMAN");
+        this.physicObject.movement.x = 0;
+        this.physicObject.movement.y = 0;
     }
 
     @Override
