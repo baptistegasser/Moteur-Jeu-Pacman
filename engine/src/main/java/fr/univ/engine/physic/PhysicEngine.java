@@ -59,8 +59,8 @@ public class PhysicEngine {
     private void collision(List<PhysicEntity> objects, PhysicEntity object) {
         for (PhysicEntity target : objects) {
             if (target != object) {
-                if (((Path)Shape.intersect(object.getPhysicObject().hitBox.shape, target.getPhysicObject().hitBox.shape)).getElements().size() > 0) {
-                    System.out.println(target.getPhysicObject().hitBox.shape.getTypeSelector());
+                if (((Path)Shape.intersect(object.getPhysicObject().hitBox.getShape(), target.getPhysicObject().hitBox.getShape())).getElements().size() > 0) {
+                    System.out.println(target.getPhysicObject().hitBox.getShape().getTypeSelector());
                     object.onCollisionEnter(object.getPhysicObject());
                     break;
                 }

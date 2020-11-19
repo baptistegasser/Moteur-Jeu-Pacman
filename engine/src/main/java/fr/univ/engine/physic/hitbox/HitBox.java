@@ -1,12 +1,12 @@
-package fr.univ.engine.physic;
+package fr.univ.engine.physic.hitbox;
 
 import javafx.scene.shape.Shape;
 
 public abstract class HitBox {
-    double posX;
-    double posY;
-    double wight;
-    Shape shape;
+    protected double posX;
+    protected double posY;
+    protected double wight;
+    protected Shape shape;
 
     public HitBox(double posX, double posY, double wight) {
         this.posX = posX;
@@ -36,6 +36,10 @@ public abstract class HitBox {
 
     public void setWight(double wight) {
         this.wight = wight;
+    }
+
+    public Shape getShape() {
+        return shape;
     }
 
     public abstract void updateShape();

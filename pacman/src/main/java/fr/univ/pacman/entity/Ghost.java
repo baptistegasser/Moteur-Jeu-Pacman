@@ -2,9 +2,8 @@ package fr.univ.pacman.entity;
 
 import fr.univ.engine.core.GameObject;
 import fr.univ.engine.math.Point;
-import fr.univ.engine.physic.CircleHitBox;
+import fr.univ.engine.physic.hitbox.CircleHitBox;
 import fr.univ.engine.physic.PhysicObject;
-import javafx.scene.shape.Circle;
 
 /**
  * The class handling the logic of Ghost.

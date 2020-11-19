@@ -1,4 +1,4 @@
-package fr.univ.engine.physic;
+package fr.univ.engine.physic.hitbox;
 
 import javafx.scene.shape.Circle;
 

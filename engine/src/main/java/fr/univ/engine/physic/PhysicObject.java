@@ -1,6 +1,8 @@
 package fr.univ.engine.physic;
 
 import fr.univ.engine.math.Point;
+import fr.univ.engine.physic.hitbox.CircleHitBox;
+import fr.univ.engine.physic.hitbox.HitBox;
 
 public class PhysicObject {
 

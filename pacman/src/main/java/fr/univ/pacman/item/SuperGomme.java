@@ -2,8 +2,7 @@ package fr.univ.pacman.item;
 
 import fr.univ.engine.core.GameObject;
 import fr.univ.engine.math.Point;
-import fr.univ.engine.physic.CircleHitBox;
-import javafx.scene.shape.Circle;
+import fr.univ.engine.physic.hitbox.CircleHitBox;
 
 /**
  * The class handling the logic of Super Gomme.
