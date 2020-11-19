@@ -2,7 +2,7 @@ package fr.univ.pacman;
 
 import fr.univ.engine.core.Core;
 import fr.univ.engine.render.WindowConfig;
-import fr.univ.engine.render.texture.CachedResourcesLoader;
+import fr.univ.engine.render.CachedResourcesLoader;
 import fr.univ.pacman.map.Map;
 
 /**

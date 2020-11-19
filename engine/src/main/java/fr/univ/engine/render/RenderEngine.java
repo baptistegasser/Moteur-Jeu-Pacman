@@ -1,6 +1,5 @@
 package fr.univ.engine.render;
 
-import fr.univ.engine.render.texture.CachedResourcesLoader;
 import javafx.application.Platform;
 import javafx.scene.image.Image;
 

@@ -1,4 +1,4 @@
-package fr.univ.engine.render.texture;
+package fr.univ.engine.render;
 
 import javafx.scene.image.Image;
 
