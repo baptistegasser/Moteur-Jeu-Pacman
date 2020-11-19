@@ -54,10 +54,10 @@ public class RenderEngine {
      * Function used when we need to be ready to have graphic objects to be rendered in a faster way.
      * Typically when the engine start.
      *
-     * @param renderObjets the list of objets to pre render
+     * @param entities the list of entities to pre render
      */
-    public void preRender(List<RenderObject> renderObjets) {
-        textureLoader.precacheImages(renderObjets.parallelStream().map(o -> o.textureName).collect(Collectors.toList()));
+    public void preRender(List<RenderEntity> entities) {
+        textureLoader.precacheImages(entities.parallelStream().map(o -> o.getRenderObject().textureName).collect(Collectors.toList()));
     }
 
     /**
