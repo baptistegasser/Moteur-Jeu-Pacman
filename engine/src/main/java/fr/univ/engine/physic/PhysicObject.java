@@ -1,8 +1,6 @@
 package fr.univ.engine.physic;
 
 import fr.univ.engine.math.Point;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.Shape;
 
 public class PhysicObject {
 
@@ -11,10 +9,17 @@ public class PhysicObject {
      */
     public Point movement;
 
-    public Shape shape;
+    private Point pos;
 
-    public PhysicObject() {
+    public HitBox hitBox;
+
+    public PhysicObject(Point point) {
         movement = new Point(0,0);
-        shape = new Rectangle(0,0,0,0);
+        pos = point;
+        hitBox = new CircleHitBox(0,0,0);
+    }
+
+    public Point getPos() {
+        return pos;
     }
 }

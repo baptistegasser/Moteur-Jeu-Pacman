@@ -19,12 +19,4 @@ public interface RenderEntity {
      */
     default void update() {
     }
-
-    /**
-     * Method called when entering a collision with another object.
-     *
-     * @param collider the object we collided into
-     */
-    default void onCollisionEnter(PhysicObject collider) {
-    }
 }
