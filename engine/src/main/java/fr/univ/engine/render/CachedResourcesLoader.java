@@ -52,7 +52,7 @@ public class CachedResourcesLoader {
             Image texture = tryLoadImage(filePath);
             cache.put(filePath, texture);
             return texture;
-        } catch (IllegalArgumentException e) {
+        } catch (RenderException e) {
             // We failed to load the image
             // Log the error, cache the null value and return null
             System.err.println("Failed to load texture:");
@@ -69,18 +69,18 @@ public class CachedResourcesLoader {
      * @return a {@link javafx.scene.image.Image} instance containing the image data
      * @throws IllegalArgumentException if the path is not valid or the image fail to load
      */
-    private Image tryLoadImage(String filePath) throws IllegalArgumentException {
+    private Image tryLoadImage(String filePath) throws RenderException {
         // Get InputStream, assert not null
         InputStream is = getClass().getClassLoader().getResourceAsStream(folder + filePath);
         if (is == null) {
-            throw new IllegalArgumentException(String.format("No file found at '%s'", folder + filePath));
+            throw new RenderException(String.format("No file found at '%s'", folder + filePath));
         }
 
         // Load texture, cache it, return it
         try {
             return new Image(is);
         } catch (Exception e) {
-            throw new IllegalArgumentException(String.format("Error instantiating javafx.scene.image.Image from file '%s'", folder + filePath), e);
+            throw new RenderException(String.format("Error instantiating javafx.scene.image.Image from file '%s'", folder + filePath), e);
         }
     }
 
