@@ -8,10 +8,7 @@ import java.util.logging.*;
 
 /**
  * Offer logging methods and utilities for the game engine's modules.
- * <p>
- * We can't force a class to log, a class should check herself if logging
- * is enabled for her with {@link #canLog(Class)} and then log accordingly only if needed.
- * <p>
+ * We can't force a class to log.
  * However a class will be prevented to log if its not part of the declared {@link #targetsClasses} classes.
  */
 public final class EngineLogger {
@@ -54,23 +51,23 @@ public final class EngineLogger {
     }
 
     /**
-     * Test if the calling class can log.
-     *
-     * @return true if logging enabled
-     */
-    public static boolean canLog() {
-        String callerClass = Thread.currentThread().getStackTrace()[2].getClassName();
-        return targetsClasses.contains(callerClass);
-    }
-
-    /**
      * Test if a class is able to log.
      *
      * @param c the class to test
      * @return true if this class should log
      */
     public static boolean canLog(Class<?> c) {
-        return targetsClasses.parallelStream().anyMatch(c.getName()::equals);
+        return canLog(c.getName());
+    }
+
+    /**
+     * Test if the class name is one of the target classes.
+     *
+     * @param className the name to test
+     * @return true if a target class allowed to log
+     */
+    private static boolean canLog(String className) {
+        return targetsClasses.contains(className);
     }
 
     /**
@@ -81,7 +78,6 @@ public final class EngineLogger {
     public static void enableLogging(Class<?> c) {
         targetsClasses.add(c.getName());
     }
-
 
     /**
      * Disable the possibility for a class to log messages.
