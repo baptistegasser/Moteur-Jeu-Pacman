@@ -4,6 +4,7 @@ import fr.univ.engine.core.GameObject;
 import fr.univ.engine.math.Point;
 import fr.univ.engine.physic.hitbox.CircleHitBox;
 import fr.univ.engine.physic.PhysicObject;
+import fr.univ.pacman.map.Map;
 
 /**
  * The class handling the logic of Ghost.
@@ -39,7 +40,7 @@ public class Ghost extends GameObject {
 
         physicObject.movement = new Point(0,0);
 
-        this.physicObject.hitBox = new CircleHitBox(this.renderObject.pos.x, this.renderObject.pos.y, 8);
+        this.physicObject.hitBox = new CircleHitBox(this.renderObject.pos.x + Map.BACKGROUND_WIGHT, this.renderObject.pos.y + Map.BACKGROUND_HEIGHT, 8);
     }
 
     @Override

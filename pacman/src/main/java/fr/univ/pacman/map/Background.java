@@ -9,8 +9,8 @@ import fr.univ.engine.math.Point;
 public class Background extends GameObject {
     public Background() {
         renderObject.pos = new Point(0, 0);
-        renderObject.width = 448;
-        renderObject.height = 496;
+        renderObject.width = Map.BACKGROUND_WIGHT;
+        renderObject.height = Map.BACKGROUND_HEIGHT;
         renderObject.zIndex = -10;
         renderObject.textureName = "map/map.png";
     }

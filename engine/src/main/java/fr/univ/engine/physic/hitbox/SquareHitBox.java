@@ -2,6 +2,9 @@ package fr.univ.engine.physic.hitbox;
 
 import javafx.scene.shape.Rectangle;
 
+/**
+ * The HitBox for rectangle object
+ */
 public class SquareHitBox extends HitBox {
 
     public SquareHitBox(double posX, double posY, double wight) {

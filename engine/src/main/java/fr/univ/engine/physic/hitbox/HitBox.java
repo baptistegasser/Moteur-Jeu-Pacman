@@ -2,6 +2,9 @@ package fr.univ.engine.physic.hitbox;
 
 import javafx.scene.shape.Shape;
 
+/**
+ * Represent the HitBox of object
+ */
 public abstract class HitBox {
     protected double posX;
     protected double posY;
@@ -42,5 +45,8 @@ public abstract class HitBox {
         return shape;
     }
 
+    /**
+     * Function permit to modifie HitBox
+     */
     public abstract void updateShape();
 }

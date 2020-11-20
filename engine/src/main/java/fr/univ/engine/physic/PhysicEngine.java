@@ -25,8 +25,8 @@ public class PhysicEngine {
                 object.getPhysicObject().getPos().y += object.getPhysicObject().movement.y;
 
                 // displacement for hitBox
-                object.getPhysicObject().hitBox.setPosX(object.getPhysicObject().getPos().x);
-                object.getPhysicObject().hitBox.setPosY(object.getPhysicObject().getPos().y);
+                object.getPhysicObject().hitBox.setPosX(object.getPhysicObject().hitBox.getPosX() + object.getPhysicObject().movement.x);
+                object.getPhysicObject().hitBox.setPosY(object.getPhysicObject().hitBox.getPosY() + object.getPhysicObject().movement.y);
                 object.getPhysicObject().hitBox.updateShape();
             }
         }
@@ -60,8 +60,7 @@ public class PhysicEngine {
         for (PhysicEntity target : objects) {
             if (target != object) {
                 if (((Path)Shape.intersect(object.getPhysicObject().hitBox.getShape(), target.getPhysicObject().hitBox.getShape())).getElements().size() > 0) {
-                    System.out.println(target.getPhysicObject().hitBox.getShape().getTypeSelector());
-
+                    //TODO fonction d'affichage utile à enlever au final
                     /*System.out.println("X : "+ object.getPhysicObject().hitBox.getPosX() + " Y : "+ object.getPhysicObject().hitBox.getPosY()
                             + " Wight : "+object.getPhysicObject().hitBox.getWight());
 
