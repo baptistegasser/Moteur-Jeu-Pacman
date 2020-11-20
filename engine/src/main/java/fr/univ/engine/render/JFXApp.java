@@ -70,7 +70,8 @@ public final class JFXApp extends Application {
 
         Scene scene = new Scene(stackPane);
         stage.setScene(scene);
-        scene.setOnKeyPressed(IoEngine::handleKeys);
+        scene.setOnKeyPressed(IoEngine::pressedKeys);
+        scene.setOnKeyReleased(IoEngine::releasedKeys);
 
         canvas.widthProperty().bind(stage.widthProperty());
         canvas.heightProperty().bind(stage.heightProperty());
