@@ -9,7 +9,7 @@ import java.util.logging.*;
  *
  * "I mean, it's boring who would want to see this", Baptiste G. 2020
  */
-public class LoggerSingleton {
+class LoggerSingleton {
     private static final Logger logger;
 
     static {
