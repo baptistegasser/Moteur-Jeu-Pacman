@@ -40,7 +40,8 @@ class ColorFormatter extends SimpleFormatter {
      * @return the string with ansi delimiters
      */
     private String colorString(Color color, String s) {
-        return String.format("\u001b[38;2;%d;%d;%dm %s \u001b[0m ",
+        // ESC[38;2;r;g;bm%TEXT%ESC[0m
+        return String.format("\u001b[38;2;%d;%d;%dm%s\u001b[0m",
                 (int) (255 * color.getRed()),
                 (int) (255 * color.getGreen()),
                 (int) (255 * color.getBlue()),
