@@ -9,6 +9,7 @@ import java.util.logging.SimpleFormatter;
  * Class charged to format and color log message for the engine.
  */
 class ColorFormatter extends SimpleFormatter {
+    private boolean autoColor = false;
 
     @Override
     public String format(LogRecord record) {
@@ -26,7 +27,12 @@ class ColorFormatter extends SimpleFormatter {
         Color color = (Color) record.getParameters()[1];
         // Handle log with no color
         if (color == null) {
-            return message + "\n";
+            if (autoColor) {
+                color = generateColor(sourceLine + record.getSourceClassName() + record.getSourceMethodName());
+                return colorString(color, message) + "\n";
+            } else {
+                return message + "\n";
+            }
         } else {
             return colorString(color, message) + "\n";
         }
@@ -71,5 +77,15 @@ class ColorFormatter extends SimpleFormatter {
         int b = Math.abs(base.substring(l*2, l * 3).hashCode()) % 255;
 
         return Color.rgb(r, g, b);
+    }
+
+    /**
+     * Set if the formatter should automatically set a color if none is given.
+     *
+     * @param autoColor the new value
+     * @see #generateColor(String, String...) on how the color is chosen
+     */
+    public void setAutoColor(boolean autoColor) {
+        this.autoColor = autoColor;
     }
 }

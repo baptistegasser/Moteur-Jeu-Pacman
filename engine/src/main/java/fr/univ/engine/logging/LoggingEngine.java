@@ -23,7 +23,7 @@ public final class LoggingEngine {
      * @see ColorFormatter for the log formatting
      * @see LoggerSingleton for the configuration
      */
-    private static final Logger logger = LoggerSingleton.getLogger();
+    private static final LoggerSingleton logger = LoggerSingleton.getInstance();
 
     /**
      * The list of class that can/should log.
@@ -86,6 +86,13 @@ public final class LoggingEngine {
      */
     public static void disableLogging(Class<?> c) {
         targetsClasses.remove(c.getName());
+    }
+
+    /**
+     * @see ColorFormatter#setAutoColor(boolean)
+     */
+    public static void setAutoColor(boolean autoColor) {
+        logger.setAutoColor(autoColor);
     }
 
     /**

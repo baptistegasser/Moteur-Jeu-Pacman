@@ -1,6 +1,5 @@
 package fr.univ.engine.physic;
 
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Path;
 import javafx.scene.shape.Shape;
 

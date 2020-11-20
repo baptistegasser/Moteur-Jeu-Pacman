@@ -75,6 +75,7 @@ public final class Core {
     public void start() {
         LoggingEngine.setLevel(Level.INFO);
         LoggingEngine.enableLogging(Core.class);
+        LoggingEngine.setAutoColor(true);
 
         renderEngine.start();
         renderEngine.preRender(scene.objects());

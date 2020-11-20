@@ -4,26 +4,48 @@ import java.io.OutputStream;
 import java.util.logging.*;
 
 /**
+ * Singleton logger used by the logging engine.
  * Hide implementation and config from other classes.
  * Log level is set as INFO by default.
  *
  * "I mean, it's boring who would want to see this", Baptiste G. 2020
  */
-class LoggerSingleton {
-    private static final Logger logger;
+class LoggerSingleton extends Logger {
+    /**
+     * The singleton instance.
+     */
+    private static LoggerSingleton instance;
+    /**
+     * Keep a reference to the Logger handler
+     */
+    private final FlushedStreamHandler handler;
 
-    static {
+    private LoggerSingleton() {
+        super(LoggerSingleton.class.getName(), null);
         // Init logger
-        logger = Logger.getLogger(LoggerSingleton.class.getName());
-        logger.setLevel(Level.INFO);
+        setLevel(Level.INFO);
 
         // Use custom handler and prevent default handlers
-        logger.addHandler(new FlushedStreamHandler());
-        logger.setUseParentHandlers(false);
+        handler = new FlushedStreamHandler();
+        addHandler(handler);
+        setUseParentHandlers(false);
     }
 
-    public static Logger getLogger() {
-        return logger;
+    /**
+     * @see ColorFormatter#setAutoColor(boolean)
+     */
+    public void setAutoColor(boolean autoColor) {
+        ((ColorFormatter) handler.getFormatter()).setAutoColor(autoColor);
+    }
+
+    /**
+     * @return this singleton instance.
+     */
+    public static LoggerSingleton getInstance() {
+        if (instance == null) {
+            instance = new LoggerSingleton();
+        }
+        return instance;
     }
 
     /**
