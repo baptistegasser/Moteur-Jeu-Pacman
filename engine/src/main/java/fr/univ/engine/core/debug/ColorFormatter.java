@@ -16,7 +16,7 @@ class ColorFormatter extends SimpleFormatter {
 
         // [line in class#method()] - [LEVEL] - The message
         String message = String.format(
-                "[%s in %s#%s()] - [%s] - %s\n",
+                "[~%s in %s#%s()] - [%s] - %s",
                 sourceLine,
                 record.getSourceClassName(),
                 record.getSourceMethodName(),
@@ -26,9 +26,9 @@ class ColorFormatter extends SimpleFormatter {
         Color color = (Color) record.getParameters()[1];
         // Handle log with no color
         if (color == null) {
-            return message;
+            return message + "\n";
         } else {
-            return colorString(color, message);
+            return colorString(color, message) + "\n";
         }
     }
 
