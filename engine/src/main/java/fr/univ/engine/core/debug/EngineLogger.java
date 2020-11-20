@@ -95,7 +95,8 @@ public final class EngineLogger {
      * @param msg   the message to log
      */
     public static void log(Level level, final String msg) {
-        //if (!Thread.currentThread().getStackTrace()[2].getClassName())
+        // Ignore class not allowed to log
+        if (!canLog(getCallerClassName())) return;
 
         logp(level, msg, getCallerInfos(), null);
     }
@@ -108,6 +109,9 @@ public final class EngineLogger {
      * @param color the color to display the text in
      */
     public static void log(Level level, final String msg, Color color) {
+        // Ignore class not allowed to log
+        if (!canLog(getCallerClassName())) return;
+
         logp(level, msg, getCallerInfos(), color);
     }
 
@@ -120,6 +124,9 @@ public final class EngineLogger {
      * @param targetMethod the name of the method that was called
      */
     public static void logElapsedTime(long start, long end, Class<?> targetClass, String targetMethod) {
+        // Ignore class not allowed to log
+        if (!canLog(getCallerClassName())) return;
+
         // "class#method() took X UnitOfTimes"
         String msg = String.format("%s#%s() took %d %s",
                 targetClass.getName().replace("fr.univ.engine.", ""),
@@ -153,6 +160,14 @@ public final class EngineLogger {
         infos[2] = String.valueOf(s.getLineNumber());
 
         return infos;
+    }
+
+    /**
+     * @return the name of the class who called the caller of this method
+     */
+    private static String getCallerClassName() {
+        // 0 = thread, 1 = this method, 2 = caller of this method, 3 = true caller
+        return Thread.currentThread().getStackTrace()[3].getClassName();
     }
 
     /**
