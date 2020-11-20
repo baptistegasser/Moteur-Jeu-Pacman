@@ -1,10 +1,11 @@
 package fr.univ.engine.core;
 
+import fr.univ.engine.core.debug.EngineLogger;
 import fr.univ.engine.physic.PhysicEngine;
 import fr.univ.engine.render.JFXApp;
 import fr.univ.engine.render.RenderEngine;
 
-import java.util.List;
+import java.util.logging.Level;
 
 /**
  * The core engine, charged to link all subsequent engines.
@@ -64,6 +65,8 @@ public final class Core {
      * Start the game engine.
      */
     public void start() {
+        EngineLogger.enableLogging(Core.class);
+
         renderEngine.start();
         renderEngine.preRender(scene.objects());
 
@@ -102,7 +105,10 @@ public final class Core {
 
                 while (accumulator >= dt) {
                     // Integrate a step of time dt
+                    long s = System.nanoTime();
                     physicEngine.integrate(scene.objects(), t, dt);
+                    if (EngineLogger.canLog()) EngineLogger.logElapsedTime(s, System.nanoTime(), PhysicEngine.class, "integrate");
+
                     // Decrease remaining time to integrate by dt
                     accumulator -= dt;
                     // Increase the time elapsed since engine start by dt
@@ -112,14 +118,16 @@ public final class Core {
                 // Render a frame if enough time have elapsed
                 if (currentTime - lastFrames >= secondPerFrame) {
                     lastFrames = currentTime;
+                    long s = System.nanoTime();
                     renderEngine.render(scene.objects());
+                    if (EngineLogger.canLog(getClass())) EngineLogger.logElapsedTime(s, System.nanoTime(), RenderEngine.class, "render");
                     frames += 1;
                 }
 
                 // Display FPS TODO move to render
                 if (currentTime - startFrames >= 1) {
                     startFrames = currentTime;
-                    System.out.println("FPS: " + frames);
+                    EngineLogger.log(Level.INFO, "FPS: " + frames);
                     frames = 0;
                 }
             }
