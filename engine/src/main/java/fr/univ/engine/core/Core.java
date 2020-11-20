@@ -109,7 +109,7 @@ public final class Core {
                     // Integrate a step of time dt
                     long s = System.nanoTime();
                     physicEngine.integrate(scene.objects(), t, dt);
-                    if (EngineLogger.canLog()) EngineLogger.logElapsedTime(s, System.nanoTime(), PhysicEngine.class, "integrate");
+                    EngineLogger.logElapsedTime(s, System.nanoTime(), PhysicEngine.class, "integrate");
 
                     // Decrease remaining time to integrate by dt
                     accumulator -= dt;
@@ -122,7 +122,7 @@ public final class Core {
                     lastFrames = currentTime;
                     long s = System.nanoTime();
                     renderEngine.render(scene.objects());
-                    if (EngineLogger.canLog(getClass())) EngineLogger.logElapsedTime(s, System.nanoTime(), RenderEngine.class, "render");
+                    EngineLogger.logElapsedTime(s, System.nanoTime(), RenderEngine.class, "render");
                     frames += 1;
                 }
 
