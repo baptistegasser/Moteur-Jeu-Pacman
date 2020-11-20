@@ -56,27 +56,23 @@ class ColorFormatter extends SimpleFormatter {
 
     /**
      * Generate a relatively unique color based on multiple values.
-     * The idea is to concat all strings, split them in 3 and use each split
-     * to generate R, G and B values based on the hashcode.
-     * The result is not truly unique due to hash collision and rgb value in a small range of 0-255.
+     * The idea is to concat all strings, get the hashcode of thi new
+     * string and turn it into an index used to get one of the display colors.
+     * The result is not truly unique due to hash collision and limited color list.
      *
      * @param s1 the first string, need at least one
      * @param ss the other strings
      * @return a color instance
      */
     public static Color generateColor(final String s1, final String... ss) {
-        StringBuilder base = new StringBuilder(s1);
+        StringBuilder sb = new StringBuilder(s1);
         for (String sx : ss) {
-            base.append(sx);
+            sb.append(sx);
         }
+        final String concat = sb.toString();
 
-        int l = (int) Math.floor(base.length() / 3d);
-
-        int r = Math.abs(base.substring(0, l).hashCode()) % 255;
-        int g = Math.abs(base.substring(l, l * 2).hashCode()) % 255;
-        int b = Math.abs(base.substring(l*2, l * 3).hashCode()) % 255;
-
-        return Color.rgb(r, g, b);
+        int index = Math.abs(concat.hashCode()) % (DisplayColor.colorsCount-1);
+        return DisplayColor.colors[index];
     }
 
     /**
