@@ -1,6 +1,6 @@
 package fr.univ.engine.core;
 
-import fr.univ.engine.core.debug.EngineLogger;
+import fr.univ.engine.logging.EngineLogger;
 import fr.univ.engine.physic.PhysicEngine;
 import fr.univ.engine.render.JFXApp;
 import fr.univ.engine.render.RenderEngine;

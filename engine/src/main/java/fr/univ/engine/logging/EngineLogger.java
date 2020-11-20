@@ -1,4 +1,4 @@
-package fr.univ.engine.core.debug;
+package fr.univ.engine.logging;
 
 import javafx.scene.paint.Color;
 
