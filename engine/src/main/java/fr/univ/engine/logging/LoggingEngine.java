@@ -44,7 +44,7 @@ public final class LoggingEngine {
      * Change the time unit used to display time values.
      *
      * @param unit the new time unit
-     * @see #logElapsedTime(long, long, Class, String) as it use it to format elapsed time from nanoseconds value
+     * @see #logElapsedTime(long, long, String) as it use it to format elapsed time from nanoseconds value
      */
     public static void setTimeUnit(TimeUnit unit) {
         LoggingEngine.unit = unit;
@@ -123,26 +123,42 @@ public final class LoggingEngine {
     }
 
     /**
-     * Log the time elapsed to run a given method.
+     * Log the time elapsed to run something like a method.
      *
      * @param start        the time at which the counter started in NANOSECONDS
      * @param end          the time at which the counter ended in NANOSECONDS
-     * @param targetClass  the class of the method that was called
-     * @param targetMethod the name of the method that was called
+     * @param target the target that was run
      */
-    public static void logElapsedTime(long start, long end, Class<?> targetClass, String targetMethod) {
+    public static void logElapsedTime(long start, long end, String target) {
         // Ignore class not allowed to log
         if (!canLog(getCallerClassName())) return;
 
         // "class#method() took X UnitOfTimes"
-        String msg = String.format("%s#%s() took %d %s",
-                targetClass.getName().replace("fr.univ.engine.", ""),
-                targetMethod,
+        String msg = String.format("%s took %d %s",
+                target,
                 unit.convert(end - start, TimeUnit.NANOSECONDS),
                 unit.toString());
 
-        String[] infos = getCallerInfos();
-        Color color = ColorFormatter.generateColor(infos[0], infos[1], targetClass.getName(), targetMethod);
+        logp(Level.FINEST, msg, getCallerInfos(), null);
+    }
+
+    /**
+     * Log with color the time elapsed to run something like a method.
+     *
+     * @param start        the time at which the counter started in NANOSECONDS
+     * @param end          the time at which the counter ended in NANOSECONDS
+     * @param target the target that was run
+     * @param color the color to display
+     */
+    public static void logElapsedTime(long start, long end, String target, Color color) {
+        // Ignore class not allowed to log
+        if (!canLog(getCallerClassName())) return;
+
+        // "class#method() took X UnitOfTimes"
+        String msg = String.format("%s took %d %s",
+                target,
+                unit.convert(end - start, TimeUnit.NANOSECONDS),
+                unit.toString());
 
         logp(Level.FINEST, msg, getCallerInfos(), color);
     }
