@@ -1,13 +1,12 @@
 package fr.univ.engine.io;
 
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class IoEngine {
-    private static ConcurrentHashMap<String, Boolean> keysStatus = new ConcurrentHashMap<>();
+    private static ConcurrentHashMap<String, Status> keysStatus = new ConcurrentHashMap<>();
     /**
      * Handle keyboard key events
      * @param keyEvent the key event, which is the key the user pressed
@@ -16,16 +15,16 @@ public class IoEngine {
         String key = keyEvent.getText().toLowerCase();
         switch (key) {
             case "q":
-                updateMap(key, true);
+                updateMap(key, Status.PRESSED_FRAME);
                 break;
             case "d":
-                updateMap(key, true);
+                updateMap(key, Status.PRESSED_FRAME);
                 break;
             case "z":
-                updateMap(key, true);
+                updateMap(key, Status.PRESSED_FRAME);
                 break;
             case "s":
-                updateMap(key, true);
+                updateMap(key,  Status.PRESSED_FRAME);
                 break;
             default:
                 //do nothing
@@ -40,16 +39,16 @@ public class IoEngine {
         String key = keyEvent.getText().toLowerCase();
         switch (key) {
             case "q":
-                updateMap(key, false);
+                updateMap(key, Status.RELEASED_FRAME);
                 break;
             case "d":
-                updateMap(key, false);
+                updateMap(key,  Status.RELEASED_FRAME);
                 break;
             case "z":
-                updateMap(key, false);
+                updateMap(key,  Status.RELEASED_FRAME);
                 break;
             case "s":
-                updateMap(key, false);
+                updateMap(key,  Status.RELEASED_FRAME);
                 break;
             default:
                 //do nothing
@@ -63,29 +62,25 @@ public class IoEngine {
      * @param key the key
      * @param value the value of the key
      */
-    private static void updateMap (String key, Boolean value) {
-        Boolean check = keysStatus.putIfAbsent(key, value);
+    private static void updateMap (String key, Status value) {
+
+        Status check = keysStatus.putIfAbsent(key, value); // Create value if the key has never been pressed
         if(check != null) {
             keysStatus.replace(key,value);
         }
-        //TODO peut etre checker si un utilisateur peux press deux touches en même temps (inutile)
-        // mais cela pourrait faire buguer si deux valeurs sont à true, donc peut etre controller ça
+        System.out.println(keysStatus);
+
     }
 
     /**
      * @return Return the hash map
      */
-    public static ConcurrentHashMap<String, Boolean> getKeysStatus() {
+    public static ConcurrentHashMap<String, Status> getKeysStatus() {
         return keysStatus;
     }
 
-    /**
-     * @return  Return the true value in the hashmap
-     */
-    public static String getTrueValue () {
-        for (Map.Entry<String, Boolean> entry :keysStatus.entrySet()) {
-            if(entry.getValue()) return entry.getKey();
-        }
-        return "";
+    public void start() {
+
     }
+
 }
