@@ -103,4 +103,25 @@ class ViewPort {
     private void updateCenter() {
         this.center = new Point(width / 2, height / 2);
     }
+
+    public void drawRect(double x, double y, double w, double h) {
+        double x1 = x - w / 2 + center.x;
+        double y1 = y - h / 2 + center.y;
+
+        RenderEngine.runOnFXThread(() -> {
+            ctx.setStroke(Color.RED);
+            ctx.beginPath();
+            ctx.rect(x1, y1, w, h);
+            ctx.stroke();
+        });
+    }
+
+    public void drawCircle(double centerX, double centerY, double radius) {
+        double x1 = centerX - radius / 2 + center.x;
+        double y1 = centerY - radius / 2 + center.y;
+        RenderEngine.runOnFXThread(() -> {
+            ctx.setStroke(Color.GREEN);
+            ctx.strokeOval(x1, y1, radius, radius);
+        });
+    }
 }

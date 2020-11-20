@@ -1,7 +1,11 @@
 package fr.univ.engine.render;
 
+import fr.univ.engine.core.GameObject;
 import javafx.application.Platform;
 import javafx.scene.image.Image;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -69,6 +73,15 @@ public class RenderEngine {
         for (RenderEntity e : entities) {
             e.update();
             renderObject(e.getRenderObject());
+
+            Shape s = ((GameObject) e).getPhysicObject().hitBox.getShape();
+            if (s instanceof Rectangle) {
+                Rectangle r = ((Rectangle) s);
+                viewPort.drawRect(r.getX(), r.getY(), r.getWidth(), r.getHeight());
+            } else if (s instanceof Circle) {
+                Circle c = ((Circle) s);
+                viewPort.drawCircle(c.getCenterX(), c.getCenterY(), c.getRadius());
+            }
         }
     }
 
