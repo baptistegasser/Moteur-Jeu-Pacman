@@ -4,6 +4,7 @@ import fr.univ.engine.core.debug.EngineLogger;
 import fr.univ.engine.physic.PhysicEngine;
 import fr.univ.engine.render.JFXApp;
 import fr.univ.engine.render.RenderEngine;
+import javafx.scene.paint.Color;
 
 import java.util.logging.Level;
 
@@ -65,6 +66,7 @@ public final class Core {
      * Start the game engine.
      */
     public void start() {
+        EngineLogger.setLevel(Level.INFO);
         EngineLogger.enableLogging(Core.class);
 
         renderEngine.start();
@@ -127,7 +129,7 @@ public final class Core {
                 // Display FPS TODO move to render
                 if (currentTime - startFrames >= 1) {
                     startFrames = currentTime;
-                    EngineLogger.log(Level.INFO, "FPS: " + frames);
+                    EngineLogger.log(Level.INFO, "FPS: " + frames, Color.DARKCYAN);
                     frames = 0;
                 }
             }
