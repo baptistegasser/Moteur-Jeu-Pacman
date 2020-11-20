@@ -73,16 +73,14 @@ public class IoEngine {
     }
 
     /**
-     * Return hashmap
-     * @return
+     * @return Return the hash map
      */
     public static ConcurrentHashMap<String, Boolean> getKeysStatus() {
         return keysStatus;
     }
 
     /**
-     * Return the true value in the hashmap
-     * @return
+     * @return  Return the true value in the hashmap
      */
     public static String getTrueValue () {
         for (Map.Entry<String, Boolean> entry :keysStatus.entrySet()) {
