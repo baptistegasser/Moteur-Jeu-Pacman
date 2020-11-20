@@ -24,26 +24,15 @@ public final class EngineLogger {
      * The logger charged of logging messages.
      *
      * @see ColorFormatter for the log formatting
+     * @see LoggerSingleton for the configuration
      */
-    private static final Logger logger;
+    private static final Logger logger = LoggerSingleton.getLogger();
 
     /**
      * The list of class that can/should log.
      * Stored as string to allow easier reflexion.
      */
     private static final HashSet<String> targetsClasses = new HashSet<>();
-
-    static {
-        // Init logger
-        logger = Logger.getLogger(EngineLogger.class.getName());
-        logger.setLevel(Level.FINEST);
-
-        // Create a handler for the output formatting and prevent default handlers
-        Handler handler = new StreamHandler(System.out, new ColorFormatter());
-        handler.setLevel(Level.ALL);
-        logger.addHandler(handler);
-        logger.setUseParentHandlers(false);
-    }
 
     /**
      * Set the log level specifying which message levels will be logged.
