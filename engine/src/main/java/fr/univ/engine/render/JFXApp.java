@@ -1,5 +1,6 @@
 package fr.univ.engine.render;
 
+import fr.univ.engine.io.IoEngine;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyBooleanProperty;
@@ -67,7 +68,10 @@ public final class JFXApp extends Application {
         stage.setTitle(window.title);
         stage.setResizable(window.allowResize);
 
-        stage.setScene(new Scene(stackPane));
+        Scene scene = new Scene(stackPane);
+        stage.setScene(scene);
+        scene.setOnKeyPressed(IoEngine::pressedKeys);
+        scene.setOnKeyReleased(IoEngine::releasedKeys);
 
         canvas.widthProperty().bind(stage.widthProperty());
         canvas.heightProperty().bind(stage.heightProperty());
