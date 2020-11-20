@@ -11,7 +11,7 @@ import java.util.logging.*;
  * We can't force a class to log.
  * However a class will be prevented to log if its not part of the declared {@link #targetsClasses} classes.
  */
-public final class EngineLogger {
+public final class LoggingEngine {
     /**
      * Time unit in which the display should be done.
      * Default to milliseconds.
@@ -47,7 +47,7 @@ public final class EngineLogger {
      * @see #logElapsedTime(long, long, Class, String) as it use it to format elapsed time from nanoseconds value
      */
     public static void setTimeUnit(TimeUnit unit) {
-        EngineLogger.unit = unit;
+        LoggingEngine.unit = unit;
     }
 
     /**

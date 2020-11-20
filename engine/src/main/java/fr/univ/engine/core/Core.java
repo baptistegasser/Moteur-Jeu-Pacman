@@ -1,6 +1,6 @@
 package fr.univ.engine.core;
 
-import fr.univ.engine.logging.EngineLogger;
+import fr.univ.engine.logging.LoggingEngine;
 import fr.univ.engine.physic.PhysicEngine;
 import fr.univ.engine.render.JFXApp;
 import fr.univ.engine.render.RenderEngine;
@@ -66,8 +66,8 @@ public final class Core {
      * Start the game engine.
      */
     public void start() {
-        EngineLogger.setLevel(Level.INFO);
-        EngineLogger.enableLogging(Core.class);
+        LoggingEngine.setLevel(Level.INFO);
+        LoggingEngine.enableLogging(Core.class);
 
         renderEngine.start();
         renderEngine.preRender(scene.objects());
@@ -109,7 +109,7 @@ public final class Core {
                     // Integrate a step of time dt
                     long s = System.nanoTime();
                     physicEngine.integrate(scene.objects(), t, dt);
-                    EngineLogger.logElapsedTime(s, System.nanoTime(), PhysicEngine.class, "integrate");
+                    LoggingEngine.logElapsedTime(s, System.nanoTime(), PhysicEngine.class, "integrate");
 
                     // Decrease remaining time to integrate by dt
                     accumulator -= dt;
@@ -122,14 +122,14 @@ public final class Core {
                     lastFrames = currentTime;
                     long s = System.nanoTime();
                     renderEngine.render(scene.objects());
-                    EngineLogger.logElapsedTime(s, System.nanoTime(), RenderEngine.class, "render");
+                    LoggingEngine.logElapsedTime(s, System.nanoTime(), RenderEngine.class, "render");
                     frames += 1;
                 }
 
                 // Display FPS TODO move to render
                 if (currentTime - startFrames >= 1) {
                     startFrames = currentTime;
-                    EngineLogger.log(Level.INFO, "FPS: " + frames, Color.DARKCYAN);
+                    LoggingEngine.log(Level.INFO, "FPS: " + frames, Color.DARKCYAN);
                     frames = 0;
                 }
             }
