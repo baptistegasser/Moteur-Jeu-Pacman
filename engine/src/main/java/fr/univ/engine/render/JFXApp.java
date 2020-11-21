@@ -1,6 +1,6 @@
 package fr.univ.engine.render;
 
-import fr.univ.engine.io.IoEngine;
+import fr.univ.engine.io.KeyEventHandler;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyBooleanProperty;
@@ -57,6 +57,16 @@ public final class JFXApp extends Application {
         latch.await();
     }
 
+    /**
+     * Set a {@link KeyEventHandler} as the handler for key events.
+     *
+     * @param handler the new handler
+     */
+    public static void setKeyEventHandler(KeyEventHandler handler) {
+        stage.getScene().setOnKeyPressed(handler::onKeyPressed);
+        stage.getScene().setOnKeyReleased(handler::onKeyReleased);
+    }
+
     @Override
     public void start(Stage primaryStage) throws Exception {
         canvas = new Canvas(window.width, window.height);
@@ -68,10 +78,7 @@ public final class JFXApp extends Application {
         stage.setTitle(window.title);
         stage.setResizable(window.allowResize);
 
-        Scene scene = new Scene(stackPane);
-        stage.setScene(scene);
-        scene.setOnKeyPressed(IoEngine::pressedKeys);
-        scene.setOnKeyReleased(IoEngine::releasedKeys);
+        stage.setScene(new Scene(stackPane));
 
         canvas.widthProperty().bind(stage.widthProperty());
         canvas.heightProperty().bind(stage.heightProperty());

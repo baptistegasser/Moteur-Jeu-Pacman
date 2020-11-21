@@ -1,16 +1,22 @@
 package fr.univ.pacman.entity;
 
 import fr.univ.engine.core.GameObject;
+import fr.univ.engine.io.IoEngine;
+import fr.univ.engine.logging.LoggingEngine;
 import fr.univ.engine.math.Point;
 import fr.univ.engine.physic.hitbox.CircleHitBox;
 import fr.univ.engine.physic.PhysicObject;
+import javafx.scene.input.KeyCode;
 import javafx.scene.shape.Circle;
+
+import java.util.logging.Level;
 
 /**
  * The class handling the logic of Pac-Man controlled by the player.
  */
 public class PacMan extends GameObject {
     public PacMan(int posX, int posY) {
+        LoggingEngine.enableLogging(PacMan.class);
         renderObject.pos.x = posX;
         renderObject.pos.y = posY;
         renderObject.width = 16;
@@ -53,6 +59,14 @@ public class PacMan extends GameObject {
 
     @Override
     public void update() {
-        //System.out.println("I am Pac-Man and this method is called every frame, much cool !");
+        if (IoEngine.getKeyDown(KeyCode.A)) {
+            LoggingEngine.log(Level.INFO, "Key A started press");
+        }
+        if (IoEngine.getKey(KeyCode.A)) {
+            LoggingEngine.log(Level.INFO, "Key A is pressed");
+        }
+        if (IoEngine.getKeyUp(KeyCode.A)) {
+            LoggingEngine.log(Level.INFO, "Key A was released");
+        }
     }
 }

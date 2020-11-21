@@ -45,7 +45,7 @@ public final class Core {
     public Core() {
         this.renderEngine = new RenderEngine();
         this.physicEngine = new PhysicEngine();
-        this.ioEngine = new IoEngine();
+        this.ioEngine = IoEngine.getInstance();
         JFXApp.getIsClosingProperty().addListener(o -> this.quit()); // listen for render app closing TODO is this bad?
     }
 
@@ -130,10 +130,15 @@ public final class Core {
                 // Render a frame if enough time have elapsed
                 if (currentTime - lastFrames >= secondPerFrame) {
                     lastFrames = currentTime;
+                    frames += 1;
+
                     long s = System.nanoTime();
+                    ioEngine.nextFrame();
+                    LoggingEngine.logElapsedTime(s, System.nanoTime(), "IOEngine::nextFrame");
+
+                    s = System.nanoTime();
                     renderEngine.render(scene.objects());
                     LoggingEngine.logElapsedTime(s, System.nanoTime(), "RenderEngine::render");
-                    frames += 1;
                 }
 
                 // Display FPS TODO move to render
