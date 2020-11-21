@@ -20,14 +20,11 @@ public class Main {
         cfg.allowResize = false;
         cfg.showFPSCounter = true;
 
-        //Size of tile
-        int tile_size = 16;
-
         // Create a resolver pointing to the assets dir inside the resources dir
         CachedResourcesLoader resolver = new CachedResourcesLoader("assets/");
         core.getRenderEngine().setTextureLoader(resolver);
 
-        core.setScene(new Map(tile_size)); // Set the Pac-Man map
+        core.setScene(new Map()); // Set the Pac-Man map
 
         core.start(); // Start the game
     }

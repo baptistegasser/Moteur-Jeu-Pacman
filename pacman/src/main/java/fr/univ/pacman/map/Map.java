@@ -12,14 +12,15 @@ import fr.univ.pacman.item.SuperGomme;
  */
 public class Map extends Scene {
 
+    public static final int TILE_SIZE = 16;
     public static final int BACKGROUND_WIGHT = 448;
     public static final int BACKGROUND_HEIGHT = 496;
 
-    public Map(int tile_size) {
-        super(tile_size);
+    public Map() {
+        super();
         add(new Background());
 
-        LoadMap.loadMap(this, MapModel.matriceModel, tile_size);
+        LoadMap.loadMap(this, MapModel.matriceModel, TILE_SIZE);
 
         add(new PacMan(0, 32));
 
