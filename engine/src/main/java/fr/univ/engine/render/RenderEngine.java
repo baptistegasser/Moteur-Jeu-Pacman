@@ -1,6 +1,9 @@
 package fr.univ.engine.render;
 
 import fr.univ.engine.core.GameObject;
+import fr.univ.engine.physic.hitbox.CircleHitBox;
+import fr.univ.engine.physic.hitbox.HitBox;
+import fr.univ.engine.physic.hitbox.SquareHitBox;
 import javafx.application.Platform;
 import javafx.scene.image.Image;
 import javafx.scene.shape.Circle;
@@ -74,13 +77,11 @@ public class RenderEngine {
             e.update();
             renderObject(e.getRenderObject());
 
-            Shape s = ((GameObject) e).getPhysicObject().hitBox.getShape();
-            if (s instanceof Rectangle) {
-                Rectangle r = ((Rectangle) s);
-                viewPort.drawRect(r.getX(), r.getY(), r.getWidth(), r.getHeight());
-            } else if (s instanceof Circle) {
-                Circle c = ((Circle) s);
-                viewPort.drawCircle(c.getCenterX(), c.getCenterY(), c.getRadius());
+            HitBox s = ((GameObject) e).getPhysicObject().hitBox;
+            if (s instanceof SquareHitBox) {
+                viewPort.drawRect(s.getPosX(), s.getPosY(), s.getWight(), s.getWight());
+            } else if (s instanceof CircleHitBox) {
+                viewPort.drawCircle(s.getPosX(), s.getPosY(), s.getWight());
             }
         }
     }

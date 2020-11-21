@@ -4,7 +4,6 @@ import fr.univ.engine.core.GameObject;
 import fr.univ.engine.math.Point;
 import fr.univ.engine.physic.hitbox.CircleHitBox;
 import fr.univ.engine.physic.PhysicObject;
-import fr.univ.pacman.map.Map;
 import javafx.scene.shape.Circle;
 
 /**
@@ -21,7 +20,7 @@ public class PacMan extends GameObject {
 
         physicObject.movement = new Point(0.5,0);
 
-        this.physicObject.hitBox = new CircleHitBox(this.renderObject.pos.x + Map.BACKGROUND_WIGHT, this.renderObject.pos.y + Map.BACKGROUND_HEIGHT, 8);
+        this.physicObject.hitBox = new CircleHitBox(this.renderObject.pos.x, this.renderObject.pos.y, this.renderObject.width/2);
         if (this.physicObject.hitBox.getShape() instanceof Circle)
             System.out.println(((Circle) this.physicObject.hitBox.getShape()).getRadius());
        }

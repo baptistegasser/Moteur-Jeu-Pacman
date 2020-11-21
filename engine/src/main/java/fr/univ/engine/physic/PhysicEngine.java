@@ -61,11 +61,11 @@ public class PhysicEngine {
             if (target != object) {
                 if (((Path)Shape.intersect(object.getPhysicObject().hitBox.getShape(), target.getPhysicObject().hitBox.getShape())).getElements().size() > 0) {
                     //TODO fonction d'affichage utile à enlever au final
-                    /*System.out.println("X : "+ object.getPhysicObject().hitBox.getPosX() + " Y : "+ object.getPhysicObject().hitBox.getPosY()
+                    System.out.println("X : "+ object.getPhysicObject().hitBox.getPosX() + " Y : "+ object.getPhysicObject().hitBox.getPosY()
                             + " Wight : "+object.getPhysicObject().hitBox.getWight());
 
                     System.out.println("X : "+ target.getPhysicObject().hitBox.getPosX() + " Y : "+ target.getPhysicObject().hitBox.getPosY()
-                    + " Wight : "+target.getPhysicObject().hitBox.getWight());*/
+                    + " Wight : "+target.getPhysicObject().hitBox.getWight());
 
                     object.onCollisionEnter(target.getPhysicObject());
                     break;

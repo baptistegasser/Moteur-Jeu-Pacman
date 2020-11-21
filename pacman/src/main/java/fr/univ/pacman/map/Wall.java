@@ -10,6 +10,6 @@ public class Wall extends GameObject {
         renderObject.width = 16;
         renderObject.height = 16;
 
-        this.physicObject.hitBox = new SquareHitBox(renderObject.pos.x-8 + Map.BACKGROUND_WIGHT, renderObject.pos.y-8 + Map.BACKGROUND_HEIGHT, renderObject.width);
+        this.physicObject.hitBox = new SquareHitBox(renderObject.pos.x, renderObject.pos.y, renderObject.width);
     }
 }

@@ -9,8 +9,11 @@ import java.util.List;
 public class Scene {
     private final ArrayList<GameObject> objects;
 
-    public Scene() {
+    public static int tile_size;
+
+    public Scene(int t) {
         this.objects = new ArrayList<>();
+        tile_size = t;
     }
 
     /**
