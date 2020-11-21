@@ -1,6 +1,6 @@
 package fr.univ.engine.core;
 
-import fr.univ.engine.io.IoEngine;
+import fr.univ.engine.io.IOEngine;
 import fr.univ.engine.logging.LoggingEngine;
 import fr.univ.engine.physic.PhysicEngine;
 import fr.univ.engine.render.JFXApp;
@@ -37,7 +37,7 @@ public final class Core {
     /**
      * The I/O engine instance
      */
-    private final IoEngine ioEngine;
+    private final IOEngine ioEngine;
 
     /**
      * Initialize the engine.
@@ -45,7 +45,7 @@ public final class Core {
     public Core() {
         this.renderEngine = new RenderEngine();
         this.physicEngine = new PhysicEngine();
-        this.ioEngine = IoEngine.getInstance();
+        this.ioEngine = IOEngine.getInstance();
         JFXApp.getIsClosingProperty().addListener(o -> this.quit()); // listen for render app closing TODO is this bad?
     }
 

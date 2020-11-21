@@ -1,7 +1,7 @@
 package fr.univ.pacman.entity;
 
 import fr.univ.engine.core.GameObject;
-import fr.univ.engine.io.IoEngine;
+import fr.univ.engine.io.IOEngine;
 import fr.univ.engine.logging.LoggingEngine;
 import fr.univ.engine.math.Point;
 import fr.univ.engine.physic.hitbox.CircleHitBox;
@@ -59,13 +59,13 @@ public class PacMan extends GameObject {
 
     @Override
     public void update() {
-        if (IoEngine.getKeyDown(KeyCode.A)) {
+        if (IOEngine.getKeyDown(KeyCode.A)) {
             LoggingEngine.log(Level.INFO, "Key A started press");
         }
-        if (IoEngine.getKey(KeyCode.A)) {
+        if (IOEngine.getKey(KeyCode.A)) {
             LoggingEngine.log(Level.INFO, "Key A is pressed");
         }
-        if (IoEngine.getKeyUp(KeyCode.A)) {
+        if (IOEngine.getKeyUp(KeyCode.A)) {
             LoggingEngine.log(Level.INFO, "Key A was released");
         }
     }

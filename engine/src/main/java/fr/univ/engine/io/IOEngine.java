@@ -11,12 +11,12 @@ import java.util.concurrent.ConcurrentLinkedDeque;
 /**
  * Engine charged of inputs and outputs.
  */
-public class IoEngine implements KeyEventHandler {
+public class IOEngine implements KeyEventHandler {
     /**
      * The input/output engine is a singleton to allow game to
      * access it without passing references.
      */
-    private static IoEngine instance;
+    private static IOEngine instance;
 
     /**
      * Store the {@link KeyCode} and their current status.
@@ -28,14 +28,14 @@ public class IoEngine implements KeyEventHandler {
      */
     private final ConcurrentLinkedDeque<KeyBoardEvent> queue = new ConcurrentLinkedDeque<>();
 
-    private IoEngine() {}
+    private IOEngine() {}
 
     /**
      * @return the instance of the engine
      */
-    public static IoEngine getInstance() {
+    public static IOEngine getInstance() {
         if (instance == null) {
-            instance = new IoEngine();
+            instance = new IOEngine();
         }
         return instance;
     }
