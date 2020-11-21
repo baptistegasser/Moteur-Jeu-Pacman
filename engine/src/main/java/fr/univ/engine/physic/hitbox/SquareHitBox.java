@@ -1,6 +1,5 @@
 package fr.univ.engine.physic.hitbox;
 
-import fr.univ.engine.core.Scene;
 import javafx.scene.shape.Rectangle;
 
 /**
@@ -9,8 +8,7 @@ import javafx.scene.shape.Rectangle;
 public class SquareHitBox extends HitBox {
 
     public SquareHitBox(double posX, double posY, double wight) {
-        // The coordinates of square are on top left corner so subtracted half of tile_size
-        super(posX-(Scene.tile_size/2), posY-(Scene.tile_size/2), wight);
+        super(posX, posY, wight);
         shape = new Rectangle(this.posX,this.posY,wight,wight);
     }
 
