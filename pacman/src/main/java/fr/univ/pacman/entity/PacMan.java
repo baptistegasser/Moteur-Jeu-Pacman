@@ -40,34 +40,17 @@ public class PacMan extends GameObject {
 
         this.getPhysicObject().hitBox.setPosX(this.getPhysicObject().hitBox.getPosX() - this.getPhysicObject().movement.x);
         this.getPhysicObject().hitBox.setPosY(this.getPhysicObject().hitBox.getPosY() - this.getPhysicObject().movement.y);
-
-        //Simple pattern de déplacement pour PACMAN
-        if (this.physicObject.movement.x > 0) {
-            this.physicObject.movement.x = 0;
-            this.physicObject.movement.y = -0.5;
-        } else if (this.physicObject.movement.x < 0) {
-            this.physicObject.movement.x = 0;
-            this.physicObject.movement.y = 0.5;
-        } else if (this.physicObject.movement.y > 0) {
-            this.physicObject.movement.x = 0.5;
-            this.physicObject.movement.y = 0;
-        } else if (this.physicObject.movement.y < 0) {
-            this.physicObject.movement.x = -0.5;
-            this.physicObject.movement.y = 0;
-        }
-
     }
 
     @Override
     public void update() {
-        if (IOEngine.getKeyDown(KeyCode.A)) {
-            LoggingEngine.log(Level.INFO, "Key A started press");
-        }
-        if (IOEngine.getKey(KeyCode.A)) {
-            LoggingEngine.log(Level.INFO, "Key A is pressed");
-        }
-        if (IOEngine.getKeyUp(KeyCode.A)) {
-            LoggingEngine.log(Level.INFO, "Key A was released");
-        }
+        Point dir = new Point(0, 0);
+
+        if (IOEngine.getKey(KeyCode.UP)) dir.y = -0.5;
+        if (IOEngine.getKey(KeyCode.DOWN)) dir.y = 0.5;
+        if (IOEngine.getKey(KeyCode.LEFT)) dir.x = -0.5;
+        if (IOEngine.getKey(KeyCode.RIGHT)) dir.x = 0.5;
+
+        if(dir.x != 0 || dir.y != 0) this.physicObject.movement = dir;
     }
 }
