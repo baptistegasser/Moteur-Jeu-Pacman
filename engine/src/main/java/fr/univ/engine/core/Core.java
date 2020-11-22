@@ -46,7 +46,7 @@ public final class Core {
         this.renderEngine = new RenderEngine();
         this.physicEngine = new PhysicEngine();
         this.ioEngine = IOEngine.getInstance();
-        JFXApp.getIsClosingProperty().addListener(o -> this.quit()); // listen for render app closing TODO is this bad?
+        JFXApp.getIsClosingProperty().addListener(o -> this.quit()); // listen for render app closing
     }
 
     /**

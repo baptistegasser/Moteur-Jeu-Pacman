@@ -54,14 +54,7 @@ public class PhysicEngine {
                 PhysicObject tgt = target.getPhysicObject();
 
                 if (obj.getHitBox().intersect(tgt.getHitBox())) {
-                    //TODO fonction d'affichage utile à enlever au final
-                    /*System.out.println("X : " + object.getPhysicObject().getHitBox().getPosX() + " Y : " + object.getPhysicObject().getHitBox().getPosY()
-                            + " Wight : " + object.getPhysicObject().getHitBox().getWight());
-
-                    System.out.println("X : " + target.getPhysicObject().getHitBox().getPosX() + " Y : " + target.getPhysicObject().getHitBox().getPosY()
-                            + " Wight : " + target.getPhysicObject().getHitBox().getWight());*/
-
-                    // Rollback pos if hit
+                    // Rollback pos if hit a solid object
                     if (tgt.getHitBox().isSolid()) {
                         obj.getPos().add(obj.direction.reverse());
                     }
