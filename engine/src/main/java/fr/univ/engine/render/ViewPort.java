@@ -117,12 +117,12 @@ class ViewPort {
     }
 
     public void drawCircle(double centerX, double centerY, double radius) {
-        double x1 = (centerX + center.x) - radius;
-        double y1 = (centerY + center.y) - radius;
+        double x1 = (centerX + center.x) - radius/2;
+        double y1 = (centerY + center.y) - radius/2;
 
         RenderEngine.runOnFXThread(() -> {
             ctx.setStroke(Color.GREEN);
-            ctx.strokeOval(x1, y1, radius*2, radius*2);
+            ctx.strokeOval(x1, y1, radius, radius);
         });
     }
 }

@@ -2,8 +2,8 @@ package fr.univ.pacman.entity;
 
 import fr.univ.engine.core.GameObject;
 import fr.univ.engine.math.Point;
-import fr.univ.engine.physic.hitbox.CircleHitBox;
 import fr.univ.engine.physic.PhysicObject;
+import fr.univ.engine.physic.hitbox.SquareHitBox;
 
 /**
  * The class handling the logic of Ghost.
@@ -40,7 +40,7 @@ public class Ghost extends GameObject {
         physicObject.movement = new Point(0,0);
 
         //TODO replace 8 by wight/2
-        this.physicObject.hitBox = new CircleHitBox(this.renderObject.pos.x, this.renderObject.pos.y, 8);
+        this.physicObject.hitBox = new SquareHitBox(this.renderObject.pos.x, this.renderObject.pos.y, 8);
     }
 
     @Override

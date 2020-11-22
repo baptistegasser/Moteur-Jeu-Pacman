@@ -1,8 +1,5 @@
 package fr.univ.engine.physic;
 
-import javafx.scene.shape.Path;
-import javafx.scene.shape.Shape;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,18 +56,35 @@ public class PhysicEngine {
     private void collision(List<PhysicEntity> objects, PhysicEntity object) {
         for (PhysicEntity target : objects) {
             if (target != object) {
-                if (((Path)Shape.intersect(object.getPhysicObject().hitBox.getShape(), target.getPhysicObject().hitBox.getShape())).getElements().size() > 0) {
+                if (intersect(object, target)) {
                     //TODO fonction d'affichage utile à enlever au final
-                    System.out.println("X : "+ object.getPhysicObject().hitBox.getPosX() + " Y : "+ object.getPhysicObject().hitBox.getPosY()
-                            + " Wight : "+object.getPhysicObject().hitBox.getWight());
+                    System.out.println("X : " + object.getPhysicObject().hitBox.getPosX() + " Y : " + object.getPhysicObject().hitBox.getPosY()
+                            + " Wight : " + object.getPhysicObject().hitBox.getWight());
 
-                    System.out.println("X : "+ target.getPhysicObject().hitBox.getPosX() + " Y : "+ target.getPhysicObject().hitBox.getPosY()
-                    + " Wight : "+target.getPhysicObject().hitBox.getWight());
+                    System.out.println("X : " + target.getPhysicObject().hitBox.getPosX() + " Y : " + target.getPhysicObject().hitBox.getPosY()
+                            + " Wight : " + target.getPhysicObject().hitBox.getWight());
 
                     object.onCollisionEnter(target.getPhysicObject());
                     break;
                 }
             }
         }
+    }
+
+    /**
+     * Function permit to limited pass in intersect {@link PhysicEngine::collision}
+     * Compare the distance between two object
+     * @param object first object
+     * @param target second object
+     * @return if two object are in collision
+     */
+    private boolean intersect(PhysicEntity object, PhysicEntity target) {
+        // Size between two center element
+        double sizeBetweenElements = (object.getPhysicObject().hitBox.getWight() + target.getPhysicObject().hitBox.getWight())/2;
+
+        return object.getPhysicObject().hitBox.getPosX() - target.getPhysicObject().hitBox.getPosX() < sizeBetweenElements &&
+                object.getPhysicObject().hitBox.getPosX() - target.getPhysicObject().hitBox.getPosX() > -sizeBetweenElements &&
+                object.getPhysicObject().hitBox.getPosY() - target.getPhysicObject().hitBox.getPosY() < sizeBetweenElements &&
+                object.getPhysicObject().hitBox.getPosY() - target.getPhysicObject().hitBox.getPosY() > -sizeBetweenElements;
     }
 }

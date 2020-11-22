@@ -6,6 +6,9 @@ import javafx.scene.shape.Shape;
  * Represent the HitBox of object
  */
 public abstract class HitBox {
+    /**
+     * Center Pos
+     */
     protected double posX;
     protected double posY;
     protected double wight;
