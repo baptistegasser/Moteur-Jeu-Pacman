@@ -41,8 +41,7 @@ public class Ghost extends GameObject {
 
         physicObject.direction = new Vector(0,0);
 
-        //TODO replace 8 by wight/2
-        this.physicObject.setHitBox(new SquareHitBox(8));
+        this.physicObject.setHitBox(new SquareHitBox(22));
     }
 
     @Override
