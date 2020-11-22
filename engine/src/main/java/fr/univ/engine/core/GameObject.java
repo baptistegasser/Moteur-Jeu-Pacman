@@ -43,6 +43,8 @@ public abstract class GameObject implements RenderEntity, PhysicEntity {
         this.ID = GameObject.currentIDs++;
         this.physicObject = new PhysicObject(pos);
         this.renderObject = new RenderObject(pos);
+
+        setName("UNKNOWN GameObject"); // default GameObject name
     }
 
     @Override
