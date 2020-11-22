@@ -30,6 +30,10 @@ public abstract class HitBox implements Intersect {
         this.position = position;
     }
 
+    public Point getPosition() {
+        return position;
+    }
+
     public boolean isSolid() {
         return isSolid;
     }

@@ -1,5 +1,9 @@
 package fr.univ.engine.physic;
 
+import fr.univ.engine.core.Core;
+import fr.univ.engine.math.Point;
+import fr.univ.engine.physic.hitbox.HitBox;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,8 +13,8 @@ public class PhysicEngine {
      * Function call for object movement in mainLoop
      *
      * @param objects all Object in a game
-     * @param t
-     * @param dt
+     * @param t the time elapsed since engine started
+     * @param dt the time-step elapsed between updates
      * @return only object that have moved
      */
     private List<PhysicEntity> move(List<PhysicEntity> objects, double t, double dt) {
@@ -67,5 +71,25 @@ public class PhysicEngine {
                 }
             }
         }
+    }
+
+    public static boolean isThereSolidCollision(PhysicObject o, Point target) {
+        HitBox h = o.getHitBox();
+        Point oldPos = h.getPosition();
+        h.setPosition(target);
+
+        boolean intersect = false;
+        List<PhysicEntity> entities = Core.getInstance().getScene().objects();
+        for (PhysicEntity e : entities) {
+            if (e.getPhysicObject() == o || !e.getPhysicObject().getHitBox().isSolid()) continue;
+
+            if (e.getPhysicObject().getHitBox().intersect(h)) {
+                intersect = true;
+                break;
+            }
+        }
+
+        h.setPosition(oldPos);
+        return intersect;
     }
 }
