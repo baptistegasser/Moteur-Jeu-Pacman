@@ -3,6 +3,7 @@ package fr.univ.engine.physic;
 import fr.univ.engine.math.Point;
 import fr.univ.engine.physic.hitbox.CircleHitBox;
 import fr.univ.engine.physic.hitbox.HitBox;
+import fr.univ.engine.physic.hitbox.SquareHitBox;
 
 public class PhysicObject {
 
@@ -13,12 +14,21 @@ public class PhysicObject {
 
     private Point pos;
 
-    public HitBox hitBox;
+    private HitBox hitBox;
 
     public PhysicObject(Point point) {
-        movement = new Point(0,0);
         pos = point;
-        hitBox = new CircleHitBox(0,0,0);
+        movement = new Point(0,0);
+        hitBox = new SquareHitBox(0);
+    }
+
+    public void setHitBox(HitBox hitBox) {
+        this.hitBox = hitBox;
+        this.hitBox.setPosition(pos);
+    }
+
+    public HitBox getHitBox() {
+        return hitBox;
     }
 
     public Point getPos() {

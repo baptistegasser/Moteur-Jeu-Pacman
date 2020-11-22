@@ -1,5 +1,7 @@
 package fr.univ.engine.physic;
 
+import fr.univ.engine.math.Point;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,9 +24,7 @@ public class PhysicEngine {
                 object.getPhysicObject().getPos().y += object.getPhysicObject().movement.y;
 
                 // displacement for hitBox
-                object.getPhysicObject().hitBox.setPosX(object.getPhysicObject().hitBox.getPosX() + object.getPhysicObject().movement.x);
-                object.getPhysicObject().hitBox.setPosY(object.getPhysicObject().hitBox.getPosY() + object.getPhysicObject().movement.y);
-                object.getPhysicObject().hitBox.updateShape();
+                object.getPhysicObject().getHitBox().setPosition(new Point(object.getPhysicObject().getHitBox().x() + object.getPhysicObject().movement.x, object.getPhysicObject().getHitBox().y() + object.getPhysicObject().movement.y));
             }
         }
 
@@ -56,13 +56,13 @@ public class PhysicEngine {
     private void collision(List<PhysicEntity> objects, PhysicEntity object) {
         for (PhysicEntity target : objects) {
             if (target != object) {
-                if (object.getPhysicObject().hitBox.intersect(target.getPhysicObject().hitBox)) {
+                if (object.getPhysicObject().getHitBox().intersect(target.getPhysicObject().getHitBox())) {
                     //TODO fonction d'affichage utile à enlever au final
-                    System.out.println("X : " + object.getPhysicObject().hitBox.getPosX() + " Y : " + object.getPhysicObject().hitBox.getPosY()
-                            + " Wight : " + object.getPhysicObject().hitBox.getWight());
+                    /*System.out.println("X : " + object.getPhysicObject().getHitBox().getPosX() + " Y : " + object.getPhysicObject().getHitBox().getPosY()
+                            + " Wight : " + object.getPhysicObject().getHitBox().getWight());
 
-                    System.out.println("X : " + target.getPhysicObject().hitBox.getPosX() + " Y : " + target.getPhysicObject().hitBox.getPosY()
-                            + " Wight : " + target.getPhysicObject().hitBox.getWight());
+                    System.out.println("X : " + target.getPhysicObject().getHitBox().getPosX() + " Y : " + target.getPhysicObject().getHitBox().getPosY()
+                            + " Wight : " + target.getPhysicObject().getHitBox().getWight());*/
 
                     object.onCollisionEnter(target.getPhysicObject());
                     break;

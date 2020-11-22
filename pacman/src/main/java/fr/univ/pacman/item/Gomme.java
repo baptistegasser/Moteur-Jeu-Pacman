@@ -8,14 +8,13 @@ import fr.univ.engine.physic.hitbox.SquareHitBox;
  * The class handling the logic of Gomme.
  */
 public class Gomme extends GameObject {
-    public Gomme(int posX, int posY) {
-        renderObject.pos = new Point(posX, posY);
+    public Gomme(int x, int y) {
+        super(x, y);
         renderObject.width = 3;
         renderObject.height = 3;
         renderObject.zIndex = 5;
         renderObject.textureName = "item/gomme.png";
 
-        this.physicObject.hitBox = new SquareHitBox(renderObject.pos.x,renderObject.pos.y,renderObject.width);
+        this.physicObject.setHitBox(new SquareHitBox(renderObject.width));
     }
-
 }

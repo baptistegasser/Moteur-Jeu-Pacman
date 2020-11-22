@@ -9,9 +9,8 @@ import fr.univ.engine.physic.hitbox.SquareHitBox;
  * The class handling the logic of Ghost.
  */
 public class Ghost extends GameObject {
-    public Ghost(int posX, int posY, String color) {
-        renderObject.pos.x = posX;
-        renderObject.pos.y = posY;
+    public Ghost(int x, int y, String color) {
+        super(x, y);
         renderObject.width = 22;
         renderObject.height = 22;
         renderObject.zIndex = 9;
@@ -40,7 +39,7 @@ public class Ghost extends GameObject {
         physicObject.movement = new Point(0,0);
 
         //TODO replace 8 by wight/2
-        this.physicObject.hitBox = new SquareHitBox(this.renderObject.pos.x, this.renderObject.pos.y, 8);
+        this.physicObject.setHitBox(new SquareHitBox(8));
     }
 
     @Override

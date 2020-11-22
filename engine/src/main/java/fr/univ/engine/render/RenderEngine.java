@@ -77,11 +77,11 @@ public class RenderEngine {
             e.update();
             renderObject(e.getRenderObject());
 
-            HitBox s = ((GameObject) e).getPhysicObject().hitBox;
+            HitBox s = ((GameObject) e).getPhysicObject().getHitBox();
             if (s instanceof SquareHitBox) {
-                viewPort.drawRect(s.getPosX(), s.getPosY(), s.getWight(), s.getWight());
+                viewPort.drawRect(s.x(), s.y(), ((SquareHitBox) s).width(), ((SquareHitBox) s).width());
             } else if (s instanceof CircleHitBox) {
-                viewPort.drawCircle(s.getPosX(), s.getPosY(), s.getWight());
+                viewPort.drawCircle(s.x(), s.y(), ((CircleHitBox) s).diameter());
             }
         }
     }
@@ -95,7 +95,7 @@ public class RenderEngine {
         Image texture = textureLoader.getTexture(o.textureName);
         // Ignore objects without texture
         if (texture != null) {
-            viewPort.drawImage(texture, o.pos.x, o.pos.y, o.width, o.height);
+            viewPort.drawImage(texture, o.x(), o.y(), o.width, o.height);
         }
     }
 

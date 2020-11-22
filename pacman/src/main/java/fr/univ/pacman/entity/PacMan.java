@@ -16,10 +16,8 @@ import java.util.logging.Level;
  * The class handling the logic of Pac-Man controlled by the player.
  */
 public class PacMan extends GameObject {
-    public PacMan(int posX, int posY) {
-        LoggingEngine.enableLogging(PacMan.class);
-        renderObject.pos.x = posX;
-        renderObject.pos.y = posY;
+    public PacMan(int x, int y) {
+        super(x, y);
         renderObject.width = 16;
         renderObject.height = 16;
         renderObject.zIndex = 10;
@@ -27,19 +25,20 @@ public class PacMan extends GameObject {
 
         physicObject.movement = new Point(0.5,0);
 
-        this.physicObject.hitBox = new SquareHitBox(this.renderObject.pos.x, this.renderObject.pos.y, this.renderObject.width);
-        if (this.physicObject.hitBox.getShape() instanceof Circle)
-            System.out.println(((Circle) this.physicObject.hitBox.getShape()).getRadius());
+        this.physicObject.setHitBox(new SquareHitBox(this.renderObject.width));
        }
 
     @Override
     public void onCollisionEnter(PhysicObject collider) {
         // Permet de RollBack lors d'une collision dans le précédente position //TODO A déplacer surement
+        // TODO Physic Engine check if isSolid
         this.physicObject.getPos().x -= this.physicObject.movement.x;
         this.physicObject.getPos().y -= this.physicObject.movement.y;
 
-        this.getPhysicObject().hitBox.setPosX(this.getPhysicObject().hitBox.getPosX() - this.getPhysicObject().movement.x);
-        this.getPhysicObject().hitBox.setPosY(this.getPhysicObject().hitBox.getPosY() - this.getPhysicObject().movement.y);
+        this.getPhysicObject().getHitBox().setPosition(
+                new Point(this.getPhysicObject().getHitBox().x() - this.getPhysicObject().movement.x,
+                        this.getPhysicObject().getHitBox().y() - this.getPhysicObject().movement.y
+                ));
     }
 
     @Override

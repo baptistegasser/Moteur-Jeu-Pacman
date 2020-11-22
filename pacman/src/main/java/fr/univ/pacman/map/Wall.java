@@ -5,12 +5,12 @@ import fr.univ.engine.math.Point;
 import fr.univ.engine.physic.hitbox.SquareHitBox;
 
 public class Wall extends GameObject {
-    public Wall(int posX, int posY) {
-        renderObject.pos = new Point(posX, posY);
+    public Wall(int x, int y) {
+        super(x, y);
         renderObject.width = 16;
         renderObject.height = 16;
 
         // The coordinates of square are on top left corner so subtracted half of tile_size
-        this.physicObject.hitBox = new SquareHitBox(renderObject.pos.x, renderObject.pos.y, renderObject.width);
+        this.physicObject.setHitBox(new SquareHitBox(renderObject.width));
     }
 }

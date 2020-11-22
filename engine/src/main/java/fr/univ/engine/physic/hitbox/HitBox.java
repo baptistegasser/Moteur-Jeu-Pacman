@@ -1,5 +1,6 @@
 package fr.univ.engine.physic.hitbox;
 
+import fr.univ.engine.math.Point;
 import javafx.scene.shape.Shape;
 
 /**
@@ -7,49 +8,28 @@ import javafx.scene.shape.Shape;
  */
 public abstract class HitBox implements Intersect {
     /**
-     * Center Pos
+     * The position of the HitBox, set to be the center.
      */
-    protected double posX;
-    protected double posY;
-    protected double wight;
-    protected Shape shape;
+    private Point position;
 
-    public HitBox(double posX, double posY, double wight) {
-        this.posX = posX;
-        this.posY = posY;
-        this.wight = wight;
+    public HitBox() {
+        this.position = new Point(0, 0);
     }
 
-    public double getPosX() {
-        return posX;
+    public HitBox(Point pos) {
+        this.position = pos;
     }
 
-    public void setPosX(double posX) {
-        this.posX = posX;
+    public double x() {
+        return position.x;
     }
 
-    public double getPosY() {
-        return posY;
+    public double y() {
+        return position.y;
     }
 
-    public void setPosY(double posY) {
-        this.posY = posY;
+    public void setPosition(Point position) {
+        this.position.x = position.x;
+        this.position.y = position.y;
     }
-
-    public double getWight() {
-        return wight;
-    }
-
-    public void setWight(double wight) {
-        this.wight = wight;
-    }
-
-    public Shape getShape() {
-        return shape;
-    }
-
-    /**
-     * Function permit to modifie HitBox
-     */
-    public abstract void updateShape();
 }

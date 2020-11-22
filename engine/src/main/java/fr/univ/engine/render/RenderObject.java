@@ -9,7 +9,7 @@ public class RenderObject {
     /**
      * The position at which to render the object.
      */
-    public Point pos;
+    private Point pos;
     /**
      * The name of the texture to display.
      */
@@ -33,5 +33,13 @@ public class RenderObject {
         height = 1.0;
         zIndex = 0;
         textureName = null;
+    }
+
+    public double x() {
+        return pos.x;
+    }
+
+    public double y() {
+        return pos.y;
     }
 }

@@ -6,14 +6,14 @@ import javafx.scene.shape.Circle;
  * The HitBox for circle object
  */
 public class CircleHitBox extends HitBox {
-    public CircleHitBox(double posX, double posY, double wight) {
-        super(posX, posY, wight);
-        shape = new Circle(posX,posY,wight/2);
+    private double diameter;
+
+    public CircleHitBox(double diameter) {
+        this.diameter = diameter;
     }
 
-    @Override
-    public void updateShape() {
-        shape = new Circle(posX,posY,wight/2);
+    public double diameter() {
+        return diameter;
     }
 
     /**
@@ -26,10 +26,10 @@ public class CircleHitBox extends HitBox {
 
     @Override
     public boolean intersect(CircleHitBox h2) {
-        double dx = posX - h2.posX;
-        double dy = posY - h2.posY;
+        double dx = x() - h2.x();
+        double dy = y() - h2.y();
         double distance = Math.sqrt(dx * dx + dy * dy);
 
-        return distance < wight/2 + wight/2;
+        return distance < diameter/2 + h2.diameter/2;
     }
 }

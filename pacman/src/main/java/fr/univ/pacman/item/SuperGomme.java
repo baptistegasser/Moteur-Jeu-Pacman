@@ -8,14 +8,14 @@ import fr.univ.engine.physic.hitbox.SquareHitBox;
  * The class handling the logic of Super Gomme.
  */
 public class SuperGomme extends GameObject {
-    public SuperGomme(int posX, int posY) {
-        renderObject.pos = new Point(posX, posY);
+    public SuperGomme(int x, int y) {
+        super(x, y);
         renderObject.width = 10;
         renderObject.height = 10;
         renderObject.zIndex = 5;
         renderObject.textureName = "item/superGomme.png";
 
-        this.physicObject.hitBox = new SquareHitBox(renderObject.pos.x,renderObject.pos.y,renderObject.width);
+        this.physicObject.setHitBox(new SquareHitBox(renderObject.width));
     }
 
 }

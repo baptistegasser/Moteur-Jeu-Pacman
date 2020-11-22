@@ -6,26 +6,25 @@ import javafx.scene.shape.Rectangle;
  * The HitBox for rectangle object
  */
 public class SquareHitBox extends HitBox {
+    private double width;
 
-    public SquareHitBox(double posX, double posY, double wight) {
-        super(posX, posY, wight);
-        shape = new Rectangle(this.posX-(wight/2),this.posY-(wight/2),wight,wight);
+    public SquareHitBox(double width) {
+        this.width = width;
     }
 
-    @Override
-    public void updateShape() {
-        shape = new Rectangle(posX-(wight/2),posY-(wight/2),wight,wight);
+    public double width() {
+        return width;
     }
 
     @Override
     public boolean intersect(SquareHitBox h2) {
         // Size between two center element
-        double sizeBetweenElements = (wight + h2.wight)/2;
+        double sizeBetweenElements = (width + h2.width)/2;
 
-        return posX - h2.posX < sizeBetweenElements &&
-                posX - h2.posX > -sizeBetweenElements &&
-                posY - h2.posY < sizeBetweenElements &&
-                posY - h2.posY > -sizeBetweenElements;
+        return x() - h2.x() < sizeBetweenElements &&
+                x() - h2.x() > -sizeBetweenElements &&
+                y() - h2.y() < sizeBetweenElements &&
+                y() - h2.y() > -sizeBetweenElements;
     }
 
     /**
