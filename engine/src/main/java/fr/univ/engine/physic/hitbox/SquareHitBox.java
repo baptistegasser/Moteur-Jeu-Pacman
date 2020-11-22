@@ -1,11 +1,12 @@
 package fr.univ.engine.physic.hitbox;
 
-import javafx.scene.shape.Rectangle;
-
 /**
  * The HitBox for rectangle object
  */
 public class SquareHitBox extends HitBox {
+    /**
+     * Return the width of the hitbox
+     */
     private double width;
 
     public SquareHitBox(double width) {
@@ -16,6 +17,11 @@ public class SquareHitBox extends HitBox {
         return width;
     }
 
+    /**
+     * Handle colision betwen 2 square hitbox
+     * @param h2 the {@code SquareHitBox} to test
+     * @return Return true if there is a colision between the current object and h2
+     */
     @Override
     public boolean intersect(SquareHitBox h2) {
         // Size between two center element

@@ -1,11 +1,12 @@
 package fr.univ.engine.physic.hitbox;
 
-import javafx.scene.shape.Circle;
-
 /**
  * The HitBox for circle object
  */
 public class CircleHitBox extends HitBox {
+    /**
+     * The diameter of the circle
+     */
     private double diameter;
 
     public CircleHitBox(double diameter) {
@@ -24,6 +25,11 @@ public class CircleHitBox extends HitBox {
         return false;
     }
 
+    /**
+     * Handle colision betwen 2 circle hitbox
+     * @param h2 the {@code CircleHitBox} to test
+     * @return Return true if there is a colision between the current object and h2
+     */
     @Override
     public boolean intersect(CircleHitBox h2) {
         double dx = x() - h2.x();
