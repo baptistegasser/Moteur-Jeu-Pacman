@@ -12,18 +12,35 @@ public class PhysicObject {
      */
     public Vector direction;
 
+    /**
+     * The position of the physic object
+     */
     private Point pos;
 
+    /**
+     * The hitbox of the physic object
+     */
     private HitBox hitBox;
 
+    /**
+     * The name of the physic object
+     */
     private String name;
 
+    /**
+     * Create a physic object at the given position
+     * @param point The start position
+     */
     public PhysicObject(Point point) {
         pos = point;
         direction = new Vector(0,0);
         hitBox = new SquareHitBox(0);
     }
 
+    /**
+     * Set the hitbox of the object
+     * @param hitBox The hitbox of the oject
+     */
     public void setHitBox(HitBox hitBox) {
         this.hitBox = hitBox;
         this.hitBox.setPosition(pos);
@@ -33,6 +50,9 @@ public class PhysicObject {
         return hitBox;
     }
 
+    /**
+     * @return The current position of the object
+     */
     public Point getPos() {
         return pos;
     }
