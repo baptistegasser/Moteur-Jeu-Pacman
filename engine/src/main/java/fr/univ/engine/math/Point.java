@@ -1,9 +1,7 @@
 package fr.univ.engine.math;
 
-import java.util.Objects;
-
 /**
- * Representation of a position in 2D space.
+ * Representation of a point in 2D space.
  */
 public class Point {
     public double x;
@@ -14,9 +12,14 @@ public class Point {
         this.y = y;
     }
 
-    public Point(Point p) {
-        this.x = p.x;
-        this.y = p.y;
+    /**
+     * Add a vector to this point.
+     *
+     * @param vector the vector to add
+     */
+    public void add(Vector vector) {
+        this.x = vector.x();
+        this.y = vector.y();
     }
 
     @Override
