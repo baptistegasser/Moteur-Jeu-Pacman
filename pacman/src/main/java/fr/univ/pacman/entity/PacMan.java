@@ -2,12 +2,15 @@ package fr.univ.pacman.entity;
 
 import fr.univ.engine.core.GameObject;
 import fr.univ.engine.io.IOEngine;
+import fr.univ.engine.logging.LoggingEngine;
 import fr.univ.engine.math.Point;
 import fr.univ.engine.math.Vector;
 import fr.univ.engine.physic.PhysicEngine;
 import fr.univ.engine.physic.PhysicObject;
 import fr.univ.engine.physic.hitbox.SquareHitBox;
 import javafx.scene.input.KeyCode;
+
+import java.util.logging.Level;
 
 /**
  * The class handling the logic of Pac-Man controlled by the player.
@@ -36,12 +39,24 @@ public class PacMan extends GameObject {
         physicObject.direction = new Vector(0.5,0);
 
         this.physicObject.setHitBox(new SquareHitBox(this.renderObject.width));
+
+        LoggingEngine.enableLogging(getClass());
        }
 
     @Override
     public void onCollisionEnter(PhysicObject collider) {
-        if (collider.name().equals("WALL")) {
-            getPhysicObject().direction = new Vector(0, 0);
+        switch (collider.name()) {
+            case "WALL":
+                getPhysicObject().direction = new Vector(0, 0);
+                break;
+            case "GOMME":
+                LoggingEngine.log(Level.INFO, "Pac-Man eat a Pac.");
+                break;
+            case "SUPER-GOMME":
+                LoggingEngine.log(Level.INFO, "Pac-Man eat a super Pac !");
+        }
+        if (collider.name().startsWith("GHOST-")) {
+            LoggingEngine.log(Level.INFO, "Got caught by a ghost !");
         }
     }
 
@@ -61,16 +76,16 @@ public class PacMan extends GameObject {
             Vector vDir = new Vector(0, 0);
             switch (nextDirection) {
                 case UP:
-                    vDir.setY(-0.5);
+                    vDir.setY(-speed);
                     break;
                 case DOWN:
-                    vDir.setY(0.5);
+                    vDir.setY(speed);
                     break;
                 case LEFT:
-                    vDir.setX(-0.5);
+                    vDir.setX(-speed);
                     break;
                 case RIGHT:
-                    vDir.setX(0.5);
+                    vDir.setX(speed);
                     break;
             }
             target.x += vDir.x();
