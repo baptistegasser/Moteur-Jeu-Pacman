@@ -15,11 +15,10 @@ public class PhysicEngine {
         List<PhysicEntity> returnObject = new ArrayList<>();
 
         for (PhysicEntity object : objects) {
-            if (object.getPhysicObject().movement.x != 0 || object.getPhysicObject().movement.y != 0) {
+            if (object.getPhysicObject().direction.magnitude() != 0) {
                 returnObject.add(object);
                 // displacement for physic and render
-                object.getPhysicObject().getPos().x += object.getPhysicObject().movement.x;
-                object.getPhysicObject().getPos().y += object.getPhysicObject().movement.y;
+                object.getPhysicObject().getPos().add(object.getPhysicObject().direction);
             }
         }
 
@@ -64,8 +63,7 @@ public class PhysicEngine {
 
                     // Rollback pos if hit
                     if (tgt.getHitBox().isSolid()) {
-                        obj.getPos().x -= obj.movement.x;
-                        obj.getPos().y -= obj.movement.y;
+                        obj.getPos().add(obj.direction.reverse());
                     }
 
                     object.onCollisionEnter(tgt);

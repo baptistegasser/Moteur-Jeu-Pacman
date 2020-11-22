@@ -1,7 +1,7 @@
 package fr.univ.engine.physic;
 
 import fr.univ.engine.math.Point;
-import fr.univ.engine.physic.hitbox.CircleHitBox;
+import fr.univ.engine.math.Vector;
 import fr.univ.engine.physic.hitbox.HitBox;
 import fr.univ.engine.physic.hitbox.SquareHitBox;
 
@@ -10,7 +10,7 @@ public class PhysicObject {
     /**
      * The direction and velocity of the entity
      */
-    public Point movement;
+    public Vector direction;
 
     private Point pos;
 
@@ -20,7 +20,7 @@ public class PhysicObject {
 
     public PhysicObject(Point point) {
         pos = point;
-        movement = new Point(0,0);
+        direction = new Vector(0,0);
         hitBox = new SquareHitBox(0);
     }
 

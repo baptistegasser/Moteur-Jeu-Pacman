@@ -2,6 +2,7 @@ package fr.univ.pacman.entity;
 
 import fr.univ.engine.core.GameObject;
 import fr.univ.engine.math.Point;
+import fr.univ.engine.math.Vector;
 import fr.univ.engine.physic.PhysicObject;
 import fr.univ.engine.physic.hitbox.SquareHitBox;
 
@@ -38,7 +39,7 @@ public class Ghost extends GameObject {
             e.printStackTrace();
         }
 
-        physicObject.movement = new Point(0,0);
+        physicObject.direction = new Vector(0,0);
 
         //TODO replace 8 by wight/2
         this.physicObject.setHitBox(new SquareHitBox(8));

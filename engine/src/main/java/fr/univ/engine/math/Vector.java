@@ -6,6 +6,9 @@ package fr.univ.engine.math;
 public class Vector {
     private double x;
     private double y;
+    /**
+     * The magnitude (length) of this vector.
+     */
     private double magnitude;
 
     public Vector(double x, double y) {

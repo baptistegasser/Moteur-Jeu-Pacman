@@ -77,6 +77,7 @@ public class RenderEngine {
             e.update();
             renderObject(e.getRenderObject());
 
+            if(true) continue;
             HitBox s = ((GameObject) e).getPhysicObject().getHitBox();
             if (s instanceof SquareHitBox) {
                 viewPort.drawRect(s.x(), s.y(), ((SquareHitBox) s).width(), ((SquareHitBox) s).width());
