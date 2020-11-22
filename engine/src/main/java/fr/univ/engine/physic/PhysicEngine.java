@@ -56,7 +56,7 @@ public class PhysicEngine {
     private void collision(List<PhysicEntity> objects, PhysicEntity object) {
         for (PhysicEntity target : objects) {
             if (target != object) {
-                if (intersect(object, target)) {
+                if (object.getPhysicObject().hitBox.intersect(target.getPhysicObject().hitBox)) {
                     //TODO fonction d'affichage utile à enlever au final
                     System.out.println("X : " + object.getPhysicObject().hitBox.getPosX() + " Y : " + object.getPhysicObject().hitBox.getPosY()
                             + " Wight : " + object.getPhysicObject().hitBox.getWight());
@@ -69,22 +69,5 @@ public class PhysicEngine {
                 }
             }
         }
-    }
-
-    /**
-     * Function permit to limited pass in intersect {@link PhysicEngine::collision}
-     * Compare the distance between two object
-     * @param object first object
-     * @param target second object
-     * @return if two object are in collision
-     */
-    private boolean intersect(PhysicEntity object, PhysicEntity target) {
-        // Size between two center element
-        double sizeBetweenElements = (object.getPhysicObject().hitBox.getWight() + target.getPhysicObject().hitBox.getWight())/2;
-
-        return object.getPhysicObject().hitBox.getPosX() - target.getPhysicObject().hitBox.getPosX() < sizeBetweenElements &&
-                object.getPhysicObject().hitBox.getPosX() - target.getPhysicObject().hitBox.getPosX() > -sizeBetweenElements &&
-                object.getPhysicObject().hitBox.getPosY() - target.getPhysicObject().hitBox.getPosY() < sizeBetweenElements &&
-                object.getPhysicObject().hitBox.getPosY() - target.getPhysicObject().hitBox.getPosY() > -sizeBetweenElements;
     }
 }

@@ -5,7 +5,7 @@ import javafx.scene.shape.Shape;
 /**
  * Represent the HitBox of object
  */
-public abstract class HitBox {
+public abstract class HitBox implements Intersect {
     /**
      * Center Pos
      */
