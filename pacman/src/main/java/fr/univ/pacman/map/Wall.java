@@ -11,6 +11,6 @@ public class Wall extends GameObject {
         renderObject.height = 16;
 
         // The coordinates of square are on top left corner so subtracted half of tile_size
-        this.physicObject.hitBox = new SquareHitBox(renderObject.pos.x - (Map.TILE_SIZE/2), renderObject.pos.y - (Map.TILE_SIZE/2), renderObject.width);
+        this.physicObject.hitBox = new SquareHitBox(renderObject.pos.x, renderObject.pos.y, renderObject.width);
     }
 }
