@@ -105,9 +105,8 @@ class ViewPort {
     }
 
     public void drawRect(double x, double y, double w, double h) {
-        //don't subtracted half of size because HitBox manages this
-        double x1 = x + center.x;
-        double y1 = y + center.y;
+        double x1 = x - w / 2 + center.x;
+        double y1 = y - h / 2 + center.y;
 
         RenderEngine.runOnFXThread(() -> {
             ctx.setStroke(Color.RED);
@@ -118,9 +117,9 @@ class ViewPort {
     }
 
     public void drawCircle(double centerX, double centerY, double radius) {
-        //don't subtracted half of size because the coordinate point to the center
         double x1 = (centerX + center.x) - radius;
         double y1 = (centerY + center.y) - radius;
+
         RenderEngine.runOnFXThread(() -> {
             ctx.setStroke(Color.GREEN);
             ctx.strokeOval(x1, y1, radius*2, radius*2);
