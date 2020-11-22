@@ -18,6 +18,8 @@ import java.util.logging.Level;
 public class PacMan extends GameObject {
     public PacMan(int x, int y) {
         super(x, y);
+        setName("PAC-MAN");
+
         renderObject.width = 16;
         renderObject.height = 16;
         renderObject.zIndex = 10;
@@ -30,15 +32,9 @@ public class PacMan extends GameObject {
 
     @Override
     public void onCollisionEnter(PhysicObject collider) {
-        // Permet de RollBack lors d'une collision dans le précédente position //TODO A déplacer surement
-        // TODO Physic Engine check if isSolid
-        this.physicObject.getPos().x -= this.physicObject.movement.x;
-        this.physicObject.getPos().y -= this.physicObject.movement.y;
-
-        this.getPhysicObject().getHitBox().setPosition(
-                new Point(this.getPhysicObject().getHitBox().x() - this.getPhysicObject().movement.x,
-                        this.getPhysicObject().getHitBox().y() - this.getPhysicObject().movement.y
-                ));
+        if (collider.name().equals("WALL")) {
+            getPhysicObject().movement = new Point(0, 0);
+        }
     }
 
     @Override

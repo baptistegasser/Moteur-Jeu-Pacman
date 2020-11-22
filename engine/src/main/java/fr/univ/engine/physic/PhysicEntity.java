@@ -29,4 +29,6 @@ public interface PhysicEntity {
      */
     default void onCollisionEnter(PhysicObject collider) {
     }
+
+    int getId();
 }

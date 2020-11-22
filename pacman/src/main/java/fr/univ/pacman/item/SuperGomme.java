@@ -10,6 +10,8 @@ import fr.univ.engine.physic.hitbox.SquareHitBox;
 public class SuperGomme extends GameObject {
     public SuperGomme(int x, int y) {
         super(x, y);
+        setName("SUPER-GOMME");
+
         renderObject.width = 10;
         renderObject.height = 10;
         renderObject.zIndex = 5;

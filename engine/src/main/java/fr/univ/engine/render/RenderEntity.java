@@ -19,4 +19,6 @@ public interface RenderEntity {
      */
     default void update() {
     }
+
+    int getId();
 }

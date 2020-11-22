@@ -27,6 +27,8 @@ public class RenderObject {
      */
     public int zIndex;
 
+    private String name;
+
     public RenderObject(Point point) {
         pos = point;
         width = 1.0;
@@ -41,5 +43,13 @@ public class RenderObject {
 
     public double y() {
         return pos.y;
+    }
+
+    public String name() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

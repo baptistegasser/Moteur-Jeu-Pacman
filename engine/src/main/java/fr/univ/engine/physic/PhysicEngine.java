@@ -1,7 +1,5 @@
 package fr.univ.engine.physic;
 
-import fr.univ.engine.math.Point;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,9 +20,6 @@ public class PhysicEngine {
                 // displacement for physic and render
                 object.getPhysicObject().getPos().x += object.getPhysicObject().movement.x;
                 object.getPhysicObject().getPos().y += object.getPhysicObject().movement.y;
-
-                // displacement for hitBox
-                object.getPhysicObject().getHitBox().setPosition(new Point(object.getPhysicObject().getHitBox().x() + object.getPhysicObject().movement.x, object.getPhysicObject().getHitBox().y() + object.getPhysicObject().movement.y));
             }
         }
 
@@ -56,7 +51,10 @@ public class PhysicEngine {
     private void collision(List<PhysicEntity> objects, PhysicEntity object) {
         for (PhysicEntity target : objects) {
             if (target != object) {
-                if (object.getPhysicObject().getHitBox().intersect(target.getPhysicObject().getHitBox())) {
+                PhysicObject obj = object.getPhysicObject();
+                PhysicObject tgt = target.getPhysicObject();
+
+                if (obj.getHitBox().intersect(tgt.getHitBox())) {
                     //TODO fonction d'affichage utile à enlever au final
                     /*System.out.println("X : " + object.getPhysicObject().getHitBox().getPosX() + " Y : " + object.getPhysicObject().getHitBox().getPosY()
                             + " Wight : " + object.getPhysicObject().getHitBox().getWight());
@@ -64,8 +62,14 @@ public class PhysicEngine {
                     System.out.println("X : " + target.getPhysicObject().getHitBox().getPosX() + " Y : " + target.getPhysicObject().getHitBox().getPosY()
                             + " Wight : " + target.getPhysicObject().getHitBox().getWight());*/
 
-                    object.onCollisionEnter(target.getPhysicObject());
-                    break;
+                    // Rollback pos if hit
+                    if (tgt.getHitBox().isSolid()) {
+                        obj.getPos().x -= obj.movement.x;
+                        obj.getPos().y -= obj.movement.y;
+                    }
+
+                    object.onCollisionEnter(tgt);
+                    target.onCollisionEnter(obj);
                 }
             }
         }

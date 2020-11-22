@@ -12,12 +12,10 @@ public abstract class HitBox implements Intersect {
      */
     private Point position;
 
+    private boolean isSolid = false;
+
     public HitBox() {
         this.position = new Point(0, 0);
-    }
-
-    public HitBox(Point pos) {
-        this.position = pos;
     }
 
     public double x() {
@@ -29,7 +27,14 @@ public abstract class HitBox implements Intersect {
     }
 
     public void setPosition(Point position) {
-        this.position.x = position.x;
-        this.position.y = position.y;
+        this.position = position;
+    }
+
+    public boolean isSolid() {
+        return isSolid;
+    }
+
+    public void setSolid(boolean solid) {
+        isSolid = solid;
     }
 }

@@ -11,6 +11,8 @@ import fr.univ.engine.physic.hitbox.SquareHitBox;
 public class Ghost extends GameObject {
     public Ghost(int x, int y, String color) {
         super(x, y);
+        setName("GHOST-" + color.toUpperCase());
+
         renderObject.width = 22;
         renderObject.height = 22;
         renderObject.zIndex = 9;

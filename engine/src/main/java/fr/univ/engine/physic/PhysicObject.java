@@ -16,6 +16,8 @@ public class PhysicObject {
 
     private HitBox hitBox;
 
+    private String name;
+
     public PhysicObject(Point point) {
         pos = point;
         movement = new Point(0,0);
@@ -33,5 +35,13 @@ public class PhysicObject {
 
     public Point getPos() {
         return pos;
+    }
+
+    public String name() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }
