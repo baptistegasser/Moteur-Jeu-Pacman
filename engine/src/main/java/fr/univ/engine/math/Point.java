@@ -13,6 +13,13 @@ public class Point {
     }
 
     /**
+     * @return a deep copy of this point.
+     */
+    public Point copy() {
+        return new Point(x, y);
+    }
+
+    /**
      * Add a vector to this point.
      *
      * @param vector the vector to add
