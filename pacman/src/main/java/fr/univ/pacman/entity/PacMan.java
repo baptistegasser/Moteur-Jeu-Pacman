@@ -2,11 +2,14 @@ package fr.univ.pacman.entity;
 
 import fr.univ.engine.core.GameObject;
 import fr.univ.engine.io.IOEngine;
+import fr.univ.engine.logging.LoggingEngine;
 import fr.univ.engine.math.Point;
 import fr.univ.engine.math.Vector;
 import fr.univ.engine.physic.PhysicObject;
 import fr.univ.engine.physic.hitbox.SquareHitBox;
 import javafx.scene.input.KeyCode;
+
+import java.util.logging.Level;
 
 /**
  * The class handling the logic of Pac-Man controlled by the player.
@@ -44,5 +47,10 @@ public class PacMan extends GameObject {
 
         // Only update if we actually moved
         if(dir.magnitude() != 0) this.physicObject.direction = dir;
+    }
+
+    @Override
+    public void fixedUpdate(double t, double dt) {
+        LoggingEngine.log(Level.INFO, "Physic go brr");
     }
 }

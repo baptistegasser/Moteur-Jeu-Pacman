@@ -9,12 +9,15 @@ public class PhysicEngine {
      * Function call for object movement in mainLoop
      *
      * @param objects all Object in a game
+     * @param t
+     * @param dt
      * @return only object that have moved
      */
-    private List<PhysicEntity> move(List<PhysicEntity> objects) {
+    private List<PhysicEntity> move(List<PhysicEntity> objects, double t, double dt) {
         List<PhysicEntity> returnObject = new ArrayList<>();
 
         for (PhysicEntity object : objects) {
+            object.fixedUpdate(t, dt);
             if (object.getPhysicObject().direction.magnitude() != 0) {
                 returnObject.add(object);
                 // displacement for physic and render
@@ -34,7 +37,7 @@ public class PhysicEngine {
      */
     public void integrate(List<PhysicEntity> objects, double t, double dt) {
         // Move all of object
-        List<PhysicEntity> movedObjects = move(objects);
+        List<PhysicEntity> movedObjects = move(objects, t, dt);
         // Check for collision
         for (PhysicEntity o : movedObjects) {
             collision(objects, o);
