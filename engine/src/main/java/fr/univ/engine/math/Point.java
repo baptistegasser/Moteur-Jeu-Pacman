@@ -18,8 +18,8 @@ public class Point {
      * @param vector the vector to add
      */
     public void add(Vector vector) {
-        this.x = vector.x();
-        this.y = vector.y();
+        this.x += vector.x();
+        this.y += vector.y();
     }
 
     @Override
