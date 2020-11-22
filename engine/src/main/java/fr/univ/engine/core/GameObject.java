@@ -20,10 +20,12 @@ public abstract class GameObject implements RenderEntity, PhysicEntity {
      */
     protected final PhysicObject physicObject;
 
-    private Point pos;
-
     protected GameObject() {
-        pos = new Point(0,0);
+        this(0, 0);
+    }
+
+    protected GameObject(double x, double y) {
+        Point pos = new Point(x, y);
         this.physicObject = new PhysicObject(pos);
         this.renderObject = new RenderObject(pos);
     }
