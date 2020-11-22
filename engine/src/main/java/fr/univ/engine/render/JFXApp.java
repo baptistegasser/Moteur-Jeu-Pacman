@@ -1,5 +1,6 @@
 package fr.univ.engine.render;
 
+import com.sun.javafx.application.PlatformImpl;
 import fr.univ.engine.io.KeyEventHandler;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -83,13 +84,15 @@ public final class JFXApp extends Application {
         canvas.widthProperty().bind(stage.widthProperty());
         canvas.heightProperty().bind(stage.heightProperty());
 
+        primaryStage.setOnCloseRequest(t -> stop());
+
         latch.countDown();
     }
 
     @Override
-    public void stop() throws Exception {
-        super.stop();
+    public void stop() {
         isClosing.set(true);
+        PlatformImpl.exit();
     }
 
     /**
