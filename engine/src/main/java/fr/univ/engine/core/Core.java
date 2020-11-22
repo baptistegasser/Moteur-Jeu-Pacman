@@ -11,6 +11,7 @@ import java.util.logging.Level;
 
 /**
  * The core engine, charged to link all subsequent engines.
+ * Their can be only one instance at a time of the Core engine.
  */
 public final class Core {
     /**
@@ -21,7 +22,14 @@ public final class Core {
      * Should the engine's main loop pause ?
      */
     private boolean pause = false;
+    /**
+     * The singleton instance of the core engine.
+     */
+    private static Core instance;
 
+    /**
+     * The current game scene.
+     */
     private Scene scene;
 
     /**
@@ -43,6 +51,12 @@ public final class Core {
      * Initialize the engine.
      */
     public Core() {
+        if (instance != null) {
+            throw new IllegalStateException("Core Engine already instantiated");
+        } else {
+            instance = this;
+        }
+
         this.renderEngine = new RenderEngine();
         this.physicEngine = new PhysicEngine();
         this.ioEngine = IOEngine.getInstance();
@@ -171,5 +185,19 @@ public final class Core {
      */
     public void unpause() {
         pause = false;
+    }
+
+    /**
+     * @return the running instance of the core engine, might be null before init
+     */
+    public static Core getInstance() {
+        return instance;
+    }
+
+    /**
+     * @return the current game scene.
+     */
+    public Scene getScene() {
+        return scene;
     }
 }
