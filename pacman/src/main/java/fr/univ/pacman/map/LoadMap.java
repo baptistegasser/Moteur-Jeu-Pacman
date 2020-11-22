@@ -1,5 +1,8 @@
 package fr.univ.pacman.map;
 
+import fr.univ.pacman.item.Gomme;
+import fr.univ.pacman.item.SuperGomme;
+
 public class LoadMap {
 
     /**
@@ -27,6 +30,18 @@ public class LoadMap {
                     int y = (i*tileSize)-mapHeight;
 
                     map.add(new Wall(x, y));
+                } else if (mapMatrice[i][j] == 2) {
+                    // Calcul the position of the object
+                    int x = (j*tileSize)-mapWight;
+                    int y = (i*tileSize)-mapHeight;
+
+                    map.add(new Gomme(x, y));
+                } else if (mapMatrice[i][j] == 3) {
+                    // Calcul the position of the object
+                    int x = (j*tileSize)-mapWight;
+                    int y = (i*tileSize)-mapHeight;
+
+                    map.add(new SuperGomme(x, y));
                 }
             }
         }

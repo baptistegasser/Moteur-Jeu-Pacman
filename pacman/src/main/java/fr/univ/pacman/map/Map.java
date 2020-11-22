@@ -24,26 +24,9 @@ public class Map extends Scene {
 
         add(new PacMan(0, 32));
 
-        // Space between two gomme is 16 pixels
-        add(new SuperGomme(72, 80));
-        add(new Gomme(56, 80));
-        add(new Gomme(40, 80));
-        add(new Gomme(24, 80));
-        add(new Gomme(24, 96));
-        add(new Gomme(24, 112));
-        add(new Gomme(24, 128));
-        add(new Gomme(40, 128));
-        add(new Gomme(56, 128));
-        add(new Gomme(8, 128));
-        add(new Gomme(-8, 128));
-        add(new Gomme(-24, 128));
-        add(new Gomme(-24, 80));
-        add(new Gomme(-24, 96));
-        add(new Gomme(-24, 112));
-
-        add(new Ghost(104,80,"orange"));
-        add(new Ghost(-120,48,"red"));
-        add(new Ghost(0,-32,"blue"));
-        add(new Ghost(200,-224,"pink"));
+        add(new Ghost(32,-16,"orange"));
+        add(new Ghost(0,-48,"red"));
+        add(new Ghost(0,-16,"blue"));
+        add(new Ghost(-32,-16,"pink"));
     }
 }
