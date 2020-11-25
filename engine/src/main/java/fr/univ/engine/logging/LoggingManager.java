@@ -11,7 +11,7 @@ import java.util.logging.Level;
  *
  * Implementation consist in allowing all, except explicitly blocked packages.
  */
-class LoggingManager {
+public class LoggingManager {
     /**
      * The current logging level.
      * Log with a lower level don't even deserve to be logged
@@ -187,7 +187,7 @@ class LoggingManager {
     /**
      * @return the current logging level.
      */
-    public Level getLevel() {
+    Level getLevel() {
         return level;
     }
 
@@ -196,7 +196,7 @@ class LoggingManager {
      *
      * @param level the new level
      */
-    public void setLevel(Level level) {
+    void setLevel(Level level) {
         this.level = level;
     }
 }
