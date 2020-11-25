@@ -96,6 +96,6 @@ final class DisplayColor {
      * @return a color base on the index
      */
     public static Color get(Object o) {
-        return colors[o.hashCode() % (colorsCount - 1)];
+        return colors[Math.abs(o.hashCode()) % (colorsCount - 1)];
     }
 }
