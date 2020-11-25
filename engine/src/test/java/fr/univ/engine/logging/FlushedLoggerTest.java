@@ -9,22 +9,16 @@ import java.util.logging.Level;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Tests for the {@link SingletonLogger} class.
+ * Tests for the {@link FlushedLogger} class.
  */
-class SingletonLoggerTest {
+class FlushedLoggerTest {
     private final static PrintStream standardOut = System.out;
     private final static ByteArrayOutputStream outputStreamCaptor = new ByteArrayOutputStream();
-    private static SingletonLogger logger;
+    private static FlushedLogger logger;
 
-    /**
-     * Assert correct instanciation of singleton.
-     */
     @BeforeAll
-    static void getInstance() {
+    static void beforeAll() {
         System.setOut(new PrintStream(outputStreamCaptor));
-
-        assertNotNull(SingletonLogger.getInstance());
-        logger = SingletonLogger.getInstance();
     }
 
     @AfterAll
@@ -35,7 +29,7 @@ class SingletonLoggerTest {
     @BeforeEach
     void setUp() {
         outputStreamCaptor.reset();
-        logger.setAutoColor(false); // Assert default set to false
+        logger = new FlushedLogger();
     }
 
     /**
@@ -52,7 +46,7 @@ class SingletonLoggerTest {
      */
     @Test
     void assertLogOutput() {
-        String expected = "[~? in fr.univ.engine.logging.SingletonLoggerTest#assertLogOutput()] - [INFO] - test message for logging";
+        String expected = "[~? in fr.univ.engine.logging.FlushedLoggerTest#assertLogOutput()] - [INFO] - test message for logging";
         logger.log(Level.INFO, "test message for logging");
         assertEquals(expected, outputStreamCaptor.toString().trim());
     }
@@ -63,7 +57,7 @@ class SingletonLoggerTest {
     @Test
     void setAutoColor() {
         logger.setAutoColor(true);
-        String expected = "\u001b[38;2;255;36;0m[~? in fr.univ.engine.logging.SingletonLoggerTest#setAutoColor()] - [INFO] - test message for logging\u001b[0m\n";
+        String expected = "\u001b[38;2;255;191;0m[~? in fr.univ.engine.logging.FlushedLoggerTest#setAutoColor()] - [INFO] - test message for logging\u001b[0m\n";
         logger.log(Level.INFO, "test message for logging");
         assertEquals(expected, outputStreamCaptor.toString());
     }

@@ -21,9 +21,9 @@ public final class LoggingEngine {
      * The logger charged of logging messages.
      *
      * @see ColorFormatter for the log formatting
-     * @see SingletonLogger for the configuration
+     * @see FlushedLogger for the configuration
      */
-    private static final SingletonLogger logger = SingletonLogger.getInstance();
+    private static final FlushedLogger logger = new FlushedLogger();
 
     /**
      * The list of class that can/should log.

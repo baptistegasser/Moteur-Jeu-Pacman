@@ -4,24 +4,21 @@ import java.io.OutputStream;
 import java.util.logging.*;
 
 /**
- * Singleton logger used by the logging engine.
- * Hide implementation and config from other classes.
+ * A simple logger that force flushing messages.
+ * Flushing each message increment cost but reduce time
+ * waited before seing a message.
  * Log level is set as INFO by default.
  *
  * "I mean, it's boring who would want to see this", Baptiste G. 2020
  */
-class SingletonLogger extends Logger {
-    /**
-     * The singleton instance.
-     */
-    private static SingletonLogger instance;
+class FlushedLogger extends Logger {
     /**
      * Keep a reference to the Logger handler
      */
     private final FlushedStreamHandler handler;
 
-    private SingletonLogger() {
-        super(SingletonLogger.class.getName(), null);
+    public FlushedLogger() {
+        super(FlushedLogger.class.getName(), null);
         // Init logger
         setLevel(Level.INFO);
 
@@ -36,16 +33,6 @@ class SingletonLogger extends Logger {
      */
     public void setAutoColor(boolean autoColor) {
         ((ColorFormatter) handler.getFormatter()).setAutoColor(autoColor);
-    }
-
-    /**
-     * @return this singleton instance.
-     */
-    public static SingletonLogger getInstance() {
-        if (instance == null) {
-            instance = new SingletonLogger();
-        }
-        return instance;
     }
 
     /**
@@ -69,5 +56,4 @@ class SingletonLogger extends Logger {
             flush(); // Force the flush on publish
         }
     }
-
 }
