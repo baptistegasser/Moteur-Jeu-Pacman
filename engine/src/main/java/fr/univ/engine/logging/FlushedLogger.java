@@ -19,13 +19,20 @@ class FlushedLogger extends Logger {
 
     public FlushedLogger() {
         super(FlushedLogger.class.getName(), null);
-        // Init logger
-        setLevel(Level.INFO);
 
         // Use custom handler and prevent default handlers
         handler = new FlushedStreamHandler();
         addHandler(handler);
         setUseParentHandlers(false);
+
+        // Init logger
+        setLevel(Level.INFO);
+    }
+
+    @Override
+    public void setLevel(Level newLevel) throws SecurityException {
+        super.setLevel(newLevel);
+        handler.setLevel(newLevel);
     }
 
     /**
@@ -47,7 +54,6 @@ class FlushedLogger extends Logger {
 
         public FlushedStreamHandler(OutputStream out) {
             super(out, new ColorFormatter());
-            this.setLevel(Level.ALL);
         }
 
         @Override
