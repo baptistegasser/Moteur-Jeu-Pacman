@@ -39,8 +39,6 @@ public class PacMan extends GameObject {
         physicObject.direction = new Vector(0.5,0);
 
         this.physicObject.setHitBox(new SquareHitBox(this.renderObject.width));
-
-        LoggingEngine.enableLogging(getClass());
        }
 
     @Override
@@ -50,13 +48,13 @@ public class PacMan extends GameObject {
                 getPhysicObject().direction = new Vector(0, 0);
                 break;
             case "GOMME":
-                LoggingEngine.log(Level.INFO, "Pac-Man eat a Pac.");
+                LoggingEngine.info("Pac-Man eat a Pac.");
                 break;
             case "SUPER-GOMME":
-                LoggingEngine.log(Level.INFO, "Pac-Man eat a super Pac !");
+                LoggingEngine.info("Pac-Man eat a super Pac !");
         }
         if (collider.name().startsWith("GHOST-")) {
-            LoggingEngine.log(Level.INFO, "Got caught by a ghost !");
+            LoggingEngine.info("Got caught by a ghost !");
         }
     }
 

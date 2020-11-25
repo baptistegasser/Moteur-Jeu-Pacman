@@ -11,11 +11,22 @@ import java.util.logging.SimpleFormatter;
 class ColorFormatter extends SimpleFormatter {
     private boolean autoColor = false;
 
+    /**
+     * Format the given LogRecord.
+     * The record can contains parameters:
+     *  * 0: (String or int) the line of code that logged
+     *  * 1: (javafx.scene.paint.Color) the color to use
+     *
+     * @param record the log record to be formatted
+     * @return a formatted string representing the log record
+     */
     @Override
-    public String format(LogRecord record) {
-        String sourceLine = (String) record.getParameters()[0];
+    public String format(final LogRecord record) {
+        // Retrieve source line and color while handling null case
+        String sourceLine = parseSourceLine(record.getParameters());
+        Color color = parseColor(record.getParameters());
 
-        // [line in class#method()] - [LEVEL] - The message
+        // [~line in class#method()] - [LEVEL] - The message
         String message = String.format(
                 "[~%s in %s#%s()] - [%s] - %s",
                 sourceLine,
@@ -24,17 +35,51 @@ class ColorFormatter extends SimpleFormatter {
                 record.getLevel(),
                 record.getMessage());
 
-        Color color = (Color) record.getParameters()[1];
         // Handle log with no color
         if (color == null) {
             if (autoColor) {
-                color = generateColor(sourceLine + record.getSourceClassName() + record.getSourceMethodName());
+                color = DisplayColor.get(sourceLine + record.getSourceClassName() + record.getSourceMethodName());
                 return colorString(color, message) + "\n";
             } else {
                 return message + "\n";
             }
         } else {
             return colorString(color, message) + "\n";
+        }
+    }
+
+    /**
+     * Attempt to retrieve a valid string or int representing the line number.
+     * Attempt to find the info in {@code params[0]}.
+     *
+     * @param params the parameters of a record
+     * @return the line as a string, or "?" if not found
+     */
+    private String parseSourceLine(Object[] params) {
+        if (params == null || params.length < 1) {
+            return "?";
+        }
+        if (params[0] instanceof String) {
+            return (String) params[0];
+        } else if (params[0] instanceof Integer) {
+            return String.valueOf(params[0]);
+        } else {
+            return "?";
+        }
+    }
+
+    /**
+     * Attempt to retrieve a valid Color representing the color of this message.
+     * Attempt to find the info in {@code params[1]}.
+     *
+     * @param params the parameters of a record
+     * @return the color instance, or null if not found
+     */
+    private Color parseColor(Object[] params) {
+        if (params == null || params.length < 2 || !(params[1] instanceof Color)) {
+            return null;
+        } else {
+            return (Color) params[1];
         }
     }
 
@@ -55,31 +100,9 @@ class ColorFormatter extends SimpleFormatter {
     }
 
     /**
-     * Generate a relatively unique color based on multiple values.
-     * The idea is to concat all strings, get the hashcode of thi new
-     * string and turn it into an index used to get one of the display colors.
-     * The result is not truly unique due to hash collision and limited color list.
-     *
-     * @param s1 the first string, need at least one
-     * @param ss the other strings
-     * @return a color instance
-     */
-    public static Color generateColor(final String s1, final String... ss) {
-        StringBuilder sb = new StringBuilder(s1);
-        for (String sx : ss) {
-            sb.append(sx);
-        }
-        final String concat = sb.toString();
-
-        int index = Math.abs(concat.hashCode()) % (DisplayColor.colorsCount-1);
-        return DisplayColor.colors[index];
-    }
-
-    /**
      * Set if the formatter should automatically set a color if none is given.
      *
      * @param autoColor the new value
-     * @see #generateColor(String, String...) on how the color is chosen
      */
     public void setAutoColor(boolean autoColor) {
         this.autoColor = autoColor;

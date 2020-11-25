@@ -88,7 +88,6 @@ public final class Core {
      */
     public void start() {
         LoggingEngine.setLevel(Level.INFO);
-        LoggingEngine.enableLogging(Core.class);
         LoggingEngine.setAutoColor(true);
 
         renderEngine.start();
@@ -158,7 +157,7 @@ public final class Core {
                 // Display FPS TODO move to render
                 if (currentTime - startFrames >= 1) {
                     startFrames = currentTime;
-                    LoggingEngine.log(Level.INFO, "FPS: " + frames, Color.DARKCYAN);
+                    LoggingEngine.info("FPS: " + frames, Color.DARKCYAN);
                     frames = 0;
                 }
             }

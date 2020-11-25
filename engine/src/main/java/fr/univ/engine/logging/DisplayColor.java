@@ -6,8 +6,11 @@ import javafx.scene.paint.Color;
  * Valid colors to use for display, these color should be
  * readable on most console hopefully.
  */
-public class DisplayColor {
-    public final static Color[] colors = new Color[] {
+final class DisplayColor {
+    /**
+     * The actual valid colors list.
+     */
+    private final static Color[] colors = new Color[]{
             Color.rgb(229, 43, 80),
             Color.rgb(255, 191, 0),
             Color.rgb(251, 206, 177),
@@ -80,5 +83,19 @@ public class DisplayColor {
             Color.rgb(255, 255, 0)
     };
 
+    /**
+     * Number of colors.
+     */
     public static final int colorsCount = colors.length;
+
+    /**
+     * Return an color based on an object's hashcode.
+     * The result is not truly unique due to hash collision and limited color list.
+     *
+     * @param o the object to use to get the hashcode
+     * @return a color base on the index
+     */
+    public static Color get(Object o) {
+        return colors[Math.abs(o.hashCode()) % (colorsCount - 1)];
+    }
 }
