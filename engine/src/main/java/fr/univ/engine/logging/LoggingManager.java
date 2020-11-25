@@ -48,9 +48,8 @@ public class LoggingManager {
     }
 
     /**
-     * Check if a level is valid <-> if it's superior to the current level.
-     * If a level is superior or equal to the current logging level it can
-     * be displayed/saved, else, no.
+     * Check if a level is valid (can be displayed).
+     * A level is valid if it's superior to the current level.
      *
      * @param lvl the level to test
      * @return true if lvl is superior or equal to the current logging level
