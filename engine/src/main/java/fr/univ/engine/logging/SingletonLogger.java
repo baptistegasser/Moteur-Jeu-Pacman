@@ -10,18 +10,18 @@ import java.util.logging.*;
  *
  * "I mean, it's boring who would want to see this", Baptiste G. 2020
  */
-class LoggerSingleton extends Logger {
+class SingletonLogger extends Logger {
     /**
      * The singleton instance.
      */
-    private static LoggerSingleton instance;
+    private static SingletonLogger instance;
     /**
      * Keep a reference to the Logger handler
      */
     private final FlushedStreamHandler handler;
 
-    private LoggerSingleton() {
-        super(LoggerSingleton.class.getName(), null);
+    private SingletonLogger() {
+        super(SingletonLogger.class.getName(), null);
         // Init logger
         setLevel(Level.INFO);
 
@@ -41,9 +41,9 @@ class LoggerSingleton extends Logger {
     /**
      * @return this singleton instance.
      */
-    public static LoggerSingleton getInstance() {
+    public static SingletonLogger getInstance() {
         if (instance == null) {
-            instance = new LoggerSingleton();
+            instance = new SingletonLogger();
         }
         return instance;
     }

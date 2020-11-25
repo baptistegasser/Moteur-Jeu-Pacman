@@ -9,12 +9,12 @@ import java.util.logging.Level;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Tests for the {@link LoggerSingleton} class.
+ * Tests for the {@link SingletonLogger} class.
  */
-class LoggerSingletonTest {
+class SingletonLoggerTest {
     private final static PrintStream standardOut = System.out;
     private final static ByteArrayOutputStream outputStreamCaptor = new ByteArrayOutputStream();
-    private static LoggerSingleton logger;
+    private static SingletonLogger logger;
 
     /**
      * Assert correct instanciation of singleton.
@@ -23,8 +23,8 @@ class LoggerSingletonTest {
     static void getInstance() {
         System.setOut(new PrintStream(outputStreamCaptor));
 
-        assertNotNull(LoggerSingleton.getInstance());
-        logger = LoggerSingleton.getInstance();
+        assertNotNull(SingletonLogger.getInstance());
+        logger = SingletonLogger.getInstance();
     }
 
     @AfterAll
