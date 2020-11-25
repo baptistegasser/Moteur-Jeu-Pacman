@@ -1,7 +1,10 @@
 package fr.univ.engine.logging;
 
 import java.io.OutputStream;
-import java.util.logging.*;
+import java.util.logging.Level;
+import java.util.logging.LogRecord;
+import java.util.logging.Logger;
+import java.util.logging.StreamHandler;
 
 /**
  * A simple logger that force flushing messages.
