@@ -79,4 +79,18 @@ class ColorFormatterTest {
         assertEquals(autoColor, formatter.format(info));
         assertEquals(redColor, formatter.format(redInfo));
     }
+
+    /**
+     * Assert source line number can be passed as string too.
+     */
+    @Test
+    void testStringSourceLine() {
+        final int i = (int) fullSevere.getParameters()[0];
+        fullSevere.setParameters(new Object[] { String.valueOf(i) });
+
+        final String full = "[~95 in package.my.class#methodName()] - [SEVERE] - A severe log\n";
+        assertEquals(full, formatter.format(fullSevere));
+
+        fullSevere.getParameters()[0] = i;
+    }
 }
