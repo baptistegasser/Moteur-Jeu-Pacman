@@ -13,6 +13,11 @@ public abstract class HitBox implements Intersect {
     private Point position;
 
     /**
+     * Return the width of the hitbox
+     */
+    protected double size;
+
+    /**
      * Specifiy if an object is solid
      * An object can be solid such as a wall, or not, like a Gomme
      * Pacman colide with solid objects.
@@ -21,6 +26,7 @@ public abstract class HitBox implements Intersect {
 
     public HitBox() {
         this.position = new Point(0, 0);
+        this.size = 0;
     }
 
     /**
@@ -48,6 +54,13 @@ public abstract class HitBox implements Intersect {
      */
     public Point getPosition() {
         return position;
+    }
+
+    /**
+     * @return the wight of the hitbox
+     */
+    public double getSize() {
+        return size;
     }
 
     /**

@@ -4,17 +4,10 @@ package fr.univ.engine.physic.hitbox;
  * The HitBox for circle object
  */
 public class CircleHitBox extends HitBox {
-    /**
-     * The diameter of the circle
-     */
-    private double diameter;
 
-    public CircleHitBox(double diameter) {
-        this.diameter = diameter;
-    }
-
-    public double diameter() {
-        return diameter;
+    public CircleHitBox(double size) {
+        // Size is a diameter of circle
+        this.size = size;
     }
 
     /**
@@ -36,6 +29,6 @@ public class CircleHitBox extends HitBox {
         double dy = y() - h2.y();
         double distance = Math.sqrt(dx * dx + dy * dy);
 
-        return distance < diameter/2 + h2.diameter/2;
+        return distance < size/2 + h2.size/2;
     }
 }

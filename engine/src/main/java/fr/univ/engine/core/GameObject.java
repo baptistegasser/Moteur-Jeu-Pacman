@@ -89,8 +89,8 @@ public abstract class GameObject implements RenderEntity, PhysicEntity {
      * Destroy an object, he don't have render and physic
      */
     public void destroy() {
-        Point point = new Point(0,0);
-        this.renderObject = new RenderObject(point);
-        this.physicObject = new PhysicObject(point);
+        Point pos = new Point(0, 0);
+        this.physicObject = new PhysicObject(pos);
+        this.renderObject = new RenderObject(pos);
     }
 }

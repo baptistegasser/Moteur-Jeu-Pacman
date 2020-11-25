@@ -56,7 +56,8 @@ public class PhysicEngine {
      */
     private void collision(List<PhysicEntity> objects, PhysicEntity object) {
         for (PhysicEntity target : objects) {
-            if (target != object) {
+            // Don't test on same object and on empty object
+            if (target != object && target.getPhysicObject().getHitBox().getSize() > 0) {
                 PhysicObject obj = object.getPhysicObject();
                 PhysicObject tgt = target.getPhysicObject();
 

@@ -4,17 +4,10 @@ package fr.univ.engine.physic.hitbox;
  * The HitBox for rectangle object
  */
 public class SquareHitBox extends HitBox {
-    /**
-     * Return the width of the hitbox
-     */
-    private double width;
 
-    public SquareHitBox(double width) {
-        this.width = width;
-    }
-
-    public double width() {
-        return width;
+    public SquareHitBox(double size) {
+        // Size is a width of square
+        this.size = size;
     }
 
     /**
@@ -25,7 +18,7 @@ public class SquareHitBox extends HitBox {
     @Override
     public boolean intersect(SquareHitBox h2) {
         // Size between two center element
-        double sizeBetweenElements = (width + h2.width)/2;
+        double sizeBetweenElements = (size + h2.size)/2;
 
         return x() - h2.x() < sizeBetweenElements &&
                 x() - h2.x() > -sizeBetweenElements &&

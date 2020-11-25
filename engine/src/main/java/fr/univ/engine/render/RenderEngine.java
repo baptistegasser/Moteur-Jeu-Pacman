@@ -80,9 +80,9 @@ public class RenderEngine {
             if(true) continue;
             HitBox s = ((GameObject) e).getPhysicObject().getHitBox();
             if (s instanceof SquareHitBox) {
-                viewPort.drawRect(s.x(), s.y(), ((SquareHitBox) s).width(), ((SquareHitBox) s).width());
+                viewPort.drawRect(s.x(), s.y(), s.getSize(), s.getSize());
             } else if (s instanceof CircleHitBox) {
-                viewPort.drawCircle(s.x(), s.y(), ((CircleHitBox) s).diameter());
+                viewPort.drawCircle(s.x(), s.y(), s.getSize());
             }
         }
     }
