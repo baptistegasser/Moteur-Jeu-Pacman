@@ -28,7 +28,7 @@ class ColorFormatter extends SimpleFormatter {
         // Handle log with no color
         if (color == null) {
             if (autoColor) {
-                color = generateColor(sourceLine + record.getSourceClassName() + record.getSourceMethodName());
+                color = DisplayColor.get(sourceLine + record.getSourceClassName() + record.getSourceMethodName());
                 return colorString(color, message) + "\n";
             } else {
                 return message + "\n";
@@ -55,31 +55,9 @@ class ColorFormatter extends SimpleFormatter {
     }
 
     /**
-     * Generate a relatively unique color based on multiple values.
-     * The idea is to concat all strings, get the hashcode of thi new
-     * string and turn it into an index used to get one of the display colors.
-     * The result is not truly unique due to hash collision and limited color list.
-     *
-     * @param s1 the first string, need at least one
-     * @param ss the other strings
-     * @return a color instance
-     */
-    public static Color generateColor(final String s1, final String... ss) {
-        StringBuilder sb = new StringBuilder(s1);
-        for (String sx : ss) {
-            sb.append(sx);
-        }
-        final String concat = sb.toString();
-
-        int index = Math.abs(concat.hashCode()) % (DisplayColor.colorsCount-1);
-        return DisplayColor.colors[index];
-    }
-
-    /**
      * Set if the formatter should automatically set a color if none is given.
      *
      * @param autoColor the new value
-     * @see #generateColor(String, String...) on how the color is chosen
      */
     public void setAutoColor(boolean autoColor) {
         this.autoColor = autoColor;
