@@ -2,6 +2,7 @@ package fr.univ.pacman.item;
 
 import fr.univ.engine.core.GameObject;
 import fr.univ.engine.math.Point;
+import fr.univ.engine.physic.PhysicObject;
 import fr.univ.engine.physic.hitbox.SquareHitBox;
 
 /**
@@ -18,5 +19,13 @@ public class Gomme extends GameObject {
         renderObject.textureName = "item/gomme.png";
 
         this.physicObject.setHitBox(new SquareHitBox(renderObject.width));
+    }
+
+    @Override
+    public void onCollisionEnter(PhysicObject collider) {
+        if (collider.name().equals("PAC-MAN")) {
+            System.out.println("Gagne 10 points");
+            this.destroy();
+        }
     }
 }

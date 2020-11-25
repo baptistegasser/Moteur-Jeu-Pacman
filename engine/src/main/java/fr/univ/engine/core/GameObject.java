@@ -22,12 +22,12 @@ public abstract class GameObject implements RenderEntity, PhysicEntity {
     /**
      * The render component used to display this object.
      */
-    protected final RenderObject renderObject;
+    protected RenderObject renderObject;
 
     /**
      * The render component used to display this object.
      */
-    protected final PhysicObject physicObject;
+    protected PhysicObject physicObject;
 
     /**
      * Allow to identify a GameObject, might not unique.
@@ -83,5 +83,14 @@ public abstract class GameObject implements RenderEntity, PhysicEntity {
     @Override
     public int getId() {
         return ID;
+    }
+
+    /**
+     * Destroy an object, he don't have render and physic
+     */
+    public void destroy() {
+        Point point = new Point(0,0);
+        this.renderObject = new RenderObject(point);
+        this.physicObject = new PhysicObject(point);
     }
 }
