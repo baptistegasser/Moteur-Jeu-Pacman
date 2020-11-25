@@ -2,21 +2,15 @@ package fr.univ.engine.logging;
 
 import javafx.scene.paint.Color;
 
-import java.util.HashSet;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.*;
+import java.util.logging.Level;
+import java.util.logging.LogRecord;
 
 /**
- * Offer logging methods and utilities for the game engine's modules.
- * We can't force a class to log.
- * However a class will be prevented to log if its not part of the declared {@link #targetsClasses} classes.
+ * Engine charged of offering a simple api to log messages with support
+ * for formatting, coloring and managing right of classes and packages to log.
  */
 public final class LoggingEngine {
-    /**
-     * Time unit in which the display should be done.
-     * Default to milliseconds.
-     */
-    private static TimeUnit unit = TimeUnit.MILLISECONDS;
     /**
      * The logger charged of logging messages.
      *
@@ -24,12 +18,10 @@ public final class LoggingEngine {
      * @see FlushedLogger for the configuration
      */
     private static final FlushedLogger logger = new FlushedLogger();
-
     /**
-     * The list of class that can/should log.
-     * Stored as string to allow easier reflexion.
+     * Manager charged to determine which class is allowed to log.
      */
-    private static final HashSet<String> targetsClasses = new HashSet<>();
+    private static final LoggingManager manager = new LoggingManager();
 
     /**
      * Set the log level specifying which message levels will be logged.
@@ -37,55 +29,15 @@ public final class LoggingEngine {
      * @param newLevel the new value for the log level (may be null)
      */
     public static void setLevel(Level newLevel) {
+        manager.setLevel(newLevel);
         logger.setLevel(newLevel);
     }
 
     /**
-     * Change the time unit used to display time values.
-     *
-     * @param unit the new time unit
-     * @see #logElapsedTime(long, long, String) as it use it to format elapsed time from nanoseconds value
+     * @return the {@link LoggingManager} used by the engine.
      */
-    public static void setTimeUnit(TimeUnit unit) {
-        LoggingEngine.unit = unit;
-    }
-
-    /**
-     * Test if a class is able to log.
-     *
-     * @param c the class to test
-     * @return true if this class should log
-     */
-    public static boolean canLog(Class<?> c) {
-        return canLog(c.getName());
-    }
-
-    /**
-     * Test if the class name is one of the target classes.
-     *
-     * @param className the name to test
-     * @return true if a target class allowed to log
-     */
-    private static boolean canLog(String className) {
-        return targetsClasses.contains(className);
-    }
-
-    /**
-     * Enable the possibility for a class to log messages.
-     *
-     * @param c the target class
-     */
-    public static void enableLogging(Class<?> c) {
-        targetsClasses.add(c.getName());
-    }
-
-    /**
-     * Disable the possibility for a class to log messages.
-     *
-     * @param c the target class
-     */
-    public static void disableLogging(Class<?> c) {
-        targetsClasses.remove(c.getName());
+    public static LoggingManager manager() {
+        return manager;
     }
 
     /**
@@ -96,120 +48,185 @@ public final class LoggingEngine {
     }
 
     /**
-     * Log a simple message with a level.
+     * Log a message with a given level.
      *
-     * @param level the level of logging
+     * @param level the level of this message
      * @param msg   the message to log
      */
-    public static void log(Level level, final String msg) {
-        // Ignore class not allowed to log
-        if (!canLog(getCallerClassName())) return;
-
-        logp(level, msg, getCallerInfos(), null);
+    public static void log(Level level, String msg) {
+        logImpl(level, msg, null);
     }
 
     /**
-     * Log a simple message with a level and color.
+     * Log a colored message with a given level.
      *
-     * @param level the level of logging
+     * @param level the level of this message
      * @param msg   the message to log
-     * @param color the color to display the text in
+     * @param color the color to use on the text
      */
-    public static void log(Level level, final String msg, Color color) {
-        // Ignore class not allowed to log
-        if (!canLog(getCallerClassName())) return;
+    public static void log(Level level, String msg, Color color) {
+        logImpl(level, msg, color);
+    }
 
-        logp(level, msg, getCallerInfos(), color);
+    /**
+     * Log a SEVERE message.
+     *
+     * @param msg the message to log
+     */
+    public static void severe(String msg) {
+        logImpl(Level.SEVERE, msg, null);
+    }
+
+    /**
+     * Log a colored SEVERE message.
+     *
+     * @param msg   the message to log
+     * @param color the color to use on the text
+     */
+    public static void severe(String msg, Color color) {
+        logImpl(Level.SEVERE, msg, color);
+    }
+
+    /**
+     * Log a WARNING message.
+     *
+     * @param msg the message to log
+     */
+    public static void warning(String msg) {
+        logImpl(Level.WARNING, msg, null);
+    }
+
+    /**
+     * Log a colored WARNING message.
+     *
+     * @param msg   the message to log
+     * @param color the color to use on the text
+     */
+    public static void warning(String msg, Color color) {
+        logImpl(Level.WARNING, msg, color);
+    }
+
+    /**
+     * Log a INFO message.
+     *
+     * @param msg the message to log
+     */
+    public static void info(String msg) {
+        logImpl(Level.INFO, msg, null);
+    }
+
+    /**
+     * Log a colored INFO message.
+     *
+     * @param msg   the message to log
+     * @param color the color to use on the text
+     */
+    public static void info(String msg, Color color) {
+        logImpl(Level.INFO, msg, color);
+    }
+
+    /**
+     * Log a FINE message.
+     *
+     * @param msg the message to log
+     */
+    public static void fine(String msg) {
+        logImpl(Level.FINE, msg, null);
+    }
+
+    /**
+     * Log a colored FINE message.
+     *
+     * @param msg   the message to log
+     * @param color the color to use on the text
+     */
+    public static void fine(String msg, Color color) {
+        logImpl(Level.FINE, msg, color);
+    }
+
+    /**
+     * Log a FINER message.
+     *
+     * @param msg the message to log
+     */
+    public static void finer(String msg) {
+        logImpl(Level.FINER, msg, null);
+    }
+
+    /**
+     * Log a colored FINER message.
+     *
+     * @param msg   the message to log
+     * @param color the color to use on the text
+     */
+    public static void finer(String msg, Color color) {
+        logImpl(Level.FINER, msg, color);
+    }
+
+    /**
+     * Log a FINEST message.
+     *
+     * @param msg the message to log
+     */
+    public static void finest(String msg) {
+        logImpl(Level.FINEST, msg, null);
+    }
+
+    /**
+     * Log a colored FINEST message.
+     *
+     * @param msg   the message to log
+     * @param color the color to use on the text
+     */
+    public static void finest(String msg, Color color) {
+        logImpl(Level.FINEST, msg, color);
     }
 
     /**
      * Log the time elapsed to run something like a method.
+     * This is considered automatically to be of FINEST level.
      *
-     * @param start        the time at which the counter started in NANOSECONDS
-     * @param end          the time at which the counter ended in NANOSECONDS
+     * @param start  the time at which the counter started in NANOSECONDS
+     * @param end    the time at which the counter ended in NANOSECONDS
      * @param target the target that was run
      */
     public static void logElapsedTime(long start, long end, String target) {
-        // Ignore class not allowed to log
-        if (!canLog(getCallerClassName())) return;
-
         // "class#method() took X UnitOfTimes"
         String msg = String.format("%s took %d %s",
                 target,
-                unit.convert(end - start, TimeUnit.NANOSECONDS),
-                unit.toString());
+                TimeUnit.MILLISECONDS.convert(end - start, TimeUnit.NANOSECONDS),
+                TimeUnit.MILLISECONDS.toString());
 
-        logp(Level.FINEST, msg, getCallerInfos(), null);
+        logImpl(Level.FINEST, msg, null);
     }
 
     /**
-     * Log with color the time elapsed to run something like a method.
+     * The implementation behind public log methods.
+     * Log a message with a given level and color and take charge
+     * of retrieving information on the caller class, method and line number.
      *
-     * @param start        the time at which the counter started in NANOSECONDS
-     * @param end          the time at which the counter ended in NANOSECONDS
-     * @param target the target that was run
-     * @param color the color to display
-     */
-    public static void logElapsedTime(long start, long end, String target, Color color) {
-        // Ignore class not allowed to log
-        if (!canLog(getCallerClassName())) return;
-
-        // "class#method() took X UnitOfTimes"
-        String msg = String.format("%s took %d %s",
-                target,
-                unit.convert(end - start, TimeUnit.NANOSECONDS),
-                unit.toString());
-
-        logp(Level.FINEST, msg, getCallerInfos(), color);
-    }
-
-    /**
-     * Get the information that we want logged.
-     * - 0: the name of the class who contain the method that called to log a message
-     * - 1: the name of the method that called to log a message
-     * - 2: the line that called to log a message
-     *
-     * @return a string array containing the relevant informations
-     * @apiNote This method should be called by the first method called by the original caller
-     * as going further will result in the wrong StackTraceElement being chosen.
-     */
-    private static String[] getCallerInfos() {
-        String[] infos = new String[3];
-        // 0 = thread, 1 = this method, 2 = caller of this method, 3 = true caller
-        StackTraceElement s = Thread.currentThread().getStackTrace()[3];
-
-        infos[0] = s.getClassName().replace("fr.univ.engine.", "");
-        infos[1] = s.getMethodName();
-        infos[2] = String.valueOf(s.getLineNumber());
-
-        return infos;
-    }
-
-    /**
-     * @return the name of the class who called the caller of this method
-     */
-    private static String getCallerClassName() {
-        // 0 = thread, 1 = this method, 2 = caller of this method, 3 = true caller
-        return Thread.currentThread().getStackTrace()[3].getClassName();
-    }
-
-    /**
-     * Log a message with it's different infos and a color.
-     *
-     * @param level the level of logging
+     * @param level the level of this message
      * @param msg   the message to log
-     * @param infos the infos of this log
-     * @param color the color of the message, null will let the default terminal color
-     * @see #getCallerInfos() for the content of the infos array
      */
-    private static void logp(Level level, String msg, String[] infos, Color color) {
+    private static void logImpl(Level level, String msg, Color color) {
+        // Don't try to log message that won't be shown
+        if (!manager.checkLevel(level)) {
+            return;
+        }
+
+        // 0 = thread, 1 = this method, 2 = caller of this method, 3 = true caller
+        StackTraceElement e = Thread.currentThread().getStackTrace()[3];
+
+        // Don't log message if the class is not allowed
+        if (!manager.checkName(e.getClassName())) {
+            return;
+        }
+
+        // Create the log record
         LogRecord record = new LogRecord(level, msg);
-
-        record.setSourceClassName(infos[0]);
-        record.setSourceMethodName(infos[1]);
-
-        record.setParameters(new Object[]{infos[2], color});
-
+        record.setParameters(new Object[]{e.getLineNumber(), color});
+        record.setSourceClassName(e.getClassName().replace("fr.univ.engine.", ""));
+        record.setSourceMethodName(e.getMethodName());
         logger.log(record);
     }
 }
