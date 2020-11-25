@@ -52,7 +52,7 @@ class SingletonLoggerTest {
      */
     @Test
     void assertLogOutput() {
-        String expected = "[~? in fr.univ.engine.logging.LoggerSingletonTest#assertLogOutput()] - [INFO] - test message for logging";
+        String expected = "[~? in fr.univ.engine.logging.SingletonLoggerTest#assertLogOutput()] - [INFO] - test message for logging";
         logger.log(Level.INFO, "test message for logging");
         assertEquals(expected, outputStreamCaptor.toString().trim());
     }
@@ -63,7 +63,7 @@ class SingletonLoggerTest {
     @Test
     void setAutoColor() {
         logger.setAutoColor(true);
-        String expected = "\u001b[38;2;222;49;99m[~? in fr.univ.engine.logging.LoggerSingletonTest#setAutoColor()] - [INFO] - test message for logging\u001b[0m\n";
+        String expected = "\u001b[38;2;255;36;0m[~? in fr.univ.engine.logging.SingletonLoggerTest#setAutoColor()] - [INFO] - test message for logging\u001b[0m\n";
         logger.log(Level.INFO, "test message for logging");
         assertEquals(expected, outputStreamCaptor.toString());
     }
