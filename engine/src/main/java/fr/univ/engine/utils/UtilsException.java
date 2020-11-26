@@ -1,8 +1,8 @@
 package fr.univ.engine.utils;
 
 /**
- * Exceptions related to the  package usage.
- */ // util exception
+ * Exceptions related to the CachedResourcesLoader usage.
+ */
 class UtilsException extends RuntimeException {
     public UtilsException(String message) {
         super(message);

@@ -3,6 +3,7 @@ package fr.univ.engine.utils;
 import javafx.scene.image.Image;
 import javafx.scene.media.Media;
 
+import java.io.File;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
@@ -24,6 +25,9 @@ public class CachedResourcesLoader {
      */
     private final HashMap<String, Image> cachedImages;
 
+    /**
+     * The cache mapping keys to load media
+     */
     private final HashMap<String, Media> cachedMedia;
 
     /**
@@ -96,6 +100,72 @@ public class CachedResourcesLoader {
     public void precacheImages(List<String> paths) {
         for (String filePath : paths) {
             getTexture(filePath);
+        }
+    }
+
+
+
+    /**
+     * Load a media from the cache or file system.
+     *
+     * @param filePath the path to the media file
+     * @return the media instance or null if not found/loaded
+     */
+    public Media getMedia(String filePath) {
+        // Don't even bother with null values
+        if (filePath == null) {
+            return null;
+        }
+
+        // If texture is cached return it
+        if (cachedMedia.containsKey(filePath)) {
+            return cachedMedia.get(filePath);
+        }
+
+        try {
+            Media media = tryLoadMedia(filePath);
+            cachedMedia.put(filePath, media);
+            return media;
+        } catch (UtilsException e) {
+            // We failed to load the sound
+            // Log the error, cache the null value and return null
+            System.err.println("Failed to load media:");
+            System.err.println(e.getMessage());
+            cachedMedia.put(filePath, null);
+            return null;
+        }
+    }
+
+    /**
+     * Attempt to load a media from a file.
+     *
+     * @param filePath the path to the media file
+     * @return a {@link javafx.scene.media.Media} instance containing the media data
+     * @throws IllegalArgumentException if the path is not valid or the media fail to load
+     */
+    public Media tryLoadMedia(String filePath) throws UtilsException {
+        // Get InputStream, assert not null
+        InputStream is = getClass().getClassLoader().getResourceAsStream(folder + filePath);
+        if (is == null) {
+            throw new UtilsException(String.format("No file found at '%s'", folder + filePath));
+        }
+
+        // Load media, cache it, return it
+        try {
+            return new Media(is.toString());
+        } catch (Exception e) {
+            throw new UtilsException(String.format("Error instantiating javafx.scene.media.Media from file '%s'", folder + filePath), e);
+        }
+    }
+
+    /**
+     * Cache the given list of medias by loading them once.
+     *
+     * @param paths the list of medias to load
+     */
+    public void precacheSounds(List<String> paths) {
+        for (String filePath : paths) {
+            getMedia(filePath);
         }
     }
 }
