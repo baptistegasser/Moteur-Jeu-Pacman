@@ -1,6 +1,8 @@
-package fr.univ.engine.render;
+package fr.univ.engine.utils;
 
+import fr.univ.engine.utils.UtilException;
 import javafx.scene.image.Image;
+import javafx.scene.media.Media;
 
 import java.io.InputStream;
 import java.util.HashMap;
@@ -21,14 +23,17 @@ public class CachedResourcesLoader {
     /**
      * The cache mapping keys to loaded textures.
      */
-    private final HashMap<String, Image> cache;
+    private final HashMap<String, Image> cachedImages;
+
+    private final HashMap<String, Media> cachedMedia;
 
     /**
      * @param folder the resources folder to use as root to locate textures.
      */
     public CachedResourcesLoader(String folder) {
         this.folder = folder;
-        this.cache = new HashMap<>();
+        this.cachedImages = new HashMap<>();
+        this.cachedMedia = new HashMap<>();
     }
 
     /**
@@ -44,20 +49,20 @@ public class CachedResourcesLoader {
         }
 
         // If texture is cached return it
-        if (cache.containsKey(filePath)) {
-            return cache.get(filePath);
+        if (cachedImages.containsKey(filePath)) {
+            return cachedImages.get(filePath);
         }
 
         try {
             Image texture = tryLoadImage(filePath);
-            cache.put(filePath, texture);
+            cachedImages.put(filePath, texture);
             return texture;
-        } catch (RenderException e) {
+        } catch (UtilException e) {
             // We failed to load the image
             // Log the error, cache the null value and return null
             System.err.println("Failed to load texture:");
             System.err.println(e.getMessage());
-            cache.put(filePath, null);
+            cachedImages.put(filePath, null);
             return null;
         }
     }
@@ -69,18 +74,18 @@ public class CachedResourcesLoader {
      * @return a {@link javafx.scene.image.Image} instance containing the image data
      * @throws IllegalArgumentException if the path is not valid or the image fail to load
      */
-    private Image tryLoadImage(String filePath) throws RenderException {
+    public Image tryLoadImage(String filePath) throws UtilException {
         // Get InputStream, assert not null
         InputStream is = getClass().getClassLoader().getResourceAsStream(folder + filePath);
         if (is == null) {
-            throw new RenderException(String.format("No file found at '%s'", folder + filePath));
+            throw new UtilException(String.format("No file found at '%s'", folder + filePath));
         }
 
         // Load texture, cache it, return it
         try {
             return new Image(is);
         } catch (Exception e) {
-            throw new RenderException(String.format("Error instantiating javafx.scene.image.Image from file '%s'", folder + filePath), e);
+            throw new UtilException(String.format("Error instantiating javafx.scene.image.Image from file '%s'", folder + filePath), e);
         }
     }
 

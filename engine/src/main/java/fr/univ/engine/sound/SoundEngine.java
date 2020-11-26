@@ -1,6 +1,6 @@
 package fr.univ.engine.sound;
 
-import fr.univ.engine.render.CachedResourcesLoader;
+import fr.univ.engine.utils.CachedResourcesLoader;
 import java.io.File;
 import javafx.scene.media.*;
 
