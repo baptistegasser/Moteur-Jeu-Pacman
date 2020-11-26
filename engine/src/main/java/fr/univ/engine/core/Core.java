@@ -5,6 +5,7 @@ import fr.univ.engine.logging.LoggingEngine;
 import fr.univ.engine.physic.PhysicEngine;
 import fr.univ.engine.render.JFXApp;
 import fr.univ.engine.render.RenderEngine;
+import fr.univ.engine.sound.SoundEngine;
 import javafx.scene.paint.Color;
 
 import java.util.logging.Level;
@@ -48,6 +49,11 @@ public final class Core {
     private final IOEngine ioEngine;
 
     /**
+     * The sound engine instance
+     */
+    private final SoundEngine soundEngine;
+
+    /**
      * Initialize the engine.
      */
     public Core() {
@@ -60,6 +66,7 @@ public final class Core {
         this.renderEngine = new RenderEngine();
         this.physicEngine = new PhysicEngine();
         this.ioEngine = IOEngine.getInstance();
+        this.soundEngine = new SoundEngine();
         JFXApp.getIsClosingProperty().addListener(o -> this.quit()); // listen for render app closing
     }
 

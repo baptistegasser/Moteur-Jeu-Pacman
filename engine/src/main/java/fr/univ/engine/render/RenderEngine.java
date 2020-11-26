@@ -4,11 +4,9 @@ import fr.univ.engine.core.GameObject;
 import fr.univ.engine.physic.hitbox.CircleHitBox;
 import fr.univ.engine.physic.hitbox.HitBox;
 import fr.univ.engine.physic.hitbox.SquareHitBox;
+import fr.univ.engine.utils.CachedResourcesLoader;
 import javafx.application.Platform;
 import javafx.scene.image.Image;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.Shape;
 
 import java.util.List;
 import java.util.stream.Collectors;
