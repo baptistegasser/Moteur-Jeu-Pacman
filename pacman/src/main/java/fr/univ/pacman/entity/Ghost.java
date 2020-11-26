@@ -14,8 +14,8 @@ public class Ghost extends GameObject {
         super(x, y);
         setName("GHOST-" + color.toUpperCase());
 
-        renderObject.width = 22;
-        renderObject.height = 22;
+        renderObject.width = 20;
+        renderObject.height = 20;
         renderObject.zIndex = 9;
         try {
             switch (color) {
@@ -41,7 +41,8 @@ public class Ghost extends GameObject {
 
         physicObject.direction = new Vector(0,0);
 
-        this.physicObject.setHitBox(new SquareHitBox(22));
+        // Set HitBox size to 16 because render size of ghost are a little bigger than physic size
+        this.physicObject.setHitBox(new SquareHitBox(16));
     }
 
     @Override
