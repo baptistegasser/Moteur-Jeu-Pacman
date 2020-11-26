@@ -48,9 +48,9 @@ public class RenderEngine {
             this.viewPort = new ViewPort(JFXApp.canvas);
             this.viewPort.clear();
         } catch (InterruptedException e) {
-            throw new RuntimeException("Failed to wait for JFX app start", e);
+            throw new RenderException("Failed to wait for JFX app start", e);
         } catch (Throwable t) {
-            throw new RuntimeException("Unknown error, failed to start JFX app", t);
+            throw new RenderException("Unknown error, failed to start JFX app", t);
         }
     }
 

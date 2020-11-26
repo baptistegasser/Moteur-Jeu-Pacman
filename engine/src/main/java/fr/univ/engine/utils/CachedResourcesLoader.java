@@ -1,6 +1,5 @@
 package fr.univ.engine.utils;
 
-import fr.univ.engine.utils.UtilException;
 import javafx.scene.image.Image;
 import javafx.scene.media.Media;
 
@@ -57,7 +56,7 @@ public class CachedResourcesLoader {
             Image texture = tryLoadImage(filePath);
             cachedImages.put(filePath, texture);
             return texture;
-        } catch (UtilException e) {
+        } catch (UtilsException e) {
             // We failed to load the image
             // Log the error, cache the null value and return null
             System.err.println("Failed to load texture:");
@@ -74,18 +73,18 @@ public class CachedResourcesLoader {
      * @return a {@link javafx.scene.image.Image} instance containing the image data
      * @throws IllegalArgumentException if the path is not valid or the image fail to load
      */
-    public Image tryLoadImage(String filePath) throws UtilException {
+    public Image tryLoadImage(String filePath) throws UtilsException {
         // Get InputStream, assert not null
         InputStream is = getClass().getClassLoader().getResourceAsStream(folder + filePath);
         if (is == null) {
-            throw new UtilException(String.format("No file found at '%s'", folder + filePath));
+            throw new UtilsException(String.format("No file found at '%s'", folder + filePath));
         }
 
         // Load texture, cache it, return it
         try {
             return new Image(is);
         } catch (Exception e) {
-            throw new UtilException(String.format("Error instantiating javafx.scene.image.Image from file '%s'", folder + filePath), e);
+            throw new UtilsException(String.format("Error instantiating javafx.scene.image.Image from file '%s'", folder + filePath), e);
         }
     }
 
