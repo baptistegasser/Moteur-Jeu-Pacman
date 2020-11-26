@@ -4,6 +4,7 @@ import fr.univ.engine.core.GameObject;
 import fr.univ.engine.math.Point;
 import fr.univ.engine.physic.PhysicObject;
 import fr.univ.engine.physic.hitbox.SquareHitBox;
+import fr.univ.pacman.gameplay.GamePlay;
 
 /**
  * The class handling the logic of Gomme.
@@ -24,7 +25,7 @@ public class Gomme extends GameObject {
     @Override
     public void onCollisionEnter(PhysicObject collider) {
         if (collider.name().equals("PAC-MAN")) {
-            System.out.println("Gagne 10 points");
+            GamePlay.getInventory().addScore(10);
             this.destroy();
         }
     }

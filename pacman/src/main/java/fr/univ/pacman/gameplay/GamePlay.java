@@ -4,10 +4,15 @@ import fr.univ.engine.core.Core;
 import fr.univ.engine.utils.CachedResourcesLoader;
 import fr.univ.engine.render.WindowConfig;
 import fr.univ.pacman.map.Map;
+import fr.univ.pacman.ui.MenuView;
 
 public class GamePlay {
     Core core;
     WindowConfig cfg;
+
+    private static Inventory inventory;
+
+    private static MenuView menuView;
 
     public GamePlay() {
         core = new Core(); // Initialize the engine
@@ -24,8 +29,24 @@ public class GamePlay {
         CachedResourcesLoader resolver = new CachedResourcesLoader("assets/");
         core.getRenderEngine().setTextureLoader(resolver);
 
+        // Create inventory
+        inventory = new Inventory(0);
+
         core.setScene(new Map()); // Set the Pac-Man map
 
-        core.start(); // Start the game
+        core.init(); // Start the game
+
+        // Create menu view
+        menuView = new MenuView(resolver);
+
+        core.start();
+    }
+
+    public static Inventory getInventory() {
+        return inventory;
+    }
+
+    public static MenuView getMenuView() {
+        return menuView;
     }
 }

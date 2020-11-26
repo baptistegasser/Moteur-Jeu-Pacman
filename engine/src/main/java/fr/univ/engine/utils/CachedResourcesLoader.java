@@ -2,6 +2,7 @@ package fr.univ.engine.utils;
 
 import javafx.scene.image.Image;
 import javafx.scene.media.Media;
+import javafx.scene.text.Font;
 
 import java.io.File;
 import java.io.InputStream;
@@ -31,12 +32,18 @@ public class CachedResourcesLoader {
     private final HashMap<String, Media> cachedMedia;
 
     /**
+     * The cache mapping keys to load media
+     */
+    private final HashMap<String, Font> cachedFont;
+
+    /**
      * @param folder the resources folder to use as root to locate textures.
      */
     public CachedResourcesLoader(String folder) {
         this.folder = folder;
         this.cachedImages = new HashMap<>();
         this.cachedMedia = new HashMap<>();
+        this.cachedFont = new HashMap<>();
     }
 
     /**
@@ -166,6 +173,70 @@ public class CachedResourcesLoader {
     public void precacheSounds(List<String> paths) {
         for (String filePath : paths) {
             getMedia(filePath);
+        }
+    }
+
+    /**
+     * Load a font from the cache or file system.
+     *
+     * @param filePath the path to the font file
+     * @return the font instance or null if not found/loaded
+     */
+    public Font getFont(String filePath) {
+        // Don't even bother with null values
+        if (filePath == null) {
+            return null;
+        }
+
+        // If texture is cached return it
+        if (cachedFont.containsKey(filePath)) {
+            return cachedFont.get(filePath);
+        }
+
+        try {
+            Font font = tryLoadFont(filePath);
+            cachedFont.put(filePath, font);
+            return font;
+        } catch (UtilsException e) {
+            // We failed to load the image
+            // Log the error, cache the null value and return null
+            System.err.println("Failed to load font:");
+            System.err.println(e.getMessage());
+            cachedImages.put(filePath, null);
+            return null;
+        }
+    }
+
+    /**
+     * Attempt to load a font from a file.
+     *
+     * @param filePath the path to the font file
+     * @return a {@link javafx.scene.text.Font} instance containing the font data
+     * @throws IllegalArgumentException if the path is not valid or the font fail to load
+     */
+    public Font tryLoadFont(String filePath) throws UtilsException {
+        // Get InputStream, assert not null
+        InputStream is = getClass().getClassLoader().getResourceAsStream(folder + filePath);
+        if (is == null) {
+            throw new UtilsException(String.format("No file found at '%s'", folder + filePath));
+        }
+
+        // Load media, cache it, return it
+        try {
+            return Font.loadFont(is, 1);
+        } catch (Exception e) {
+            throw new UtilsException(String.format("Error instantiating javafx.scene.text.Font from file '%s'", folder + filePath), e);
+        }
+    }
+
+    /**
+     * Cache the given list of fonts by loading them once.
+     *
+     * @param paths the list of fonts to load
+     */
+    public void precacheFonts(List<String> paths) {
+        for (String filePath : paths) {
+            getFont(filePath);
         }
     }
 }

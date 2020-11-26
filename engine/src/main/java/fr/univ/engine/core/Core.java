@@ -91,9 +91,9 @@ public final class Core {
     }
 
     /**
-     * Start the game engine.
+     * Init the game engine.
      */
-    public void start() {
+    public void init() {
         LoggingEngine.setLevel(Level.INFO);
         LoggingEngine.setAutoColor(true);
 
@@ -101,7 +101,12 @@ public final class Core {
         renderEngine.preRender(scene.objects());
 
         ioEngine.start();
+    }
 
+    /**
+     * Start the game.
+     */
+    public void start() {
         try {
             mainLoop();
         } catch (Throwable t) {
