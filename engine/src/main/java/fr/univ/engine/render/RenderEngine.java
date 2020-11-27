@@ -54,7 +54,11 @@ public class RenderEngine {
      * @param entities the entities to render.
      */
     public void render(final List<RenderEntity> entities) {
+        // Sort the entities
+        entities.sort(new RenderEntityComparator());
+        // Update them
         entities.forEach(RenderEntity::update);
+        // Render them
         renderer.render(entities);
     }
 
