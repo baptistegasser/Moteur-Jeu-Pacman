@@ -1,15 +1,10 @@
 package fr.univ.engine.render;
 
-import fr.univ.engine.core.GameObject;
-import fr.univ.engine.physic.hitbox.CircleHitBox;
-import fr.univ.engine.physic.hitbox.HitBox;
-import fr.univ.engine.physic.hitbox.SquareHitBox;
+import fr.univ.engine.render.renderer.Renderer;
 import fr.univ.engine.utils.CachedResourcesLoader;
 import javafx.application.Platform;
-import javafx.scene.image.Image;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * The engine module charged of supervising all rendering related action.
@@ -21,9 +16,9 @@ public class RenderEngine {
     public final WindowConfig window;
 
     /**
-     * The area where the rendering is done.
+     * The renderer used to render.
      */
-    private ViewPort viewPort;
+    private Renderer<?> renderer;
 
     /**
      * The texture loader used by the render engine.
@@ -45,8 +40,7 @@ public class RenderEngine {
             JFXApp.setWindowConfig(window);
             JFXApp.startAndWaitUntilReady();
             JFXApp.showWindow();
-            this.viewPort = new ViewPort(JFXApp.canvas);
-            this.viewPort.clear();
+            this.renderer = JFXApp.getRenderer();
         } catch (InterruptedException e) {
             throw new RenderException("Failed to wait for JFX app start", e);
         } catch (Throwable t) {
@@ -55,47 +49,13 @@ public class RenderEngine {
     }
 
     /**
-     * Function used when we need to be ready to have graphic objects to be rendered in a faster way.
-     * Typically when the engine start.
-     *
-     * @param entities the list of entities to pre render
-     */
-    public void preRender(List<RenderEntity> entities) {
-        textureLoader.precacheImages(entities.parallelStream().map(o -> o.getRenderObject().textureName).collect(Collectors.toList()));
-    }
-
-    /**
      * Display a list of {@code RenderEntity} on screen.
      *
      * @param entities the entities to render.
      */
     public void render(final List<RenderEntity> entities) {
-        viewPort.clear();
-        for (RenderEntity e : entities) {
-            e.update();
-            renderObject(e.getRenderObject());
-
-            if(true) continue;
-            HitBox s = ((GameObject) e).getPhysicObject().getHitBox();
-            if (s instanceof SquareHitBox) {
-                viewPort.drawRect(s.x(), s.y(), s.getSize(), s.getSize());
-            } else if (s instanceof CircleHitBox) {
-                viewPort.drawCircle(s.x(), s.y(), s.getSize());
-            }
-        }
-    }
-
-    /**
-     * Display a {@code RenderObject} on screen.
-     *
-     * @param o the object to render.
-     */
-    private void renderObject(RenderObject o) {
-        Image texture = textureLoader.getImage(o.textureName);
-        // Ignore objects without texture
-        if (texture != null) {
-            viewPort.drawImage(texture, o.x(), o.y(), o.width, o.height);
-        }
+        entities.forEach(RenderEntity::update);
+        renderer.render(entities);
     }
 
     /**
