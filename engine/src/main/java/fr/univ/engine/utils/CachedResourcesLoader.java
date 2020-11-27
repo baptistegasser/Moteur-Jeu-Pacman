@@ -84,7 +84,7 @@ public class CachedResourcesLoader {
      * @return a {@link javafx.scene.image.Image} instance containing the image data
      * @throws IllegalArgumentException if the path is not valid or the image fail to load
      */
-    public Image tryLoadImage(String filePath) throws UtilsException {
+    private Image tryLoadImage(String filePath) throws UtilsException {
         // Get InputStream, assert not null
         InputStream is = getClass().getClassLoader().getResourceAsStream(folder + filePath);
         if (is == null) {
@@ -150,16 +150,16 @@ public class CachedResourcesLoader {
      * @return a {@link javafx.scene.media.Media} instance containing the media data
      * @throws IllegalArgumentException if the path is not valid or the media fail to load
      */
-    public Media tryLoadMedia(String filePath) throws UtilsException {
+    private Media tryLoadMedia(String filePath) throws UtilsException {
         // Get InputStream, assert not null
-        InputStream is = getClass().getClassLoader().getResourceAsStream(folder + filePath);
-        if (is == null) {
+        String file = new File(folder + filePath).toURI().toString();
+        if (file == null) {
             throw new UtilsException(String.format("No file found at '%s'", folder + filePath));
         }
 
         // Load media, cache it, return it
         try {
-            return new Media(is.toString());
+            return new Media(file);
         } catch (Exception e) {
             throw new UtilsException(String.format("Error instantiating javafx.scene.media.Media from file '%s'", folder + filePath), e);
         }
@@ -214,7 +214,7 @@ public class CachedResourcesLoader {
      * @return a {@link javafx.scene.text.Font} instance containing the font data
      * @throws IllegalArgumentException if the path is not valid or the font fail to load
      */
-    public Font tryLoadFont(String filePath) throws UtilsException {
+    private Font tryLoadFont(String filePath) throws UtilsException {
         // Get InputStream, assert not null
         InputStream is = getClass().getClassLoader().getResourceAsStream(folder + filePath);
         if (is == null) {

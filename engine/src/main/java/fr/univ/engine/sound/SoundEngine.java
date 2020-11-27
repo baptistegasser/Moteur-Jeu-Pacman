@@ -18,8 +18,10 @@ public class SoundEngine {
     }
 
     public void play (String name) {
-        Media media = new Media(new File(name).toURI().toString());
+        System.out.println("Playing " + name);
+        Media media = soundLoader.getMedia(name);
         MediaPlayer mediaPlayer = new MediaPlayer(media);
         mediaPlayer.setAutoPlay(true);
+        mediaPlayer.play();
     }
 }
