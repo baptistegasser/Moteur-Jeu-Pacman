@@ -4,6 +4,7 @@ import fr.univ.engine.core.GameObject;
 import fr.univ.engine.math.Point;
 import fr.univ.engine.physic.PhysicObject;
 import fr.univ.engine.physic.hitbox.SquareHitBox;
+import fr.univ.engine.render.texture.Texture;
 import fr.univ.pacman.gameplay.GamePlay;
 
 /**
@@ -14,12 +15,11 @@ public class Gomme extends GameObject {
         super(x, y);
         setName("GOMME");
 
-        renderObject.width = 3;
-        renderObject.height = 3;
-        renderObject.zIndex = 5;
-        renderObject.textureName = "item/gomme.png";
+        Texture texture = new Texture(3, 3, GamePlay.resolver.getImage("item/gomme.png"));
+        texture.setZIndex(5);
+        setTexture(texture);
 
-        this.physicObject.setHitBox(new SquareHitBox(renderObject.width));
+        this.physicObject.setHitBox(new SquareHitBox(3));
     }
 
     @Override

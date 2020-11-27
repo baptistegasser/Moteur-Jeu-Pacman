@@ -14,6 +14,8 @@ public class GamePlay {
 
     private static MenuView menuView;
 
+    public static CachedResourcesLoader resolver;
+
     public GamePlay() {
         core = new Core(); // Initialize the engine
 
@@ -26,7 +28,7 @@ public class GamePlay {
         cfg.showFPSCounter = true;
 
         // Create a resolver pointing to the assets dir inside the resources dir
-        CachedResourcesLoader resolver = new CachedResourcesLoader("assets/");
+        resolver = new CachedResourcesLoader("assets/");
         core.getRenderEngine().setTextureLoader(resolver);
 
         // Create inventory
