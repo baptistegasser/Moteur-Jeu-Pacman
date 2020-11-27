@@ -61,7 +61,6 @@ public class Game {
         cfg.showFPSCounter = true;
 
         // Create a resolver pointing to the assets dir inside the resources dir
-        core.getRenderEngine().setTextureLoader(resolver);
         core.getSoundEngine().setSoundLoader(resolver);
 
 

@@ -24,11 +24,6 @@ public class RenderEngine {
     private Renderer<?> renderer;
 
     /**
-     * The texture loader used by the render engine.
-     */
-    private CachedResourcesLoader textureLoader;
-
-    /**
      * Create a render engine with defaults values.
      */
     public RenderEngine() {
@@ -63,15 +58,6 @@ public class RenderEngine {
         entities.forEach(RenderEntity::update);
         // Render them
         renderer.render(entities);
-    }
-
-    /**
-     * Set the texture loader to be used by the engine to load textures.
-     *
-     * @param loader the loader to use
-     */
-    public void setTextureLoader(CachedResourcesLoader loader) {
-        this.textureLoader = loader;
     }
 
     /**
