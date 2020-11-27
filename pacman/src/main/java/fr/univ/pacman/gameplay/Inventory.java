@@ -1,8 +1,13 @@
 package fr.univ.pacman.gameplay;
 
-import fr.univ.pacman.GamePlay;
 
 public class Inventory {
+
+    /**
+     * The gameplay of inventory
+     */
+    GamePlay gamePlay;
+
     /**
      * The player score
      */
@@ -10,7 +15,8 @@ public class Inventory {
 
     private int life;
 
-    public Inventory() {
+    public Inventory(GamePlay gamePlay) {
+        this.gamePlay = gamePlay;
         this.score = 0;
         this.life = 3;
     }
@@ -22,7 +28,7 @@ public class Inventory {
      */
     public void addScore(int score) {
         this.score += score;
-        GamePlay.getMenuView().setScoreText(this.score);
+        gamePlay.getGameView().setScoreText(this.score);
     }
 
     /**
@@ -33,7 +39,7 @@ public class Inventory {
         if (life == 0) {
             System.out.println("GAME OVER");
         }
-        GamePlay.getMenuView().updateLifeView();
+        gamePlay.getGameView().updateLifeView();
     }
 
     public int getLife() {
