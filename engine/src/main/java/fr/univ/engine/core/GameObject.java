@@ -82,6 +82,7 @@ public abstract class GameObject implements RenderEntity, PhysicEntity {
     public void destroy() {
         Point pos = new Point(0, 0);
         this.physicObject = new PhysicObject(pos);
+        this.texture = null;
     }
 
     @Override
