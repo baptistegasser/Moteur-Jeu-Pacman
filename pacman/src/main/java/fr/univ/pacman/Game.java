@@ -23,7 +23,7 @@ public class Game {
     /**
      * The resolver for resources
      */
-    CachedResourcesLoader resolver;
+    public static CachedResourcesLoader resolver;
 
     public static volatile boolean canStart = false;
 

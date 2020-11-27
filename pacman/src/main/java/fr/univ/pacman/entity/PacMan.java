@@ -8,10 +8,10 @@ import fr.univ.engine.math.Vector;
 import fr.univ.engine.physic.PhysicEngine;
 import fr.univ.engine.physic.PhysicObject;
 import fr.univ.engine.physic.hitbox.SquareHitBox;
+import fr.univ.engine.render.texture.Texture;
 import fr.univ.engine.sound.SoundEngine;
+import fr.univ.pacman.Game;
 import javafx.scene.input.KeyCode;
-
-import java.util.logging.Level;
 
 /**
  * The class handling the logic of Pac-Man controlled by the player.
@@ -32,14 +32,13 @@ public class PacMan extends GameObject {
         super(x, y);
         setName("PAC-MAN");
 
-        renderObject.width = 16;
-        renderObject.height = 16;
-        renderObject.zIndex = 10;
-        renderObject.textureName = "sprites/pacman.png";
+        Texture texture = new Texture(16, 16, Game.resolver.getImage("sprites/pacman.png"));
+        texture.setZIndex(10);
+        setTexture(texture);
 
         physicObject.direction = new Vector(0.5,0);
 
-        this.physicObject.setHitBox(new SquareHitBox(this.renderObject.width));
+        this.physicObject.setHitBox(new SquareHitBox(16));
        }
 
     @Override

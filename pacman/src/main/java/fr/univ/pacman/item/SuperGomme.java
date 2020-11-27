@@ -1,8 +1,9 @@
 package fr.univ.pacman.item;
 
 import fr.univ.engine.core.GameObject;
-import fr.univ.engine.math.Point;
 import fr.univ.engine.physic.hitbox.SquareHitBox;
+import fr.univ.engine.render.texture.Texture;
+import fr.univ.pacman.Game;
 
 /**
  * The class handling the logic of Super Gomme.
@@ -12,12 +13,11 @@ public class SuperGomme extends GameObject {
         super(x, y);
         setName("SUPER-GOMME");
 
-        renderObject.width = 10;
-        renderObject.height = 10;
-        renderObject.zIndex = 5;
-        renderObject.textureName = "item/superGomme.png";
+        Texture texture = new Texture(10, 10, Game.resolver.getImage("item/superGomme.png"));
+        texture.setZIndex(5);
+        setTexture(texture);
 
-        this.physicObject.setHitBox(new SquareHitBox(renderObject.width));
+        this.physicObject.setHitBox(new SquareHitBox(10));
     }
 
 }
