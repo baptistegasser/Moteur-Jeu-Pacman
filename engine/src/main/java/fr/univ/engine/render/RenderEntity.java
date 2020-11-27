@@ -1,6 +1,7 @@
 package fr.univ.engine.render;
 
-import fr.univ.engine.physic.PhysicObject;
+import fr.univ.engine.math.Point;
+import fr.univ.engine.render.texture.Texture;
 
 /**
  * A Render entity is an entity able to be rendered.
@@ -9,16 +10,19 @@ import fr.univ.engine.physic.PhysicObject;
  */
 public interface RenderEntity {
     /**
-     * @return the RenderObject associated to this entity
-     */
-    RenderObject getRenderObject();
-
-    /**
      * This function is called before every render of the object, thus once per frame.
      * Provide a default update implementation that does nothing.
      */
     default void update() {
     }
 
-    int getId();
+    /**
+     * @return the texture to render for this object
+     */
+    Texture getTexture();
+
+    /**
+     * @return the position of this object (centered)
+     */
+    Point pos();
 }
