@@ -9,10 +9,9 @@ import fr.univ.engine.physic.PhysicEngine;
 import fr.univ.engine.physic.PhysicObject;
 import fr.univ.engine.physic.hitbox.SquareHitBox;
 import fr.univ.engine.render.texture.Texture;
-import fr.univ.pacman.gameplay.GamePlay;
+import fr.univ.engine.sound.SoundEngine;
+import fr.univ.pacman.Game;
 import javafx.scene.input.KeyCode;
-
-import java.util.logging.Level;
 
 /**
  * The class handling the logic of Pac-Man controlled by the player.
@@ -33,7 +32,7 @@ public class PacMan extends GameObject {
         super(x, y);
         setName("PAC-MAN");
 
-        Texture texture = new Texture(16, 16, GamePlay.resolver.getImage("sprites/pacman.png"));
+        Texture texture = new Texture(16, 16, Game.resolver.getImage("sprites/pacman.png"));
         texture.setZIndex(10);
         setTexture(texture);
 
@@ -50,11 +49,13 @@ public class PacMan extends GameObject {
                 break;
             case "GOMME":
                 LoggingEngine.info("Pac-Man eat a Pac.");
+                SoundEngine.staticPlay("sounds/eating_pac.wav");
                 break;
             case "SUPER-GOMME":
                 LoggingEngine.info("Pac-Man eat a super Pac !");
         }
         if (collider.name().startsWith("GHOST-")) {
+            SoundEngine.staticPlay("sounds/pac_die.wav" );
             LoggingEngine.info("Got caught by a ghost !");
         }
     }

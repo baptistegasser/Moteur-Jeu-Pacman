@@ -6,6 +6,8 @@ import javafx.scene.text.Font;
 
 import java.io.File;
 import java.io.InputStream;
+import java.net.URI;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 
@@ -151,15 +153,15 @@ public class CachedResourcesLoader {
      * @throws IllegalArgumentException if the path is not valid or the media fail to load
      */
     private Media tryLoadMedia(String filePath) throws UtilsException {
-        // Get InputStream, assert not null
-        String file = new File(folder + filePath).toURI().toString();
-        if (file == null) {
+        // Get url, assert not null
+        URL url = getClass().getClassLoader().getResource(folder + filePath);
+        if (url == null) {
             throw new UtilsException(String.format("No file found at '%s'", folder + filePath));
         }
 
         // Load media, cache it, return it
         try {
-            return new Media(file);
+            return new Media(url.toURI().toString());
         } catch (Exception e) {
             throw new UtilsException(String.format("Error instantiating javafx.scene.media.Media from file '%s'", folder + filePath), e);
         }

@@ -1,53 +1,41 @@
 package fr.univ.pacman.gameplay;
 
-import fr.univ.engine.core.Core;
 import fr.univ.engine.utils.CachedResourcesLoader;
-import fr.univ.engine.render.config.WindowConfig;
-import fr.univ.pacman.map.Map;
-import fr.univ.pacman.ui.MenuView;
+import fr.univ.pacman.Game;
+import fr.univ.pacman.ui.GameView;
 
 public class GamePlay {
-    Core core;
-    WindowConfig cfg;
 
+    /**
+     * The instance of inventory
+     */
     private static Inventory inventory;
 
-    private static MenuView menuView;
+    /**
+     * The view of the controller
+     */
+    private GameView gameView;
 
-    public static CachedResourcesLoader resolver;
-
-    public GamePlay() {
-        core = new Core(); // Initialize the engine
-
-        // Configure the windows
-        cfg = core.getRenderEngine().window;
-        cfg.width = 510;
-        cfg.height = 620;
-        cfg.title = "Pac-Man";
-        cfg.allowResize = false;
-        cfg.showFPSCounter = true;
-
-        // Create a resolver pointing to the assets dir inside the resources dir
-        resolver = new CachedResourcesLoader("assets/");
+    public GamePlay(CachedResourcesLoader resolver) {
+        gameView = new GameView(resolver);
 
         // Create inventory
-        inventory = new Inventory(0);
+        inventory = new Inventory(this);
+    }
 
-        core.setScene(new Map()); // Set the Pac-Man map
-
-        core.init(); // Start the game
-
-        // Create menu view
-        menuView = new MenuView(resolver);
-
-        core.start();
+    /**
+     * Prepare gameView and start the game
+     */
+    public void start() {
+        gameView.construct();
+        Game.canStart = true;
     }
 
     public static Inventory getInventory() {
         return inventory;
     }
 
-    public static MenuView getMenuView() {
-        return menuView;
+    public GameView getGameView() {
+        return gameView;
     }
 }

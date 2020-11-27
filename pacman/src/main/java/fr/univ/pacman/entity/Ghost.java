@@ -6,6 +6,7 @@ import fr.univ.engine.math.Vector;
 import fr.univ.engine.physic.PhysicObject;
 import fr.univ.engine.physic.hitbox.SquareHitBox;
 import fr.univ.engine.render.texture.Texture;
+import fr.univ.pacman.Game;
 import fr.univ.pacman.gameplay.GamePlay;
 
 /**
@@ -16,7 +17,7 @@ public class Ghost extends GameObject {
         super(x, y);
         setName("GHOST-" + color.toUpperCase());
 
-        Texture texture = new Texture(20, 20, GamePlay.resolver.getImage("sprites/ghosts/"+color+"Ghost.png"));
+        Texture texture = new Texture(20, 20, Game.resolver.getImage("sprites/ghosts/"+color+"Ghost.png"));
         texture.setZIndex(9);
         setTexture(texture);
 
@@ -28,6 +29,9 @@ public class Ghost extends GameObject {
 
     @Override
     public void onCollisionEnter(PhysicObject collider) {
-
+        if (collider.name().equals("PAC-MAN")) {
+            GamePlay.getInventory().lostLife();
+            collider.getPos().set(new Point(0,32));
+        }
     }
 }
