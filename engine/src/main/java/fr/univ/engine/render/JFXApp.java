@@ -2,6 +2,9 @@ package fr.univ.engine.render;
 
 import com.sun.javafx.application.PlatformImpl;
 import fr.univ.engine.io.KeyEventHandler;
+import fr.univ.engine.render.renderer.CanvasViewPort;
+import fr.univ.engine.render.renderer.JFXRenderer;
+import fr.univ.engine.render.renderer.Renderer;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyBooleanProperty;
@@ -40,9 +43,9 @@ public final class JFXApp extends Application {
      */
     private static Stage stage;
     /**
-     * Canvas where entities can be rendered.
+     * Renderer used by this app.
      */
-    public static Canvas canvas;
+    private static Renderer<?> renderer;
     /**
      * StackPane allowing to stack elements on top of the Canvas.
      */
@@ -70,19 +73,19 @@ public final class JFXApp extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        canvas = new Canvas(window.width, window.height);
-        stackPane = new StackPane(canvas);
-
         stage = primaryStage;
         stage.setWidth(window.width);
         stage.setHeight(window.height);
         stage.setTitle(window.title);
         stage.setResizable(window.allowResize);
 
-        stage.setScene(new Scene(stackPane));
-
+        Canvas canvas = new Canvas(window.width, window.height);
+        stackPane = new StackPane(canvas);
         canvas.widthProperty().bind(stage.widthProperty());
         canvas.heightProperty().bind(stage.heightProperty());
+        renderer = new JFXRenderer(new CanvasViewPort(canvas));
+
+        stage.setScene(new Scene(stackPane));
 
         primaryStage.setOnCloseRequest(t -> stop());
 
@@ -135,5 +138,14 @@ public final class JFXApp extends Application {
      */
     public static ReadOnlyBooleanProperty getIsClosingProperty() {
         return isClosing.getReadOnlyProperty();
+    }
+
+    /**
+     * Retrieve the render used by the app.
+     *
+     * @return the renderer instance
+     */
+    public static Renderer<?> getRenderer() {
+        return JFXApp.renderer;
     }
 }
