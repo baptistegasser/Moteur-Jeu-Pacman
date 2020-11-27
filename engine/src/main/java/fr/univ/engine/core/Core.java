@@ -65,7 +65,7 @@ public final class Core {
 
         this.renderEngine = new RenderEngine();
         this.physicEngine = new PhysicEngine();
-        this.ioEngine = IOEngine.getInstance();
+        this.ioEngine = new IOEngine();
         this.soundEngine = new SoundEngine();
         JFXApp.getIsClosingProperty().addListener(o -> this.quit()); // listen for render app closing
     }
@@ -78,6 +78,7 @@ public final class Core {
     }
 
     public SoundEngine getSoundEngine() { return soundEngine; }
+    public IOEngine getIOEngine() { return ioEngine; }
 
     /**
      * Update the current scene of the game.

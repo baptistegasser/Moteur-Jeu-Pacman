@@ -13,31 +13,19 @@ import java.util.concurrent.ConcurrentLinkedDeque;
  */
 public class IOEngine implements KeyEventHandler {
     /**
-     * The input/output engine is a singleton to allow game to
-     * access it without passing references.
+     * Store the {@link KeyCode} and their current datas.
      */
-    private static IOEngine instance;
-
-    /**
-     * Store the {@link KeyCode} and their current status.
-     */
-    private ConcurrentHashMap<KeyCode, EnumSet<Status>> keysStatus;
+    private final ConcurrentHashMap<KeyCode, KeyData> keys;
 
     /**
      * Queue of {@link KeyBoardEvent} to be treated.
      */
-    private final ConcurrentLinkedDeque<KeyBoardEvent> queue = new ConcurrentLinkedDeque<>();
+    private final ConcurrentLinkedDeque<KeyBoardEvent> queue;
 
-    private IOEngine() {}
-
-    /**
-     * @return the instance of the engine
-     */
-    public static IOEngine getInstance() {
-        if (instance == null) {
-            instance = new IOEngine();
-        }
-        return instance;
+    public IOEngine() {
+        // Init the map size. Prevent resizing the map's bucket pool too soon.
+        keys = new ConcurrentHashMap<>(40);
+        queue = new ConcurrentLinkedDeque<>();
     }
 
     /**
@@ -45,8 +33,6 @@ public class IOEngine implements KeyEventHandler {
      */
     public void start() {
         JFXApp.setKeyEventHandler(this);
-        // Init the map size. Prevent resizing the map's bucket pool too soon.
-        keysStatus = new ConcurrentHashMap<>(40);
     }
 
     /**
@@ -66,6 +52,25 @@ public class IOEngine implements KeyEventHandler {
 
         // For each event, process it to update key status
         snapshot.forEach(this::processKeyBoardEvent);
+
+        // Run every actions
+        keys.forEach((keyCode, keyData) -> {
+            if (keyData.statuses().contains(Status.HELD)) {
+                keyData.actions().forEach(Runnable::run);
+            }
+        });
+    }
+
+    /**
+     * Register an action to commit when a key is pressed
+     *
+     * @param code the target key
+     * @param r the action to run
+     */
+    public void on(KeyCode code, Runnable r) {
+        KeyData data = keys.getOrDefault(code, new KeyData());
+        data.actions().add(r);
+        keys.put(code, data);
     }
 
     /**
@@ -73,7 +78,8 @@ public class IOEngine implements KeyEventHandler {
      * ie: remove the UP status as releasing a key last one frame only.
      */
     private void updateFrameStatus() {
-        for (EnumSet<Status> status : keysStatus.values()) {
+        for (KeyData data : keys.values()) {
+            EnumSet<Status> status = data.statuses();
             if (status.contains(Status.UP)) {
                 // Clear all status if released the key
                 status.removeAll(Status.ALL);
@@ -91,7 +97,7 @@ public class IOEngine implements KeyEventHandler {
      * @param event the event to process
      */
     private void processKeyBoardEvent(KeyBoardEvent event) {
-        EnumSet<Status> status = getStatus(event.code);
+        EnumSet<Status> status = keys.get(event.code).statuses();
 
         if (event.status == Status.DOWN) {
             if (status.contains(Status.DOWN)) {
@@ -113,44 +119,5 @@ public class IOEngine implements KeyEventHandler {
     @Override
     public void onKeyReleased(KeyEvent keyEvent) {
         queue.add(new KeyBoardEvent(keyEvent.getCode(), Status.UP));
-    }
-
-    /**
-     * @param code the key code
-     * @return true while the user holds down the key
-     */
-    public static boolean getKey(KeyCode code) {
-        return instance.getStatus(code).contains(Status.HELD) || getKeyDown(code);
-    }
-
-    /**
-     * @param code the key code
-     * @return true during the frame the user releases the key
-     */
-    public static boolean getKeyUp(KeyCode code) {
-        return instance.getStatus(code).contains(Status.UP);
-    }
-
-    /**
-     * @param code the key code
-     * @return true during the frame the user starts pressing down the key
-     */
-    public static boolean getKeyDown(KeyCode code) {
-        return instance.getStatus(code).contains(Status.DOWN);
-    }
-
-    /**
-     * Get the status of a key.
-     *
-     * @param code the code of this key
-     * @return the set of current applied status.
-     */
-    private EnumSet<Status> getStatus(KeyCode code) {
-        EnumSet<Status> status = keysStatus.get(code);
-        if (status == null) {
-            status = Status.NONE.clone();
-            keysStatus.put(code, status);
-        }
-        return status;
     }
 }

@@ -1,10 +1,14 @@
 package fr.univ.pacman;
 
 import fr.univ.engine.core.Core;
+import fr.univ.engine.core.GameObject;
+import fr.univ.engine.io.IOEngine;
 import fr.univ.engine.render.config.WindowConfig;
 import fr.univ.engine.utils.CachedResourcesLoader;
+import fr.univ.pacman.entity.PacMan;
 import fr.univ.pacman.gameplay.GameMenu;
 import fr.univ.pacman.map.Map;
+import javafx.scene.input.KeyCode;
 
 /**
  * The entry point of the Pac-Man Game, setup and start the game.
@@ -63,9 +67,22 @@ public class Game {
         // Create a resolver pointing to the assets dir inside the resources dir
         core.getSoundEngine().setSoundLoader(resolver);
 
+        // TODO remove in the engine rework: dirty hack to find pacman
+        Map map = new Map();
+        PacMan pacMan = null;
+        for (Object object : map.objects()) {
+            if (object instanceof PacMan) {
+                pacMan = (PacMan) object;
+            }
+        }
 
+        IOEngine ioEngine = core.getIOEngine();
+        ioEngine.on(KeyCode.UP, pacMan::up);
+        ioEngine.on(KeyCode.DOWN, pacMan::down);
+        ioEngine.on(KeyCode.LEFT, pacMan::left);
+        ioEngine.on(KeyCode.RIGHT, pacMan::right);
 
-        core.setScene(new Map()); // Set the Pac-Man map
+        core.setScene(map); // Set the Pac-Man map
 
         core.init(); // Init the game
 
