@@ -1,12 +1,16 @@
 package fr.univ.engine.sound;
 
 import fr.univ.engine.utils.CachedResourcesLoader;
-import java.io.File;
 import javafx.scene.media.*;
 
+/**
+ * Class used to play music, regardless of the context
+ */
 public class SoundEngine {
 
-
+    /**
+     * Used to return a media with the given path
+     */
     private CachedResourcesLoader soundLoader;
 
     /**
@@ -17,6 +21,11 @@ public class SoundEngine {
         this.soundLoader = loader;
     }
 
+    /**
+     * Playing music if the class is instanciated
+     * @param name The path to the music
+     * @param loop If you want to loop the music
+     */
     public void play (String name , boolean loop) {
         Media media = soundLoader.getMedia(name);
         MediaPlayer mediaPlayer = new MediaPlayer(media);
@@ -26,6 +35,10 @@ public class SoundEngine {
         mediaPlayer.play();
     }
 
+    /**
+     * Playing the music as a static methoc, without class instanciation
+     * @param name The path to the music
+     */
     public static void staticPlay (String name) {
         CachedResourcesLoader cachedResourcesLoader = new CachedResourcesLoader("assets/");
         Media media = cachedResourcesLoader.getMedia(name);
