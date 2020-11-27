@@ -98,7 +98,6 @@ public final class Core {
         LoggingEngine.setAutoColor(true);
 
         renderEngine.start();
-        renderEngine.preRender(scene.objects());
 
         ioEngine.start();
     }
