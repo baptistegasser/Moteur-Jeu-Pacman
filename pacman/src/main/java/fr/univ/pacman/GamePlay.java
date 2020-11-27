@@ -1,6 +1,7 @@
 package fr.univ.pacman;
 
 import fr.univ.engine.core.Core;
+import fr.univ.engine.sound.SoundEngine;
 import fr.univ.engine.utils.CachedResourcesLoader;
 import fr.univ.engine.render.WindowConfig;
 import fr.univ.pacman.gameplay.Inventory;
@@ -53,7 +54,7 @@ public class GamePlay {
         // Create menu view
         menuView = new MenuView(resolver);
 
-        core.getSoundEngine().play("sounds/intro.wav");
+        core.getSoundEngine().play("sounds/intro.wav", false);
 
     }
 
@@ -61,6 +62,7 @@ public class GamePlay {
      * Start the Game
      */
     private void start() {
+        core.getSoundEngine().play("sounds/siren.mp3", true);
         core.start();
     }
 

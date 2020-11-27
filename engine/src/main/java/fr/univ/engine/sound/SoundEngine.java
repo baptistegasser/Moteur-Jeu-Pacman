@@ -17,19 +17,21 @@ public class SoundEngine {
         this.soundLoader = loader;
     }
 
-    public void play (String name) {
-        System.out.println("Playing " + name);
+    public void play (String name , boolean loop) {
         Media media = soundLoader.getMedia(name);
         MediaPlayer mediaPlayer = new MediaPlayer(media);
+        mediaPlayer.setVolume(0.4);
         mediaPlayer.setAutoPlay(true);
+        if(loop) mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
         mediaPlayer.play();
     }
 
-    public static void staticPlay ( String name) {
+    public static void staticPlay (String name) {
         CachedResourcesLoader cachedResourcesLoader = new CachedResourcesLoader("assets/");
         Media media = cachedResourcesLoader.getMedia(name);
         MediaPlayer mediaPlayer = new MediaPlayer(media);
         mediaPlayer.setAutoPlay(true);
+        mediaPlayer.setVolume(0.4);
         mediaPlayer.play();
     }
 }
