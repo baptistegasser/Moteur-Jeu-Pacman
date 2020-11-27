@@ -1,6 +1,8 @@
 package fr.univ.engine.render;
 
 import fr.univ.engine.render.config.WindowConfig;
+import fr.univ.engine.render.entity.RenderEntity;
+import fr.univ.engine.render.entity.RenderEntityComparator;
 import fr.univ.engine.render.renderer.Renderer;
 import fr.univ.engine.utils.CachedResourcesLoader;
 import javafx.application.Platform;

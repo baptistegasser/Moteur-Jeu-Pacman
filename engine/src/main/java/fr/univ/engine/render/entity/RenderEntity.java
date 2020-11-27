@@ -1,4 +1,4 @@
-package fr.univ.engine.render;
+package fr.univ.engine.render.entity;
 
 import fr.univ.engine.math.Point;
 import fr.univ.engine.render.texture.Texture;
