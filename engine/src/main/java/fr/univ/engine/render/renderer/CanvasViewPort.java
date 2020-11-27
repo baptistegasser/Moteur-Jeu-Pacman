@@ -10,8 +10,8 @@ public class CanvasViewPort extends ViewPort<Canvas> {
 
     public CanvasViewPort(Canvas view) {
         super(view);
-        widthProperty.bind(view.widthProperty());
-        heightProperty.bind(view.heightProperty());
+        bindWidthProperty(view.widthProperty());
+        bindHeightProperty(view.heightProperty());
     }
 
     @Override

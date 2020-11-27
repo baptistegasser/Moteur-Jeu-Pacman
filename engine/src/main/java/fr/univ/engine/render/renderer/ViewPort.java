@@ -24,11 +24,11 @@ public abstract class ViewPort<T> {
     /**
      * Width of the viewport, bindable to another property.
      */
-    protected final DoubleProperty widthProperty;
+    private final DoubleProperty widthProperty;
     /**
      * Height of the viewport, bindable to another property.
      */
-    protected final DoubleProperty heightProperty;
+    private final DoubleProperty heightProperty;
 
     public ViewPort(T view) {
         this.area = view;
