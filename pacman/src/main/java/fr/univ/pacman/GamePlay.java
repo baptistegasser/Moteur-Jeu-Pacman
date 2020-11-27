@@ -41,6 +41,7 @@ public class GamePlay {
         // Create a resolver pointing to the assets dir inside the resources dir
         CachedResourcesLoader resolver = new CachedResourcesLoader("assets/");
         core.getRenderEngine().setTextureLoader(resolver);
+        core.getSoundEngine().setSoundLoader(resolver);
 
         // Create inventory
         inventory = new Inventory();
@@ -51,6 +52,9 @@ public class GamePlay {
 
         // Create menu view
         menuView = new MenuView(resolver);
+
+        core.getSoundEngine().play("sounds/intro.wav");
+
     }
 
     /**

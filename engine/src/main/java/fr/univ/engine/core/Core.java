@@ -77,6 +77,8 @@ public final class Core {
         return renderEngine;
     }
 
+    public SoundEngine getSoundEngine() { return soundEngine; }
+
     /**
      * Update the current scene of the game.
      *
