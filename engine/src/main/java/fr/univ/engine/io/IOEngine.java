@@ -13,12 +13,6 @@ import java.util.concurrent.ConcurrentLinkedDeque;
  */
 public class IOEngine implements KeyEventHandler {
     /**
-     * The input/output engine is a singleton to allow game to
-     * access it without passing references.
-     */
-    private static IOEngine instance;
-
-    /**
      * Store the {@link KeyCode} and their current status.
      */
     private ConcurrentHashMap<KeyCode, EnumSet<Status>> keysStatus;
@@ -26,18 +20,17 @@ public class IOEngine implements KeyEventHandler {
     /**
      * Queue of {@link KeyBoardEvent} to be treated.
      */
-    private final ConcurrentLinkedDeque<KeyBoardEvent> queue = new ConcurrentLinkedDeque<>();
-
-    private IOEngine() {}
-
+    private final ConcurrentLinkedDeque<KeyBoardEvent> queue;
     /**
-     * @return the instance of the engine
+     * Maps of actions to do when a key is pressed.
      */
-    public static IOEngine getInstance() {
-        if (instance == null) {
-            instance = new IOEngine();
-        }
-        return instance;
+    private final HashMap<KeyCode, List<Runnable>> actionsMap;
+
+    public IOEngine() {
+        // Init the map size. Prevent resizing the map's bucket pool too soon.
+        keysStatus = new ConcurrentHashMap<>(40);
+        queue = new ConcurrentLinkedDeque<>();
+        actionsMap = new HashMap<>();
     }
 
     /**
@@ -45,8 +38,6 @@ public class IOEngine implements KeyEventHandler {
      */
     public void start() {
         JFXApp.setKeyEventHandler(this);
-        // Init the map size. Prevent resizing the map's bucket pool too soon.
-        keysStatus = new ConcurrentHashMap<>(40);
     }
 
     /**
@@ -66,6 +57,29 @@ public class IOEngine implements KeyEventHandler {
 
         // For each event, process it to update key status
         snapshot.forEach(this::processKeyBoardEvent);
+
+        // Run every actions
+        keysStatus.forEach((keyCode, statuses) -> {
+            if (statuses.contains(Status.HELD)) {
+                actionsMap.get(keyCode).forEach(Runnable::run);
+            }
+        });
+    }
+
+    /**
+     * Register an action to commit when a key is pressed
+     *
+     * @param code the target key
+     * @param r the action to run
+     */
+    public void on(KeyCode code, Runnable r) {
+        List<Runnable> actions =this.actionsMap.get(code);
+        if (actions == null) {
+            actions = new ArrayList<>();
+        }
+
+        actions.add(r);
+        this.actionsMap.put(code, actions);
     }
 
     /**
@@ -113,30 +127,6 @@ public class IOEngine implements KeyEventHandler {
     @Override
     public void onKeyReleased(KeyEvent keyEvent) {
         queue.add(new KeyBoardEvent(keyEvent.getCode(), Status.UP));
-    }
-
-    /**
-     * @param code the key code
-     * @return true while the user holds down the key
-     */
-    public static boolean getKey(KeyCode code) {
-        return instance.getStatus(code).contains(Status.HELD) || getKeyDown(code);
-    }
-
-    /**
-     * @param code the key code
-     * @return true during the frame the user releases the key
-     */
-    public static boolean getKeyUp(KeyCode code) {
-        return instance.getStatus(code).contains(Status.UP);
-    }
-
-    /**
-     * @param code the key code
-     * @return true during the frame the user starts pressing down the key
-     */
-    public static boolean getKeyDown(KeyCode code) {
-        return instance.getStatus(code).contains(Status.DOWN);
     }
 
     /**

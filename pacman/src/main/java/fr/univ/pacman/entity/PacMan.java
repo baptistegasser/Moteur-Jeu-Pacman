@@ -1,7 +1,6 @@
 package fr.univ.pacman.entity;
 
 import fr.univ.engine.core.GameObject;
-import fr.univ.engine.io.IOEngine;
 import fr.univ.engine.logging.LoggingEngine;
 import fr.univ.engine.math.Point;
 import fr.univ.engine.math.Vector;
@@ -11,7 +10,6 @@ import fr.univ.engine.physic.hitbox.SquareHitBox;
 import fr.univ.engine.render.texture.Texture;
 import fr.univ.engine.sound.SoundEngine;
 import fr.univ.pacman.Game;
-import javafx.scene.input.KeyCode;
 
 /**
  * The class handling the logic of Pac-Man controlled by the player.
@@ -62,10 +60,22 @@ public class PacMan extends GameObject {
 
     @Override
     public void update() {
-        if (IOEngine.getKey(KeyCode.UP)) nextDirection = DIR.UP;
-        if (IOEngine.getKey(KeyCode.DOWN)) nextDirection = DIR.DOWN;
-        if (IOEngine.getKey(KeyCode.LEFT)) nextDirection = DIR.LEFT;
-        if (IOEngine.getKey(KeyCode.RIGHT)) nextDirection = DIR.RIGHT;
+    }
+
+    public void up() {
+        nextDirection = DIR.UP;
+    }
+
+    public void down() {
+        nextDirection = DIR.DOWN;
+    }
+
+    public void left() {
+        nextDirection = DIR.LEFT;
+    }
+
+    public void right() {
+        nextDirection = DIR.RIGHT;
     }
 
     @Override
