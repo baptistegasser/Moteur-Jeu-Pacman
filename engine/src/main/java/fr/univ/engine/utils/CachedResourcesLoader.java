@@ -52,7 +52,7 @@ public class CachedResourcesLoader {
      * @param filePath the path to the image file
      * @return the image instance or null if not found/loaded
      */
-    public Image getTexture(String filePath) {
+    public Image getImage(String filePath) {
         // Don't even bother with null values
         if (filePath == null) {
             return null;
@@ -106,7 +106,7 @@ public class CachedResourcesLoader {
      */
     public void precacheImages(List<String> paths) {
         for (String filePath : paths) {
-            getTexture(filePath);
+            getImage(filePath);
         }
     }
 
