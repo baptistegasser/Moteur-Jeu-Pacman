@@ -1,10 +1,9 @@
 package fr.univ.pacman.item;
 
 import fr.univ.engine.core.GameObject;
-import fr.univ.engine.math.Point;
 import fr.univ.engine.physic.PhysicObject;
 import fr.univ.engine.physic.hitbox.SquareHitBox;
-import fr.univ.pacman.gameplay.GamePlay;
+import fr.univ.pacman.GamePlay;
 
 /**
  * The class handling the logic of Gomme.

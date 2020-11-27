@@ -1,5 +1,7 @@
 package fr.univ.pacman.gameplay;
 
+import fr.univ.pacman.GamePlay;
+
 public class Inventory {
     /**
      * The player score

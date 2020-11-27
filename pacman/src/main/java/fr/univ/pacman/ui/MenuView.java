@@ -3,7 +3,7 @@ package fr.univ.pacman.ui;
 import fr.univ.engine.render.JFXApp;
 import fr.univ.engine.render.RenderEngine;
 import fr.univ.engine.utils.CachedResourcesLoader;
-import fr.univ.pacman.gameplay.GamePlay;
+import fr.univ.pacman.GamePlay;
 import javafx.geometry.Insets;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;

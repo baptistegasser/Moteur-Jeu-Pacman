@@ -1,11 +1,15 @@
-package fr.univ.pacman.gameplay;
+package fr.univ.pacman;
 
 import fr.univ.engine.core.Core;
 import fr.univ.engine.utils.CachedResourcesLoader;
 import fr.univ.engine.render.WindowConfig;
+import fr.univ.pacman.gameplay.Inventory;
 import fr.univ.pacman.map.Map;
 import fr.univ.pacman.ui.MenuView;
 
+/**
+ * The entry point of the Pac-Man Game, setup and start the game.
+ */
 public class GamePlay {
     Core core;
     WindowConfig cfg;
@@ -14,6 +18,15 @@ public class GamePlay {
 
     private static MenuView menuView;
 
+    public static void main(String[] args) {
+        GamePlay gamePlay = new GamePlay();
+
+        gamePlay.start();
+    }
+
+    /**
+     * Init and create all elements for the game
+     */
     public GamePlay() {
         core = new Core(); // Initialize the engine
 
@@ -38,7 +51,12 @@ public class GamePlay {
 
         // Create menu view
         menuView = new MenuView(resolver);
+    }
 
+    /**
+     * Start the Game
+     */
+    private void start() {
         core.start();
     }
 
