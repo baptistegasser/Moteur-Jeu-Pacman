@@ -24,4 +24,12 @@ public class SoundEngine {
         mediaPlayer.setAutoPlay(true);
         mediaPlayer.play();
     }
+
+    public static void staticPlay ( String name) {
+        CachedResourcesLoader cachedResourcesLoader = new CachedResourcesLoader("assets/");
+        Media media = cachedResourcesLoader.getMedia(name);
+        MediaPlayer mediaPlayer = new MediaPlayer(media);
+        mediaPlayer.setAutoPlay(true);
+        mediaPlayer.play();
+    }
 }

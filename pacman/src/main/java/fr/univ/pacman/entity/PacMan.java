@@ -8,6 +8,7 @@ import fr.univ.engine.math.Vector;
 import fr.univ.engine.physic.PhysicEngine;
 import fr.univ.engine.physic.PhysicObject;
 import fr.univ.engine.physic.hitbox.SquareHitBox;
+import fr.univ.engine.sound.SoundEngine;
 import javafx.scene.input.KeyCode;
 
 import java.util.logging.Level;
@@ -49,6 +50,7 @@ public class PacMan extends GameObject {
                 break;
             case "GOMME":
                 LoggingEngine.info("Pac-Man eat a Pac.");
+                SoundEngine.staticPlay("sounds/eating_gomme.wav");
                 break;
             case "SUPER-GOMME":
                 LoggingEngine.info("Pac-Man eat a super Pac !");

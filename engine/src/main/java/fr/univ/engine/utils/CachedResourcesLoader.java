@@ -133,7 +133,6 @@ public class CachedResourcesLoader {
 
         try {
             Media media = tryLoadMedia(filePath);
-            System.out.println("yo");
             cachedMedia.put(filePath, media);
             return media;
         } catch (UtilsException e) {
