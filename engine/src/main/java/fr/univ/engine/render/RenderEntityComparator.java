@@ -1,5 +1,7 @@
 package fr.univ.engine.render;
 
+import fr.univ.engine.render.texture.Texture;
+
 import java.util.Comparator;
 
 /**
@@ -8,11 +10,13 @@ import java.util.Comparator;
 public class RenderEntityComparator implements Comparator<RenderEntity> {
     @Override
     public int compare(RenderEntity o1, RenderEntity o2) {
-        return o1.getTexture().zIndex() - o2.getTexture().zIndex();
-    }
+        Texture t1 = o1.getTexture();
+        Texture t2 = o2.getTexture();
 
-    @Override
-    public boolean equals(Object obj) {
-        return false;
+        if (t1 == null || t2 == null) {
+            return 0;
+        } else {
+            return t1.zIndex() - t2.zIndex();
+        }
     }
 }
