@@ -3,7 +3,7 @@ package fr.univ.engine.render;
 /**
  * Exceptions related to the render package usage.
  */
-class RenderException extends RuntimeException {
+public class RenderException extends RuntimeException {
     public RenderException(String message) {
         super(message);
     }
