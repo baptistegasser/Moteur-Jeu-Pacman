@@ -1,6 +1,6 @@
 package fr.univ.engine.render.renderer;
 
-import fr.univ.engine.render.RenderEntity;
+import fr.univ.engine.render.entity.RenderEntity;
 
 import java.util.List;
 

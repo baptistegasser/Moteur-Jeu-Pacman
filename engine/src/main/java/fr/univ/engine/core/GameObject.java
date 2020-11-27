@@ -3,7 +3,7 @@ package fr.univ.engine.core;
 import fr.univ.engine.math.Point;
 import fr.univ.engine.physic.PhysicEntity;
 import fr.univ.engine.physic.PhysicObject;
-import fr.univ.engine.render.RenderEntity;
+import fr.univ.engine.render.entity.RenderEntity;
 import fr.univ.engine.render.texture.Texture;
 
 import java.util.Objects;
