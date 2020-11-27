@@ -29,7 +29,6 @@ public class GamePlay {
 
         // Create a resolver pointing to the assets dir inside the resources dir
         resolver = new CachedResourcesLoader("assets/");
-        core.getRenderEngine().setTextureLoader(resolver);
 
         // Create inventory
         inventory = new Inventory(0);
