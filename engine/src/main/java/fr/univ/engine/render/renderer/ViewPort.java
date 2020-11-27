@@ -4,7 +4,6 @@ import fr.univ.engine.math.Point;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.value.ObservableValue;
-import javafx.stage.Stage;
 
 /**
  * Representation of the area where the render is done.
