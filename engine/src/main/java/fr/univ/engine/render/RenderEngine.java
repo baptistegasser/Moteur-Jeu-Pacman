@@ -91,7 +91,7 @@ public class RenderEngine {
      * @param o the object to render.
      */
     private void renderObject(RenderObject o) {
-        Image texture = textureLoader.getTexture(o.textureName);
+        Image texture = textureLoader.getImage(o.textureName);
         // Ignore objects without texture
         if (texture != null) {
             viewPort.drawImage(texture, o.x(), o.y(), o.width, o.height);
