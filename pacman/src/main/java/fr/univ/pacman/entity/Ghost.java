@@ -5,6 +5,7 @@ import fr.univ.engine.math.Point;
 import fr.univ.engine.math.Vector;
 import fr.univ.engine.physic.PhysicObject;
 import fr.univ.engine.physic.hitbox.SquareHitBox;
+import fr.univ.pacman.gameplay.GamePlay;
 
 /**
  * The class handling the logic of Ghost.
@@ -47,6 +48,9 @@ public class Ghost extends GameObject {
 
     @Override
     public void onCollisionEnter(PhysicObject collider) {
-
+        if (collider.name().equals("PAC-MAN")) {
+            GamePlay.getInventory().lostLife();
+            collider.getPos().set(new Point(0,32));
+        }
     }
 }

@@ -30,7 +30,7 @@ public class GamePlay {
         core.getRenderEngine().setTextureLoader(resolver);
 
         // Create inventory
-        inventory = new Inventory(0);
+        inventory = new Inventory();
 
         core.setScene(new Map()); // Set the Pac-Man map
 

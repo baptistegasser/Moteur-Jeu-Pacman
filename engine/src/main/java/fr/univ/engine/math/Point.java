@@ -29,6 +29,16 @@ public class Point {
         this.y += vector.y();
     }
 
+    /**
+     * Set new position to this point
+     *
+     * @param point the new point
+     */
+    public void set(Point point) {
+        this.x = point.x;
+        this.y = point.y;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

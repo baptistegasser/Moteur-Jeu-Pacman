@@ -3,6 +3,7 @@ package fr.univ.pacman.ui;
 import fr.univ.engine.render.JFXApp;
 import fr.univ.engine.render.RenderEngine;
 import fr.univ.engine.utils.CachedResourcesLoader;
+import fr.univ.pacman.gameplay.GamePlay;
 import javafx.geometry.Insets;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -22,6 +23,11 @@ public class MenuView {
      */
     private HBox boxScore;
     private Text scoreText;
+
+    /**
+     * The pane for the player score
+     */
+    private HBox boxLife;
 
     /**
      * Font custom
@@ -46,16 +52,45 @@ public class MenuView {
 
         RenderEngine.runOnFXThread(() -> boxScore.getChildren().addAll(scoreText));
         RenderEngine.runOnFXThread(() -> stackPane.getChildren().addAll(boxScore));
+
+        // Create and configure Box
+        boxLife = new HBox();
+        boxLife.setPadding(new Insets(15,0,0,380));
+        boxLife.setStyle("-fx-spacing: 15;");
+
+        //Set Life content
+        for (int i = 0; i< GamePlay.getInventory().getLife();i++) {
+            Image life = resolver.getImage("sprites/pacman.png");
+            ImageView lifeImage = new ImageView(life);
+            lifeImage.setFitHeight(16);
+            lifeImage.setFitWidth(16);
+            RenderEngine.runOnFXThread(() -> boxLife.getChildren().add(lifeImage));
+        }
+        RenderEngine.runOnFXThread(() -> stackPane.getChildren().addAll(boxLife));
     }
 
     /**
-     * Update the content of score pane
+     * Update the content of score box
      */
     private void updateScoreView() {
         RenderEngine.runOnFXThread(() -> boxScore.getChildren().clear());
         scoreText.setFill(Color.RED);
         scoreText.setFont(Font.font(30));
         RenderEngine.runOnFXThread(() -> boxScore.getChildren().addAll(scoreText));
+    }
+
+    /**
+     * Update the content of life box
+     */
+    public void updateLifeView() {
+        RenderEngine.runOnFXThread(() -> boxLife.getChildren().clear());
+        for (int i = 0; i< GamePlay.getInventory().getLife();i++) {
+            Image life = resolver.getImage("sprites/pacman.png");
+            ImageView lifeImage = new ImageView(life);
+            lifeImage.setFitHeight(16);
+            lifeImage.setFitWidth(16);
+            RenderEngine.runOnFXThread(() -> boxLife.getChildren().add(lifeImage));
+        }
     }
 
     /**
