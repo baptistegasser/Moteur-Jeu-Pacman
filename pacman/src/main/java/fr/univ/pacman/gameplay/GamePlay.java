@@ -1,11 +1,8 @@
 package fr.univ.pacman.gameplay;
 
 import fr.univ.engine.utils.CachedResourcesLoader;
-import fr.univ.engine.render.config.WindowConfig;
 import fr.univ.pacman.Game;
-import fr.univ.pacman.map.Map;
 import fr.univ.pacman.ui.GameView;
-import fr.univ.pacman.ui.MenuView;
 
 public class GamePlay {
 
