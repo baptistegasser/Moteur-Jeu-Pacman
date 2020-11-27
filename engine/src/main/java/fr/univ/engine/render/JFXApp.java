@@ -2,6 +2,7 @@ package fr.univ.engine.render;
 
 import com.sun.javafx.application.PlatformImpl;
 import fr.univ.engine.io.KeyEventHandler;
+import fr.univ.engine.render.config.WindowConfig;
 import fr.univ.engine.render.renderer.CanvasViewPort;
 import fr.univ.engine.render.renderer.JFXRenderer;
 import fr.univ.engine.render.renderer.Renderer;

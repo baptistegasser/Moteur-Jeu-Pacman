@@ -1,7 +1,7 @@
 package fr.univ.pacman;
 
 import fr.univ.engine.core.Core;
-import fr.univ.engine.render.WindowConfig;
+import fr.univ.engine.render.config.WindowConfig;
 import fr.univ.engine.utils.CachedResourcesLoader;
 import fr.univ.pacman.gameplay.GameMenu;
 import fr.univ.pacman.map.Map;

@@ -1,4 +1,4 @@
-package fr.univ.engine.render;
+package fr.univ.engine.render.config;
 
 /**
  * Implementation independent window configuration class.
