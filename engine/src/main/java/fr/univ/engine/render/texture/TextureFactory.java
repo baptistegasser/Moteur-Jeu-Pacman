@@ -23,11 +23,11 @@ public class TextureFactory {
      * @param name the relative name of the file as specified in {@link CachedResourcesLoader#getImage(String)} (String)}.
      * @return a texture or null if the image was not found
      */
-    public Texture fromResourcesFile(String name) {
+    public Texture fromResourcesFile(String name, double width, double height) {
         Image image = loader.getImage(name);
         if (image == null) {
             throw new RenderException(String.format("The texture for %s is null.", name));
         }
-        return new Texture(image);
+        return new Texture(width, height, image);
     }
 }
