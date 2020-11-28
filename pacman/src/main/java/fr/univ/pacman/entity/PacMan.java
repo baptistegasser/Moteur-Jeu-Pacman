@@ -1,11 +1,9 @@
 package fr.univ.pacman.entity;
 
-import fr.univ.engine.core.GameObject;
 import fr.univ.engine.logging.LoggingEngine;
 import fr.univ.engine.math.Point;
 import fr.univ.engine.math.Vector;
 import fr.univ.engine.physic.PhysicEngine;
-import fr.univ.engine.physic.PhysicObject;
 import fr.univ.engine.physic.hitbox.SquareHitBox;
 import fr.univ.engine.render.texture.Texture;
 import fr.univ.engine.sound.SoundEngine;
@@ -14,7 +12,7 @@ import fr.univ.pacman.Game;
 /**
  * The class handling the logic of Pac-Man controlled by the player.
  */
-public class PacMan extends GameObject {
+public class PacMan /*extends GameObject */{/*
     private enum DIR {
         UP,
         DOWN,
@@ -101,12 +99,12 @@ public class PacMan extends GameObject {
             target.x += vDir.x();
             target.y += vDir.y();
 
-            if (PhysicEngine.isThereSolidCollision(getPhysicObject(), target)) {
+            /*if (PhysicEngine.canMoveTo(getPhysicObject(), target)) {
                 // Ignore is no place
             } else {
                 getPhysicObject().direction = vDir;
                 nextDirection = DIR.NONE;
             }
         }
-    }
+    }*/
 }

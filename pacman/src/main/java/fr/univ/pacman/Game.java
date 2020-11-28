@@ -1,9 +1,7 @@
 package fr.univ.pacman;
 
 import fr.univ.engine.core.Core;
-import fr.univ.engine.core.GameObject;
 import fr.univ.engine.io.IOEngine;
-import fr.univ.engine.render.config.WindowConfig;
 import fr.univ.engine.utils.CachedResourcesLoader;
 import fr.univ.pacman.entity.PacMan;
 import fr.univ.pacman.gameplay.GameMenu;
@@ -19,10 +17,6 @@ public class Game {
      */
     static Core core;
 
-    /**
-     * The windows configuration
-     */
-    WindowConfig cfg;
 
     /**
      * The resolver for resources
@@ -52,6 +46,7 @@ public class Game {
      * Init and create all elements for the game
      */
     public Game() {
+        /*
         resolver = new CachedResourcesLoader("assets/");
 
         core = new Core(); // Initialize the engine
@@ -86,7 +81,7 @@ public class Game {
 
         core.init(); // Init the game
 
-        //core.getSoundEngine().play("sounds/intro.wav");
+        //core.getSoundEngine().play("sounds/intro.wav");*/
     }
 
     /**

@@ -17,7 +17,7 @@ public class LoadMap {
         if (mapMatrice.length <= 0) {
             System.out.println("The model are empty");
             return;
-        }
+        }/*
 
         // Calcul the max size who an object can be place
         int mapWight = ((mapMatrice[0].length-1)*tileSize)/2;
@@ -51,6 +51,6 @@ public class LoadMap {
                     map.add(new SuperGommeArcEnCiel(x, y));
                 }
             }
-        }
+        }*/
     }
 }

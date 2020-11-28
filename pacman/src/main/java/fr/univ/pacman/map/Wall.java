@@ -1,9 +1,8 @@
 package fr.univ.pacman.map;
 
-import fr.univ.engine.core.GameObject;
 import fr.univ.engine.physic.hitbox.SquareHitBox;
 
-public class Wall extends GameObject {
+public class Wall/* extends GameObject*/ {/*
     public Wall(int x, int y) {
         super(x, y);
         setName("WALL");
@@ -12,5 +11,5 @@ public class Wall extends GameObject {
         this.physicObject.setHitBox(new SquareHitBox(16));
 
         physicObject.getHitBox().setSolid(true);
-    }
+    }*/
 }

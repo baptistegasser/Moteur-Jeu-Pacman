@@ -1,16 +1,13 @@
 package fr.univ.pacman.map;
 
-import fr.univ.engine.core.Scene;
 import fr.univ.pacman.entity.Ghost;
 import fr.univ.pacman.entity.PacMan;
-import fr.univ.pacman.item.Gomme;
-import fr.univ.pacman.item.SuperGomme;
 
 /**
  * The Pac-Man game scene.
  * Define the different elements (walls, ghosts, player, etc)
  */
-public class Map extends Scene {
+public class Map /*extends Scene */{/*
 
     public static final int TILE_SIZE = 16;
     public static final int BACKGROUND_WIGHT = 448;
@@ -28,5 +25,5 @@ public class Map extends Scene {
         add(new Ghost(0,-48,"red"));
         add(new Ghost(0,-16,"blue"));
         add(new Ghost(-32,-16,"pink"));
-    }
+    }*/
 }
