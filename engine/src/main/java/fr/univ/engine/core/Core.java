@@ -1,14 +1,17 @@
 package fr.univ.engine.core;
 
+import fr.univ.engine.core.config.Config;
 import fr.univ.engine.io.IOEngine;
 import fr.univ.engine.logging.LoggingEngine;
 import fr.univ.engine.physic.PhysicEngine;
+import fr.univ.engine.physic.component.PhysicComponent;
 import fr.univ.engine.render.JFXApp;
 import fr.univ.engine.render.RenderEngine;
+import fr.univ.engine.render.component.RenderComponent;
 import fr.univ.engine.sound.SoundEngine;
 import javafx.scene.paint.Color;
 
-import java.util.logging.Level;
+import java.util.Arrays;
 
 /**
  * The core engine, charged to link all subsequent engines.
@@ -16,22 +19,9 @@ import java.util.logging.Level;
  */
 public final class Core {
     /**
-     * Should the engine's main loop quit ?
+     * The configuration of the current game.
      */
-    private boolean quit = false;
-    /**
-     * Should the engine's main loop pause ?
-     */
-    private boolean pause = false;
-    /**
-     * The singleton instance of the core engine.
-     */
-    private static Core instance;
-
-    /**
-     * The current game scene.
-     */
-    private Scene scene;
+    private Config config;
 
     /**
      * The render engine instance used to render.
@@ -54,78 +44,67 @@ public final class Core {
     private final SoundEngine soundEngine;
 
     /**
-     * Initialize the engine.
+     * The current game level.
      */
-    public Core() {
-        if (instance != null) {
-            throw new IllegalStateException("Core Engine already instantiated");
-        } else {
-            instance = this;
-        }
+    private Level level;
 
-        this.renderEngine = new RenderEngine();
-        this.physicEngine = new PhysicEngine();
+    /**
+     * Should the engine's main loop quit ?
+     */
+    private boolean quit = false;
+    /**
+     * Should the engine's main loop pause ?
+     */
+    private boolean pause = false;
+
+    /**
+     * Time step between call to the physic engine.
+     */
+    private final double dt = 0.01;
+    /**
+     * Target time step between two frame render.
+     */
+    private final double SECOND_PER_FRAME = 1/60d;
+
+    /**
+     * Create a new instance of the core engine.
+     *
+     * @param args arguments passed from the commande line.
+     */
+    Core(String... args) {
+        // TODO parse arguments
+        System.out.println("Args: " + Arrays.toString(args));
+
+        this.config = new Config();
+        this.renderEngine = new RenderEngine(config);
+        this.physicEngine = new PhysicEngine(this);
         this.ioEngine = new IOEngine();
         this.soundEngine = new SoundEngine();
-        JFXApp.getIsClosingProperty().addListener(o -> this.quit()); // listen for render app closing
     }
 
     /**
-     * @return the render engine instance.
+     * Initialize the sub engines.
      */
-    public RenderEngine getRenderEngine() {
-        return renderEngine;
-    }
-
-    public SoundEngine getSoundEngine() { return soundEngine; }
-    public IOEngine getIOEngine() { return ioEngine; }
-
-    /**
-     * Update the current scene of the game.
-     *
-     * @param scene the new scene
-     */
-    public void setScene(Scene scene) {
-        if (scene == null) {
-            throw new CoreException("The scene is null", new NullPointerException());
-        }
-
-        this.scene = scene;
-    }
-
-    /**
-     * Init the game engine.
-     */
-    public void init() {
-        LoggingEngine.setLevel(Level.INFO);
+    void init() {
+        LoggingEngine.setLevel(java.util.logging.Level.INFO);
         LoggingEngine.setAutoColor(true);
 
-        renderEngine.start();
-
+        renderEngine.init();
         ioEngine.start();
+
+        JFXApp.getIsClosingProperty().addListener(o -> this.quit()); // listen for render app closing
     }
 
     /**
      * Start the game.
      */
     public void start() {
-        try {
-            mainLoop();
-        } catch (Throwable t) {
-            throw new CoreException("Exception during main loop", t);
-        }
+        System.out.println("Starting " + config.title + " v" + config.version);
+        renderEngine.showWindow();
+        loop();
     }
 
-    /**
-     * The main loop of the game, call other modules such as render and physic.
-     */
-    private void mainLoop() {
-        double targetFPS = 60d;
-        double secondPerFrame = 1/targetFPS;
-
-        double t = 0.0;
-        // Fix the time step. Better than being relative to fps as you can change target fps without changing the physic speed
-        double dt = 0.01;
+    private void loop() {
         double accumulator = 0.0;
 
         while (!quit) {
@@ -141,21 +120,10 @@ public final class Core {
                 currentTime = newTime;
 
                 accumulator += elapsedTime; // accumulate
-
-                while (accumulator >= dt) {
-                    // Integrate a step of time dt
-                    long s = System.nanoTime();
-                    physicEngine.integrate(scene.objects(), t, dt);
-                    LoggingEngine.logElapsedTime(s, System.nanoTime(), "PhysicEngine::integrate");
-
-                    // Decrease remaining time to integrate by dt
-                    accumulator -= dt;
-                    // Increase the time elapsed since engine start by dt
-                    t += dt;
-                }
+                accumulator = integrate(accumulator); // Integrate
 
                 // Render a frame if enough time have elapsed
-                if (currentTime - lastFrames >= secondPerFrame) {
+                if (currentTime - lastFrames >= SECOND_PER_FRAME) {
                     lastFrames = currentTime;
                     frames += 1;
 
@@ -164,7 +132,7 @@ public final class Core {
                     LoggingEngine.logElapsedTime(s, System.nanoTime(), "IOEngine::nextFrame");
 
                     s = System.nanoTime();
-                    renderEngine.render(scene.objects());
+                    renderEngine.render(level.getEntitiesWithComponent(RenderComponent.class));
                     LoggingEngine.logElapsedTime(s, System.nanoTime(), "RenderEngine::render");
                 }
 
@@ -178,12 +146,17 @@ public final class Core {
         }
     }
 
-    /**
-     * Quit the main loop, stop the engine.
-     */
-    public void quit() {
-        pause();
-        quit = true;
+    private double integrate(double accumulator) {
+        while (accumulator >= dt) {
+            // Integrate a step of time dt
+            long s = System.nanoTime();
+            physicEngine.integrate(level.getEntitiesWithComponent(PhysicComponent.class));
+            LoggingEngine.logElapsedTime(s, System.nanoTime(), "PhysicEngine::integrate");
+
+            // Decrease remaining time to integrate by dt
+            accumulator -= dt;
+        }
+        return accumulator;
     }
 
     /**
@@ -201,16 +174,59 @@ public final class Core {
     }
 
     /**
-     * @return the running instance of the core engine, might be null before init
+     * Quit the main loop, stop the engine.
      */
-    public static Core getInstance() {
-        return instance;
+    public void quit() {
+        pause();
+        quit = true;
+    }
+
+
+    //*******************************//
+    //*     getters and setters     *//
+    //*******************************//
+
+    /**
+     * @return the physic engine handled by this core instance.
+     */
+    PhysicEngine physicEngine() {
+        return this.physicEngine;
     }
 
     /**
-     * @return the current game scene.
+     * @return the input/output engine handled by this core instance.
      */
-    public Scene getScene() {
-        return scene;
+    IOEngine IOEngine() {
+        return this.ioEngine;
+    }
+
+    /**
+     * @return the sound engine handled by this core instance.
+     */
+    SoundEngine soundEngine() {
+        return this.soundEngine;
+    }
+
+    /**
+     * @return the configuration of the current game.
+     */
+    public Config config() {
+        return config;
+    }
+
+    /**
+     * Set the current level.
+     *
+     * @param level the new level.
+     */
+    void setLevel(Level level) {
+        this.level = level;
+    }
+
+    /**
+     * Get the game level.
+     */
+    public Level getLevel() {
+        return this.level;
     }
 }
