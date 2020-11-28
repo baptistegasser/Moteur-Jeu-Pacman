@@ -13,20 +13,29 @@ public class KeyData {
      */
     private final EnumSet<Status> statuses;
     /**
-     * The action linked to this key.
+     * The actions to run when the key is pressed.
      */
-    private final List<Runnable> actions;
+    private final List<Runnable> onPressed;
+    /**
+     * The actions to run when the key is released.
+     */
+    private final List<Runnable> onReleased;
 
     public KeyData() {
         this.statuses = Status.NONE.clone();
-        this.actions = new ArrayList<>();
+        this.onPressed = new ArrayList<>();
+        this.onReleased = new ArrayList<>();
     }
 
     public EnumSet<Status> statuses() {
         return statuses;
     }
 
-    public List<Runnable> actions() {
-        return actions;
+    public List<Runnable> onPressed() {
+        return onPressed;
+    }
+
+    public List<Runnable> onReleased() {
+        return onReleased;
     }
 }

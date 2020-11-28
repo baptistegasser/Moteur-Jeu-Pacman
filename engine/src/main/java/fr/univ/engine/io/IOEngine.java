@@ -55,8 +55,11 @@ public class IOEngine implements KeyEventHandler {
 
         // Run every actions
         keys.forEach((keyCode, keyData) -> {
-            if (keyData.statuses().contains(Status.HELD)) {
-                keyData.actions().forEach(Runnable::run);
+            if (keyData.statuses().contains(Status.DOWN)) {
+                keyData.onPressed().forEach(Runnable::run);
+            }
+            if (keyData.statuses().contains(Status.UP)) {
+                keyData.onReleased().forEach(Runnable::run);
             }
         });
     }
@@ -67,9 +70,21 @@ public class IOEngine implements KeyEventHandler {
      * @param code the target key
      * @param r the action to run
      */
-    public void on(KeyCode code, Runnable r) {
+    public void onKeyPressed(KeyCode code, Runnable r) {
         KeyData data = keys.getOrDefault(code, new KeyData());
-        data.actions().add(r);
+        data.onPressed().add(r);
+        keys.put(code, data);
+    }
+
+    /**
+     * Register an action to commit when a key is released
+     *
+     * @param code the target key
+     * @param r the action to run
+     */
+    public void onKeyReleased(KeyCode code, Runnable r) {
+        KeyData data = keys.getOrDefault(code, new KeyData());
+        data.onReleased().add(r);
         keys.put(code, data);
     }
 
