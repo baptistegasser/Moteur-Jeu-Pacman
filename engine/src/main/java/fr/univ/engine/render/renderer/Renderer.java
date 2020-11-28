@@ -1,11 +1,11 @@
 package fr.univ.engine.render.renderer;
 
-import fr.univ.engine.render.entity.RenderEntity;
+import fr.univ.engine.core.entity.Entity;
 
 import java.util.List;
 
 /**
- * Class charged to implement methods used to render {@link RenderEntity}.
+ * Class charged to implement methods used to render an {@link Entity}.
  *
  * @param <T> the type of the area used to render as specified in {@link ViewPort}.
  */
@@ -25,5 +25,5 @@ public abstract class Renderer<T> {
      *
      * @param entities the list of entities to render
      */
-    public abstract void render(List<RenderEntity> entities);
+    public abstract void render(List<Entity> entities);
 }

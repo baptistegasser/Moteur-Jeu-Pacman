@@ -1,8 +1,7 @@
 package fr.univ.engine.render;
 
+import fr.univ.engine.core.entity.Entity;
 import fr.univ.engine.render.config.WindowConfig;
-import fr.univ.engine.render.entity.RenderEntity;
-import fr.univ.engine.render.entity.RenderEntityComparator;
 import fr.univ.engine.render.renderer.Renderer;
 import javafx.application.Platform;
 
@@ -32,11 +31,10 @@ public class RenderEngine {
     /**
      * Start the Rendering engine.
      */
-    public void start() {
+    public void init() {
         try {
             JFXApp.setWindowConfig(window);
             JFXApp.startAndWaitUntilReady();
-            JFXApp.showWindow();
             this.renderer = JFXApp.getRenderer();
         } catch (InterruptedException e) {
             throw new RenderException("Failed to wait for JFX app start", e);
@@ -46,17 +44,24 @@ public class RenderEngine {
     }
 
     /**
-     * Display a list of {@code RenderEntity} on screen.
+     * Display a list of {@code Entity} on screen.
      *
      * @param entities the entities to render.
      */
-    public void render(List<RenderEntity> entities) {
-        // Sort the entities
-        entities.sort(new RenderEntityComparator());
-        // Update them
-        entities.forEach(RenderEntity::update);
+    public void render(List<Entity> entities) {
         // Render them
         renderer.render(entities);
+    }
+
+    /**
+     * Show the window.
+     */
+    public void showWindow() {
+        try {
+            JFXApp.showWindow();
+        } catch (InterruptedException e) {
+            throw new RenderException("Failed to show the window", e);
+        }
     }
 
     /**
