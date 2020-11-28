@@ -29,5 +29,6 @@ public class GameEngineTest extends GameApplication {
     @Override
     protected void initGame() {
         core().quit(); // instant quit
+        renderEngine().hideWindow();
     }
 }
