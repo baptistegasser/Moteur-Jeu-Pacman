@@ -5,7 +5,6 @@ import javafx.scene.image.Image;
 import javafx.scene.media.Media;
 import javafx.scene.text.Font;
 
-import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -77,7 +76,7 @@ public final class AssetsLoader {
 
         if (font == null) {
             URI uri = getResourceURI(key);
-            font = Font.loadFont(uri.toString(), 1);
+            font = Font.loadFont(uri.toString().replace("%20", " "), 1);
             cache.put(key, font);
         }
         return font;
@@ -116,14 +115,6 @@ public final class AssetsLoader {
         try {
             return url.toURI();
         } catch (URISyntaxException e) {
-            throw new AssetException(String.format("Invalid path to asset at '%s'", relativePath), e);
-        }
-    }
-
-    private static URL getResourceURL(String relativePath) {
-        try {
-            return getResourceURI(relativePath).toURL();
-        } catch (MalformedURLException e) {
             throw new AssetException(String.format("Invalid path to asset at '%s'", relativePath), e);
         }
     }
