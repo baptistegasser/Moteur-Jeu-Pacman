@@ -9,6 +9,7 @@ import fr.univ.engine.math.Vector;
 import fr.univ.engine.physic.hitbox.HitBox;
 import fr.univ.engine.render.texture.Texture;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -32,7 +33,7 @@ public class EntityBuilder {
 
     public EntityBuilder() {
         // Reserve place for render and physic components.
-        components = Arrays.asList(null, null);
+        components = new ArrayList<>(Arrays.asList(null, null));
     }
 
     public EntityBuilder type(Object type) {
