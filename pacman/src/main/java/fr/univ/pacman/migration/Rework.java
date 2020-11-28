@@ -40,10 +40,10 @@ public class Rework extends GameApplication {
         DoubleProperty score = new SimpleDoubleProperty();
 
         PacManLogic pacmanLogic = getLevel().getSingletonEntity(Type.PACMAN).getComponent(PacManLogic.class);
-        IOEngine().on(KeyCode.UP, pacmanLogic::up);
-        IOEngine().on(KeyCode.DOWN, pacmanLogic::down);
-        IOEngine().on(KeyCode.LEFT, pacmanLogic::left);
-        IOEngine().on(KeyCode.RIGHT, pacmanLogic::right);
+        IOEngine().onKeyPressed(KeyCode.UP, pacmanLogic::up);
+        IOEngine().onKeyPressed(KeyCode.DOWN, pacmanLogic::down);
+        IOEngine().onKeyPressed(KeyCode.LEFT, pacmanLogic::left);
+        IOEngine().onKeyPressed(KeyCode.RIGHT, pacmanLogic::right);
 
         physicEngine().onCollision(PACMAN, WALL, (e1, e2) -> pacmanLogic.stop());
         physicEngine().onCollision(PACMAN, GHOST, (e1, e2) -> {
