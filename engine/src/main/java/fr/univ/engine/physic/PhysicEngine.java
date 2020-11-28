@@ -1,9 +1,11 @@
 package fr.univ.engine.physic;
 
 import fr.univ.engine.core.Core;
+import fr.univ.engine.core.entity.Entity;
 import fr.univ.engine.math.Point;
 import fr.univ.engine.physic.collision.CollisionHandler;
 import fr.univ.engine.physic.collision.CollisionHandlerWrapper;
+import fr.univ.engine.physic.component.PhysicComponent;
 import fr.univ.engine.physic.hitbox.HitBox;
 
 import java.util.ArrayList;
@@ -14,11 +16,19 @@ import java.util.List;
  */
 public class PhysicEngine {
     /**
+     * The core engine managing this instance.
+     * Keep a reference to access the current level
+     * for method requested by user.
+     */
+    private final Core core;
+
+    /**
      * List of handler for different kinds of collision.
      */
     private final List<CollisionHandlerWrapper> collisionHandlers;
 
-    public PhysicEngine() {
+    public PhysicEngine(Core core) {
+        this.core = core;
         this.collisionHandlers = new ArrayList<>();
     }
 
@@ -51,6 +61,20 @@ public class PhysicEngine {
     }
 
     /**
+     * Fonction called at a fixed interval dt to update physic.
+     *
+     * @param objects the list of game objects int the game
+     */
+    public void integrate(List<Entity> objects) {
+        // Move all of object
+        List<Entity> movedObjects = move(objects);
+        // Check for collision
+        for (Entity o : movedObjects) {
+            collision(objects, o);
+        }
+    }
+
+    /**
      * Function call for object movement in mainLoop
      *
      * @param objects all Object in a game
@@ -58,35 +82,19 @@ public class PhysicEngine {
      * @param dt the time-step elapsed between updates
      * @return only object that have moved
      */
-    private List<PhysicEntity> move(List<PhysicEntity> objects, double t, double dt) {
-        List<PhysicEntity> returnObject = new ArrayList<>();
+    private List<Entity> move(List<Entity> objects) {
+        List<Entity> returnObject = new ArrayList<>();
 
-        for (PhysicEntity object : objects) {
-            object.fixedUpdate(t, dt);
-            if (object.getPhysicObject().direction.magnitude() != 0) {
+        for (Entity object : objects) {
+            PhysicComponent component = object.getComponent(PhysicComponent.class);
+            if (component.direction().magnitude() != 0) {
                 returnObject.add(object);
                 // displacement for physic and render
-                object.getPhysicObject().getPos().add(object.getPhysicObject().direction);
+                object.transform().getPosition().add(component.direction());
             }
         }
 
         return returnObject;
-    }
-
-    /**
-     * Fonction called at a fixed interval dt to update physic.
-     *
-     * @param objects the list of game objects int the game
-     * @param t the time elapsed since engine started
-     * @param dt the time-step elapsed between updates
-     */
-    public void integrate(List<PhysicEntity> objects, double t, double dt) {
-        // Move all of object
-        List<PhysicEntity> movedObjects = move(objects, t, dt);
-        // Check for collision
-        for (PhysicEntity o : movedObjects) {
-            collision(objects, o);
-        }
     }
 
     /**
@@ -95,43 +103,46 @@ public class PhysicEngine {
      * @param objects the list of game objects int the game
      * @param object Object we want to test
      */
-    private void collision(List<PhysicEntity> objects, PhysicEntity object) {
-        for (PhysicEntity target : objects) {
-            // Don't test on same object and on empty object
-            if (target != object && target.getPhysicObject().getHitBox().getSize() > 0) {
-                PhysicObject obj = object.getPhysicObject();
-                PhysicObject tgt = target.getPhysicObject();
+    private void collision(List<Entity> objects, Entity object) {
+        for (Entity target : objects) {
+            PhysicComponent targetPhysic = target.getComponent(PhysicComponent.class);
 
-                if (obj.getHitBox().intersect(tgt.getHitBox())) {
+            // Don't test on same object and on empty object
+            if (target != object && targetPhysic.getHitBox().getSize() > 0) {
+                PhysicComponent objectPhysic = object.getComponent(PhysicComponent.class);
+
+                if (objectPhysic.getHitBox().intersect(targetPhysic.getHitBox())) {
                     // Rollback pos if hit a solid object
-                    if (tgt.getHitBox().isSolid()) {
-                        obj.getPos().add(obj.direction.reverse());
+                    if (targetPhysic.getHitBox().isSolid()) {
+                        object.transform().getPosition().add(objectPhysic.direction().reverse());
                     }
 
-                    object.onCollisionEnter(tgt);
-                    target.onCollisionEnter(obj);
+                    for (CollisionHandler handler : getCollisionHandlers(object.type(), target.type())) {
+                        handler.handleCollision(object, target);
+                    }
                 }
             }
         }
     }
 
-    public static boolean isThereSolidCollision(PhysicObject o, Point target) {
-        HitBox h = o.getHitBox();
-        Point oldPos = h.getPosition();
-        h.setPosition(target);
+    public boolean canMoveTo(Entity entity, Point target) {
+        HitBox entityBox = entity.getComponent(PhysicComponent.class).getHitBox();
+        Point oldPos = entity.transform().getPosition();
+        entity.transform().setPosition(target);
 
         boolean intersect = false;
-        List<PhysicEntity> entities = Core.getInstance().getScene().objects();
-        for (PhysicEntity e : entities) {
-            if (e.getPhysicObject() == o || !e.getPhysicObject().getHitBox().isSolid()) continue;
+        List<Entity> entities = core.getLevel().getEntitiesWithComponent(PhysicComponent.class);
+        for (Entity e : entities) {
+            HitBox targetBox = e.getComponent(PhysicComponent.class).getHitBox();
+            if (entity == e || targetBox.isSolid()) continue;
 
-            if (e.getPhysicObject().getHitBox().intersect(h)) {
+            if (targetBox.intersect(entityBox)) {
                 intersect = true;
                 break;
             }
         }
 
-        h.setPosition(oldPos);
+        entity.transform().setPosition(oldPos);
         return intersect;
     }
 }
