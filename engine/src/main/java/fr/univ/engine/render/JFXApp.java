@@ -117,9 +117,29 @@ public final class JFXApp extends Application {
         stage.showingProperty().addListener(listener);
         if (stage != null && !stage.isShowing()) {
             Platform.runLater(stage::show);
+            showLatch.await();
         }
+    }
 
-        showLatch.await();
+    /**
+     * Hide the window if it's showing.
+     */
+    public static void hideWindow() throws InterruptedException {
+        CountDownLatch hideLatch = new CountDownLatch(1);
+        ChangeListener<Boolean> listener = new ChangeListener<>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if (!newValue) {
+                    hideLatch.countDown();
+                    stage.showingProperty().removeListener(this);
+                }
+            }
+        };
+        stage.showingProperty().addListener(listener);
+        if (stage != null && stage.isShowing()) {
+            Platform.runLater(stage::hide);
+            hideLatch.await();
+        }
     }
 
     /**

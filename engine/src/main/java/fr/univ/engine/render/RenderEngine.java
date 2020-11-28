@@ -59,6 +59,17 @@ public class RenderEngine {
     }
 
     /**
+     * hide the window.
+     */
+    public void hideWindow() {
+        try {
+            JFXApp.hideWindow();
+        } catch (InterruptedException e) {
+            throw new RenderException("Failed to hide the window", e);
+        }
+    }
+
+    /**
      * Util function that assert a runnable is run on the JavaFX Thread.
      * Note: this should be used only for code that REALLY need the Thread as it had
      * overhead and so increase time to execute.
