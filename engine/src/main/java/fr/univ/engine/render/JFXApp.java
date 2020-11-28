@@ -102,7 +102,7 @@ public final class JFXApp extends Application {
     /**
      * Show the window if it's not showing.
      */
-    public static void showWindow() {
+    public static void showWindow() throws InterruptedException {
         CountDownLatch showLatch = new CountDownLatch(1);
         ChangeListener<Boolean> listener = new ChangeListener<>() {
             @Override
@@ -117,11 +117,8 @@ public final class JFXApp extends Application {
         if (stage != null && !stage.isShowing()) {
             Platform.runLater(stage::show);
         }
-        try {
-            showLatch.await();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+
+        showLatch.await();
     }
 
     /**
