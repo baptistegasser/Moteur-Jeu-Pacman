@@ -3,6 +3,7 @@ package fr.univ.engine.core;
 import fr.univ.engine.core.config.Config;
 import fr.univ.engine.io.IOEngine;
 import fr.univ.engine.physic.PhysicEngine;
+import fr.univ.engine.render.RenderEngine;
 import fr.univ.engine.sound.SoundEngine;
 import fr.univ.engine.ui.UiEngine;
 import fr.univ.engine.ui.UiObject;
@@ -124,6 +125,13 @@ public abstract class GameApplication {
      */
     protected final UiEngine uiEngine() {
         return core.uiEngine();
+    }
+
+    /**
+     * @return the render engine of this game.
+     */
+    protected final RenderEngine renderEngine() {
+        return core.renderEngine();
     }
 
     /**

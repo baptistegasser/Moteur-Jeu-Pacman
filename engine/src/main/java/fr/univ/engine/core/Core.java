@@ -222,6 +222,13 @@ public final class Core {
     }
 
     /**
+     * @return the render engine handled by this core instance.
+     */
+    RenderEngine renderEngine() {
+        return renderEngine;
+    }
+
+    /**
      * @return the configuration of the current game.
      */
     public Config config() {
