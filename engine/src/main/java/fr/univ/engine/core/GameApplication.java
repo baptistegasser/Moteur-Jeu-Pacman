@@ -8,11 +8,17 @@ import fr.univ.engine.sound.SoundEngine;
 /**
  * The base class that a game should implement to use the engine.
  * <p>
+ * Note: At any given point, only one instance is allowed to run.
+ * <p>
  * CREDITS: the {@link #launch(String[])} mechanism to auto-load the
  * calling class extending {@code GameApplication} are heavily based
  * on the {@link javafx.application.Application#launch(String...)} implementation.
  */
 public abstract class GameApplication {
+    /**
+     * The current instance.
+     */
+    private static GameApplication instance;
     /**
      * The core engine instance running this game.
      */
@@ -96,8 +102,19 @@ public abstract class GameApplication {
      * @param args arguments to configure the engine/game
      */
     public static void launch(Class<? extends GameApplication> gameClass, String... args) {
-        GameApplication app = newInstance(gameClass);
-        app.launch$(args);
+        if (instance != null) {
+            throw new CoreException("A GameApplication is already running, aborting launch");
+        }
+
+        instance = newInstance(gameClass);
+        instance.launch$(args);
+    }
+
+    /**
+     * @return the current game instance.
+     */
+    public static GameApplication getInstance() {
+        return instance;
     }
 
     /**
