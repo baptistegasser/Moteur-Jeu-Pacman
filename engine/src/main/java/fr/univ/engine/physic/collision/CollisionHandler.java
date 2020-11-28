@@ -1,6 +1,6 @@
 package fr.univ.engine.physic.collision;
 
-import fr.univ.engine.core.test.Entity;
+import fr.univ.engine.core.entity.Entity;
 
 /**
  * Functional interface to handle collision between entities.
