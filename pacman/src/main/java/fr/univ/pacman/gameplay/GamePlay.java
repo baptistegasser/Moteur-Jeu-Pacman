@@ -16,8 +16,8 @@ public class GamePlay {
      */
     private GameView gameView;
 
-    public GamePlay(CachedResourcesLoader resolver) {
-        gameView = new GameView(resolver);
+    public GamePlay() {
+        gameView = new GameView();
 
         // Create inventory
         inventory = new Inventory(this);

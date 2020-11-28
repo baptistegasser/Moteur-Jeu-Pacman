@@ -2,6 +2,7 @@ package fr.univ.pacman.ui;
 
 import fr.univ.engine.render.JFXApp;
 import fr.univ.engine.render.RenderEngine;
+import fr.univ.engine.ui.UiObject;
 import fr.univ.engine.utils.CachedResourcesLoader;
 import fr.univ.pacman.gameplay.GamePlay;
 import javafx.geometry.Insets;
@@ -13,17 +14,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
-public class GameView {
+public class GameView extends UiObject {
 
-    /**
-     * The resolver for resources
-     */
-    private final CachedResourcesLoader resolver;
-
-    /**
-     * Pane of JFXApp
-     */
-    private StackPane mainPane;
     /**
      * Pane with all element
      */
@@ -47,12 +39,9 @@ public class GameView {
 
     /**
      * Prepare elements
-     * @param resolver the resolver for resources
      */
-    public GameView(CachedResourcesLoader resolver) {
-        this.mainPane = JFXApp.stackPane;
+    public GameView() {
         this.elementPane = new StackPane();
-        this.resolver = resolver;
 
         //Load font
         this.font = this.resolver.getFont("font/PressStart2P.ttf");
@@ -72,8 +61,8 @@ public class GameView {
         scoreText.setStyle("-fx-font-size: 15;");
         scoreText.setFill(Color.RED);
 
-        RenderEngine.runOnFXThread(() -> boxScore.getChildren().addAll(scoreText));
-        RenderEngine.runOnFXThread(() -> elementPane.getChildren().addAll(boxScore));
+        boxScore.getChildren().addAll(scoreText);
+        elementPane.getChildren().addAll(boxScore);
 
         // Create and configure Box
         boxLife = new HBox();
@@ -82,9 +71,9 @@ public class GameView {
 
         //Set Life content
         constructLifeView();
-        RenderEngine.runOnFXThread(() -> elementPane.getChildren().addAll(boxLife));
+        elementPane.getChildren().addAll(boxLife);
 
-        RenderEngine.runOnFXThread(() -> mainPane.getChildren().addAll(elementPane));
+        addElement(elementPane);
     }
 
     /**
