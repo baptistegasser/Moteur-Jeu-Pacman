@@ -11,12 +11,12 @@ public interface KeyEventHandler {
      *
      * @param keyEvent the information about this event
      */
-    void onKeyPressed(KeyEvent keyEvent);
+    void notifyKeyPressed(KeyEvent keyEvent);
 
     /**
      * Method called when a key is released.
      *
      * @param keyEvent the information about this event
      */
-    void onKeyReleased(KeyEvent keyEvent);
+    void notifyKeyReleased(KeyEvent keyEvent);
 }

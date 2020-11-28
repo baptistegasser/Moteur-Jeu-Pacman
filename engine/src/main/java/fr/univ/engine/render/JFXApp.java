@@ -69,8 +69,8 @@ public final class JFXApp extends Application {
      * @param handler the new handler
      */
     public static void setKeyEventHandler(KeyEventHandler handler) {
-        stage.getScene().setOnKeyPressed(handler::onKeyPressed);
-        stage.getScene().setOnKeyReleased(handler::onKeyReleased);
+        stage.getScene().setOnKeyPressed(handler::notifyKeyPressed);
+        stage.getScene().setOnKeyReleased(handler::notifyKeyReleased);
     }
 
     @Override

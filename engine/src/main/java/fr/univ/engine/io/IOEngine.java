@@ -113,12 +113,12 @@ public class IOEngine implements KeyEventHandler {
     }
 
     @Override
-    public void onKeyPressed(KeyEvent keyEvent) {
+    public void notifyKeyPressed(KeyEvent keyEvent) {
         queue.add(new KeyBoardEvent(keyEvent.getCode(), Status.DOWN));
     }
 
     @Override
-    public void onKeyReleased(KeyEvent keyEvent) {
+    public void notifyKeyReleased(KeyEvent keyEvent) {
         queue.add(new KeyBoardEvent(keyEvent.getCode(), Status.UP));
     }
 }
