@@ -59,4 +59,20 @@ public class Entity {
         }
         return null;
     }
+
+    /**
+     * Check if this entity have a specific component.
+     *
+     * @param componentClass the tye of the component.
+     * @return true if their is a non null component matching the wanted tpye.
+     */
+    public boolean hasComponent(Class<? extends Component> componentClass) {
+        final String name = componentClass.getName();
+        for (Component c : components) {
+            if (c != null && c.getClass().getName().equals(name)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

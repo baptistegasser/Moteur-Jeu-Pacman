@@ -1,5 +1,6 @@
 package fr.univ.engine.core;
 
+import fr.univ.engine.core.component.Component;
 import fr.univ.engine.core.entity.Entity;
 
 import java.util.ArrayList;
@@ -75,9 +76,20 @@ public class Level {
      * @return a list of matching entities or an empty list.
      */
     public List<Entity> getEntities(Object type) {
-        return entities
-                .stream()
+        return entities.stream()
                 .filter(entity -> entity.type().equals(type))
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Return all entities with the specified component.
+     *
+     * @param componentClass the type of the wanted component
+     * @return the matching entities.
+     */
+    public List<Entity> getEntitiesWithComponent(Class<? extends Component> componentClass) {
+        return entities.stream()
+                .filter(entity -> entity.hasComponent(componentClass))
                 .collect(Collectors.toList());
     }
 }
