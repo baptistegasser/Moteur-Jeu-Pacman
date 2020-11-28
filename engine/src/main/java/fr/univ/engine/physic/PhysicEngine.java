@@ -16,7 +16,11 @@ public class PhysicEngine {
     /**
      * List of handler for different kinds of collision.
      */
-    private List<CollisionHandlerWrapper> collisionHandlers;
+    private final List<CollisionHandlerWrapper> collisionHandlers;
+
+    public PhysicEngine() {
+        this.collisionHandlers = new ArrayList<>();
+    }
 
     /**
      * Add a new handler for collisions of a given types of entities.
