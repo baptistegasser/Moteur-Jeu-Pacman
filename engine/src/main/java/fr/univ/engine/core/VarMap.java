@@ -23,7 +23,7 @@ public class VarMap {
      * @param name the name of the variable.
      * @param value the value of the variable.
      */
-    public void setVar(String name, Object value) {
+    public void put(String name, Object value) {
         variables.put(name, value);
     }
 
