@@ -9,6 +9,7 @@ import javafx.application.Platform;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import javafx.scene.transform.Rotate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +32,18 @@ public class JFXRenderer extends Renderer<Canvas> {
             if (texture == null) continue;
             Transform transform = entity.transform();
             Point pos = viewport.toAbsolutePos(transform.getPosition(), texture.width(), texture.height());
-            actions.add(ctx -> ctx.drawImage(texture.getImage(), pos.x, pos.y, texture.width(), texture.height()));
+
+            if ((entity.transform().getRotation() % 360) == 0) {
+                actions.add(ctx -> ctx.drawImage(texture.getImage(), pos.x, pos.y, texture.width(), texture.height()));
+            } else {
+                actions.add(ctx -> {
+                    ctx.save();
+                    Rotate rt = new Rotate(transform.getRotation(), pos.x + texture.width()/2, pos.y + texture.height()/2);
+                    ctx.setTransform(rt.getMxx(), rt.getMyx(), rt.getMxy(), rt.getMyy(), rt.getTx(), rt.getTy());
+                    ctx.drawImage(texture.getImage(), pos.x, pos.y, texture.width(), texture.height());
+                    ctx.restore();
+                });
+            }
         }
 
         final GraphicsContext ctx = viewport.getArea().getGraphicsContext2D();

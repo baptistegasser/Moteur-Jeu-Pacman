@@ -21,6 +21,7 @@ public class Labyrinth extends Level {
         Entity pacman = new EntityBuilder()
                 .type(Type.PACMAN)
                 .position(new Point(0, 32))
+                .rotation(-90)
                 .texture(texture)
                 .hitbox(new SquareHitBox(16))
                 .with(new PacManLogic())
