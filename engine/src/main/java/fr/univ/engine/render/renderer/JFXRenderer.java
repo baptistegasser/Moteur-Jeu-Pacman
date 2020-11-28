@@ -1,7 +1,9 @@
 package fr.univ.engine.render.renderer;
 
+import fr.univ.engine.core.entity.Entity;
 import fr.univ.engine.math.Point;
-import fr.univ.engine.render.entity.RenderEntity;
+import fr.univ.engine.math.Transform;
+import fr.univ.engine.render.component.RenderComponent;
 import fr.univ.engine.render.texture.Texture;
 import javafx.application.Platform;
 import javafx.scene.canvas.Canvas;
@@ -21,13 +23,14 @@ public class JFXRenderer extends Renderer<Canvas> {
     }
 
     @Override
-    public void render(List<RenderEntity> entities) {
+    public void render(List<Entity> entities) {
         final List<GraphicAction> actions = new ArrayList<>();
 
-        for (RenderEntity entity : entities) {
-            Texture texture = entity.getTexture();
+        for (Entity entity : entities) {
+            Texture texture = entity.getComponent(RenderComponent.class).getTexture();
             if (texture == null) continue;
-            Point pos = viewport.toAbsolutePos(entity.pos(), texture.width(), texture.height());
+            Transform transform = entity.transform();
+            Point pos = viewport.toAbsolutePos(transform.getPosition(), texture.width(), texture.height());
             actions.add(ctx -> ctx.drawImage(texture.getImage(), pos.x, pos.y, texture.width(), texture.height()));
         }
 
