@@ -1,8 +1,6 @@
 package fr.univ.engine.assets;
 
 import fr.univ.engine.GameEngineTest;
-import fr.univ.engine.assets.AssetException;
-import fr.univ.engine.assets.AssetsLoader;
 import javafx.scene.image.Image;
 import javafx.scene.media.Media;
 import javafx.scene.text.Font;
