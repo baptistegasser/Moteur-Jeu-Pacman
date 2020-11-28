@@ -1,7 +1,8 @@
 package fr.univ.engine.sound;
 
 import fr.univ.engine.utils.CachedResourcesLoader;
-import javafx.scene.media.*;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 
 /**
  * Class used to play music, regardless of the context

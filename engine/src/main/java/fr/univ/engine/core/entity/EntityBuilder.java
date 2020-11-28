@@ -1,12 +1,12 @@
 package fr.univ.engine.core.entity;
 
 import fr.univ.engine.core.component.Component;
-import fr.univ.engine.physic.component.PhysicComponent;
-import fr.univ.engine.render.component.RenderComponent;
 import fr.univ.engine.math.Point;
 import fr.univ.engine.math.Transform;
 import fr.univ.engine.math.Vector;
+import fr.univ.engine.physic.component.PhysicComponent;
 import fr.univ.engine.physic.hitbox.HitBox;
+import fr.univ.engine.render.component.RenderComponent;
 import fr.univ.engine.render.texture.Texture;
 
 import java.util.ArrayList;

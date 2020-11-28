@@ -4,9 +4,7 @@ import javafx.scene.image.Image;
 import javafx.scene.media.Media;
 import javafx.scene.text.Font;
 
-import java.io.File;
 import java.io.InputStream;
-import java.net.URI;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.List;

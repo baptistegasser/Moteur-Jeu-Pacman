@@ -6,7 +6,6 @@ import fr.univ.engine.physic.PhysicEngine;
 import fr.univ.engine.render.RenderEngine;
 import fr.univ.engine.sound.SoundEngine;
 import fr.univ.engine.ui.UiEngine;
-import fr.univ.engine.ui.UiObject;
 
 /**
  * The base class that a game should implement to use the engine.
