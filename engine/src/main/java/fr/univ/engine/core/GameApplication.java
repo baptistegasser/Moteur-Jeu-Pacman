@@ -67,6 +67,13 @@ public abstract class GameApplication {
     }
 
     /**
+     * @return the core engine instance.
+     */
+    protected final Core core() {
+        return this.core;
+    }
+
+    /**
      * @return the physic engine of this game.
      */
     protected final PhysicEngine physicEngine() {
