@@ -16,7 +16,7 @@ public class GameEngineTest extends GameApplication {
     }
 
     @Override
-    protected void startApplication() {
+    protected void initApplication() {
 
     }
 

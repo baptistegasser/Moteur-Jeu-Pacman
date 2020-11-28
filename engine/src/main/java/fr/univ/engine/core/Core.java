@@ -107,7 +107,7 @@ public final class Core {
      */
     public void start() {
         System.out.println("Starting " + config.title + " v" + config.version);
-        renderEngine.showWindow();
+        //renderEngine.showWindow();
         loop();
     }
 

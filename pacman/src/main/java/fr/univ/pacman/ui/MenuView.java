@@ -3,6 +3,7 @@ package fr.univ.pacman.ui;
 import fr.univ.engine.render.JFXApp;
 import fr.univ.engine.ui.UiObject;
 import fr.univ.pacman.gameplay.GameMenu;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -11,6 +12,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 
 
 public class MenuView extends UiObject {
@@ -36,7 +40,6 @@ public class MenuView extends UiObject {
      */
     public MenuView(GameMenu controller) {
         this.controller = controller;
-        elementPane = JFXApp.stackPane;
         elementPane = new StackPane();
         construct();
     }
@@ -70,10 +73,28 @@ public class MenuView extends UiObject {
             @Override
             public void handle(ActionEvent actionEvent) {
                 System.out.println("Play");
+                controller.startGame();
+            }
+        });
+
+        Image imageQuit = this.resolver.getImage("menu/quitButton.png");
+        ImageView imageViewquit = new ImageView(imageQuit);
+
+        Button buttonQuit = new Button();
+        buttonQuit.setGraphic(imageViewquit);
+        buttonQuit.setStyle("-fx-background-color: transparent;");
+
+        buttonQuit.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                System.out.println("Quit");
+                controller.quitGame();
+
             }
         });
 
         boxElement.getChildren().addAll(button);
+        boxElement.getChildren().addAll(buttonQuit);
         elementPane.getChildren().addAll(boxElement);
 
         addElement(elementPane);

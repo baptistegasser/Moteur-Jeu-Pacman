@@ -3,6 +3,7 @@ package fr.univ.pacman.migration;
 import fr.univ.engine.core.config.Config;
 import fr.univ.engine.core.GameApplication;
 import fr.univ.pacman.gameplay.GameMenu;
+import fr.univ.pacman.gameplay.GamePlay;
 import fr.univ.pacman.migration.component.PacManLogic;
 import fr.univ.pacman.ui.MenuView;
 import javafx.beans.property.DoubleProperty;
@@ -26,15 +27,18 @@ public class Rework extends GameApplication {
     }
 
     @Override
-    protected void startApplication() {
-        GameMenu gameMenu = new GameMenu();
-        MenuView menuView = new MenuView(gameMenu);
-        uiEngine().draw(menuView);
+    protected void initApplication() {
+        GameMenu gameMenu = new GameMenu(this);
+        uiEngine().draw(gameMenu.getMenuView());
         uiEngine().showWindow();
     }
 
     @Override
     protected void initGame() {
+        uiEngine().clear();
+        GamePlay gamePlay = new GamePlay();
+        uiEngine().draw(gamePlay.getGameView());
+
         setLevel(new Labyrinth());
 
         DoubleProperty score = new SimpleDoubleProperty();
