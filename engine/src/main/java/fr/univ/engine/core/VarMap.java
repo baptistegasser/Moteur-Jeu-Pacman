@@ -44,8 +44,8 @@ public class VarMap {
      * @return a int or null if not found.
      * @throws ClassCastException if the variable is not a int.
      */
-    public int getInt(String name) {
-        return getAs(int.class, name);
+    public Integer getInt(String name) {
+        return getAs(Integer.class, name);
     }
 
     /**
@@ -55,8 +55,8 @@ public class VarMap {
      * @return a double or null if not found.
      * @throws ClassCastException if the variable is not a double.
      */
-    public double getDouble(String name) {
-        return getAs(double.class, name);
+    public Double getDouble(String name) {
+        return getAs(Double.class, name);
     }
 
     /**
@@ -66,8 +66,8 @@ public class VarMap {
      * @return a long or null if not found.
      * @throws ClassCastException if the variable is not a long.
      */
-    public long getLong(String name) {
-        return getAs(long.class, name);
+    public Long getLong(String name) {
+        return getAs(Long.class, name);
     }
 
     /**
