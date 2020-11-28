@@ -23,6 +23,10 @@ public abstract class GameApplication {
      * The core engine instance running this game.
      */
     private Core core;
+    /**
+     * The global variables of this game.
+     */
+    private VarMap globalVars;
 
     /**
      * The internal method called when {@link #launch} is called.
@@ -30,6 +34,7 @@ public abstract class GameApplication {
      * @param args the arguments passed to the program.
      */
     private void launch$(String... args) {
+        globalVars = new VarMap();
         core = new Core(args);
         config(core.config());
         core.init();
@@ -60,10 +65,17 @@ public abstract class GameApplication {
     }
 
     /**
-     * Get the game level.
+     * @return the game level.
      */
     protected final Level getLevel() {
         return this.core.getLevel();
+    }
+
+    /**
+     * @return the game's global vars.
+     */
+    protected final VarMap globalVars() {
+        return this.globalVars;
     }
 
     /**
