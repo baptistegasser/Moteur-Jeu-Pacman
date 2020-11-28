@@ -1,7 +1,7 @@
 package fr.univ.engine.render;
 
+import fr.univ.engine.core.config.Config;
 import fr.univ.engine.core.entity.Entity;
-import fr.univ.engine.render.config.WindowConfig;
 import fr.univ.engine.render.renderer.Renderer;
 import javafx.application.Platform;
 
@@ -12,11 +12,6 @@ import java.util.List;
  */
 public class RenderEngine {
     /**
-     * The configuration of the windows.
-     */
-    public final WindowConfig window;
-
-    /**
      * The renderer used to render.
      */
     private Renderer<?> renderer;
@@ -24,8 +19,8 @@ public class RenderEngine {
     /**
      * Create a render engine with defaults values.
      */
-    public RenderEngine() {
-        this.window = new WindowConfig(200, 200, "Game Engine", false, true);
+    public RenderEngine(Config config) {
+        JFXApp.setConfig(config);
     }
 
     /**
@@ -33,7 +28,6 @@ public class RenderEngine {
      */
     public void init() {
         try {
-            JFXApp.setWindowConfig(window);
             JFXApp.startAndWaitUntilReady();
             this.renderer = JFXApp.getRenderer();
         } catch (InterruptedException e) {

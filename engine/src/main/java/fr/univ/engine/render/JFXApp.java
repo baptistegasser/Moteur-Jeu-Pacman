@@ -1,8 +1,8 @@
 package fr.univ.engine.render;
 
 import com.sun.javafx.application.PlatformImpl;
+import fr.univ.engine.core.config.Config;
 import fr.univ.engine.io.KeyEventHandler;
-import fr.univ.engine.render.config.WindowConfig;
 import fr.univ.engine.render.renderer.CanvasViewPort;
 import fr.univ.engine.render.renderer.JFXRenderer;
 import fr.univ.engine.render.renderer.Renderer;
@@ -24,9 +24,10 @@ import java.util.concurrent.CountDownLatch;
  */
 public final class JFXApp extends Application {
     /**
-     * The window's configuration.
+     * The config of the game.
+     * Used to setup the window.
      */
-    private static WindowConfig window;
+    private static Config config;
     /**
      * A latch used to detect when the JavaFX app thread is started.
      */
@@ -75,12 +76,12 @@ public final class JFXApp extends Application {
     @Override
     public void start(Stage primaryStage) {
         stage = primaryStage;
-        stage.setWidth(window.width);
-        stage.setHeight(window.height);
-        stage.setTitle(window.title);
-        stage.setResizable(window.allowResize);
+        stage.setTitle(config.title);
+        stage.setWidth(config.width);
+        stage.setHeight(config.height);
+        stage.setResizable(config.resizable);
 
-        Canvas canvas = new Canvas(window.width, window.height);
+        Canvas canvas = new Canvas(config.width, config.height);
         stackPane = new StackPane(canvas);
         canvas.widthProperty().bind(stage.widthProperty());
         canvas.heightProperty().bind(stage.heightProperty());
@@ -122,13 +123,13 @@ public final class JFXApp extends Application {
     }
 
     /**
-     * Set the configuration of the window.
+     * Set the configuration of the game.
      * Will not affect the window after the app start.
      *
-     * @param window the config
+     * @param config the game config,
      */
-    public static void setWindowConfig(WindowConfig window) {
-        JFXApp.window = window;
+    public static void setConfig(Config config) {
+        JFXApp.config = config;
     }
 
     /**
