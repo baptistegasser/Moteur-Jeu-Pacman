@@ -2,12 +2,49 @@ package fr.univ.engine.physic;
 
 import fr.univ.engine.core.Core;
 import fr.univ.engine.math.Point;
+import fr.univ.engine.physic.collision.CollisionHandler;
+import fr.univ.engine.physic.collision.CollisionHandlerWrapper;
 import fr.univ.engine.physic.hitbox.HitBox;
 
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The engine in charge of handling physics in the game.
+ */
 public class PhysicEngine {
+    /**
+     * List of handler for different kinds of collision.
+     */
+    private List<CollisionHandlerWrapper> collisionHandlers;
+
+    /**
+     * Add a new handler for collisions of a given types of entities.
+     *
+     * @param type1 the type of the first entity.
+     * @param type2 the type of the second entity.
+     * @param handler the handler.
+     */
+    public void onCollision(Object type1, Object type2, CollisionHandler handler) {
+        this.collisionHandlers.add(new CollisionHandlerWrapper(type1, type2, handler));
+    }
+
+    /**
+     * Return all handler capable of handle collision between two given entity types.
+     *
+     * @param t1 the type of the first entity.
+     * @param t2 the type of the second entity.
+     * @return a list of capable handlers, might be empty if none match the types.
+     */
+    private List<CollisionHandler> getCollisionHandlers(Object t1, Object t2) {
+        List<CollisionHandler> handlers = new ArrayList<>();
+        for (CollisionHandlerWrapper wrapper : collisionHandlers) {
+            if (wrapper.canHandle(t1, t2)) {
+                handlers.add(wrapper.getHandler());
+            }
+        }
+        return handlers;
+    }
 
     /**
      * Function call for object movement in mainLoop
