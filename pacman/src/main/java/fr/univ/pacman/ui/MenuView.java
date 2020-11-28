@@ -1,8 +1,7 @@
 package fr.univ.pacman.ui;
 
 import fr.univ.engine.render.JFXApp;
-import fr.univ.engine.render.RenderEngine;
-import fr.univ.engine.utils.CachedResourcesLoader;
+import fr.univ.engine.ui.UiObject;
 import fr.univ.pacman.gameplay.GameMenu;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -14,21 +13,12 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 
-public class MenuView {
+public class MenuView extends UiObject {
     /**
      * The controller for this view
      */
     private GameMenu controller;
 
-    /**
-     * The resolver for resources
-     */
-    private final CachedResourcesLoader resolver;
-
-    /**
-     * Pane of JFXApp
-     */
-    private StackPane mainPane;
     /**
      * Pane with all element
      */
@@ -42,20 +32,22 @@ public class MenuView {
 
     /**
      * Prepare elements
-     * @param resolver the resolver for resources
      * @param controller the controller for this view
      */
-    public MenuView(CachedResourcesLoader resolver, GameMenu controller) {
+    public MenuView(GameMenu controller) {
         this.controller = controller;
-        mainPane = JFXApp.stackPane;
+        elementPane = JFXApp.stackPane;
         elementPane = new StackPane();
-        this.resolver = resolver;
+        construct();
     }
 
     /**
      * construct all element
      */
+    @Override
     public void construct() {
+        elementPane.setStyle("-fx-background-color: Black;");
+
         boxElement = new VBox();
         boxElement.setPadding(new Insets(100,0,0,100));
         boxElement.setSpacing(20);
@@ -77,17 +69,13 @@ public class MenuView {
         button.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                RenderEngine.runOnFXThread(() -> elementPane.getChildren().clear());
-                controller.startGame();
+                System.out.println("Play");
             }
         });
 
         boxElement.getChildren().addAll(button);
-        RenderEngine.runOnFXThread(() -> elementPane.getChildren().addAll(boxElement));
-        RenderEngine.runOnFXThread(() -> mainPane.getChildren().addAll(elementPane));
-    }
+        elementPane.getChildren().addAll(boxElement);
 
-    public StackPane getMainPane() {
-        return mainPane;
+        addElement(elementPane);
     }
 }

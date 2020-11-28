@@ -88,8 +88,8 @@ public class Game {
      * Create and lunch menu
      */
     private void lunchMenu() {
-        GameMenu gameMenu = new GameMenu(resolver);
-        gameMenu.getMenuView().construct();
+        /*GameMenu gameMenu = new GameMenu();
+        gameMenu.getMenuView().construct();*/
     }
 
     /**

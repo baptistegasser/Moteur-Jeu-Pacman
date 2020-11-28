@@ -16,6 +16,11 @@ public class GameEngineTest extends GameApplication {
     }
 
     @Override
+    protected void startApplication() {
+
+    }
+
+    @Override
     protected void config(Config config) {
         config.width = 0;
         config.height = 0;

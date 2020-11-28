@@ -2,10 +2,14 @@ package fr.univ.pacman.migration;
 
 import fr.univ.engine.core.config.Config;
 import fr.univ.engine.core.GameApplication;
+import fr.univ.pacman.gameplay.GameMenu;
 import fr.univ.pacman.migration.component.PacManLogic;
+import fr.univ.pacman.ui.MenuView;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.input.KeyCode;
+
+import java.awt.*;
 
 import static fr.univ.pacman.migration.Type.*;
 
@@ -19,6 +23,14 @@ public class Rework extends GameApplication {
         config.height = 620;
         config.resizable = false;
         config.displayFPS = true;
+    }
+
+    @Override
+    protected void startApplication() {
+        GameMenu gameMenu = new GameMenu();
+        MenuView menuView = new MenuView(gameMenu);
+        uiEngine().draw(menuView);
+        uiEngine().showWindow();
     }
 
     @Override
