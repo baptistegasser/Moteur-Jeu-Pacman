@@ -39,12 +39,14 @@ public class SoundEngine {
      * Playing the music as a static methoc, without class instanciation
      * @param name The path to the music
      */
-    public static void staticPlay (String name) {
+    public static void staticPlay (String name, double volume) {
+        if(volume > 1 ) volume = 1.0;
+        if (volume < 0 ) volume = 0;
         CachedResourcesLoader cachedResourcesLoader = new CachedResourcesLoader("assets/");
         Media media = cachedResourcesLoader.getMedia(name);
         MediaPlayer mediaPlayer = new MediaPlayer(media);
         mediaPlayer.setAutoPlay(true);
-        mediaPlayer.setVolume(0.4);
+        mediaPlayer.setVolume(volume);
         mediaPlayer.play();
     }
 }

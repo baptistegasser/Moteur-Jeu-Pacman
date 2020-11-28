@@ -47,13 +47,13 @@ public class PacMan extends GameObject {
                 break;
             case "GOMME":
                 LoggingEngine.info("Pac-Man eat a Pac.");
-                SoundEngine.staticPlay("sounds/eating_pac.wav");
+                SoundEngine.staticPlay("sounds/eating_pac.wav", 0.4);
                 break;
             case "SUPER-GOMME":
                 LoggingEngine.info("Pac-Man eat a super Pac !");
         }
         if (collider.name().startsWith("GHOST-")) {
-            SoundEngine.staticPlay("sounds/pac_die.wav" );
+            SoundEngine.staticPlay("sounds/pac_die.wav", 0.4 );
             LoggingEngine.info("Got caught by a ghost !");
         }
     }
