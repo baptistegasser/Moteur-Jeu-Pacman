@@ -97,7 +97,8 @@ public class IOEngine implements KeyEventHandler {
      * @param event the event to process
      */
     private void processKeyBoardEvent(KeyBoardEvent event) {
-        EnumSet<Status> status = keys.get(event.code).statuses();
+        KeyData data = keys.getOrDefault(event.code, new KeyData());
+        EnumSet<Status> status = data.statuses();
 
         if (event.status == Status.DOWN) {
             if (status.contains(Status.DOWN)) {
