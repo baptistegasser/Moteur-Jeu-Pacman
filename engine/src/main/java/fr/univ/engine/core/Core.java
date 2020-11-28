@@ -9,6 +9,7 @@ import fr.univ.engine.render.JFXApp;
 import fr.univ.engine.render.RenderEngine;
 import fr.univ.engine.render.component.RenderComponent;
 import fr.univ.engine.sound.SoundEngine;
+import fr.univ.engine.ui.UiEngine;
 import javafx.scene.paint.Color;
 
 import java.util.Arrays;
@@ -42,6 +43,11 @@ public final class Core {
      * The sound engine instance
      */
     private final SoundEngine soundEngine;
+
+    /**
+     * The ui engine instance
+     */
+    private final UiEngine uiEngine;
 
     /**
      * The current game level.
@@ -80,6 +86,7 @@ public final class Core {
         this.physicEngine = new PhysicEngine(this);
         this.ioEngine = new IOEngine();
         this.soundEngine = new SoundEngine();
+        this.uiEngine = new UiEngine();
     }
 
     /**
@@ -205,6 +212,13 @@ public final class Core {
      */
     SoundEngine soundEngine() {
         return this.soundEngine;
+    }
+
+    /**
+     * @return the ui engine handled by this core instance.
+     */
+    UiEngine uiEngine() {
+        return uiEngine;
     }
 
     /**

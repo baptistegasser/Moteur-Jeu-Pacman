@@ -4,6 +4,8 @@ import fr.univ.engine.core.config.Config;
 import fr.univ.engine.io.IOEngine;
 import fr.univ.engine.physic.PhysicEngine;
 import fr.univ.engine.sound.SoundEngine;
+import fr.univ.engine.ui.UiEngine;
+import fr.univ.engine.ui.UiObject;
 
 /**
  * The base class that a game should implement to use the engine.
@@ -38,9 +40,13 @@ public abstract class GameApplication {
         core = new Core(args);
         config(core.config());
         core.init();
-        initGame();
-        core.start();
+        startApplication();
     }
+
+    /**
+     * This function is called when application is lunch
+     */
+    protected abstract void startApplication();
 
     /**
      * Method called to let the game set the configuration.
@@ -50,6 +56,13 @@ public abstract class GameApplication {
      */
     protected abstract void config(Config config);
 
+    /**
+     * This function init the game with custom configuration and start core
+     */
+    private void lunchGame() {
+        initGame();
+        core.start();
+    }
     /**
      * Method called just before starting the game.
      */
@@ -104,6 +117,13 @@ public abstract class GameApplication {
      */
     protected final SoundEngine soundEngine() {
         return core.soundEngine();
+    }
+
+    /**
+     * @return the ui engine of this game.
+     */
+    protected final UiEngine uiEngine() {
+        return core.uiEngine();
     }
 
     /**
