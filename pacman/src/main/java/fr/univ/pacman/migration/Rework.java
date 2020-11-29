@@ -59,12 +59,17 @@ public class Rework extends GameApplication {
             pacmanLogic.hit();
         });
         physicEngine().onCollision(PACMAN, PAC, (e1, e2) -> {
-            soundEngine().play("eating_pac.wav");
+            soundEngine().play("eating_pac.wav", 0.05);
             score.set(score.get() + 10);
             getLevel().destroyEntity(e2);
         });
         physicEngine().onCollision(PACMAN, SUPER_PAC, (e1, e2) -> {
-            soundEngine().play("eating_pac.wav");
+            //soundEngine().play("eating_pac.wav",0.05);
+            // todo scatter ghost ia
+            getLevel().destroyEntity(e2);
+        });
+        physicEngine().onCollision(PACMAN, SUPER_RAINBOW_PAC, (e1, e2) -> {
+            soundEngine().play("get_out_of_my_swamp.wap",0.1);
             // todo scatter ghost ia
             getLevel().destroyEntity(e2);
         });
