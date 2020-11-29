@@ -104,6 +104,7 @@ public class PhysicEngine {
     private void collision(List<Entity> objects, Entity object) {
         for (Entity target : objects) {
             PhysicComponent targetPhysic = target.getComponent(PhysicComponent.class);
+            if (targetPhysic.getHitBox() == null) continue;
 
             // Don't test on same object and on empty object
             if (target != object && targetPhysic.getHitBox().getSize() > 0) {
