@@ -6,28 +6,29 @@ import fr.univ.engine.math.Point;
  * Represent the HitBox of object
  */
 public abstract class HitBox implements Intersect {
-
     /**
      * The position of the HitBox, set to be the center.
      */
     private Point position;
 
     /**
-     * Return the width of the hitbox
-     */
-    protected double size;
-
-    /**
      * Specify if an object is solid
      * An object can be solid such as a wall, or not, like a Gomme
      * Pacman collide with solid objects.
      */
-    private boolean isSolid = false;
+    private boolean isSolid;
 
     public HitBox() {
         this.position = new Point(0, 0);
-        this.size = 0;
+        this.isSolid = false;
     }
+
+    /**
+     * Get the size of this hitbox, implementation to discretion of sub class.
+     *
+     * @return the wight of the hitbox.
+     */
+    public abstract double getSize();
 
     /**
      * @return The X position of the hitbox
@@ -54,13 +55,6 @@ public abstract class HitBox implements Intersect {
      */
     public Point getPosition() {
         return position;
-    }
-
-    /**
-     * @return the wight of the hitbox
-     */
-    public double getSize() {
-        return size;
     }
 
     /**

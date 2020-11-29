@@ -19,8 +19,8 @@ interface Intersect {
      * @throws PhysicException if no method signature match the type of h2
      */
     default boolean intersect(HitBox h2) {
-        if (h2 instanceof SquareHitBox) {
-            return intersect((SquareHitBox) h2);
+        if (h2 instanceof RectangleHitBox) {
+            return intersect((RectangleHitBox) h2);
         } else if (h2 instanceof CircleHitBox) {
             return intersect((CircleHitBox) h2);
         } else {
@@ -30,12 +30,12 @@ interface Intersect {
     }
 
     /**
-     * Test intersection with a {@code SquareHitBox} instance.
+     * Test intersection with a {@code RectangleHitBox} instance.
      *
-     * @param h2 the {@code SquareHitBox} to test
+     * @param h2 the {@code RectangleHitBox} to test
      * @return true if this instance intersect with h2
      */
-    boolean intersect(SquareHitBox h2);
+    boolean intersect(RectangleHitBox h2);
 
     /**
      * Test intersection with a {@code CircleHitBox} instance.
