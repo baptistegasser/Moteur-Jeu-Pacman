@@ -35,6 +35,12 @@ public class Vector {
         updateMagnitude();
     }
 
+    public void set(double x, double y) {
+        this.x = x;
+        this.y = y;
+        updateMagnitude();
+    }
+
     /**
      * Recalculate and set the magnitude value of this vector.
      */
