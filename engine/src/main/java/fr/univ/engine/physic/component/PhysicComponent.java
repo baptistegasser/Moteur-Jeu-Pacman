@@ -7,7 +7,7 @@ import fr.univ.engine.physic.hitbox.HitBox;
 /**
  * Physical component for entity with movement and hit boxes.
  */
-public final class PhysicComponent implements Component {
+public final class PhysicComponent extends Component {
     /**
      * The hit box of the entity.
      */

@@ -6,7 +6,7 @@ import fr.univ.engine.render.texture.Texture;
 /**
  * Render component for entity with textures.
  */
-public class RenderComponent implements Component {
+public class RenderComponent extends Component {
     /**
      * The texture used to render the entity.
      */
