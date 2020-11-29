@@ -1,4 +1,4 @@
-package fr.univ.pacman.gameplay;
+package fr.univ.pacman.controller;
 
 
 public class Inventory {

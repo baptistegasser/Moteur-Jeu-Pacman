@@ -2,9 +2,8 @@ package fr.univ.pacman.ui;
 
 import fr.univ.engine.assets.AssetsLoader;
 import fr.univ.engine.render.RenderEngine;
-import fr.univ.engine.render.texture.Texture;
 import fr.univ.engine.ui.UiObject;
-import fr.univ.pacman.gameplay.GameController;
+import fr.univ.pacman.controller.GameController;
 import javafx.geometry.Insets;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;

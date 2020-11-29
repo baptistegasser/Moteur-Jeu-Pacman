@@ -105,7 +105,7 @@ public abstract class GameApplication {
     /**
      * This function init the game with custom configuration and start core
      */
-    protected void lunchGame() {
+    private void lunchGame() {
         initGame();
         core.start();
     }

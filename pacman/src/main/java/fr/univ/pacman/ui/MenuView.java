@@ -2,7 +2,7 @@ package fr.univ.pacman.ui;
 
 import fr.univ.engine.assets.AssetsLoader;
 import fr.univ.engine.ui.UiObject;
-import fr.univ.pacman.gameplay.GameMenu;
+import fr.univ.pacman.controller.GameMenu;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
