@@ -70,6 +70,15 @@ public class Level {
     }
 
     /**
+     * Get all entities.
+     *
+     * @return the list of entities.
+     */
+    public List<Entity> getEntities() {
+        return entities;
+    }
+
+    /**
      * Get all entities with the matching type.
      *
      * @param type the wanted type.
