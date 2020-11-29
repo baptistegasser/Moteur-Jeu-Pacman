@@ -34,6 +34,10 @@ public class EntityBuilder {
      */
     private HitBox hitBox = null;
     /**
+     * The entity have a solid hitbox.
+     */
+    private boolean isSolid = false;
+    /**
      * The direction in which the entity will go at spawn.
      */
     private Vector direction = new Vector(0, 0);
@@ -71,6 +75,11 @@ public class EntityBuilder {
         return this;
     }
 
+    public EntityBuilder isSolid(boolean isSolid) {
+        this.isSolid = isSolid;
+        return this;
+    }
+
     public EntityBuilder texture(Texture texture) {
         this.texture = texture;
         return this;
@@ -88,6 +97,7 @@ public class EntityBuilder {
 
     public Entity build() {
         components.set(0, new RenderComponent(texture));
+        if (hitBox != null) hitBox.setSolid(isSolid);
         components.set(1, new PhysicComponent(hitBox, direction));
         Transform transform = new Transform(position, rotation);
         return new Entity(type, transform, components);
