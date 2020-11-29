@@ -57,6 +57,8 @@ public class Rework extends GameApplication {
         physicEngine().onCollision(PACMAN, GHOST, (e1, e2) -> {
             soundEngine().play("pac_die.wav");
             pacmanLogic.hit();
+            gameController.getInventory().lostLife();
+            //TODO tp pacman au spawn
         });
         physicEngine().onCollision(PACMAN, PAC, (e1, e2) -> {
             soundEngine().play("eating_pac.wav", 0.05);
