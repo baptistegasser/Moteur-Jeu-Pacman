@@ -107,7 +107,7 @@ public class PhysicEngine {
             if (targetPhysic.getHitBox() == null) continue;
 
             // Don't test on same object and on empty object
-            if (target != object && targetPhysic.getHitBox().getSize() > 0) {
+            if (target != object) {
                 PhysicComponent objectPhysic = object.getComponent(PhysicComponent.class);
 
                 if (objectPhysic.getHitBox().intersect(targetPhysic.getHitBox())) {

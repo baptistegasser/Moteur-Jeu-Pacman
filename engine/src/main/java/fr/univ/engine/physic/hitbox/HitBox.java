@@ -24,13 +24,6 @@ public abstract class HitBox implements Intersect {
     }
 
     /**
-     * Get the size of this hitbox, implementation to discretion of sub class.
-     *
-     * @return the wight of the hitbox.
-     */
-    public abstract double getSize();
-
-    /**
      * @return The X position of the hitbox
      */
     public double x() {

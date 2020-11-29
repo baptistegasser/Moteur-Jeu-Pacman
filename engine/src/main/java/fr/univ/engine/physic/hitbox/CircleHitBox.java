@@ -13,8 +13,7 @@ public class CircleHitBox extends HitBox {
         this.diameter = diameter;
     }
 
-    @Override
-    public double getSize() {
+    public double diameter() {
         return diameter;
     }
 
@@ -42,6 +41,6 @@ public class CircleHitBox extends HitBox {
         double dy = y() - h2.y();
         double distance = Math.sqrt(dx * dx + dy * dy);
 
-        return distance < getSize() / 2 + h2.getSize() / 2;
+        return distance < diameter / 2 + h2.diameter / 2;
     }
 }

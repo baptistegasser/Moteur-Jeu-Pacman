@@ -1,7 +1,5 @@
 package fr.univ.engine.physic.hitbox;
 
-import fr.univ.engine.math.Point;
-
 /**
  * A rectangle hitbox implementation.
  */
@@ -20,9 +18,12 @@ public class RectangleHitBox extends HitBox {
         this.height = height;
     }
 
-    @Override
-    public double getSize() {
-        return width * height;
+    public double width() {
+        return width;
+    }
+
+    public double height() {
+        return height;
     }
 
     /**
@@ -34,12 +35,13 @@ public class RectangleHitBox extends HitBox {
     @Override
     public boolean intersect(RectangleHitBox h2) {
         // Size between two center element
-        double sizeBetweenElements = (getSize() + h2.getSize()) / 2;
+        double diffW = (width + h2.width) / 2;
+        double diffH = (height + h2.height) / 2;
 
-        return x() - h2.x() < sizeBetweenElements &&
-                x() - h2.x() > -sizeBetweenElements &&
-                y() - h2.y() < sizeBetweenElements &&
-                y() - h2.y() > -sizeBetweenElements;
+        return x() - h2.x() < diffW &&
+                x() - h2.x() > -diffW &&
+                y() - h2.y() < diffH &&
+                y() - h2.y() > -diffH;
     }
 
     /**
