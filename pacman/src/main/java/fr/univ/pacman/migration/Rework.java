@@ -51,16 +51,16 @@ public class Rework extends GameApplication {
 
         physicEngine().onCollision(PACMAN, WALL, (e1, e2) -> pacmanLogic.stop());
         physicEngine().onCollision(PACMAN, GHOST, (e1, e2) -> {
-            soundEngine().play("pac_die.wav", false);
+            soundEngine().play("pac_die.wav");
             pacmanLogic.hit();
         });
         physicEngine().onCollision(PACMAN, PAC, (e1, e2) -> {
-            soundEngine().play("eating_pac.wav", false);
+            soundEngine().play("eating_pac.wav");
             score.set(score.get() + 10);
             getLevel().destroyEntity(e2);
         });
         physicEngine().onCollision(PACMAN, SUPER_PAC, (e1, e2) -> {
-            soundEngine().play("eating_pac.wav", false);
+            soundEngine().play("eating_pac.wav");
             // todo scatter ghost ia
             getLevel().destroyEntity(e2);;
         });

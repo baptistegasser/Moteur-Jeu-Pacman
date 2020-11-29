@@ -1,56 +1,75 @@
 package fr.univ.engine.sound;
 
+import fr.univ.engine.assets.AssetsLoader;
 import fr.univ.engine.utils.CachedResourcesLoader;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
 /**
- * Class used to play music, regardless of the context
+ * Engine charged of playing sounds.
  */
 public class SoundEngine {
-    /**
-     * Used to return a media with the given path
-     */
-    private CachedResourcesLoader soundLoader;
 
     /**
-     * Set the sound loader to be used by the engine to load sounds.
+     * Play a sound at max volume (1.0).
      *
-     * @param loader the loader to use
+     * @param name the name of the assets.
+     * @return the media player controlling the sound playing.
      */
-    public void setSoundLoader(CachedResourcesLoader loader) {
-        this.soundLoader = loader;
+    public MediaPlayer play(String name) {
+        return play(name, 1.0);
     }
 
     /**
-     * Playing music if the class is instantiated.
+     * Play a sound at a specified volume.
      *
-     * @param name The path to the music.
-     * @param loop If you want to loop the music.
+     * @param name the name of the assets.
+     * @param volume the desired volume level (clamped to the range <code>[0.0,&nbsp;1.0]</code>).
+     * @return the media player controlling the sound playing.
      */
-    public void play(String name, boolean loop) {
-        Media media = soundLoader.getMedia(name);
-        MediaPlayer mediaPlayer = new MediaPlayer(media);
-        mediaPlayer.setVolume(0.4);
-        mediaPlayer.setAutoPlay(true);
-        if (loop) mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
-        mediaPlayer.play();
+    public MediaPlayer play(String name, double volume) {
+        return play(name, volume, false);
+    }
+
+
+    /**
+     * Play a sound at max volume (1.0) and loop it indefinitely.
+     *
+     * @param name the name of the assets.
+     * @return the media player controlling the sound playing.
+     */
+    public MediaPlayer playLoop(String name) {
+        return playLoop(name, 1.0);
+    }
+
+
+    /**
+     * Play a sound at a specified volume and loop it indefinitely.
+     *
+     * @param name the name of the assets.
+     * @param volume the desired volume level (clamped to the range <code>[0.0,&nbsp;1.0]</code>).
+     * @return the media player controlling the sound playing.
+     */
+    public MediaPlayer playLoop(String name, double volume) {
+        return play(name, volume, true);
     }
 
     /**
-     * Playing the music as a static method, without class instanciation.
+     * Create a {@link MediaPlayer} and start playing a sound.
      *
-     * @param name   The path to the music.
-     * @param volume the desire output volume.
+     * @param name the name of the assets sound to play.
+     * @param volume the output volume level (clamped to the range <code>[0.0,&nbsp;1.0]</code>).
+     * @param loop specify if the sound should loop until stopped.
+     * @return the media player controlling the sound playing.
      */
-    public static void staticPlay(String name, double volume) {
-        if (volume > 1) volume = 1.0;
-        if (volume < 0) volume = 0;
-        CachedResourcesLoader cachedResourcesLoader = new CachedResourcesLoader("assets/");
-        Media media = cachedResourcesLoader.getMedia(name);
+    private MediaPlayer play(String name, double volume, boolean loop) {
+        Media media = AssetsLoader.loadSound(name);
         MediaPlayer mediaPlayer = new MediaPlayer(media);
-        mediaPlayer.setAutoPlay(true);
         mediaPlayer.setVolume(volume);
+        if (loop) {
+            mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+        }
         mediaPlayer.play();
+        return mediaPlayer;
     }
 }
