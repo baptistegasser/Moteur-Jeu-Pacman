@@ -5,6 +5,7 @@ import javafx.scene.image.Image;
 import javafx.scene.media.Media;
 import javafx.scene.text.Font;
 
+import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -16,6 +17,7 @@ import java.util.HashMap;
  * different types of assets:
  * - /fonts/    : font to render text
  * - /sounds/   : short sound to play on events
+ * - /level/ : files used for levels
  * - /textures/ : image used for textures or anything else
  *
  * The different assets are cached as reading a file is heavy and slow.
@@ -26,6 +28,7 @@ import java.util.HashMap;
 public final class AssetsLoader {
     public final static String ASSETS_ROOT = "/assets";
     public final static String TEXTURES = "/textures/";
+    public final static String LEVELS = "/level/";
     public final static String SOUNDS = "/sounds/";
     public final static String FONTS = "/fonts/";
 
@@ -58,6 +61,27 @@ public final class AssetsLoader {
             cache.put(key, image);
         }
         return image;
+    }
+
+    /**
+     * Load a level from the levels folder.
+     * The name is relative ie:
+     *  - map.txt
+     *  - levels/hell_1.txt
+     *
+     * @param name the level full name relative to the levels folder.
+     * @return a {@link File} pointing to the level.
+     */
+    public static File getLevel(String name) {
+        String key = ASSETS_ROOT + LEVELS + name;
+        File levelFile = getFromCache(File.class, key);
+
+        if (levelFile == null) {
+            URI uri = getResourceURI(key);
+            levelFile = new File(uri);
+            cache.put(key, levelFile);
+        }
+        return levelFile;
     }
 
     /**
