@@ -20,7 +20,7 @@ public class PhysicEngine {
      * Keep a reference to access the current level
      * for method requested by user.
      */
-    private final Core core;
+    private static Core core;
 
     /**
      * List of handler for different kinds of collision.
@@ -124,24 +124,25 @@ public class PhysicEngine {
         }
     }
 
-    public boolean canMoveTo(Entity entity, Point target) {
-        HitBox entityBox = entity.getComponent(PhysicComponent.class).getHitBox();
-        Point oldPos = entity.transform().getPosition();
-        entity.transform().setPosition(target);
+    public static boolean canMoveTo(PhysicComponent component, Point target) {
+        HitBox hbox = component.getHitBox();
+        Point oldPos = hbox.getPosition();
+        hbox.setPosition(target);
 
-        boolean intersect = false;
+        boolean canMove = true;
         List<Entity> entities = core.getLevel().getEntitiesWithComponent(PhysicComponent.class);
         for (Entity e : entities) {
-            HitBox targetBox = e.getComponent(PhysicComponent.class).getHitBox();
-            if (entity == e || targetBox.isSolid()) continue;
-
-            if (targetBox.intersect(entityBox)) {
-                intersect = true;
-                break;
+            PhysicComponent c = e.getComponent(PhysicComponent.class);
+            HitBox tbox = c.getHitBox();
+            if (c != component && tbox != null && tbox.isSolid()) {
+                if (hbox.intersect(tbox)) {
+                    canMove = false;
+                    break;
+                }
             }
         }
 
-        entity.transform().setPosition(oldPos);
-        return intersect;
+        hbox.setPosition(oldPos);
+        return canMove;
     }
 }

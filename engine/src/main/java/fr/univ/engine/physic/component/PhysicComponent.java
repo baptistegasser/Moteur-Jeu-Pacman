@@ -16,7 +16,7 @@ public final class PhysicComponent extends Component {
      * The direction of the entity.
      * Implicitly give the speed (magnitude of the vector).
      */
-    private final Vector direction;
+    private Vector direction;
 
     public PhysicComponent(HitBox hitBox, Vector direction) {
         this.hitBox = hitBox;
@@ -48,5 +48,12 @@ public final class PhysicComponent extends Component {
      */
     public Vector direction() {
         return this.direction;
+    }
+
+    /**
+     * Set the direction of the entity.
+     */
+    public void setDirection(Vector newDirection) {
+        this.direction = newDirection;
     }
 }

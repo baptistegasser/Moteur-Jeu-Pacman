@@ -1,6 +1,7 @@
 package fr.univ.engine.core.component;
 
 import fr.univ.engine.core.entity.Entity;
+import fr.univ.engine.math.Transform;
 
 /**
  * Base component that should be implemented by any other entity's components.
@@ -34,5 +35,19 @@ public abstract class Component {
      */
     public final <T extends Component> T getComponent(Class<T> componentClass) {
         return entity.getComponent(componentClass);
+    }
+
+    /**
+     * @return the transform of the entity owning this component.
+     */
+    public final Transform getTransform() {
+        return entity.transform();
+    }
+
+    /**
+     * @return the entity owning this component.
+     */
+    public Entity getEntity() {
+        return entity;
     }
 }

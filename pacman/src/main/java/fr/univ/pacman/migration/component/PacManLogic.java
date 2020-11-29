@@ -2,6 +2,9 @@ package fr.univ.pacman.migration.component;
 
 import fr.univ.engine.core.component.Component;
 import fr.univ.engine.logging.LoggingEngine;
+import fr.univ.engine.math.Point;
+import fr.univ.engine.math.Vector;
+import fr.univ.engine.physic.PhysicEngine;
 import fr.univ.engine.physic.component.PhysicComponent;
 
 import java.util.logging.Level;
@@ -34,7 +37,6 @@ public class PacManLogic extends Component {
     }
 
     public void stop() {
-        LoggingEngine.log(Level.INFO, "Damned walls !");
     }
 
     public void hit() {
@@ -46,22 +48,35 @@ public class PacManLogic extends Component {
         if (nextDirection == Dir.NONE) return;
 
         PhysicComponent physic = getComponent(PhysicComponent.class);
+        Vector newDirection = new Vector(0, 0);
+        double rotation = 0;
 
         switch (nextDirection) {
             case UP:
-                physic.direction().set(0, -0.5d);
+                newDirection.set(0, -0.5d);
+                rotation = 270;
                 break;
             case DOWN:
-                physic.direction().set(0, 0.5d);
+                newDirection.set(0, 0.5d);
+                rotation = 90;
                 break;
             case LEFT:
-                physic.direction().set(-0.5d, 0);
+                newDirection.set(-0.5d, 0);
+                rotation = 180;
                 break;
             case RIGHT:
-                physic.direction().set(0.5d, 0);
+                newDirection.set(0.5d, 0);
+                rotation = 0;
                 break;
         }
 
-        nextDirection = Dir.NONE;
+        Point newPos = getTransform().getPosition().copy();
+        newPos.add(newDirection);
+
+        if (PhysicEngine.canMoveTo(physic, newPos)) {
+            physic.setDirection(newDirection);
+            getTransform().setRotation(rotation);
+            nextDirection = Dir.NONE;
+        }
     }
 }
