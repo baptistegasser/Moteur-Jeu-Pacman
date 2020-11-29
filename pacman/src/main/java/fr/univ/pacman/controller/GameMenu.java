@@ -1,6 +1,6 @@
 package fr.univ.pacman.controller;
 
-import fr.univ.pacman.migration.Rework;
+import fr.univ.pacman.PacMan;
 import fr.univ.pacman.ui.MenuView;
 
 public class GameMenu {
@@ -17,11 +17,11 @@ public class GameMenu {
      * Prepare gameplay and start the game
      */
     public void startGame() {
-        Rework.getInstance().startGame();
+        PacMan.getInstance().startGame();
     }
 
     public void quitGame() {
-        Rework.getInstance().quit();
+        PacMan.getInstance().quit();
     }
 
     public MenuView getMenuView() {

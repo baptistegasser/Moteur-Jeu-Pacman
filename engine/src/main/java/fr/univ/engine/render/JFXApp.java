@@ -88,6 +88,7 @@ public final class JFXApp extends Application {
         renderer = new JFXRenderer(new CanvasViewPort(canvas));
 
         stage.setScene(new Scene(stackPane));
+        stage.setAlwaysOnTop(true);
 
         primaryStage.setOnCloseRequest(t -> stop());
 

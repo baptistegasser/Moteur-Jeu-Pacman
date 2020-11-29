@@ -1,4 +1,4 @@
-package fr.univ.pacman.migration;
+package fr.univ.pacman;
 
 import fr.univ.engine.assets.AssetsLoader;
 import fr.univ.engine.core.entity.Entity;
@@ -11,14 +11,14 @@ import fr.univ.engine.math.Point;
 import fr.univ.engine.render.texture.Texture;
 import fr.univ.pacman.controller.GameMenu;
 import fr.univ.pacman.controller.GameController;
-import fr.univ.pacman.migration.component.PacManLogic;
+import fr.univ.pacman.component.PacManLogic;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.input.KeyCode;
 
-import static fr.univ.pacman.migration.Type.*;
+import static fr.univ.pacman.Type.*;
 
-public class Rework extends GameApplication {
+public class PacMan extends GameApplication {
 
     @Override
     protected void config(Config config) {

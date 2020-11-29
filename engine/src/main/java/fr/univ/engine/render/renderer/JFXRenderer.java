@@ -3,6 +3,8 @@ package fr.univ.engine.render.renderer;
 import fr.univ.engine.core.entity.Entity;
 import fr.univ.engine.math.Point;
 import fr.univ.engine.math.Transform;
+import fr.univ.engine.physic.component.PhysicComponent;
+import fr.univ.engine.physic.hitbox.SquareHitBox;
 import fr.univ.engine.render.component.RenderComponent;
 import fr.univ.engine.render.texture.Texture;
 import fr.univ.engine.render.texture.TextureComparator;
@@ -36,6 +38,18 @@ public class JFXRenderer extends Renderer<Canvas> {
         });
 
         for (Entity entity : entities) {
+            // TODO HACK DELETE ME
+            PhysicComponent physic = entity.getComponent(PhysicComponent.class);
+            if (physic.getHitBox() != null && physic.getHitBox() instanceof SquareHitBox) {
+                SquareHitBox hb = ((SquareHitBox) physic.getHitBox());
+                Point hpos = viewport.toAbsolutePos(hb.getPosition(), hb.width(), hb.height());
+                actions.add(ctx -> {
+                    ctx.setLineWidth(1);
+                    ctx.setStroke(Color.RED);
+                    ctx.strokeRect(hpos.x, hpos.y, hb.width()-1, hb.height()-1);
+                });
+            }
+
             Texture texture = entity.getComponent(RenderComponent.class).getTexture();
             if (texture == null) continue;
             Transform transform = entity.transform();

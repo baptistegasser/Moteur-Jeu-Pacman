@@ -1,4 +1,4 @@
-package fr.univ.pacman.migration;
+package fr.univ.pacman;
 
 import fr.univ.engine.assets.AssetsLoader;
 import fr.univ.engine.core.entity.Entity;
@@ -8,7 +8,7 @@ import fr.univ.engine.core.level.loader.CharInfo;
 import fr.univ.engine.math.Point;
 import fr.univ.engine.physic.hitbox.SquareHitBox;
 import fr.univ.engine.render.texture.Texture;
-import fr.univ.pacman.migration.component.PacManLogic;
+import fr.univ.pacman.component.PacManLogic;
 
 public class GameFactory extends EntityFactory<CharInfo> {
 

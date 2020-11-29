@@ -1,4 +1,4 @@
-package fr.univ.pacman.migration.component;
+package fr.univ.pacman.component;
 
 import fr.univ.engine.core.component.Component;
 import fr.univ.engine.logging.LoggingEngine;
