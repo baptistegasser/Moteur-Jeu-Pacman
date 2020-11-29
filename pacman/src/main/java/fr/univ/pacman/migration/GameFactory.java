@@ -15,7 +15,7 @@ public class GameFactory extends EntityFactory<CharInfo> {
     private final int TILE_SIZE = 16;
 
     private Point tilePos(CharInfo info) {
-        return new Point(TILE_SIZE * info.x() - 224, TILE_SIZE * info.y() - 248);
+        return new Point(TILE_SIZE * info.x() - 216, TILE_SIZE * info.y() - 240);
     }
 
     @From("P")
@@ -73,12 +73,16 @@ public class GameFactory extends EntityFactory<CharInfo> {
                 .build();
     }
 
+    private Point ghostPos(CharInfo info) {
+        return new Point(TILE_SIZE * info.x() - 214, TILE_SIZE * info.y() - 238);
+    }
+
     @From("R")
     public Entity redGhost(CharInfo info) {
         Texture texture = new Texture(20, 20, AssetsLoader.loadImage("sprites/ghosts/redGhost.png"));
         return new EntityBuilder()
                 .type(Type.SUPER_RAINBOW_PAC)
-                .position(tilePos(info))
+                .position(ghostPos(info))
                 .texture(texture)
                 .hitbox(new SquareHitBox(16))
                 // TODO red ghost behavior component
@@ -90,7 +94,7 @@ public class GameFactory extends EntityFactory<CharInfo> {
         Texture texture = new Texture(20, 20, AssetsLoader.loadImage("sprites/ghosts/blueGhost.png"));
         return new EntityBuilder()
                 .type(Type.SUPER_RAINBOW_PAC)
-                .position(tilePos(info))
+                .position(ghostPos(info))
                 .texture(texture)
                 .hitbox(new SquareHitBox(16))
                 // TODO blue ghost behavior component
@@ -102,7 +106,7 @@ public class GameFactory extends EntityFactory<CharInfo> {
         Texture texture = new Texture(20, 20, AssetsLoader.loadImage("sprites/ghosts/orangeGhost.png"));
         return new EntityBuilder()
                 .type(Type.SUPER_RAINBOW_PAC)
-                .position(tilePos(info))
+                .position(ghostPos(info))
                 .texture(texture)
                 .hitbox(new SquareHitBox(16))
                 // TODO orange ghost behavior component
@@ -114,7 +118,7 @@ public class GameFactory extends EntityFactory<CharInfo> {
         Texture texture = new Texture(20, 20, AssetsLoader.loadImage("sprites/ghosts/pinkGhost.png"));
         return new EntityBuilder()
                 .type(Type.SUPER_RAINBOW_PAC)
-                .position(tilePos(info))
+                .position(ghostPos(info))
                 .texture(texture)
                 .hitbox(new SquareHitBox(16))
                 // TODO pink ghost behavior component

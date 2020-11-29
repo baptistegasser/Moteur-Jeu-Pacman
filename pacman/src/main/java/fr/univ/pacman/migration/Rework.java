@@ -1,10 +1,14 @@
 package fr.univ.pacman.migration;
 
 import fr.univ.engine.assets.AssetsLoader;
+import fr.univ.engine.core.entity.Entity;
+import fr.univ.engine.core.entity.EntityBuilder;
 import fr.univ.engine.core.level.Level;
 import fr.univ.engine.core.config.Config;
 import fr.univ.engine.core.GameApplication;
 import fr.univ.engine.core.level.loader.TextLevelLoader;
+import fr.univ.engine.math.Point;
+import fr.univ.engine.render.texture.Texture;
 import fr.univ.pacman.gameplay.GameMenu;
 import fr.univ.pacman.gameplay.GamePlay;
 import fr.univ.pacman.migration.component.PacManLogic;
@@ -39,9 +43,7 @@ public class Rework extends GameApplication {
         GamePlay gamePlay = new GamePlay();
         uiEngine().draw(gamePlay.getGameView());
 
-
-        Level lvl = new TextLevelLoader().load(AssetsLoader.getLevel("map.txt"), new GameFactory());
-        setLevel(lvl);
+        loadLevel();
 
         DoubleProperty score = new SimpleDoubleProperty();
 
@@ -70,6 +72,18 @@ public class Rework extends GameApplication {
         soundEngine().playLoop("eating_pac.wav", 0.3);
 
         // IA ?
+    }
+
+    private void loadLevel() {
+        Level lvl = new TextLevelLoader().load(AssetsLoader.getLevel("map.txt"), new GameFactory());
+        Texture texture = new Texture(448, 496, AssetsLoader.loadImage("map/map.png"));
+        texture.setZIndex(-1);
+        Entity background = new EntityBuilder()
+                .position(new Point(0, 0))
+                .texture(texture)
+                .build();
+        lvl.add(background);
+        setLevel(lvl);
     }
 
     public static void main(String[] args) {
