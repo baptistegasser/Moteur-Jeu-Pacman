@@ -5,9 +5,9 @@ import fr.univ.engine.core.entity.EntityFactory;
 import fr.univ.engine.core.level.Level;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 /**
  * Level loader loading level from simple txt files.
@@ -30,13 +30,13 @@ public class TextLevelLoader implements LevelLoader<CharInfo> {
     private CharInfo info;
     
     @Override
-    public Level load(File mapFile, EntityFactory<CharInfo> factory) {
+    public Level load(InputStream mapStream, EntityFactory<CharInfo> factory) {
         this.level = new Level();
         this.info = new CharInfo();
         this.factory = factory;
 
-        try (FileReader fr = new FileReader(mapFile);
-             BufferedReader br = new BufferedReader(fr)
+        try (InputStreamReader isr = new InputStreamReader(mapStream);
+             BufferedReader br = new BufferedReader(isr)
         ) {
             String line;
             while ((line = br.readLine()) != null) {
@@ -45,8 +45,7 @@ public class TextLevelLoader implements LevelLoader<CharInfo> {
                 info.y += 1;
             }
         } catch (IOException ioe) {
-            String msg = String.format("Failed to load map from '%s'", mapFile.getAbsolutePath());
-            throw new RuntimeException(msg, ioe);
+            throw new RuntimeException("Failed to load map from", ioe);
         }
 
         return level;

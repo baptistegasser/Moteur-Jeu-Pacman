@@ -5,7 +5,7 @@ import javafx.scene.image.Image;
 import javafx.scene.media.Media;
 import javafx.scene.text.Font;
 
-import java.io.File;
+import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -70,18 +70,11 @@ public final class AssetsLoader {
      *  - levels/hell_1.txt
      *
      * @param name the level full name relative to the levels folder.
-     * @return a {@link File} pointing to the level.
+     * @return a {@link InputStream} pointing to the file.
      */
-    public static File getLevel(String name) {
+    public static InputStream getLevel(String name) {
         String key = ASSETS_ROOT + LEVELS + name;
-        File levelFile = getFromCache(File.class, key);
-
-        if (levelFile == null) {
-            URI uri = getResourceURI(key);
-            levelFile = new File(uri);
-            cache.put(key, levelFile);
-        }
-        return levelFile;
+        return getResourceAsStream(key);
     }
 
     /**
@@ -140,6 +133,17 @@ public final class AssetsLoader {
             return url.toURI();
         } catch (URISyntaxException e) {
             throw new AssetException(String.format("Invalid path to asset at '%s'", relativePath), e);
+        }
+    }
+
+    private static InputStream getResourceAsStream(String relativePath) {
+        // Get ressource from the resources folder of the game implementation.
+        InputStream is = GameApplication.getInstance().getClass().getResourceAsStream(relativePath);
+
+        if (is == null) {
+            throw new AssetException(String.format("Failed to find asset at '%s'", relativePath));
+        } else {
+            return is;
         }
     }
 
