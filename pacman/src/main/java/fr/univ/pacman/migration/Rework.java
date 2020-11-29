@@ -69,7 +69,7 @@ public class Rework extends GameApplication {
             getLevel().destroyEntity(e2);
         });
         physicEngine().onCollision(PACMAN, SUPER_RAINBOW_PAC, (e1, e2) -> {
-            soundEngine().play("get_out_of_my_swamp.wap",0.1);
+            soundEngine().play("get_out_of_my_swamp.wav",0.1);
             // todo scatter ghost ia
             getLevel().destroyEntity(e2);
         });
