@@ -1,19 +1,16 @@
 package fr.univ.pacman.migration;
 
 import fr.univ.engine.assets.AssetsLoader;
-import fr.univ.engine.core.Level;
+import fr.univ.engine.core.level.Level;
 import fr.univ.engine.core.config.Config;
 import fr.univ.engine.core.GameApplication;
-import fr.univ.engine.core.level.TextLevelLoader;
+import fr.univ.engine.core.level.loader.TextLevelLoader;
 import fr.univ.pacman.gameplay.GameMenu;
 import fr.univ.pacman.gameplay.GamePlay;
 import fr.univ.pacman.migration.component.PacManLogic;
-import fr.univ.pacman.ui.MenuView;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.input.KeyCode;
-
-import java.awt.*;
 
 import static fr.univ.pacman.migration.Type.*;
 

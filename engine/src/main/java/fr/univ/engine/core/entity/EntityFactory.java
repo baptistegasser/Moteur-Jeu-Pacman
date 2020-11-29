@@ -1,6 +1,6 @@
 package fr.univ.engine.core.entity;
 
-import fr.univ.engine.core.level.LevelInfo;
+import fr.univ.engine.core.level.loader.LevelInfo;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

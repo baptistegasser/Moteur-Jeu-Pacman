@@ -4,7 +4,7 @@ import fr.univ.engine.assets.AssetsLoader;
 import fr.univ.engine.core.entity.Entity;
 import fr.univ.engine.core.entity.EntityBuilder;
 import fr.univ.engine.core.entity.EntityFactory;
-import fr.univ.engine.core.level.CharInfo;
+import fr.univ.engine.core.level.loader.CharInfo;
 import fr.univ.engine.math.Point;
 import fr.univ.engine.physic.hitbox.SquareHitBox;
 import fr.univ.engine.render.texture.Texture;

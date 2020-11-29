@@ -1,4 +1,4 @@
-package fr.univ.engine.core.level;
+package fr.univ.engine.core.level.loader;
 
 /**
  * Information about an entity stored as a char.
