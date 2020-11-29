@@ -62,6 +62,8 @@ public class Rework extends GameApplication {
             soundEngine().play("eating_pac.wav", 0.05);
             score.set(score.get() + 10);
             getLevel().destroyEntity(e2);
+            //TODO use global variable maybe
+            gameController.getInventory().addScore(10);
         });
         physicEngine().onCollision(PACMAN, SUPER_PAC, (e1, e2) -> {
             //soundEngine().play("eating_pac.wav",0.05);
