@@ -1,6 +1,8 @@
 package fr.univ.engine.core;
 
+import fr.univ.engine.core.component.Component;
 import fr.univ.engine.core.config.Config;
+import fr.univ.engine.core.entity.Entity;
 import fr.univ.engine.core.level.Level;
 import fr.univ.engine.io.IOEngine;
 import fr.univ.engine.logging.LoggingEngine;
@@ -134,6 +136,13 @@ public final class Core {
                 if (currentTime - lastFrames >= SECOND_PER_FRAME) {
                     lastFrames = currentTime;
                     frames += 1;
+
+                    // Update the components
+                    for (Entity e : level.getEntities()) {
+                        for (Component c : e.getComponents()) {
+                            c.update();
+                        }
+                    }
 
                     long s = System.nanoTime();
                     ioEngine.nextFrame();
