@@ -26,6 +26,8 @@ public class Entity {
         this.type = type;
         this.transform = transform;
         this.components = components;
+
+        components.forEach(c -> c.setEntity(this));
     }
 
     /**
@@ -40,6 +42,15 @@ public class Entity {
      */
     public Transform transform() {
         return transform;
+    }
+
+    /**
+     * Get all the components of this entity.
+     *
+     * @return the list of components.
+     */
+    public List<Component> getComponents() {
+        return components;
     }
 
     /**
