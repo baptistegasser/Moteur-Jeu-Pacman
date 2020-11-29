@@ -31,6 +31,15 @@ public class GameFactory extends EntityFactory<CharInfo> {
                 .build();
     }
 
+    @From("1")
+    public Entity wall(CharInfo info) {
+        return new EntityBuilder()
+                .type(Type.WALL)
+                .position(tilePos(info))
+                .hitbox(new SquareHitBox(16))
+                .build();
+    }
+
     @From("2")
     public Entity pac(CharInfo info) {
         Texture texture = new Texture(3, 3, AssetsLoader.loadImage("item/gomme.png"));
@@ -61,6 +70,54 @@ public class GameFactory extends EntityFactory<CharInfo> {
                 .position(tilePos(info))
                 .texture(texture)
                 .hitbox(new SquareHitBox(10))
+                .build();
+    }
+
+    @From("R")
+    public Entity redGhost(CharInfo info) {
+        Texture texture = new Texture(20, 20, AssetsLoader.loadImage("sprites/ghosts/redGhost.png"));
+        return new EntityBuilder()
+                .type(Type.SUPER_RAINBOW_PAC)
+                .position(tilePos(info))
+                .texture(texture)
+                .hitbox(new SquareHitBox(16))
+                // TODO red ghost behavior component
+                .build();
+    }
+
+    @From("B")
+    public Entity blueGhost(CharInfo info) {
+        Texture texture = new Texture(20, 20, AssetsLoader.loadImage("sprites/ghosts/blueGhost.png"));
+        return new EntityBuilder()
+                .type(Type.SUPER_RAINBOW_PAC)
+                .position(tilePos(info))
+                .texture(texture)
+                .hitbox(new SquareHitBox(16))
+                // TODO blue ghost behavior component
+                .build();
+    }
+
+    @From("O")
+    public Entity orangeGhost(CharInfo info) {
+        Texture texture = new Texture(20, 20, AssetsLoader.loadImage("sprites/ghosts/orangeGhost.png"));
+        return new EntityBuilder()
+                .type(Type.SUPER_RAINBOW_PAC)
+                .position(tilePos(info))
+                .texture(texture)
+                .hitbox(new SquareHitBox(16))
+                // TODO orange ghost behavior component
+                .build();
+    }
+
+    @From("I")
+    public Entity pinkGhost(CharInfo info) {
+        Texture texture = new Texture(20, 20, AssetsLoader.loadImage("sprites/ghosts/pinkGhost.png"));
+        return new EntityBuilder()
+                .type(Type.SUPER_RAINBOW_PAC)
+                .position(tilePos(info))
+                .texture(texture)
+                .hitbox(new SquareHitBox(16))
+                // TODO pink ghost behavior component
                 .build();
     }
 }
