@@ -1,12 +1,5 @@
 package fr.univ.pacman.entity;
 
-import fr.univ.engine.math.Point;
-import fr.univ.engine.math.Vector;
-import fr.univ.engine.physic.hitbox.SquareHitBox;
-import fr.univ.engine.render.texture.Texture;
-import fr.univ.pacman.Game;
-import fr.univ.pacman.gameplay.GamePlay;
-
 /**
  * The class handling the logic of Ghost.
  */

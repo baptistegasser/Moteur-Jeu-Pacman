@@ -6,7 +6,7 @@ public class Inventory {
     /**
      * The gameplay of inventory
      */
-    GamePlay gamePlay;
+    GameController gameController;
 
     /**
      * The player score
@@ -15,8 +15,8 @@ public class Inventory {
 
     private int life;
 
-    public Inventory(GamePlay gamePlay) {
-        this.gamePlay = gamePlay;
+    public Inventory(GameController gameController) {
+        this.gameController = gameController;
         this.score = 0;
         this.life = 3;
     }
@@ -28,7 +28,7 @@ public class Inventory {
      */
     public void addScore(int score) {
         this.score += score;
-        gamePlay.getGameView().setScoreText(this.score);
+        gameController.getGameView().setScoreText(this.score);
     }
 
     /**
@@ -39,7 +39,7 @@ public class Inventory {
         if (life == 0) {
             System.out.println("GAME OVER");
         }
-        gamePlay.getGameView().updateLifeView();
+        gameController.getGameView().updateLifeView();
     }
 
     public int getLife() {

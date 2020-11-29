@@ -10,7 +10,7 @@ import fr.univ.engine.core.level.loader.TextLevelLoader;
 import fr.univ.engine.math.Point;
 import fr.univ.engine.render.texture.Texture;
 import fr.univ.pacman.gameplay.GameMenu;
-import fr.univ.pacman.gameplay.GamePlay;
+import fr.univ.pacman.gameplay.GameController;
 import fr.univ.pacman.migration.component.PacManLogic;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -40,8 +40,8 @@ public class Rework extends GameApplication {
     @Override
     protected void initGame() {
         uiEngine().clear();
-        GamePlay gamePlay = new GamePlay();
-        uiEngine().draw(gamePlay.getGameView());
+        GameController gameController = new GameController();
+        uiEngine().draw(gameController.getGameView());
 
         loadLevel();
 
