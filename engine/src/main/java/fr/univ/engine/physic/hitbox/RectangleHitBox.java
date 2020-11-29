@@ -38,7 +38,7 @@ public class RectangleHitBox extends HitBox {
         double diffW = (width + h2.width) / 2;
         double diffH = (height + h2.height) / 2;
 
-        return x() - h2.x() < diffW &&
+        return  x() - h2.x() < diffW &&
                 x() - h2.x() > -diffW &&
                 y() - h2.y() < diffH &&
                 y() - h2.y() > -diffH;

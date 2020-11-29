@@ -37,6 +37,7 @@ public class GameFactory extends EntityFactory<CharInfo> {
                 .type(Type.WALL)
                 .position(tilePos(info))
                 .hitbox(new SquareHitBox(16))
+                .isSolid(true)
                 .build();
     }
 
