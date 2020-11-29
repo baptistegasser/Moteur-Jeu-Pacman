@@ -82,7 +82,7 @@ public class GameFactory extends EntityFactory<CharInfo> {
     public Entity redGhost(CharInfo info) {
         Texture texture = new Texture(20, 20, AssetsLoader.loadImage("sprites/ghosts/redGhost.png"));
         return new EntityBuilder()
-                .type(Type.SUPER_RAINBOW_PAC)
+                .type(Type.GHOST)
                 .position(ghostPos(info))
                 .texture(texture)
                 .hitbox(new SquareHitBox(16))
@@ -94,7 +94,7 @@ public class GameFactory extends EntityFactory<CharInfo> {
     public Entity blueGhost(CharInfo info) {
         Texture texture = new Texture(20, 20, AssetsLoader.loadImage("sprites/ghosts/blueGhost.png"));
         return new EntityBuilder()
-                .type(Type.SUPER_RAINBOW_PAC)
+                .type(Type.GHOST)
                 .position(ghostPos(info))
                 .texture(texture)
                 .hitbox(new SquareHitBox(16))
@@ -106,7 +106,7 @@ public class GameFactory extends EntityFactory<CharInfo> {
     public Entity orangeGhost(CharInfo info) {
         Texture texture = new Texture(20, 20, AssetsLoader.loadImage("sprites/ghosts/orangeGhost.png"));
         return new EntityBuilder()
-                .type(Type.SUPER_RAINBOW_PAC)
+                .type(Type.GHOST)
                 .position(ghostPos(info))
                 .texture(texture)
                 .hitbox(new SquareHitBox(16))
@@ -118,7 +118,7 @@ public class GameFactory extends EntityFactory<CharInfo> {
     public Entity pinkGhost(CharInfo info) {
         Texture texture = new Texture(20, 20, AssetsLoader.loadImage("sprites/ghosts/pinkGhost.png"));
         return new EntityBuilder()
-                .type(Type.SUPER_RAINBOW_PAC)
+                .type(Type.GHOST)
                 .position(ghostPos(info))
                 .texture(texture)
                 .hitbox(new SquareHitBox(16))
