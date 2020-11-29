@@ -1,10 +1,10 @@
 package fr.univ.pacman.ui;
 
-import fr.univ.engine.render.JFXApp;
+import fr.univ.engine.assets.AssetsLoader;
 import fr.univ.engine.render.RenderEngine;
+import fr.univ.engine.render.texture.Texture;
 import fr.univ.engine.ui.UiObject;
-import fr.univ.engine.utils.CachedResourcesLoader;
-import fr.univ.pacman.gameplay.GamePlay;
+import fr.univ.pacman.gameplay.GameController;
 import javafx.geometry.Insets;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -15,11 +15,15 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
 public class GameView extends UiObject {
+    /**
+     * A controller
+     */
+    private final GameController controller;
 
     /**
      * Pane with all element
      */
-    private StackPane elementPane;
+    private final StackPane elementPane;
 
     /**
      * The pane for the player score
@@ -40,11 +44,12 @@ public class GameView extends UiObject {
     /**
      * Prepare elements
      */
-    public GameView() {
+    public GameView(GameController gameController) {
+        this.controller = gameController;
         this.elementPane = new StackPane();
 
         //Load font
-        this.font = this.resolver.getFont("font/PressStart2P.ttf");
+        this.font = AssetsLoader.loadFont("PressStart2P.ttf");
 
         this.construct();
     }
@@ -52,6 +57,7 @@ public class GameView extends UiObject {
     /**
      * construct all element
      */
+    @Override
     public void construct() {
         // Create and configure Box
         boxScore = new HBox();
@@ -113,9 +119,9 @@ public class GameView extends UiObject {
      * Add content to life box
      */
     public void constructLifeView() {
-        for (int i = 0; i< GamePlay.getInventory().getLife(); i++) {
-            Image life = resolver.getImage("sprites/pacman.png");
-            ImageView lifeImage = new ImageView(life);
+        for (int i = 0; i< controller.getInventory().getLife(); i++) {
+            Image image = AssetsLoader.loadImage("sprites/pacman.png");
+            ImageView lifeImage = new ImageView(image);
             lifeImage.setFitHeight(16);
             lifeImage.setFitWidth(16);
             RenderEngine.runOnFXThread(() -> boxLife.getChildren().add(lifeImage));

@@ -6,14 +6,11 @@ import fr.univ.engine.core.config.Config;
 import fr.univ.engine.core.GameApplication;
 import fr.univ.engine.core.level.TextLevelLoader;
 import fr.univ.pacman.gameplay.GameMenu;
-import fr.univ.pacman.gameplay.GamePlay;
+import fr.univ.pacman.gameplay.GameController;
 import fr.univ.pacman.migration.component.PacManLogic;
-import fr.univ.pacman.ui.MenuView;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.input.KeyCode;
-
-import java.awt.*;
 
 import static fr.univ.pacman.migration.Type.*;
 
@@ -39,8 +36,8 @@ public class Rework extends GameApplication {
     @Override
     protected void initGame() {
         uiEngine().clear();
-        GamePlay gamePlay = new GamePlay();
-        uiEngine().draw(gamePlay.getGameView());
+        GameController gameController = new GameController();
+        uiEngine().draw(gameController.getGameView());
 
 
         Level lvl = new TextLevelLoader().load(AssetsLoader.getLevel("map.txt"), new GameFactory());

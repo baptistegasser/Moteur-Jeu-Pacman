@@ -1,5 +1,6 @@
 package fr.univ.pacman.ui;
 
+import fr.univ.engine.assets.AssetsLoader;
 import fr.univ.engine.ui.UiObject;
 import fr.univ.pacman.gameplay.GameMenu;
 import javafx.event.ActionEvent;
@@ -48,13 +49,13 @@ public class MenuView extends UiObject {
         boxElement.setAlignment(Pos.CENTER);
 
         // Add title image
-        Image image = this.resolver.getImage("menu/pacmanTitle.png");
+        Image image = AssetsLoader.loadImage("menu/pacmanTitle.png");
         ImageView titleImage = new ImageView(image);
         titleImage.setFitHeight(65);
         titleImage.setFitWidth(300);
 
         //Add play button
-        Image imagePlay = this.resolver.getImage("menu/playButton.png");
+        Image imagePlay = AssetsLoader.loadImage("menu/playButton.png");
         ImageView imageViewPlay = new ImageView(imagePlay);
 
         Button buttonPlay = new Button();
@@ -70,7 +71,7 @@ public class MenuView extends UiObject {
         });
 
         //Add quit button
-        Image imageQuit = this.resolver.getImage("menu/quitButton.png");
+        Image imageQuit = AssetsLoader.loadImage("menu/quitButton.png");
         ImageView imageViewQuit = new ImageView(imageQuit);
 
         Button buttonQuit = new Button();

@@ -3,34 +3,26 @@ package fr.univ.pacman.gameplay;
 import fr.univ.pacman.Game;
 import fr.univ.pacman.ui.GameView;
 
-public class GamePlay {
+public class GameController {
 
     /**
      * The instance of inventory
      */
-    private static Inventory inventory;
+    private Inventory inventory;
 
     /**
      * The view of the controller
      */
     private GameView gameView;
 
-    public GamePlay() {
+    public GameController() {
         // Create inventory
         inventory = new Inventory(this);
 
-        gameView = new GameView();
+        gameView = new GameView(this);
     }
 
-    /**
-     * Prepare gameView and start the game
-     */
-    public void start() {
-        gameView.construct();
-        Game.canStart = true;
-    }
-
-    public static Inventory getInventory() {
+    public Inventory getInventory() {
         return inventory;
     }
 
