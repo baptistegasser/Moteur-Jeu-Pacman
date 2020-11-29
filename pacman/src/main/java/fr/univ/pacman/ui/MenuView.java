@@ -1,38 +1,28 @@
 package fr.univ.pacman.ui;
 
-import fr.univ.engine.render.JFXApp;
 import fr.univ.engine.ui.UiObject;
 import fr.univ.pacman.gameplay.GameMenu;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 
 
 public class MenuView extends UiObject {
     /**
      * The controller for this view
      */
-    private GameMenu controller;
+    private final GameMenu controller;
 
     /**
      * Pane with all element
      */
-    private StackPane elementPane;
-
-    /**
-     * Box with principal element
-     */
-    private VBox boxElement;
-    ImageView tileImage;
+    private final StackPane elementPane;
 
     /**
      * Prepare elements
@@ -51,25 +41,27 @@ public class MenuView extends UiObject {
     public void construct() {
         elementPane.setStyle("-fx-background-color: Black;");
 
-        boxElement = new VBox();
-        boxElement.setPadding(new Insets(100,0,0,100));
+        //Config box element
+        VBox boxElement = new VBox();
+        boxElement.setPadding(new Insets(-150,0,0,0));
         boxElement.setSpacing(20);
+        boxElement.setAlignment(Pos.CENTER);
 
+        // Add title image
         Image image = this.resolver.getImage("menu/pacmanTitle.png");
-        tileImage = new ImageView(image);
-        tileImage.setFitHeight(65);
-        tileImage.setFitWidth(300);
+        ImageView titleImage = new ImageView(image);
+        titleImage.setFitHeight(65);
+        titleImage.setFitWidth(300);
 
-        boxElement.getChildren().addAll(tileImage);
-
+        //Add play button
         Image imagePlay = this.resolver.getImage("menu/playButton.png");
-        ImageView imageView = new ImageView(imagePlay);
+        ImageView imageViewPlay = new ImageView(imagePlay);
 
-        Button button = new Button();
-        button.setGraphic(imageView);
-        button.setStyle("-fx-background-color: transparent;");
+        Button buttonPlay = new Button();
+        buttonPlay.setGraphic(imageViewPlay);
+        buttonPlay.setStyle("-fx-background-color: transparent;");
 
-        button.setOnAction(new EventHandler<ActionEvent>() {
+        buttonPlay.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
                 System.out.println("Play");
@@ -77,11 +69,12 @@ public class MenuView extends UiObject {
             }
         });
 
+        //Add quit button
         Image imageQuit = this.resolver.getImage("menu/quitButton.png");
-        ImageView imageViewquit = new ImageView(imageQuit);
+        ImageView imageViewQuit = new ImageView(imageQuit);
 
         Button buttonQuit = new Button();
-        buttonQuit.setGraphic(imageViewquit);
+        buttonQuit.setGraphic(imageViewQuit);
         buttonQuit.setStyle("-fx-background-color: transparent;");
 
         buttonQuit.setOnAction(new EventHandler<ActionEvent>() {
@@ -93,8 +86,7 @@ public class MenuView extends UiObject {
             }
         });
 
-        boxElement.getChildren().addAll(button);
-        boxElement.getChildren().addAll(buttonQuit);
+        boxElement.getChildren().addAll(titleImage, buttonPlay, buttonQuit);
         elementPane.getChildren().addAll(boxElement);
 
         addElement(elementPane);

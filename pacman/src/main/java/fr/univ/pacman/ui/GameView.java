@@ -45,6 +45,8 @@ public class GameView extends UiObject {
 
         //Load font
         this.font = this.resolver.getFont("font/PressStart2P.ttf");
+
+        this.construct();
     }
 
     /**
@@ -62,7 +64,6 @@ public class GameView extends UiObject {
         scoreText.setFill(Color.RED);
 
         boxScore.getChildren().addAll(scoreText);
-        elementPane.getChildren().addAll(boxScore);
 
         // Create and configure Box
         boxLife = new HBox();
@@ -71,7 +72,8 @@ public class GameView extends UiObject {
 
         //Set Life content
         constructLifeView();
-        elementPane.getChildren().addAll(boxLife);
+
+        elementPane.getChildren().addAll(boxScore, boxLife);
 
         addElement(elementPane);
     }
@@ -107,6 +109,9 @@ public class GameView extends UiObject {
         this.updateScoreView();
     }
 
+    /**
+     * Add content to life box
+     */
     public void constructLifeView() {
         for (int i = 0; i< GamePlay.getInventory().getLife(); i++) {
             Image life = resolver.getImage("sprites/pacman.png");
