@@ -1,7 +1,6 @@
 package fr.univ.engine.sound;
 
 import fr.univ.engine.assets.AssetsLoader;
-import fr.univ.engine.utils.CachedResourcesLoader;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
@@ -9,6 +8,26 @@ import javafx.scene.media.MediaPlayer;
  * Engine charged of playing sounds.
  */
 public class SoundEngine {
+    /**
+     * The global volume of the sound engine.
+     * A media played at max volume will correspond to this volume.
+     * The value is clamped to the range <code>[0.0,&nbsp;1.0]</code>
+     */
+    private double globalVolume = 0.0;
+
+    /**
+     * Set the new global volume value.
+     * The value will be forced between 0.0 and 1.0.
+     *
+     * @param volume the new global volume.
+     */
+    public void setGlobalVolume(double volume) {
+        this.globalVolume = clamp(volume);
+    }
+
+    public double getGlobalVolume() {
+        return globalVolume;
+    }
 
     /**
      * Play a sound at max volume (1.0).
@@ -28,7 +47,7 @@ public class SoundEngine {
      * @return the media player controlling the sound playing.
      */
     public MediaPlayer play(String name, double volume) {
-        return play(name, volume, false);
+        return play(name, clamp(volume), false);
     }
 
 
@@ -51,7 +70,7 @@ public class SoundEngine {
      * @return the media player controlling the sound playing.
      */
     public MediaPlayer playLoop(String name, double volume) {
-        return play(name, volume, true);
+        return play(name, clamp(volume), true);
     }
 
     /**
@@ -63,13 +82,27 @@ public class SoundEngine {
      * @return the media player controlling the sound playing.
      */
     private MediaPlayer play(String name, double volume, boolean loop) {
+        // The target volume is the desired volume in function of the global volume
+        double targetVolume = globalVolume * volume;
+
         Media media = AssetsLoader.loadSound(name);
         MediaPlayer mediaPlayer = new MediaPlayer(media);
-        mediaPlayer.setVolume(volume);
+        mediaPlayer.setVolume(targetVolume);
         if (loop) {
             mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
         }
         mediaPlayer.play();
         return mediaPlayer;
+    }
+
+    /**
+     * Clamp a volume value between the values accepted by
+     * JavaFX, i.e. between 0.0 and 1.0.
+     *
+     * @param volume the volume to clamped.
+     * @return the clamped value.
+     */
+    private double clamp(double volume) {
+        return Math.max(0.0, Math.min(volume, 1.0));
     }
 }
