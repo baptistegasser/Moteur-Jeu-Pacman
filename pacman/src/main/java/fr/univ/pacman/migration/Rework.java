@@ -65,6 +65,8 @@ public class Rework extends GameApplication {
             getLevel().destroyEntity(e2);;
         });
 
+        soundEngine().playLoop("eating_pac.wav", 0.3);
+
         // IA ?
     }
 
