@@ -1,6 +1,5 @@
-package fr.univ.pacman.gameplay;
+package fr.univ.pacman.controller;
 
-import fr.univ.pacman.Game;
 import fr.univ.pacman.ui.GameView;
 
 public class GameController {

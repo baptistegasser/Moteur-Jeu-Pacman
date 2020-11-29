@@ -1,12 +1,7 @@
 package fr.univ.pacman;
 
 import fr.univ.engine.core.Core;
-import fr.univ.engine.io.IOEngine;
 import fr.univ.engine.utils.CachedResourcesLoader;
-import fr.univ.pacman.entity.PacMan;
-import fr.univ.pacman.gameplay.GameMenu;
-import fr.univ.pacman.map.Map;
-import javafx.scene.input.KeyCode;
 
 /**
  * The entry point of the Pac-Man Game, setup and start the game.
