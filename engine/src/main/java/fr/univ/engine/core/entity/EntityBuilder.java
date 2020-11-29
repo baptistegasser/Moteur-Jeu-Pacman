@@ -97,7 +97,10 @@ public class EntityBuilder {
 
     public Entity build() {
         components.set(0, new RenderComponent(texture));
-        if (hitBox != null) hitBox.setSolid(isSolid);
+        if (hitBox != null) {
+            hitBox.setSolid(isSolid);
+            hitBox.setPosition(position);
+        }
         components.set(1, new PhysicComponent(hitBox, direction));
         Transform transform = new Transform(position, rotation);
         return new Entity(type, transform, components);
