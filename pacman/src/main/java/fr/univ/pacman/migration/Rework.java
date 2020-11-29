@@ -27,7 +27,7 @@ public class Rework extends GameApplication {
     }
 
     @Override
-    protected void initApplication() {
+    protected void drawApplication() {
         GameMenu gameMenu = new GameMenu(this);
         uiEngine().draw(gameMenu.getMenuView());
         uiEngine().showWindow();

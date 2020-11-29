@@ -3,6 +3,7 @@ package fr.univ.engine.core;
 import fr.univ.engine.core.config.Config;
 import fr.univ.engine.io.IOEngine;
 import fr.univ.engine.physic.PhysicEngine;
+import fr.univ.engine.render.JFXApp;
 import fr.univ.engine.render.RenderEngine;
 import fr.univ.engine.sound.SoundEngine;
 import fr.univ.engine.ui.UiEngine;
@@ -36,6 +37,9 @@ public abstract class GameApplication {
      */
     private boolean quit = false;
 
+    /**
+     * When the game can start
+     */
     private boolean startGame = false;
 
     /**
@@ -55,8 +59,20 @@ public abstract class GameApplication {
     /**
      * This function is called when application is lunch
      */
-    protected abstract void initApplication();
+    private void initApplication() {
+        JFXApp.getIsClosingProperty().addListener(o -> this.quit());
+        drawApplication();
+    }
 
+    /**
+     * This function permit to draw the content of the application
+     */
+    protected abstract void drawApplication();
+
+
+    /**
+     * Start the loop of application
+     */
     private void startApplication() {
         while (!quit) {
             if (startGame) {
