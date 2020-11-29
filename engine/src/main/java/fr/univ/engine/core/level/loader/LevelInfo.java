@@ -1,4 +1,4 @@
-package fr.univ.engine.core.level;
+package fr.univ.engine.core.level.loader;
 
 /**
  * Represent information of a level being loaded.

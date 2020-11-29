@@ -1,7 +1,7 @@
-package fr.univ.engine.core.level;
+package fr.univ.engine.core.level.loader;
 
-import fr.univ.engine.core.Level;
 import fr.univ.engine.core.entity.EntityFactory;
+import fr.univ.engine.core.level.Level;
 
 import java.io.File;
 
