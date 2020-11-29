@@ -22,7 +22,7 @@ public final class Core {
     /**
      * The configuration of the current game.
      */
-    private Config config;
+    private final Config config;
 
     /**
      * The render engine instance used to render.

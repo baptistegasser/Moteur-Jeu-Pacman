@@ -8,7 +8,7 @@ public abstract class UiObject {
     /**
      * The principal pane
      */
-    private StackPane mainPane;
+    private final StackPane mainPane;
 
     /**
      * The class used to load our resources.

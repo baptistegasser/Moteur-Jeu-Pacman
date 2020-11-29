@@ -11,9 +11,9 @@ public class SquareHitBox extends HitBox {
     }
 
     /**
-     * Handle colision betwen 2 square hitbox
+     * Handle collision between 2 square hitbox
      * @param h2 the {@code SquareHitBox} to test
-     * @return Return true if there is a colision between the current object and h2
+     * @return Return true if there is a collision between the current object and h2
      */
     @Override
     public boolean intersect(SquareHitBox h2) {

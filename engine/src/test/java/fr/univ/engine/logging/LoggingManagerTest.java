@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.logging.Level;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -30,7 +31,7 @@ class LoggingManagerTest {
         Arrays.asList(Level.FINE, Level.FINER, Level.FINEST).forEach(lvl -> assertFalse(manager.checkLevel(lvl)));
 
         manager.setLevel(Level.SEVERE);
-        Arrays.asList(Level.SEVERE).forEach(lvl -> assertTrue(manager.checkLevel(lvl)));
+        Collections.singletonList(Level.SEVERE).forEach(lvl -> assertTrue(manager.checkLevel(lvl)));
         Arrays.asList(Level.WARNING, Level.INFO, Level.FINE, Level.FINER, Level.FINEST).forEach(lvl -> assertFalse(manager.checkLevel(lvl)));
     }
 

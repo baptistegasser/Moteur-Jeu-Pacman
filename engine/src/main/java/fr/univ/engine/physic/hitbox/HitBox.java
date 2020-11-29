@@ -18,9 +18,9 @@ public abstract class HitBox implements Intersect {
     protected double size;
 
     /**
-     * Specifiy if an object is solid
+     * Specify if an object is solid
      * An object can be solid such as a wall, or not, like a Gomme
-     * Pacman colide with solid objects.
+     * Pacman collide with solid objects.
      */
     private boolean isSolid = false;
 

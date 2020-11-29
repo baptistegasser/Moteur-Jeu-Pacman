@@ -1,6 +1,5 @@
 package fr.univ.engine.core;
 
-import fr.univ.engine.io.IOEngine;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

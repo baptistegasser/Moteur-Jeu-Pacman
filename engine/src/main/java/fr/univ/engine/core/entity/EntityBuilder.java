@@ -17,19 +17,34 @@ import java.util.List;
  * Class charged of building entities.
  */
 public class EntityBuilder {
+    /**
+     * The desired type of the entity.
+     */
     private Object type = null;
-
+    /**
+     * The position of the entity in the level.
+     */
     private Point position = new Point(0, 0);
-
+    /**
+     * The rotation of the entity.
+     */
     private double rotation = 0;
-
+    /**
+     * The hitbox used for collisions with the entity.
+     */
     private HitBox hitBox = null;
-
+    /**
+     * The direction in which the entity will go at spawn.
+     */
     private Vector direction = new Vector(0, 0);
-
+    /**
+     * The texture used to render the entity.
+     */
     private Texture texture = null;
-
-    List<Component> components;
+    /**
+     * The components defining the behavior of the entity.
+     */
+    private final List<Component> components;
 
     public EntityBuilder() {
         // Reserve place for render and physic components.

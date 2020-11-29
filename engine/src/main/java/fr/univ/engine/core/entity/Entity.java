@@ -64,7 +64,7 @@ public class Entity {
      * Check if this entity have a specific component.
      *
      * @param componentClass the tye of the component.
-     * @return true if their is a non null component matching the wanted tpye.
+     * @return true if their is a non null component matching the wanted type.
      */
     public boolean hasComponent(Class<? extends Component> componentClass) {
         final String name = componentClass.getName();

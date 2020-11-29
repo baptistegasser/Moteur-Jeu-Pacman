@@ -226,8 +226,8 @@ class LoggingEngineTest {
         long start = System.nanoTime();
         long end = start + 1_000_000;
 
-        LoggingEngine.logElapsedTime(start, end, "mesured_task");
-        assertMessageLogged(Level.FINEST, "mesured_task took 1 MILLISECONDS");
+        LoggingEngine.logElapsedTime(start, end, "measured_task");
+        assertMessageLogged(Level.FINEST, "measured_task took 1 MILLISECONDS");
     }
 
     /**

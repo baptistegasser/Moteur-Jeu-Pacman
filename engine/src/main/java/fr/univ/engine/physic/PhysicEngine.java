@@ -78,8 +78,6 @@ public class PhysicEngine {
      * Function call for object movement in mainLoop
      *
      * @param objects all Object in a game
-     * @param t the time elapsed since engine started
-     * @param dt the time-step elapsed between updates
      * @return only object that have moved
      */
     private List<Entity> move(List<Entity> objects) {
