@@ -8,5 +8,6 @@ public enum Type {
     GHOST,
     PAC,
     SUPER_PAC,
+    SUPER_RAINBOW_PAC,
     WALL
 }

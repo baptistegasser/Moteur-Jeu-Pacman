@@ -1,7 +1,10 @@
 package fr.univ.pacman.migration;
 
+import fr.univ.engine.assets.AssetsLoader;
+import fr.univ.engine.core.Level;
 import fr.univ.engine.core.config.Config;
 import fr.univ.engine.core.GameApplication;
+import fr.univ.engine.core.level.TextLevelLoader;
 import fr.univ.pacman.gameplay.GameMenu;
 import fr.univ.pacman.gameplay.GamePlay;
 import fr.univ.pacman.migration.component.PacManLogic;
@@ -39,7 +42,9 @@ public class Rework extends GameApplication {
         GamePlay gamePlay = new GamePlay();
         uiEngine().draw(gamePlay.getGameView());
 
-        setLevel(new Labyrinth());
+
+        Level lvl = new TextLevelLoader().load(AssetsLoader.getLevel("map.txt"), new GameFactory());
+        setLevel(lvl);
 
         DoubleProperty score = new SimpleDoubleProperty();
 
