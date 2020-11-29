@@ -5,6 +5,7 @@ import fr.univ.engine.math.Point;
 import fr.univ.engine.math.Transform;
 import fr.univ.engine.render.component.RenderComponent;
 import fr.univ.engine.render.texture.Texture;
+import fr.univ.engine.render.texture.TextureComparator;
 import javafx.application.Platform;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -26,6 +27,13 @@ public class JFXRenderer extends Renderer<Canvas> {
     @Override
     public void render(List<Entity> entities) {
         final List<GraphicAction> actions = new ArrayList<>();
+
+        // Sort the entities by z-index
+        entities.sort((o1, o2) -> {
+            Texture t1 = o1.getComponent(RenderComponent.class).getTexture();
+            Texture t2 = o2.getComponent(RenderComponent.class).getTexture();
+            return new TextureComparator().compare(t1, t2);
+        });
 
         for (Entity entity : entities) {
             Texture texture = entity.getComponent(RenderComponent.class).getTexture();
