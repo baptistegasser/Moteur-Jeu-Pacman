@@ -4,14 +4,12 @@ import fr.univ.pacman.migration.Rework;
 import fr.univ.pacman.ui.MenuView;
 
 public class GameMenu {
-    Rework rework;
     /**
      * The view for this controller
      */
     private MenuView menuView;
 
-    public GameMenu(Rework rework) {
-        this.rework = rework;
+    public GameMenu() {
         this.menuView = new MenuView(this);
     }
 
@@ -19,11 +17,11 @@ public class GameMenu {
      * Prepare gameplay and start the game
      */
     public void startGame() {
-        rework.startGame();
+        Rework.getInstance().startGame();
     }
 
     public void quitGame() {
-        rework.quit();
+        Rework.getInstance().quit();
     }
 
     public MenuView getMenuView() {

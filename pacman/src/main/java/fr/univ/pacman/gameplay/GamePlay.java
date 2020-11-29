@@ -1,6 +1,5 @@
 package fr.univ.pacman.gameplay;
 
-import fr.univ.engine.utils.CachedResourcesLoader;
 import fr.univ.pacman.Game;
 import fr.univ.pacman.ui.GameView;
 
@@ -17,10 +16,10 @@ public class GamePlay {
     private GameView gameView;
 
     public GamePlay() {
-        gameView = new GameView();
-
         // Create inventory
         inventory = new Inventory(this);
+
+        gameView = new GameView();
     }
 
     /**

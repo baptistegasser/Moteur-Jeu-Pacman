@@ -30,8 +30,8 @@ public class Rework extends GameApplication {
     }
 
     @Override
-    protected void initApplication() {
-        GameMenu gameMenu = new GameMenu(this);
+    protected void drawApplication() {
+        GameMenu gameMenu = new GameMenu();
         uiEngine().draw(gameMenu.getMenuView());
         uiEngine().showWindow();
     }
