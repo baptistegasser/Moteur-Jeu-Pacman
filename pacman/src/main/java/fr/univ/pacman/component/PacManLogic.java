@@ -1,6 +1,7 @@
 package fr.univ.pacman.component;
 
 import fr.univ.engine.core.component.Component;
+import fr.univ.engine.core.component.TransformComponent;
 import fr.univ.engine.logging.LoggingEngine;
 import fr.univ.engine.math.Point;
 import fr.univ.engine.math.Vector;
@@ -70,12 +71,13 @@ public class PacManLogic extends Component {
                 break;
         }
 
-        Point newPos = getTransform().getPosition().copy();
+        TransformComponent transform = getComponent(TransformComponent.class);
+        Point newPos = transform.position().copy();
         newPos.add(newDirection);
 
         if (PhysicEngine.canMoveTo(physic, newPos)) {
             physic.setDirection(newDirection);
-            getTransform().setRotation(rotation);
+            transform.setRotation(rotation);
             nextDirection = Dir.NONE;
         }
     }

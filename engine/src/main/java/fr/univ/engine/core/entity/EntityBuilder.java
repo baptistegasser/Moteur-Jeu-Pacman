@@ -1,8 +1,8 @@
 package fr.univ.engine.core.entity;
 
 import fr.univ.engine.core.component.Component;
+import fr.univ.engine.core.component.TransformComponent;
 import fr.univ.engine.math.Point;
-import fr.univ.engine.math.Transform;
 import fr.univ.engine.math.Vector;
 import fr.univ.engine.physic.component.PhysicComponent;
 import fr.univ.engine.physic.hitbox.HitBox;
@@ -52,7 +52,7 @@ public class EntityBuilder {
 
     public EntityBuilder() {
         // Reserve place for render and physic components.
-        components = new ArrayList<>(Arrays.asList(null, null));
+        components = new ArrayList<>(Arrays.asList(null, null, null));
     }
 
     public EntityBuilder type(Object type) {
@@ -96,13 +96,13 @@ public class EntityBuilder {
     }
 
     public Entity build() {
-        components.set(0, new RenderComponent(texture));
         if (hitBox != null) {
             hitBox.setSolid(isSolid);
             hitBox.setPosition(position);
         }
-        components.set(1, new PhysicComponent(hitBox, direction));
-        Transform transform = new Transform(position, rotation);
-        return new Entity(type, transform, components);
+        components.set(0, new TransformComponent(position, rotation));
+        components.set(1, new RenderComponent(texture));
+        components.set(2, new PhysicComponent(hitBox, direction));
+        return new Entity(type, components);
     }
 }

@@ -78,6 +78,7 @@ public class PacMan extends GameApplication {
             getLevel().destroyEntity(e2);
         });
 
+        soundEngine().setGlobalVolume(0);
         // IA ?
     }
 

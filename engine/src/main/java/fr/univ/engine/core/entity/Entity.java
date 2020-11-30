@@ -1,7 +1,6 @@
 package fr.univ.engine.core.entity;
 
 import fr.univ.engine.core.component.Component;
-import fr.univ.engine.math.Transform;
 
 import java.util.List;
 
@@ -14,17 +13,12 @@ public class Entity {
      */
     private final Object type;
     /**
-     * The transform applied on this object.
-     */
-    private final Transform transform;
-    /**
      * A list of components defining the behavior of this entity.
      */
     private final List<Component> components;
 
-    public Entity(Object type, Transform transform, List<Component> components) {
+    public Entity(Object type, List<Component> components) {
         this.type = type;
-        this.transform = transform;
         this.components = components;
 
         components.forEach(c -> c.setEntity(this));
@@ -35,13 +29,6 @@ public class Entity {
      */
     public Object type() {
         return type;
-    }
-
-    /**
-     * @return the transform applied on this object.
-     */
-    public Transform transform() {
-        return transform;
     }
 
     /**

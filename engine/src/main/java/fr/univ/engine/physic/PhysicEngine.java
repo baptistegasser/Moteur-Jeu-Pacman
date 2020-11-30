@@ -1,6 +1,7 @@
 package fr.univ.engine.physic;
 
 import fr.univ.engine.core.Core;
+import fr.univ.engine.core.component.TransformComponent;
 import fr.univ.engine.core.entity.Entity;
 import fr.univ.engine.math.Point;
 import fr.univ.engine.physic.collision.CollisionHandler;
@@ -89,7 +90,7 @@ public class PhysicEngine {
             if (component.direction().magnitude() != 0) {
                 returnObject.add(object);
                 // displacement for physic and render
-                object.transform().getPosition().add(component.direction());
+                object.getComponent(TransformComponent.class).position().add(component.direction());
             }
         }
 
@@ -114,7 +115,7 @@ public class PhysicEngine {
                 if (objectPhysic.getHitBox().intersect(targetPhysic.getHitBox())) {
                     // Rollback pos if hit a solid object
                     if (targetPhysic.getHitBox().isSolid()) {
-                        object.transform().getPosition().add(objectPhysic.direction().reverse());
+                        object.getComponent(TransformComponent.class).position().add(objectPhysic.direction().reverse());
                     }
 
                     for (CollisionHandler handler : getCollisionHandlers(object.type(), target.type())) {
@@ -188,8 +189,8 @@ public class PhysicEngine {
      * @return the distance between e1 and e2.
      */
     public double distanceTo(Entity e1, Entity e2) {
-        Point p1 = e1.transform().getPosition();
-        Point p2 = e2.transform().getPosition();
+        Point p1 = e1.getComponent(TransformComponent.class).position();
+        Point p2 = e2.getComponent(TransformComponent.class).position();
 
         double x = p1.x - p2.x;
         double y = p1.y - p2.y;
