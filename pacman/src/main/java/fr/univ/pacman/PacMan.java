@@ -55,13 +55,13 @@ public class PacMan extends GameApplication {
 
         physicEngine().onCollision(PACMAN, WALL, (e1, e2) -> pacmanLogic.stop());
         physicEngine().onCollision(PACMAN, GHOST, (e1, e2) -> {
-            soundEngine().play("pac_die.wav");
+            soundEngine().playClip("pac_die.wav");
             pacmanLogic.hit();
             gameController.getInventory().lostLife();
             //TODO tp pacman au spawn
         });
         physicEngine().onCollision(PACMAN, PAC, (e1, e2) -> {
-            soundEngine().play("eating_pac.wav", 0.05);
+            soundEngine().playClip("eating_pac.wav", 0.05);
             score.set(score.get() + 10);
             getLevel().destroyEntity(e2);
             //TODO use global variable maybe
@@ -73,7 +73,7 @@ public class PacMan extends GameApplication {
             getLevel().destroyEntity(e2);
         });
         physicEngine().onCollision(PACMAN, SUPER_RAINBOW_PAC, (e1, e2) -> {
-            soundEngine().play("get_out_of_my_swamp.wav",0.1);
+            soundEngine().playClip("get_out_of_my_swamp.wav",0.1);
             // todo scatter ghost ia
             getLevel().destroyEntity(e2);
         });
