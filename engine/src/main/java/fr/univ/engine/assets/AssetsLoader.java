@@ -152,7 +152,7 @@ public final class AssetsLoader {
      */
     private static URI getResourceURI(String relativePath) {
         // Get ressource from the resources folder of the game implementation.
-        URL url = GameApplication.getApp().getClass().getResource(relativePath);
+        URL url = GameApplication.app().getClass().getResource(relativePath);
 
         if (url == null) {
             throw new AssetException(String.format("Failed to find asset at '%s'", relativePath));
@@ -173,7 +173,7 @@ public final class AssetsLoader {
      */
     private static InputStream getResourceAsStream(String relativePath) {
         // Get ressource from the resources folder of the game implementation.
-        InputStream is = GameApplication.getApp().getClass().getResourceAsStream(relativePath);
+        InputStream is = GameApplication.app().getClass().getResourceAsStream(relativePath);
 
         if (is == null) {
             throw new AssetException(String.format("Failed to find asset at '%s'", relativePath));

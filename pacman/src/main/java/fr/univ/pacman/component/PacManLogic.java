@@ -1,5 +1,6 @@
 package fr.univ.pacman.component;
 
+import fr.univ.engine.core.GameApplication;
 import fr.univ.engine.core.component.Component;
 import fr.univ.engine.core.component.TransformComponent;
 import fr.univ.engine.logging.LoggingEngine;
@@ -75,6 +76,7 @@ public class PacManLogic extends Component {
         Point newPos = transform.position().copy();
         newPos.add(newDirection);
 
+        GameApplication.app().
         if (PhysicEngine.canMoveTo(physic, newPos)) {
             physic.setDirection(newDirection);
             transform.setRotation(rotation);

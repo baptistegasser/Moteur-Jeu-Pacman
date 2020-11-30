@@ -209,7 +209,7 @@ public abstract class GameApplication {
     /**
      * @return the current game instance.
      */
-    public static GameApplication getApp() {
+    public static GameApplication app() {
         return app;
     }
 
