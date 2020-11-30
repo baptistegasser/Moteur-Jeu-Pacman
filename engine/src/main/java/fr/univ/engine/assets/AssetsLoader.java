@@ -2,6 +2,7 @@ package fr.univ.engine.assets;
 
 import fr.univ.engine.core.GameApplication;
 import javafx.scene.image.Image;
+import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
 import javafx.scene.text.Font;
 
@@ -99,9 +100,9 @@ public final class AssetsLoader {
         return font;
     }
 
-
     /**
      * Load a sound from the fonts folder.
+     * Sound are more suited for long running instance, such as background music, dialogues.
      * The name is relative ie:
      *  - sound.wav
      *  - cave/scared.wav
@@ -121,6 +122,34 @@ public final class AssetsLoader {
         return sound;
     }
 
+    /**
+     * Load an audio clip from the fonts folder.
+     * Audio clips are more suited for short sounds.
+     * The name is relative ie:
+     *  - sound.wav
+     *  - gun/ak_47.wav
+     *
+     * @param name the clip full name relative to the sounds folder.
+     * @return a {@link AudioClip} instance.
+     */
+    public static AudioClip loadClip(String name) {
+        String key = ASSETS_ROOT + SOUNDS + name;
+        AudioClip sound = getFromCache(AudioClip.class, key);
+
+        if (sound == null) {
+            URI uri = getResourceURI(key);
+            sound = new AudioClip(uri.toString());
+            cache.put(key, sound);
+        }
+        return sound;
+    }
+
+    /**
+     * Get an URI to the resource.
+     *
+     * @param relativePath the path of the resource.
+     * @return an {@link URI} to the the resource.
+     */
     private static URI getResourceURI(String relativePath) {
         // Get ressource from the resources folder of the game implementation.
         URL url = GameApplication.getInstance().getClass().getResource(relativePath);
@@ -136,6 +165,12 @@ public final class AssetsLoader {
         }
     }
 
+    /**
+     * Get a resource as an readable stream.
+     *
+     * @param relativePath the path of the resource.
+     * @return an {@link InputStream} instance.
+     */
     private static InputStream getResourceAsStream(String relativePath) {
         // Get ressource from the resources folder of the game implementation.
         InputStream is = GameApplication.getInstance().getClass().getResourceAsStream(relativePath);
