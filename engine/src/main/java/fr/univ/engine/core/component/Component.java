@@ -47,7 +47,7 @@ public abstract class Component {
     /**
      * @return the entity owning this component.
      */
-    public Entity getEntity() {
+    public Entity entity() {
         return entity;
     }
 }

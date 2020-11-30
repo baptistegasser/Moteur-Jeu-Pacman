@@ -7,6 +7,7 @@ import fr.univ.engine.physic.collision.CollisionHandler;
 import fr.univ.engine.physic.collision.CollisionHandlerWrapper;
 import fr.univ.engine.physic.component.PhysicComponent;
 import fr.univ.engine.physic.hitbox.HitBox;
+import fr.univ.engine.physic.hitbox.SquareHitBox;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -144,5 +145,55 @@ public class PhysicEngine {
 
         hbox.setPosition(oldPos);
         return canMove;
+    }
+
+    /**
+     * Test if an entity can move to the specified position.
+     *
+     * @param e the entity.
+     * @param targetPos the destination.
+     * @return true if the entity can move without colliding with a solid entity.
+     */
+    public boolean canMoveTo(Entity e, Point targetPos) {
+        HitBox entityHb = e.getComponent(PhysicComponent.class).getHitBox();
+
+        // Entity without hitbox never collide
+        if (entityHb == null) {
+            return true;
+        }
+
+        // SquareHitBox for faster detection
+        SquareHitBox hb = new SquareHitBox(entityHb.approximateSize());
+        hb.setPosition(targetPos);
+
+        List<Entity> entities = core.getLevel().getEntitiesWithComponent(PhysicComponent.class);
+        for (Entity e1 : entities) {
+            if (e1 == e) continue;
+            HitBox hb1 = e.getComponent(PhysicComponent.class).getHitBox();
+            if (hb1 == null || !hb1.isSolid()) continue;
+
+            if (hb.intersect(hb1)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Calculate the distance between two entities.
+     *
+     * @param e1 first entity.
+     * @param e2 second entity.
+     * @return the distance between e1 and e2.
+     */
+    public double distanceTo(Entity e1, Entity e2) {
+        Point p1 = e1.transform().getPosition();
+        Point p2 = e2.transform().getPosition();
+
+        double x = p1.x - p2.x;
+        double y = p1.y - p2.y;
+        double distance = Math.sqrt(x*x + y*y);
+        return Math.abs(distance);
     }
 }
