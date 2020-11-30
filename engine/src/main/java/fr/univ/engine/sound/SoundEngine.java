@@ -1,6 +1,7 @@
 package fr.univ.engine.sound;
 
 import fr.univ.engine.assets.AssetsLoader;
+import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
@@ -93,6 +94,33 @@ public class SoundEngine {
         }
         mediaPlayer.play();
         return mediaPlayer;
+    }
+
+    /**
+     * Play a clip at max volume (1.0).
+     *
+     * @param name the name of the clip.
+     * @return the AudioClip being played.
+     */
+    public AudioClip playClip(String name) {
+        return playClip(name, 1.0);
+    }
+
+    /**
+     * Create a {@link AudioClip} and start playing it at a specific volume.
+     *
+     * @param name the name of the clip to play.
+     * @param volume the output volume level (clamped to the range <code>[0.0,&nbsp;1.0]</code>).
+     * @return the media player controlling the sound playing.
+     */
+    public AudioClip playClip(String name, double volume) {
+        // The target volume is the desired volume in function of the global volume
+        double targetVolume = globalVolume * clamp(volume);
+
+        AudioClip clip = AssetsLoader.loadClip(name);
+        clip.setVolume(targetVolume);
+        clip.play();
+        return clip;
     }
 
     /**
