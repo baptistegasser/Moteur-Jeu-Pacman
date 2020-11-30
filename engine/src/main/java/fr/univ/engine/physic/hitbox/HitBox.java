@@ -24,6 +24,14 @@ public abstract class HitBox implements Intersect {
     }
 
     /**
+     * Method to implement by hit boxes to get an approximative
+     * value of there size for physic testing.
+     *
+     * @return an approximative size.
+     */
+    public abstract double approximateSize();
+
+    /**
      * @return The X position of the hitbox
      */
     public double x() {

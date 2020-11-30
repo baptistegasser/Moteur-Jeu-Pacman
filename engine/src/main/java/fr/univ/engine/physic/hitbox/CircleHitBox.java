@@ -13,6 +13,11 @@ public class CircleHitBox extends HitBox {
         this.diameter = diameter;
     }
 
+    @Override
+    public double approximateSize() {
+        return diameter;
+    }
+
     public double diameter() {
         return diameter;
     }

@@ -18,6 +18,11 @@ public class RectangleHitBox extends HitBox {
         this.height = height;
     }
 
+    @Override
+    public double approximateSize() {
+        return Math.max(width, height);
+    }
+
     public double width() {
         return width;
     }
