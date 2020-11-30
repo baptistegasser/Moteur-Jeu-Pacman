@@ -180,21 +180,4 @@ public class PhysicEngine {
 
         return true;
     }
-
-    /**
-     * Calculate the distance between two entities.
-     *
-     * @param e1 first entity.
-     * @param e2 second entity.
-     * @return the distance between e1 and e2.
-     */
-    public double distanceTo(Entity e1, Entity e2) {
-        Point p1 = e1.getComponent(TransformComponent.class).position();
-        Point p2 = e2.getComponent(TransformComponent.class).position();
-
-        double x = p1.x - p2.x;
-        double y = p1.y - p2.y;
-        double distance = Math.sqrt(x*x + y*y);
-        return Math.abs(distance);
-    }
 }

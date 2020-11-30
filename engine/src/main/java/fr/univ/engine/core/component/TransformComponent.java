@@ -6,7 +6,7 @@ import fr.univ.engine.math.Vector;
 /**
  * Represent a transformation applied to an object.
  */
-public class TransformComponent extends Component {
+public final class TransformComponent extends Component {
     /**
      * The position of the object.
      */
@@ -39,5 +39,19 @@ public class TransformComponent extends Component {
 
     public void setRotation(double rotation) {
         this.rotation = rotation;
+    }
+
+    /**
+     * Calculate the distance between this position and the
+     * position of another TransformComponent.
+     *
+     * @param c the other component.
+     * @return the distance.
+     */
+    public double distance(TransformComponent c) {
+        double x = position.x - c.position.x;
+        double y = position.y - c.position.y;
+
+        return Math.sqrt(x*x + y*y);
     }
 }
