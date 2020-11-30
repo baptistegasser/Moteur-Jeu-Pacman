@@ -17,11 +17,11 @@ public class GameMenu {
      * Prepare gameplay and start the game
      */
     public void startGame() {
-        PacMan.getInstance().startGame();
+        PacMan.getApp().startGame();
     }
 
     public void quitGame() {
-        PacMan.getInstance().quit();
+        PacMan.getApp().quit();
     }
 
     public MenuView getMenuView() {

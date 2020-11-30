@@ -23,7 +23,7 @@ public abstract class GameApplication {
     /**
      * The current instance.
      */
-    private static GameApplication instance;
+    private static GameApplication app;
     /**
      * The core engine instance running this game.
      */
@@ -198,19 +198,19 @@ public abstract class GameApplication {
      * @param args arguments to configure the engine/game
      */
     public static void launch(Class<? extends GameApplication> gameClass, String... args) {
-        if (instance != null) {
+        if (app != null) {
             throw new CoreException("A GameApplication is already running, aborting launch");
         }
 
-        instance = newInstance(gameClass);
-        instance.launch$(args);
+        app = newInstance(gameClass);
+        app.launch$(args);
     }
 
     /**
      * @return the current game instance.
      */
-    public static GameApplication getInstance() {
-        return instance;
+    public static GameApplication getApp() {
+        return app;
     }
 
     /**
