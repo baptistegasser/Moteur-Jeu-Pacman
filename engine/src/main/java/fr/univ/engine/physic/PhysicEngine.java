@@ -169,9 +169,12 @@ public class PhysicEngine {
 
         List<Entity> entities = core.getLevel().getEntitiesWithComponent(PhysicComponent.class);
         for (Entity e1 : entities) {
-            if (e1 == e) continue;
             HitBox hb1 = e.getComponent(PhysicComponent.class).getHitBox();
-            if (hb1 == null || !hb1.isSolid()) continue;
+
+            // Ignore if self, target have no hitbox or is not solid
+            if (e1 == e || hb1 == null || !hb1.isSolid()) {
+                continue;
+            }
 
             if (hb.intersect(hb1)) {
                 return false;
