@@ -2,6 +2,7 @@ package fr.univ.engine.core.component;
 
 import fr.univ.engine.core.GameApplication;
 import fr.univ.engine.core.entity.Entity;
+import fr.univ.engine.core.level.Level;
 import fr.univ.engine.physic.PhysicEngine;
 import fr.univ.engine.sound.SoundEngine;
 
@@ -58,7 +59,7 @@ public abstract class Component {
      *
      * @return the current sound engine of the running app.
      */
-    protected final SoundEngine Sounds() {
+    protected final SoundEngine getSounds() {
         return GameApplication.app().soundEngine();
     }
 
@@ -67,7 +68,16 @@ public abstract class Component {
      *
      * @return the current physic engine of the running app.
      */
-    protected final PhysicEngine Physics() {
+    protected final PhysicEngine getPhysics() {
         return GameApplication.app().physicEngine();
+    }
+
+    /**
+     * Easy accessor to the level.
+     *
+     * @return the current level of the running app.
+     */
+    protected final Level getLevel() {
+        return GameApplication.app().getLevel();
     }
 }
