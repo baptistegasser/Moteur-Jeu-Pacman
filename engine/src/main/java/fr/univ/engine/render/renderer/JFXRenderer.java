@@ -3,7 +3,7 @@ package fr.univ.engine.render.renderer;
 import fr.univ.engine.core.component.TransformComponent;
 import fr.univ.engine.core.entity.Entity;
 import fr.univ.engine.math.Point;
-import fr.univ.engine.render.component.RenderComponent;
+import fr.univ.engine.render.RenderComponent;
 import fr.univ.engine.render.texture.Texture;
 import fr.univ.engine.render.texture.TextureComparator;
 import javafx.application.Platform;

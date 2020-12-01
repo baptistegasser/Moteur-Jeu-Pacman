@@ -18,6 +18,9 @@ public class RenderEngine {
 
     /**
      * Create a render engine with defaults values.
+     *
+     * @param config the config of the current game which
+     *               also contain the window config.
      */
     public RenderEngine(Config config) {
         JFXApp.setConfig(config);

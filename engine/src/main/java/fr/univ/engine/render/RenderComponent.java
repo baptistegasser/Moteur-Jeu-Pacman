@@ -1,4 +1,4 @@
-package fr.univ.engine.render.component;
+package fr.univ.engine.render;
 
 import fr.univ.engine.core.component.Component;
 import fr.univ.engine.render.texture.Texture;

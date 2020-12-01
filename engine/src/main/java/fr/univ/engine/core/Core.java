@@ -10,7 +10,7 @@ import fr.univ.engine.physic.PhysicEngine;
 import fr.univ.engine.physic.PhysicComponent;
 import fr.univ.engine.render.JFXApp;
 import fr.univ.engine.render.RenderEngine;
-import fr.univ.engine.render.component.RenderComponent;
+import fr.univ.engine.render.RenderComponent;
 import fr.univ.engine.sound.SoundEngine;
 import fr.univ.engine.ui.UiEngine;
 import javafx.application.Platform;

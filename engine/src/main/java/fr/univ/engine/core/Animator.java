@@ -1,8 +1,7 @@
 package fr.univ.engine.core;
 
-import fr.univ.engine.core.component.TransformComponent;
 import fr.univ.engine.core.entity.Entity;
-import fr.univ.engine.render.component.RenderComponent;
+import fr.univ.engine.render.RenderComponent;
 
 import java.util.ArrayList;
 import java.util.List;

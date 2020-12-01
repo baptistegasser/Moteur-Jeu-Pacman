@@ -24,6 +24,10 @@ public class Texture {
 
     /**
      * Creates a new texture for the given image without animation .
+     *
+     * @param width the width of this texture.
+     * @param height the height of this texture.
+     * @param image the image used by this texture.
      */
     public Texture(double width, double height, Image image) {
         this.width = width;
@@ -34,7 +38,11 @@ public class Texture {
     }
 
     /**
-     * Creates a new texture with animation
+     * Creates a new texture with animation.
+     *
+     * @param width the width of this texture.
+     * @param height the height of this texture.
+     * @param animation the images animation.
      */
     public Texture(double width, double height, Animation animation) {
         this.width = width;

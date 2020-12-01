@@ -10,7 +10,7 @@ import fr.univ.engine.core.GameApplication;
 import fr.univ.engine.core.level.loader.TextLevelLoader;
 import fr.univ.engine.math.Point;
 import fr.univ.engine.physic.PhysicComponent;
-import fr.univ.engine.render.component.RenderComponent;
+import fr.univ.engine.render.RenderComponent;
 import fr.univ.engine.render.texture.Animation;
 import fr.univ.engine.render.texture.Texture;
 import fr.univ.pacman.component.PacManLogic;

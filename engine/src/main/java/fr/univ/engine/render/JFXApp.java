@@ -105,6 +105,9 @@ public final class JFXApp extends Application {
 
     /**
      * Show the window if it's not showing.
+     *
+     * @throws InterruptedException if the thread was interrupted while
+     * waiting for the window to show.
      */
     public static void showWindow() throws InterruptedException {
         CountDownLatch showLatch = new CountDownLatch(1);
@@ -126,6 +129,9 @@ public final class JFXApp extends Application {
 
     /**
      * Hide the window if it's showing.
+     *
+     * @throws InterruptedException if the thread was interrupted while
+     * waiting for the window to hide.
      */
     public static void hideWindow() throws InterruptedException {
         CountDownLatch hideLatch = new CountDownLatch(1);

@@ -6,7 +6,7 @@ import fr.univ.engine.math.Point;
 import fr.univ.engine.math.Vector;
 import fr.univ.engine.physic.PhysicComponent;
 import fr.univ.engine.physic.hitbox.HitBox;
-import fr.univ.engine.render.component.RenderComponent;
+import fr.univ.engine.render.RenderComponent;
 import fr.univ.engine.render.texture.Texture;
 
 import java.util.ArrayList;
