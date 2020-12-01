@@ -137,13 +137,6 @@ public final class Core {
                     lastFrames = currentTime;
                     frames += 1;
 
-                    // Update the components
-                    for (Entity e : level.getEntities()) {
-                        for (Component c : e.getComponents()) {
-                            c.update();
-                        }
-                    }
-
                     long s = System.nanoTime();
                     ioEngine.nextFrame();
                     LoggingEngine.logElapsedTime(s, System.nanoTime(), "IOEngine::nextFrame");
@@ -151,6 +144,13 @@ public final class Core {
                     s = System.nanoTime();
                     renderEngine.render(level.getEntitiesWithComponent(RenderComponent.class));
                     LoggingEngine.logElapsedTime(s, System.nanoTime(), "RenderEngine::render");
+
+                    // Update the components
+                    for (Entity e : level.getEntities()) {
+                        for (Component c : e.getComponents()) {
+                            c.update();
+                        }
+                    }
                 }
 
                 // Display FPS TODO move to render
