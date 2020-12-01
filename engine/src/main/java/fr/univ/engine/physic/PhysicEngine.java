@@ -138,7 +138,7 @@ public class PhysicEngine {
 
             if (HitBoxIntersecter.intersect(h1, p1, h2, p2)) {
                 // Rollback pos if hit a solid entity
-                if (h2.isSolid()) {
+                if ( h1.isSolid() && h2.isSolid()) {
                     p1.add(entity.getComponent(PhysicComponent.class).direction().reverse());
                 }
 
