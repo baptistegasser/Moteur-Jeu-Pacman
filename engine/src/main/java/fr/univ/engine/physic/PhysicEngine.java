@@ -4,12 +4,12 @@ import fr.univ.engine.core.Core;
 import fr.univ.engine.core.component.TransformComponent;
 import fr.univ.engine.core.entity.Entity;
 import fr.univ.engine.math.Point;
+import fr.univ.engine.math.Vector;
 import fr.univ.engine.physic.collision.CollisionHandler;
 import fr.univ.engine.physic.collision.CollisionHandlerWrapper;
 import fr.univ.engine.physic.hitbox.HitBox;
 import fr.univ.engine.physic.hitbox.HitBoxIntersecter;
 import fr.univ.engine.physic.component.PhysicComponent;
-import fr.univ.engine.physic.hitbox.SquareHitBox;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,10 +20,9 @@ import java.util.List;
 public class PhysicEngine {
     /**
      * The core engine managing this instance.
-     * Keep a reference to access the current level
-     * for method requested by user.
+     * Keep a reference to access the current level for method requested by user.
      */
-    private static Core core;
+    private final Core core;
 
     /**
      * List of handler for different kinds of collision.
@@ -64,65 +63,88 @@ public class PhysicEngine {
     }
 
     /**
-     * Fonction called at a fixed interval dt to update physic.
+     * Update the physic state of a given list of entities.
      *
-     * @param objects the list of game objects int the game
+     * @param entities the list of entities to update.
      */
-    public void integrate(List<Entity> objects) {
+    public void integrate(List<Entity> entities) {
         // Move all of object
-        List<Entity> movedObjects = move(objects);
+        List<Entity> movedEntities = updatePositions(entities);
+
         // Check for collision
-        for (Entity o : movedObjects) {
-            collision(objects, o);
+        for (Entity e : movedEntities) {
+            checkCollisions(entities, e);
         }
     }
 
     /**
-     * Function call for object movement in mainLoop
+     * Update the position of a given list of entities.
      *
-     * @param objects all Object in a game
-     * @return only object that have moved
+     * @param entities the list of entities to move.
+     * @return the list of entities that moved.
      */
-    private List<Entity> move(List<Entity> objects) {
-        List<Entity> returnObject = new ArrayList<>();
+    private List<Entity> updatePositions(List<Entity> entities) {
+        List<Entity> movedEntities = new ArrayList<>();
 
-        for (Entity object : objects) {
-            PhysicComponent component = object.getComponent(PhysicComponent.class);
-            if (component.direction().magnitude() != 0) {
-                returnObject.add(object);
-                // displacement for physic and render
-                object.getComponent(TransformComponent.class).position().add(component.direction());
+        // Move object based on their direction
+        for (Entity entity : entities) {
+            boolean moved = updatePosition(entity);
+            if (moved) {
+                movedEntities.add(entity);
             }
         }
 
-        return returnObject;
+        return movedEntities;
     }
 
     /**
-     * Function called to detect collision between 2 objects, and active onTriggerEnter
+     * Update the position of a single entity.
      *
-     * @param objects the list of game objects int the game
-     * @param object Object we want to test
+     * @param entity the entity to move.
+     * @return true if the entity moved, false otherwise.
      */
-    private void collision(List<Entity> objects, Entity object) {
-        for (Entity target : objects) {
-            PhysicComponent targetPhysic = target.getComponent(PhysicComponent.class);
-            if (targetPhysic.getHitBox() == null) continue;
+    private boolean updatePosition(Entity entity) {
+        Vector direction = entity.getComponent(PhysicComponent.class).direction();
+        if (direction.magnitude() != 0) {
+            entity.getComponent(TransformComponent.class).position().add(direction);
+            return true;
+        } else {
+            return false;
+        }
+    }
 
-            // Don't test on same object and on empty object
-            if (target != object) {
-                PhysicComponent objectPhysic = object.getComponent(PhysicComponent.class);
+    /**
+     * Check if there is collisions an entity and a list of entities to test.
+     *
+     * @param entities the list of entities.
+     * @param entity the entity to test.
+     */
+    private void checkCollisions(List<Entity> entities, Entity entity) {
+        final HitBox h1 = entity.getComponent(PhysicComponent.class).getHitBox();
+        final Point p1 = entity.getComponent(TransformComponent.class).position();
+        // Ignore if entity have no hitbox
+        if (h1 == null) {
+            return;
+        }
 
-                boolean b = HitBoxIntersecter.intersect(objectPhysic.getHitBox(), object.getComponent(TransformComponent.class).position(), targetPhysic.getHitBox(), target.getComponent(TransformComponent.class).position());
-                if (b) {
-                    // Rollback pos if hit a solid object
-                    if (targetPhysic.getHitBox().isSolid()) {
-                        object.getComponent(TransformComponent.class).position().add(objectPhysic.direction().reverse());
-                    }
+        for (Entity e2 : entities) {
+            HitBox h2 = e2.getComponent(PhysicComponent.class).getHitBox();
+            Point p2 = e2.getComponent(TransformComponent.class).position();
 
-                    for (CollisionHandler handler : getCollisionHandlers(object.type(), target.type())) {
-                        handler.handleCollision(object, target);
-                    }
+            // Ignore if e2 is the tested entity or have no hitbox
+            if (entity == e2 || h2 == null) {
+                continue;
+            }
+
+            if (HitBoxIntersecter.intersect(h1, p1, h2, p2)) {
+                // Rollback pos if hit a solid entity
+                if (h2.isSolid()) {
+                    p1.add(entity.getComponent(PhysicComponent.class).direction().reverse());
+                }
+
+                // Call the handlers
+                for (CollisionHandler handler : getCollisionHandlers(entity.type(), e2.type())) {
+                    handler.handleCollision(entity, e2);
                 }
             }
         }
@@ -135,7 +157,7 @@ public class PhysicEngine {
      * @param targetPos the destination.
      * @return true if the entity can move without colliding with a solid entity.
      */
-    public static boolean canMoveTo(Entity e, Point targetPos) {
+    public boolean canMoveTo(Entity e, Point targetPos) {
         HitBox hb = e.getComponent(PhysicComponent.class).getHitBox();
 
         // Entity without hitbox never collide
