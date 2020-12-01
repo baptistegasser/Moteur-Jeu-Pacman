@@ -20,6 +20,11 @@ public abstract class Component {
     public void update() {}
 
     /**
+     * Method called on every integration of the physic engine.
+     */
+    public void fixedUpdate() {}
+
+    /**
      * Set the entity instance containing this component.
      *
      * @param entity the new entity.

@@ -170,6 +170,13 @@ public final class Core {
             physicEngine.integrate(level.getEntitiesWithComponent(PhysicComponent.class));
             LoggingEngine.logElapsedTime(s, System.nanoTime(), "PhysicEngine::integrate");
 
+            // Update the components
+            for (Entity e : level.getEntities()) {
+                for (Component c : e.getComponents()) {
+                    c.fixedUpdate();
+                }
+            }
+
             // Decrease remaining time to integrate by dt
             accumulator -= dt;
         }
