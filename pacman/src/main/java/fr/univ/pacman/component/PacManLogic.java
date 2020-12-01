@@ -76,8 +76,7 @@ public class PacManLogic extends Component {
         Point newPos = transform.position().copy();
         newPos.add(newDirection);
 
-        GameApplication.app().
-        if (PhysicEngine.canMoveTo(physic, newPos)) {
+        if (PhysicEngine.canMoveTo(getEntity(), newPos)) {
             physic.setDirection(newDirection);
             transform.setRotation(rotation);
             nextDirection = Dir.NONE;

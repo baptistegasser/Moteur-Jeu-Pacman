@@ -26,6 +26,15 @@ public abstract class Component {
     }
 
     /**
+     * Get the entity instance containing this component.
+     *
+     * @return the entity instance.
+     */
+    public final Entity getEntity() {
+        return this.entity;
+    }
+
+    /**
      * Get a component from the entity that contain this component.
      *
      * @param componentClass the class implementing the type T.

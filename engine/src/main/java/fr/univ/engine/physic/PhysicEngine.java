@@ -6,8 +6,9 @@ import fr.univ.engine.core.entity.Entity;
 import fr.univ.engine.math.Point;
 import fr.univ.engine.physic.collision.CollisionHandler;
 import fr.univ.engine.physic.collision.CollisionHandlerWrapper;
-import fr.univ.engine.physic.component.PhysicComponent;
 import fr.univ.engine.physic.hitbox.HitBox;
+import fr.univ.engine.physic.hitbox.HitBoxIntersecter;
+import fr.univ.engine.physic.component.PhysicComponent;
 import fr.univ.engine.physic.hitbox.SquareHitBox;
 
 import java.util.ArrayList;
@@ -112,7 +113,8 @@ public class PhysicEngine {
             if (target != object) {
                 PhysicComponent objectPhysic = object.getComponent(PhysicComponent.class);
 
-                if (objectPhysic.getHitBox().intersect(targetPhysic.getHitBox())) {
+                boolean b = HitBoxIntersecter.intersect(objectPhysic.getHitBox(), object.getComponent(TransformComponent.class).position(), targetPhysic.getHitBox(), target.getComponent(TransformComponent.class).position());
+                if (b) {
                     // Rollback pos if hit a solid object
                     if (targetPhysic.getHitBox().isSolid()) {
                         object.getComponent(TransformComponent.class).position().add(objectPhysic.direction().reverse());
@@ -126,28 +128,6 @@ public class PhysicEngine {
         }
     }
 
-    public static boolean canMoveTo(PhysicComponent component, Point target) {
-        HitBox hbox = component.getHitBox();
-        Point oldPos = hbox.getPosition();
-        hbox.setPosition(target);
-
-        boolean canMove = true;
-        List<Entity> entities = core.getLevel().getEntitiesWithComponent(PhysicComponent.class);
-        for (Entity e : entities) {
-            PhysicComponent c = e.getComponent(PhysicComponent.class);
-            HitBox tbox = c.getHitBox();
-            if (c != component && tbox != null && tbox.isSolid()) {
-                if (hbox.intersect(tbox)) {
-                    canMove = false;
-                    break;
-                }
-            }
-        }
-
-        hbox.setPosition(oldPos);
-        return canMove;
-    }
-
     /**
      * Test if an entity can move to the specified position.
      *
@@ -155,28 +135,24 @@ public class PhysicEngine {
      * @param targetPos the destination.
      * @return true if the entity can move without colliding with a solid entity.
      */
-    public boolean canMoveTo(Entity e, Point targetPos) {
-        HitBox entityHb = e.getComponent(PhysicComponent.class).getHitBox();
+    public static boolean canMoveTo(Entity e, Point targetPos) {
+        HitBox hb = e.getComponent(PhysicComponent.class).getHitBox();
 
         // Entity without hitbox never collide
-        if (entityHb == null) {
+        if (hb == null) {
             return true;
         }
 
-        // SquareHitBox for faster detection
-        SquareHitBox hb = new SquareHitBox(entityHb.approximateSize());
-        hb.setPosition(targetPos);
-
         List<Entity> entities = core.getLevel().getEntitiesWithComponent(PhysicComponent.class);
         for (Entity e1 : entities) {
-            HitBox hb1 = e.getComponent(PhysicComponent.class).getHitBox();
+            HitBox hb1 = e1.getComponent(PhysicComponent.class).getHitBox();
 
             // Ignore if self, target have no hitbox or is not solid
             if (e1 == e || hb1 == null || !hb1.isSolid()) {
                 continue;
             }
 
-            if (hb.intersect(hb1)) {
+            if (HitBoxIntersecter.intersect(hb, targetPos, hb1, e1.getComponent(TransformComponent.class).position())) {
                 return false;
             }
         }

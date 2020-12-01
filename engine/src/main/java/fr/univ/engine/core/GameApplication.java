@@ -130,14 +130,14 @@ public abstract class GameApplication {
     /**
      * @return the game level.
      */
-    protected final Level getLevel() {
+    public final Level getLevel() {
         return this.core.getLevel();
     }
 
     /**
      * @return the game's global vars.
      */
-    protected final VarMap globalVars() {
+    public final VarMap globalVars() {
         return this.globalVars;
     }
 
@@ -151,7 +151,7 @@ public abstract class GameApplication {
     /**
      * @return the physic engine of this game.
      */
-    protected final PhysicEngine physicEngine() {
+    public final PhysicEngine physicEngine() {
         return core.physicEngine();
     }
 
