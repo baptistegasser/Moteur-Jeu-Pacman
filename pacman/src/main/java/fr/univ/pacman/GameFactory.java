@@ -9,6 +9,7 @@ import fr.univ.engine.math.Point;
 import fr.univ.engine.physic.hitbox.SquareHitBox;
 import fr.univ.engine.render.texture.Texture;
 import fr.univ.pacman.component.PacManLogic;
+import fr.univ.pacman.component.RedGhostAI;
 
 public class GameFactory extends EntityFactory<CharInfo> {
 
@@ -86,6 +87,7 @@ public class GameFactory extends EntityFactory<CharInfo> {
                 .position(ghostPos(info))
                 .texture(texture)
                 .hitbox(new SquareHitBox(16))
+                .with(new RedGhostAI())
                 // TODO red ghost behavior component
                 .build();
     }
