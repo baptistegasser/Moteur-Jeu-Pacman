@@ -6,4 +6,8 @@ public class PhysicException extends RuntimeException {
     public PhysicException(String message) {
         super(message);
     }
+
+    public PhysicException(String message, Throwable cause) {
+        super(message, cause);
+    }
 }
