@@ -18,13 +18,13 @@ import java.util.List;
 /**
  * A renderer capable of rendering elements on a JavaFX {@link Canvas}.
  */
-public class JFXRenderer {
+public class Renderer {
     /**
      * The viewport containing the canvas.
      */
     protected final ViewPort viewport;
 
-    public JFXRenderer(ViewPort viewport) {
+    public Renderer(ViewPort viewport) {
         this.viewport = viewport;
     }
 

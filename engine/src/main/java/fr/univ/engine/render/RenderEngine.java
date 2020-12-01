@@ -2,7 +2,7 @@ package fr.univ.engine.render;
 
 import fr.univ.engine.core.config.Config;
 import fr.univ.engine.core.entity.Entity;
-import fr.univ.engine.render.renderer.JFXRenderer;
+import fr.univ.engine.render.renderer.Renderer;
 import javafx.application.Platform;
 
 import java.util.List;
@@ -14,7 +14,7 @@ public class RenderEngine {
     /**
      * The renderer used to render.
      */
-    private JFXRenderer renderer;
+    private Renderer renderer;
 
     /**
      * Create a render engine with defaults values.

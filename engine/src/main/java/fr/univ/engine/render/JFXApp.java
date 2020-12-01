@@ -3,7 +3,7 @@ package fr.univ.engine.render;
 import com.sun.javafx.application.PlatformImpl;
 import fr.univ.engine.core.config.Config;
 import fr.univ.engine.io.KeyEventHandler;
-import fr.univ.engine.render.renderer.JFXRenderer;
+import fr.univ.engine.render.renderer.Renderer;
 import fr.univ.engine.render.renderer.ViewPort;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -46,7 +46,7 @@ public final class JFXApp extends Application {
     /**
      * Renderer used by this app.
      */
-    private static JFXRenderer renderer;
+    private static Renderer renderer;
     /**
      * StackPane allowing to stack elements on top of the Canvas.
      */
@@ -86,7 +86,7 @@ public final class JFXApp extends Application {
         root.getChildren().addAll(canvas, uiRoot);
         canvas.widthProperty().bind(stage.widthProperty());
         canvas.heightProperty().bind(stage.heightProperty());
-        renderer = new JFXRenderer(new ViewPort(canvas));
+        renderer = new Renderer(new ViewPort(canvas));
 
         stage.setScene(new Scene(root));
         stage.setAlwaysOnTop(true);
@@ -172,7 +172,7 @@ public final class JFXApp extends Application {
      *
      * @return the renderer instance
      */
-    public static JFXRenderer getRenderer() {
+    public static Renderer getRenderer() {
         return JFXApp.renderer;
     }
 }
