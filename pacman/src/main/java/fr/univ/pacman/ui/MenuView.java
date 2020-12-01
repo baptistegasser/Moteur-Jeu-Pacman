@@ -1,7 +1,7 @@
 package fr.univ.pacman.ui;
 
 import fr.univ.engine.assets.AssetsLoader;
-import fr.univ.engine.ui.UiObject;
+import fr.univ.engine.ui.UIElement;
 import fr.univ.pacman.controller.GameMenu;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -10,20 +10,14 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 
-public class MenuView extends UiObject {
+public class MenuView extends UIElement {
     /**
      * The controller for this view
      */
     private final GameMenu controller;
-
-    /**
-     * Pane with all element
-     */
-    private final StackPane elementPane;
 
     /**
      * Prepare elements
@@ -31,16 +25,14 @@ public class MenuView extends UiObject {
      */
     public MenuView(GameMenu controller) {
         this.controller = controller;
-        elementPane = new StackPane();
         construct();
     }
 
     /**
      * construct all element
      */
-    @Override
     public void construct() {
-        elementPane.setStyle("-fx-background-color: Black;");
+        layout.setStyle("-fx-background-color: Black;");
 
         //Config box element
         VBox boxElement = new VBox();
@@ -88,8 +80,6 @@ public class MenuView extends UiObject {
         });
 
         boxElement.getChildren().addAll(titleImage, buttonPlay, buttonQuit);
-        elementPane.getChildren().addAll(boxElement);
-
-        addElement(elementPane);
+        layout.getChildren().addAll(boxElement);
     }
 }

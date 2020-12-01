@@ -29,19 +29,19 @@ public class PacMan extends GameApplication {
         config.resizable = false;
         config.displayFPS = true;
     }
-
+/*
     @Override
     protected void drawApplication() {
         GameMenu gameMenu = new GameMenu();
         uiEngine().draw(gameMenu.getMenuView());
         uiEngine().showWindow();
-    }
+    }*/
 
     @Override
     protected void initGame() {
-        uiEngine().clear();
+        //uiEngine().clear();
         GameController gameController = new GameController();
-        uiEngine().draw(gameController.getGameView());
+        uiEngine().display(gameController.getGameView());
 
         loadLevel();
         soundEngine().playClip("intro.wav", 0.05);
@@ -58,6 +58,9 @@ public class PacMan extends GameApplication {
             soundEngine().playClip("pac_die.wav");
             pacmanLogic.hit();
             gameController.getInventory().lostLife();
+            if (gameController.getInventory().getLife() <= 0) {
+                stop();
+            }
             //TODO tp pacman au spawn
         });
         physicEngine().onCollision(PACMAN, PAC, (e1, e2) -> {
@@ -79,8 +82,8 @@ public class PacMan extends GameApplication {
             getLevel().destroyEntity(e2);
         });
 
-        soundEngine().setGlobalVolume(0);
-        // IA ?
+        GameMenu gameMenu = new GameMenu();
+        uiEngine().display(gameMenu.getMenuView());
     }
 
     private void loadLevel() {

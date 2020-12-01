@@ -2,7 +2,7 @@ package fr.univ.pacman.ui;
 
 import fr.univ.engine.assets.AssetsLoader;
 import fr.univ.engine.render.RenderEngine;
-import fr.univ.engine.ui.UiObject;
+import fr.univ.engine.ui.UIElement;
 import fr.univ.pacman.controller.GameController;
 import javafx.geometry.Insets;
 import javafx.scene.image.Image;
@@ -13,16 +13,11 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
-public class GameView extends UiObject {
+public class GameView extends UIElement {
     /**
      * A controller
      */
     private final GameController controller;
-
-    /**
-     * Pane with all element
-     */
-    private final StackPane elementPane;
 
     /**
      * The pane for the player score
@@ -45,7 +40,6 @@ public class GameView extends UiObject {
      */
     public GameView(GameController gameController) {
         this.controller = gameController;
-        this.elementPane = new StackPane();
 
         //Load font
         this.font = AssetsLoader.loadFont("PressStart2P.ttf");
@@ -56,7 +50,6 @@ public class GameView extends UiObject {
     /**
      * construct all element
      */
-    @Override
     public void construct() {
         // Create and configure Box
         boxScore = new HBox();
@@ -78,9 +71,7 @@ public class GameView extends UiObject {
         //Set Life content
         constructLifeView();
 
-        elementPane.getChildren().addAll(boxScore, boxLife);
-
-        addElement(elementPane);
+        layout.getChildren().addAll(boxScore, boxLife);
     }
 
     /**
