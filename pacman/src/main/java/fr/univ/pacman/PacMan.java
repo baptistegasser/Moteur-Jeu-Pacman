@@ -1,6 +1,7 @@
 package fr.univ.pacman;
 
 import fr.univ.engine.assets.AssetsLoader;
+import fr.univ.engine.core.component.TransformComponent;
 import fr.univ.engine.core.entity.Entity;
 import fr.univ.engine.core.entity.EntityBuilder;
 import fr.univ.engine.core.level.Level;
