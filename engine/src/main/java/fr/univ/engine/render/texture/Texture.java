@@ -91,4 +91,12 @@ public class Texture {
     public boolean haveAnimation() {
         return animation != null;
     }
+
+    @Override
+    public String toString() {
+        return "Texture{" +
+                "zIndex=" + zIndex +
+                ", image=" + image.getUrl() +
+                '}';
+    }
 }

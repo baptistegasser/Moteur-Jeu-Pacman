@@ -9,6 +9,7 @@ import fr.univ.engine.core.config.Config;
 import fr.univ.engine.core.GameApplication;
 import fr.univ.engine.core.level.loader.TextLevelLoader;
 import fr.univ.engine.math.Point;
+import fr.univ.engine.physic.component.PhysicComponent;
 import fr.univ.engine.render.component.RenderComponent;
 import fr.univ.engine.render.texture.Animation;
 import fr.univ.engine.render.texture.Texture;
@@ -16,11 +17,14 @@ import fr.univ.pacman.component.PacManLogic;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 import static fr.univ.pacman.Type.*;
 
 public class PacMan extends GameApplication {
+
+    private long lastSuperPower = 0L;
 
     @Override
     protected void config(Config config) {
@@ -92,22 +96,50 @@ public class PacMan extends GameApplication {
                 uiEngine().display(AssetsLoader.loadView("GameOver.fxml"));
             }
         });
+
+        physicEngine().onCollision(PACMAN, WALL, (e1, e2) -> {
+            if(!getLevel().getSingletonEntity(Type.PACMAN).getComponent(PhysicComponent.class).getHitBox().isSolid()) {
+                /*TransformComponent trs = e2.getComponent(TransformComponent.class);
+                getLevel().getSingletonEntity(PACMAN).getComponent(TransformComponent.class).setPosition(new Point(trs.position().x, trs.position().y));
+                */
+                getLevel().destroyEntity(e2);
+                Texture texture = new Texture(16, 16, AssetsLoader.loadImage("item/black.png"));
+                texture.setZIndex(-1);
+                e2.getComponent(RenderComponent.class).setTexture(texture);
+               // e2.getComponent(PhysicComponent.class).getHitBox().setSolid(false);
+                //TODO Texture noir quand on passe à travers un mur
+
+            }
+        });
+
         physicEngine().onCollision(PACMAN, PAC, (e1, e2) -> {
+            if(!getLevel().getSingletonEntity(Type.PACMAN).getComponent(PhysicComponent.class).getHitBox().isSolid()) {
+                if(System.currentTimeMillis() - lastSuperPower > 10000 && lastSuperPower != 0) {
+                    pacmanSkin(false);
+                    getLevel().getSingletonEntity(Type.PACMAN).getComponent(PhysicComponent.class).getHitBox().setSolid(true);
+                }
+            }
             soundEngine().playClip("eating_pac.wav", 0.05);
             globalVars().put("score", globalVars().getInt("score")+10);
             getLevel().destroyEntity(e2);
         });
+
         physicEngine().onCollision(PACMAN, SUPER_PAC, (e1, e2) -> {
             //soundEngine().play("eating_pac.wav",0.05);
             soundEngine().play("pac_can_eat_ghost.wav",0.05);
             // todo scatter ghost ia
             getLevel().destroyEntity(e2);
         });
+
         physicEngine().onCollision(PACMAN, SUPER_RAINBOW_PAC, (e1, e2) -> {
             soundEngine().playClip("get_out_of_my_swamp.wav",0.1);
             // todo scatter ghost ia
+            getLevel().getSingletonEntity(Type.PACMAN).getComponent(PhysicComponent.class).getHitBox().setSolid(false);
             getLevel().destroyEntity(e2);
+            pacmanSkin(true);
+            lastSuperPower = System.currentTimeMillis();
         });
+
         physicEngine().onCollision(PACMAN, TELEPORT, (e1, e2) -> {
             // todo scatter ghost ia
             TransformComponent trs = getLevel().getSingletonEntity(Type.PACMAN).getComponent(TransformComponent.class);
@@ -120,15 +152,24 @@ public class PacMan extends GameApplication {
     protected void initLevel() {
         getLevel().getSingletonEntity(Type.PACMAN).getComponent(TransformComponent.class).setPosition(new Point(8,128));
 
-        ArrayList<Image> imageAnimated = new ArrayList<>();
-        imageAnimated.add(AssetsLoader.loadImage("sprites/animation/pacmanWalk/pacmanWalk1.png"));
-        imageAnimated.add(AssetsLoader.loadImage("sprites/animation/pacmanWalk/pacmanWalk2.png"));
-
-        Animation animation = new Animation(imageAnimated,60,2,false);
-
-        getLevel().getSingletonEntity(Type.PACMAN).getComponent(RenderComponent.class).getTexture().setAnimation(animation);
+        pacmanSkin(false);
 
         getLevel().getSingletonEntity(Type.PACMAN).getComponent(PacManLogic.class).setCanMove(true);
+    }
+    
+    protected void pacmanSkin(boolean isSuper) {
+        ArrayList<Image> imageAnimated = new ArrayList<>();
+        if(isSuper) {
+            imageAnimated.add(AssetsLoader.loadImage("sprites/animation/pacmanWalk/super_open.png"));
+            imageAnimated.add(AssetsLoader.loadImage("sprites/animation/pacmanWalk/super_close.png"));
+        }
+        else
+        {
+            imageAnimated.add(AssetsLoader.loadImage("sprites/animation/pacmanWalk/pacmanWalk1.png"));
+            imageAnimated.add(AssetsLoader.loadImage("sprites/animation/pacmanWalk/pacmanWalk2.png"));
+        }
+        Animation animation = new Animation(imageAnimated,60,2,false);
+        getLevel().getSingletonEntity(Type.PACMAN).getComponent(RenderComponent.class).getTexture().setAnimation(animation);
     }
 
     private void loadLevel() {

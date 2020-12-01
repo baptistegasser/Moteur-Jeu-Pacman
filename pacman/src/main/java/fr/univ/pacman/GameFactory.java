@@ -39,6 +39,7 @@ public class GameFactory extends EntityFactory<CharInfo> {
                 .texture(texture)
                 .hitbox(new SquareHitBox(16))
                 .with(new PacManLogic())
+                .isSolid(true)
                 .build();
     }
 
