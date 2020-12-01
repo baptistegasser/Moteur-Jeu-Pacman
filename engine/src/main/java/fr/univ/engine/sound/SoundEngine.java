@@ -5,10 +5,15 @@ import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Engine charged of playing sounds.
  */
 public class SoundEngine {
+
+    HashMap<String, AudioClip> currentlyPlaying = new HashMap<>();
     /**
      * The global volume of the sound engine.
      * A media played at max volume will correspond to this volume.
@@ -120,7 +125,22 @@ public class SoundEngine {
         AudioClip clip = AssetsLoader.loadClip(name);
         clip.setVolume(targetVolume);
         clip.play();
+        currentlyPlaying.put(name, clip);
         return clip;
+    }
+
+    /**
+     * Stop the given music name
+     * If the music is playing, the music is stopped
+     * @param name
+     */
+    public void stopClip (String name) {
+        for (Map.Entry<String, AudioClip> clip: currentlyPlaying.entrySet()){
+            if(clip.getKey().equals(name)) {
+                clip.getValue().stop();
+                currentlyPlaying.remove(clip);
+            }
+        }
     }
 
     /**

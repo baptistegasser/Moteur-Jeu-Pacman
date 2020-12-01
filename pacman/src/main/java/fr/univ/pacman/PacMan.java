@@ -117,6 +117,7 @@ public class PacMan extends GameApplication {
                 if(System.currentTimeMillis() - lastSuperPower > 10000 && lastSuperPower != 0) {
                     pacmanSkin(false);
                     getLevel().getSingletonEntity(Type.PACMAN).getComponent(PhysicComponent.class).getHitBox().setSolid(true);
+                    soundEngine().stopClip("get_out_of_my_swamp.wav");
                 }
             }
             soundEngine().playClip("eating_pac.wav", 0.05);
@@ -126,7 +127,7 @@ public class PacMan extends GameApplication {
 
         physicEngine().onCollision(PACMAN, SUPER_PAC, (e1, e2) -> {
             //soundEngine().play("eating_pac.wav",0.05);
-            soundEngine().play("pac_can_eat_ghost.wav",0.05);
+            soundEngine().playClip("pac_can_eat_ghost.wav",0.05);
             // todo scatter ghost ia
             getLevel().destroyEntity(e2);
         });
