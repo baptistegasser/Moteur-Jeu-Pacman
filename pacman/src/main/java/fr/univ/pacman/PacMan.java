@@ -122,8 +122,8 @@ public class PacMan extends GameApplication {
         });
         physicEngine().onCollision(PACMAN, TELEPORT, (e1, e2) -> {
             // todo scatter ghost ia
-            System.out.println("Hit teleport");
-
+            TransformComponent trs = getLevel().getSingletonEntity(Type.PACMAN).getComponent(TransformComponent.class);
+            trs.setPosition(new Point(-1*trs.position().x, trs.position().y));
         });
 
         GameMenu gameMenu = new GameMenu();
