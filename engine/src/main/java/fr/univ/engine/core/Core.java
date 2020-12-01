@@ -13,6 +13,7 @@ import fr.univ.engine.render.RenderEngine;
 import fr.univ.engine.render.component.RenderComponent;
 import fr.univ.engine.sound.SoundEngine;
 import fr.univ.engine.ui.UiEngine;
+import javafx.application.Platform;
 import javafx.scene.paint.Color;
 
 import java.util.Arrays;
@@ -22,6 +23,17 @@ import java.util.Arrays;
  * Their can be only one instance at a time of the Core engine.
  */
 public final class Core {
+    /**
+     * The possible value for the {@link #state} of this engine.
+     */
+    private enum State { INIT, PLAY, PAUSE, STOP, QUIT }
+
+    /**
+     * Store the current state of the engine.
+     * The var is volatile as another thread might change it's value.
+     */
+    private volatile State state;
+
     /**
      * The configuration of the current game.
      */
@@ -58,15 +70,6 @@ public final class Core {
     private Level level;
 
     /**
-     * Should the engine's main loop quit ?
-     */
-    private boolean quit = false;
-    /**
-     * Should the engine's main loop pause ?
-     */
-    private boolean pause = false;
-
-    /**
      * Time step between call to the physic engine.
      */
     private final double dt = 0.01;
@@ -92,73 +95,92 @@ public final class Core {
         this.uiEngine = new UiEngine();
     }
 
+    public void start(GameApplication app) {
+        app.config(this.config);
+        this.init();
+
+        System.out.println("Starting " + config.title + " v" + config.version);
+        while (state != State.QUIT) {
+            state = State.INIT;
+            app.initGame();
+
+            while (state != State.STOP && state != State.QUIT) {
+                if (state == State.PLAY) loop();
+            }
+        }
+
+        this.close();
+    }
+
     /**
      * Initialize the sub engines.
      */
-    void init() {
+    private void init() {
         LoggingEngine.setLevel(java.util.logging.Level.INFO);
         LoggingEngine.setAutoColor(true);
 
         renderEngine.init();
         ioEngine.start();
+        uiEngine.init();
 
+        try {
+            JFXApp.showWindow();
+        } catch (InterruptedException e) {
+            throw new CoreException("Failed to init windows", e);
+        }
         JFXApp.getIsClosingProperty().addListener(o -> this.quit()); // listen for render app closing
     }
 
     /**
-     * Start the game.
+     * Close the app.
      */
-    public void start() {
-        System.out.println("Starting " + config.title + " v" + config.version);
-        //renderEngine.showWindow();
-        loop();
+    private void close() {
+        System.out.println("Exiting " + config.title + " v" + config.version);
+        Platform.exit();
     }
 
     private void loop() {
         double accumulator = 0.0;
+        double currentTime = System.currentTimeMillis() / 1000d;
 
-        while (!quit) {
-            double currentTime = System.currentTimeMillis() / 1000d;
+        int frames = 0;
+        double startFrames = currentTime;
+        double lastFrames = currentTime;
 
-            int frames = 0;
-            double startFrames = currentTime;
-            double lastFrames = currentTime;
+        while (state == State.PLAY) {
+            double newTime = System.currentTimeMillis() / 1000d;
+            double elapsedTime = newTime - currentTime;
+            currentTime = newTime;
 
-            while (!pause) {
-                double newTime = System.currentTimeMillis() / 1000d;
-                double elapsedTime = newTime - currentTime;
-                currentTime = newTime;
+            accumulator += elapsedTime; // accumulate
+            accumulator = integrate(accumulator); // Integrate
 
-                accumulator += elapsedTime; // accumulate
-                accumulator = integrate(accumulator); // Integrate
+            // Render a frame if enough time have elapsed
+            if (currentTime - lastFrames >= SECOND_PER_FRAME) {
+                lastFrames = currentTime;
+                frames += 1;
 
-                // Render a frame if enough time have elapsed
-                if (currentTime - lastFrames >= SECOND_PER_FRAME) {
-                    lastFrames = currentTime;
-                    frames += 1;
+                long s = System.nanoTime();
+                ioEngine.nextFrame();
+                LoggingEngine.logElapsedTime(s, System.nanoTime(), "IOEngine::nextFrame");
 
-                    long s = System.nanoTime();
-                    ioEngine.nextFrame();
-                    LoggingEngine.logElapsedTime(s, System.nanoTime(), "IOEngine::nextFrame");
+                s = System.nanoTime();
+                renderEngine.render(level.getEntitiesWithComponent(RenderComponent.class));
+                LoggingEngine.logElapsedTime(s, System.nanoTime(), "RenderEngine::render");
 
-                    s = System.nanoTime();
-                    renderEngine.render(level.getEntitiesWithComponent(RenderComponent.class));
-                    LoggingEngine.logElapsedTime(s, System.nanoTime(), "RenderEngine::render");
-
-                    // Update the components
-                    for (Entity e : level.getEntities()) {
-                        for (Component c : e.getComponents()) {
-                            c.update();
-                        }
+                // Update the components
+                for (Entity e : level.getEntities()) {
+                    for (Component c : e.getComponents()) {
+                        c.update();
                     }
                 }
+            }
 
-                // Display FPS TODO move to render
-                if (currentTime - startFrames >= 1) {
-                    startFrames = currentTime;
-                    LoggingEngine.info("FPS: " + frames, Color.DARKCYAN);
-                    frames = 0;
-                }
+            // Display FPS TODO move to render
+            if (currentTime - startFrames >= 1) {
+                startFrames = currentTime;
+                LoggingEngine.info("FPS: " + frames, Color.DARKCYAN);
+                frames = 0;
             }
         }
     }
@@ -183,28 +205,33 @@ public final class Core {
         return accumulator;
     }
 
-    /**
-     * Pause the main loop.
-     */
-    public void pause() {
-        pause = true;
+    void play() {
+        this.state = State.PLAY;
     }
 
-    /**
-     * Unpause the main loop.
-     */
-    public void unpause() {
-        pause = false;
+    void pause() {
+        if (this.state == State.PLAY) {
+            this.state = State.PAUSE;
+        } else {
+            LoggingEngine.warning("Attempting to pause while the game is not in play");
+        }
     }
 
-    /**
-     * Quit the main loop, stop the engine.
-     */
-    public void quit() {
-        pause();
-        quit = true;
+    void unpause() {
+        if (this.state == State.PAUSE) {
+            this.state = State.PLAY;
+        } else {
+            LoggingEngine.warning("Attempting to unpause while the game is not paused");
+        }
     }
 
+    void stop() {
+        this.state = State.STOP;
+    }
+
+    void quit() {
+        this.state = State.QUIT;
+    }
 
     //*******************************//
     //*     getters and setters     *//

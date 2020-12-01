@@ -4,11 +4,9 @@ import fr.univ.engine.core.config.Config;
 import fr.univ.engine.core.level.Level;
 import fr.univ.engine.io.IOEngine;
 import fr.univ.engine.physic.PhysicEngine;
-import fr.univ.engine.render.JFXApp;
 import fr.univ.engine.render.RenderEngine;
 import fr.univ.engine.sound.SoundEngine;
 import fr.univ.engine.ui.UiEngine;
-import javafx.application.Platform;
 
 /**
  * The base class that a game should implement to use the engine.
@@ -34,63 +32,6 @@ public abstract class GameApplication {
     private VarMap globalVars;
 
     /**
-     * Should the application's main loop quit ?
-     */
-    private boolean quit = false;
-
-    /**
-     * When the game can start
-     */
-    private boolean startGame = false;
-
-    /**
-     * The internal method called when {@link #launch} is called.
-     *
-     * @param args the arguments passed to the program.
-     */
-    private void launch$(String... args) {
-        globalVars = new VarMap();
-        core = new Core(args);
-        config(core.config());
-        core.init();
-        initApplication();
-        startApplication();
-    }
-
-    /**
-     * This function is called when application is lunch
-     */
-    private void initApplication() {
-        JFXApp.getIsClosingProperty().addListener(o -> this.quit());
-        drawApplication();
-    }
-
-    /**
-     * This function permit to draw the content of the application
-     */
-    protected abstract void drawApplication();
-
-
-    /**
-     * Start the loop of application
-     */
-    private void startApplication() {
-        while (!quit) {
-            if (startGame) {
-                System.out.println("Start game");
-                lunchGame();
-                startGame = false;
-            }
-            try {
-                Thread.sleep(50);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-        Platform.exit();
-    }
-
-    /**
      * Method called to let the game set the configuration.
      * Note: attempting to access any engine at this step WILL fail.
      *
@@ -98,25 +39,14 @@ public abstract class GameApplication {
      */
     protected abstract void config(Config config);
 
-    public void startGame() {
-        startGame = true;
-    }
-
-    /**
-     * This function init the game with custom configuration and start core
-     */
-    private void lunchGame() {
-        initGame();
-        core.start();
-    }
     /**
      * Method called just before starting the game.
      */
     protected abstract void initGame();
 
-    public void quit() {
-        quit = true;
-    }
+    //*******************************//
+    //*     attributes getters      *//
+    //*******************************//
 
     /**
      * Set the game level.
@@ -140,6 +70,49 @@ public abstract class GameApplication {
     public final VarMap globalVars() {
         return this.globalVars;
     }
+
+    //*******************************//
+    //*    app lifecycle methods    *//
+    //*******************************//
+
+    /**
+     * Start the game.
+     */
+    public void play() {
+        core.play();
+    }
+
+    /**
+     * Pause the game.
+     */
+    public void pause() {
+        core.pause();
+    }
+
+    /**
+     * Unpause the game.
+     */
+    public void unpause() {
+        core.unpause();
+    }
+
+    /**
+     * Stop the current game (restart).
+     */
+    public void stop() {
+        core.stop();
+    }
+
+    /**
+     * Quit the game.
+     */
+    public void quit() {
+        core.quit();
+    }
+
+    //*******************************//
+    //*      engines getters        *//
+    //*******************************//
 
     /**
      * @return the core engine instance.
@@ -183,6 +156,10 @@ public abstract class GameApplication {
         return core.renderEngine();
     }
 
+    //*******************************//
+    //*     app launch methods      *//
+    //*******************************//
+
     /**
      * Method called to launch a new game.
      *
@@ -204,6 +181,17 @@ public abstract class GameApplication {
 
         app = newInstance(gameClass);
         app.launch$(args);
+    }
+
+    /**
+     * The internal method called when {@link #launch} is called.
+     *
+     * @param args the arguments passed to the program.
+     */
+    private void launch$(String... args) {
+        globalVars = new VarMap();
+        core = new Core(args);
+        core.start(this);
     }
 
     /**

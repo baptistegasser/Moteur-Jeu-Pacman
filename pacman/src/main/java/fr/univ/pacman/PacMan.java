@@ -1,7 +1,6 @@
 package fr.univ.pacman;
 
 import fr.univ.engine.assets.AssetsLoader;
-import fr.univ.engine.core.component.TransformComponent;
 import fr.univ.engine.core.entity.Entity;
 import fr.univ.engine.core.entity.EntityBuilder;
 import fr.univ.engine.core.level.Level;
@@ -30,19 +29,19 @@ public class PacMan extends GameApplication {
         config.resizable = false;
         config.displayFPS = true;
     }
-
+/*
     @Override
     protected void drawApplication() {
         GameMenu gameMenu = new GameMenu();
         uiEngine().draw(gameMenu.getMenuView());
         uiEngine().showWindow();
-    }
+    }*/
 
     @Override
     protected void initGame() {
-        uiEngine().clear();
+        //uiEngine().clear();
         GameController gameController = new GameController();
-        uiEngine().draw(gameController.getGameView());
+        uiEngine().display(gameController.getGameView());
 
         loadLevel();
         soundEngine().playClip("intro.wav", 0.05);
@@ -60,6 +59,10 @@ public class PacMan extends GameApplication {
             pacmanLogic.hit();
             gameController.getInventory().lostLife();
             getLevel().getSingletonEntity(Type.PACMAN).getComponent(TransformComponent.class).setPosition(new Point(8,128));
+            if (gameController.getInventory().getLife() <= 0) {
+                stop();
+            }
+            //TODO tp pacman au spawn
         });
         physicEngine().onCollision(PACMAN, PAC, (e1, e2) -> {
             soundEngine().playClip("eating_pac.wav", 0.05);
@@ -80,8 +83,8 @@ public class PacMan extends GameApplication {
             getLevel().destroyEntity(e2);
         });
 
-        soundEngine().setGlobalVolume(0);
-        // IA ?
+        GameMenu gameMenu = new GameMenu();
+        uiEngine().display(gameMenu.getMenuView());
     }
 
     private void loadLevel() {

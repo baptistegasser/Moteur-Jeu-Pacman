@@ -17,7 +17,8 @@ public class GameMenu {
      * Prepare gameplay and start the game
      */
     public void startGame() {
-        PacMan.app().startGame();
+        PacMan.app().play();
+        menuView.destroy();
     }
 
     public void quitGame() {

@@ -86,7 +86,7 @@ public class GameFactory extends EntityFactory<CharInfo> {
     }
 
     private Point ghostPos(CharInfo info) {
-        return new Point(TILE_SIZE * info.x() - 214, TILE_SIZE * info.y() - 238);
+        return new Point(TILE_SIZE * info.x() - 218, TILE_SIZE * info.y() - 238);
     }
 
     @From("R")
