@@ -3,10 +3,17 @@ package fr.univ.engine.physic.hitbox;
 /**
  * A square hitbox implementation.
  */
-// Third grade geometry: a square is a rectangle.
-public class SquareHitBox extends RectangleHitBox {
+public class SquareHitBox extends HitBox {
+    /**
+     * The size of this square.
+     */
+    private final double size;
 
     public SquareHitBox(double size) {
-        super(size, size);
+        this.size = size;
+    }
+
+    public double size() {
+        return size;
     }
 }
