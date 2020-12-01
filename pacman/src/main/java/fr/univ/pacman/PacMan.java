@@ -1,6 +1,7 @@
 package fr.univ.pacman;
 
 import fr.univ.engine.assets.AssetsLoader;
+import fr.univ.engine.core.component.TransformComponent;
 import fr.univ.engine.core.entity.Entity;
 import fr.univ.engine.core.entity.EntityBuilder;
 import fr.univ.engine.core.level.Level;
@@ -58,7 +59,7 @@ public class PacMan extends GameApplication {
             soundEngine().playClip("pac_die.wav");
             pacmanLogic.hit();
             gameController.getInventory().lostLife();
-            //TODO tp pacman au spawn
+            getLevel().getSingletonEntity(Type.PACMAN).getComponent(TransformComponent.class).setPosition(new Point(8,128));
         });
         physicEngine().onCollision(PACMAN, PAC, (e1, e2) -> {
             soundEngine().playClip("eating_pac.wav", 0.05);

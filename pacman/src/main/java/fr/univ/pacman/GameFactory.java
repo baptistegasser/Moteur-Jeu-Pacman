@@ -7,9 +7,13 @@ import fr.univ.engine.core.entity.EntityFactory;
 import fr.univ.engine.core.level.loader.CharInfo;
 import fr.univ.engine.math.Point;
 import fr.univ.engine.physic.hitbox.SquareHitBox;
+import fr.univ.engine.render.texture.Animation;
 import fr.univ.engine.render.texture.Texture;
 import fr.univ.pacman.component.PacManLogic;
 import fr.univ.pacman.component.RedGhostAI;
+import javafx.scene.image.Image;
+
+import java.util.ArrayList;
 
 public class GameFactory extends EntityFactory<CharInfo> {
 
@@ -21,7 +25,13 @@ public class GameFactory extends EntityFactory<CharInfo> {
 
     @From("P")
     public Entity pacman(CharInfo info) {
-        Texture texture = new Texture(16, 16, AssetsLoader.loadImage("sprites/pacman.png"));
+        ArrayList<Image> imageAnimated = new ArrayList<>();
+        imageAnimated.add(AssetsLoader.loadImage("sprites/animation/pacmanWalk1.png"));
+        imageAnimated.add(AssetsLoader.loadImage("sprites/animation/pacmanWalk2.png"));
+
+        Animation animation = new Animation(imageAnimated,60,2,false);
+        Texture texture = new Texture(16, 16, animation);
+        //Texture texture = new Texture(16, 16, AssetsLoader.loadImage("sprites/pacman.png"));
         texture.setZIndex(10);
         return new EntityBuilder()
                 .type(Type.PACMAN)

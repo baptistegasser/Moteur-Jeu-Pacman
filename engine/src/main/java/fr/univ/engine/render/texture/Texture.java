@@ -15,16 +15,33 @@ public class Texture {
     /**
      * The image of this texture.
      */
-    private final Image image;
+    private Image image;
 
     /**
-     * Creates a new texture for the given image.
+     * The texture can be an animation
+     */
+    private Animation animation;
+
+    /**
+     * Creates a new texture for the given image without animation .
      */
     public Texture(double width, double height, Image image) {
         this.width = width;
         this.height = height;
         this.zIndex = 0;
         this.image = image;
+        this.animation = null;
+    }
+
+    /**
+     * Creates a new texture with animation
+     */
+    public Texture(double width, double height, Animation animation) {
+        this.width = width;
+        this.height = height;
+        this.zIndex = 0;
+        this.animation = animation;
+        this.image = animation.getCurrentImage();
     }
 
     /**
@@ -43,7 +60,15 @@ public class Texture {
         return zIndex;
     }
 
+    /**
+     * get the image depending on the animation
+     * @return the image
+     */
     public Image getImage() {
+        if (haveAnimation()) {
+            animation.nextFrame();
+            image = animation.getCurrentImage();
+        }
         return image;
     }
 
@@ -53,5 +78,9 @@ public class Texture {
 
     public double height() {
         return this.height;
+    }
+
+    public boolean haveAnimation() {
+        return animation != null;
     }
 }
