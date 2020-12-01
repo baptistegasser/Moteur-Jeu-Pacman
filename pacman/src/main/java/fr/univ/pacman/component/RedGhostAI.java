@@ -53,7 +53,6 @@ public class RedGhostAI extends Component {
 /*
         PhysicComponent physic = getComponent(PhysicComponent.class);
         TransformComponent transform = getComponent(TransformComponent.class);
-        Point newPos = transform.position().copy();
         Point myPosition = getComponent(TransformComponent.class).position();
         Point pacManPos = getLevel().getSingletonEntity(Type.PACMAN).getComponent(TransformComponent.class).position();
 
@@ -80,7 +79,11 @@ public class RedGhostAI extends Component {
             }
         }
 
+        Point newPos = transform.position().copy();
+
+
         if (getPhysics().canMoveTo(this.getEntity(), newPos)) {
+            System.out.println("NOT BRUH");
             physic.setDirection(wantedDirection);
             transform.setRotation(wantedRotation);
             changeDir = false;
