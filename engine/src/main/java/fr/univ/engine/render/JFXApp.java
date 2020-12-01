@@ -47,7 +47,7 @@ public final class JFXApp extends Application {
     /**
      * Renderer used by this app.
      */
-    private static Renderer<?> renderer;
+    private static JFXRenderer renderer;
     /**
      * StackPane allowing to stack elements on top of the Canvas.
      */
@@ -173,7 +173,7 @@ public final class JFXApp extends Application {
      *
      * @return the renderer instance
      */
-    public static Renderer<?> getRenderer() {
+    public static JFXRenderer getRenderer() {
         return JFXApp.renderer;
     }
 }

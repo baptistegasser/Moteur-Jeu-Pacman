@@ -18,13 +18,16 @@ import java.util.List;
 /**
  * A renderer capable of rendering elements on a JavaFX {@link Canvas}.
  */
-public class JFXRenderer extends Renderer<Canvas> {
+public class JFXRenderer {
+    /**
+     * The viewport used by this renderer.
+     */
+    protected final ViewPort viewport;
 
     public JFXRenderer(ViewPort viewport) {
-        super(viewport);
+        this.viewport = viewport;
     }
 
-    @Override
     public void render(List<Entity> entities) {
         final List<GraphicAction> actions = new ArrayList<>();
 
