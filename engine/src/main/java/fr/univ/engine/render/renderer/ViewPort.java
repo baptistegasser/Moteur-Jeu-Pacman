@@ -11,10 +11,9 @@ import javafx.scene.canvas.Canvas;
  */
 public class ViewPort {
     /**
-     * The area where the render is done.
+     * The canvas that will be used to draw.
      */
     private final Canvas canvas;
-
     /**
      * Center point of the viewport.
      */
@@ -43,21 +42,21 @@ public class ViewPort {
      * Recalculate the center of this viewport.
      * Called when the width or height property is changed.
      */
-    protected void updateCenter() {
+    private void updateCenter() {
         setCenter(new Point(getWidth()/2, getHeight()/2));
     }
 
     /**
      * @return the area where the render is done.
      */
-    public Canvas getArea() {
+    Canvas getCanvas() {
         return this.canvas;
     }
 
     /**
      * @return return the width of this viewport.
      */
-    public double getWidth() {
+    double getWidth() {
         return widthProperty.get();
     }
 
@@ -66,14 +65,14 @@ public class ViewPort {
      *
      * @param observable the observable to bind to
      */
-    protected final void bindWidthProperty(ObservableValue<? extends Number> observable) {
+    private void bindWidthProperty(ObservableValue<? extends Number> observable) {
         this.widthProperty.bind(observable);
     }
 
     /**
      * @return return the height of this viewport.
      */
-    public double getHeight() {
+    double getHeight() {
         return heightProperty.get();
     }
 
@@ -91,7 +90,7 @@ public class ViewPort {
      *
      * @param pos the new position
      */
-    protected void setCenter(Point pos) {
+    private void setCenter(Point pos) {
         this.center.x = pos.x;
         this.center.y = pos.y;
     }
@@ -105,7 +104,7 @@ public class ViewPort {
      * @param h the object's height
      * @return the absolute position corresponding
      */
-    public Point toAbsolutePos(Point pos, double w, double h) {
+    Point toAbsolutePos(Point pos, double w, double h) {
         Point abs = pos.copy();
         abs.x = abs.x - w/2 + center.x;
         abs.y = abs.y - h/2 + center.y;

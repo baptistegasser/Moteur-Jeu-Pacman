@@ -20,7 +20,7 @@ import java.util.List;
  */
 public class JFXRenderer {
     /**
-     * The viewport used by this renderer.
+     * The viewport containing the canvas.
      */
     protected final ViewPort viewport;
 
@@ -28,6 +28,11 @@ public class JFXRenderer {
         this.viewport = viewport;
     }
 
+    /**
+     * Render a list of entities on the viewport.
+     *
+     * @param entities the entities to render.
+     */
     public void render(List<Entity> entities) {
         final List<GraphicAction> actions = new ArrayList<>();
 
@@ -58,7 +63,7 @@ public class JFXRenderer {
             }
         }
 
-        final GraphicsContext ctx = viewport.getArea().getGraphicsContext2D();
+        final GraphicsContext ctx = viewport.getCanvas().getGraphicsContext2D();
         Platform.runLater(() -> {
             ctx.setFill(Color.BLACK);
             ctx.fillRect(0, 0, viewport.getWidth(), viewport.getHeight());

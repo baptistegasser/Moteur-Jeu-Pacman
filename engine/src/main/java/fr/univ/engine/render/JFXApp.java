@@ -4,7 +4,6 @@ import com.sun.javafx.application.PlatformImpl;
 import fr.univ.engine.core.config.Config;
 import fr.univ.engine.io.KeyEventHandler;
 import fr.univ.engine.render.renderer.JFXRenderer;
-import fr.univ.engine.render.renderer.Renderer;
 import fr.univ.engine.render.renderer.ViewPort;
 import javafx.application.Application;
 import javafx.application.Platform;
