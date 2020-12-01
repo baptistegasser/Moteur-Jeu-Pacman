@@ -1,6 +1,11 @@
 package fr.univ.engine.core;
 
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.value.ChangeListener;
+
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Map of variables.
@@ -11,7 +16,7 @@ public class VarMap {
     /**
      * The actual map.
      */
-    private final HashMap<String, Object> variables;
+    private final HashMap<String, ObjectProperty<Object>> variables;
 
     public VarMap() {
         variables = new HashMap<>();
@@ -24,7 +29,14 @@ public class VarMap {
      * @param value the value of the variable.
      */
     public void put(String name, Object value) {
-        variables.put(name, value);
+        ObjectProperty<Object> property = variables.get(name);
+
+        if (property == null) {
+            property = new SimpleObjectProperty<>();
+        }
+
+        property.set(value);
+        variables.put(name, property);
     }
 
     /**
@@ -34,7 +46,7 @@ public class VarMap {
      * @return the value or null if not found.
      */
     public Object get(String name) {
-        return variables.get(name);
+        return variables.get(name).get();
     }
 
     /**
@@ -97,5 +109,15 @@ public class VarMap {
         } else {
             return clazz.cast(o);
         }
+    }
+
+    /**
+     * Add a listener on a var value.
+     *
+     * @param name the var name.
+     * @param listener the change listener.
+     */
+    public void addListener(String name, ChangeListener listener) {
+        variables.get(name).addListener(listener);
     }
 }

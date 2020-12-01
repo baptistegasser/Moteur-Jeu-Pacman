@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="620.0" prefWidth="510.0" spacing="16.0" style="-fx-background-color: rgba(0, 0, 0, .7);" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.univ.pacman.ui.controller.GameOverController">
+    <HBox alignment="CENTER" nodeOrientation="LEFT_TO_RIGHT" spacing="8.0">
+        <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@../textures/sprites/ghosts/orangeGhost.png" />
+        </ImageView>
+        <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@../textures/sprites/ghosts/blueGhost.png" />
+        </ImageView>
+        <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@../textures/sprites/ghosts/pinkGhost.png" />
+        </ImageView>
+        <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@../textures/sprites/ghosts/redGhost.png" />
+        </ImageView>
+        <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@../textures/sprites/pacman.png" />
+        </ImageView>
+    </HBox>
+    <Label style="-fx-font-family: 'Press Start 2P', cursive; -fx-font-size: 40px; -fx-text-fill: white;" text="GAME OVER">
+        <font>
+          <Font size="40.0" />
+        </font>
+        <VBox.margin>
+          <Insets bottom="64.0" />
+        </VBox.margin>
+    </Label>
+    <Button contentDisplay="TEXT_ONLY" mnemonicParsing="false" onAction="#backToMenu" style="-fx-background-color: rgba(200, 200, 200, .7); -fx-text-fill: white; -fx-font-family: 'Press Start 2P', cursive; -fx-font-size: 14px;" text="Back to menu">
+        <font>
+          <Font size="14.0" />
+        </font>
+    </Button>
+</VBox>

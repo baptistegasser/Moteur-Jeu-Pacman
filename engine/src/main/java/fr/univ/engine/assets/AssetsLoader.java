@@ -1,6 +1,9 @@
 package fr.univ.engine.assets;
 
 import fr.univ.engine.core.GameApplication;
+import fr.univ.engine.ui.JFXController;
+import fr.univ.engine.ui.JFXView;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.image.Image;
 import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
@@ -32,6 +35,7 @@ public final class AssetsLoader {
     public final static String LEVELS = "/level/";
     public final static String SOUNDS = "/sounds/";
     public final static String FONTS = "/fonts/";
+    public final static String UI = "/ui/";
 
 
     /**
@@ -142,6 +146,32 @@ public final class AssetsLoader {
             cache.put(key, sound);
         }
         return sound;
+    }
+
+    /**
+     * Load an JavaFX view from fxml.
+     * The name is relative ie:
+     *  - menu.fxml
+     *  - space/head.fxml
+     *
+     * @param name the fxml full name relative to the ui folder.
+     * @return a {@link JFXView} instance.
+     */
+    public static JFXView loadView(String name) {
+        try {
+            String key = ASSETS_ROOT + UI + name;
+            URI uri = getResourceURI(key);
+            FXMLLoader loader = new FXMLLoader(uri.toURL());
+            JFXView view = new JFXView(loader.load());
+
+            Object controller = loader.getController();
+            if (controller instanceof JFXController) {
+                view.setController((JFXController) controller);
+            }
+            return view;
+        } catch (Exception e) {
+            throw new AssetException("Failed to load fxml", e);
+        }
     }
 
     /**

@@ -10,7 +10,6 @@ import fr.univ.engine.core.GameApplication;
 import fr.univ.engine.core.level.loader.TextLevelLoader;
 import fr.univ.engine.math.Point;
 import fr.univ.engine.render.texture.Texture;
-import fr.univ.pacman.controller.GameMenu;
 import fr.univ.pacman.controller.GameController;
 import fr.univ.pacman.component.PacManLogic;
 import javafx.beans.property.DoubleProperty;
@@ -40,37 +39,43 @@ public class PacMan extends GameApplication {
 
     @Override
     protected void initGame() {
-        //uiEngine().clear();
-        GameController gameController = new GameController();
-        uiEngine().display(gameController.getGameView());
+        globalVars().put("score", 0);
+        globalVars().put("lives", 3);
+
+        uiEngine().clear();
+        AssetsLoader.loadFont("PressStart2P.ttf");
+        uiEngine().display(AssetsLoader.loadView("Overlay.fxml"));
+        uiEngine().display(AssetsLoader.loadView("Menu.fxml"));
+        soundEngine().playClip("intro.wav", 0.05);
 
         loadLevel();
-        soundEngine().playClip("intro.wav", 0.05);
-        DoubleProperty score = new SimpleDoubleProperty();
 
         PacManLogic pacmanLogic = getLevel().getSingletonEntity(Type.PACMAN).getComponent(PacManLogic.class);
         IOEngine().onKeyPressed(KeyCode.UP, pacmanLogic::up);
         IOEngine().onKeyPressed(KeyCode.DOWN, pacmanLogic::down);
         IOEngine().onKeyPressed(KeyCode.LEFT, pacmanLogic::left);
         IOEngine().onKeyPressed(KeyCode.RIGHT, pacmanLogic::right);
+        IOEngine().onKeyPressed(KeyCode.ESCAPE, () -> {
+            pause();
+            uiEngine().display(AssetsLoader.loadView("Pause.fxml"));
+        });
 
         physicEngine().onCollision(PACMAN, WALL, (e1, e2) -> pacmanLogic.stop());
         physicEngine().onCollision(PACMAN, GHOST, (e1, e2) -> {
             soundEngine().playClip("pac_die.wav");
             pacmanLogic.hit();
-            gameController.getInventory().lostLife();
+            globalVars().put("lives", globalVars().getInt("lives")-1);
             getLevel().getSingletonEntity(Type.PACMAN).getComponent(TransformComponent.class).setPosition(new Point(8,128));
-            if (gameController.getInventory().getLife() <= 0) {
-                stop();
+            if (globalVars().getInt("lives") <= 0) {
+                pause();
+                uiEngine().display(AssetsLoader.loadView("GameOver.fxml"));
             }
             //TODO tp pacman au spawn
         });
         physicEngine().onCollision(PACMAN, PAC, (e1, e2) -> {
             soundEngine().playClip("eating_pac.wav", 0.05);
-            score.set(score.get() + 10);
+            globalVars().put("score", globalVars().getInt("score")+10);
             getLevel().destroyEntity(e2);
-            //TODO use global variable maybe
-            gameController.getInventory().addScore(10);
         });
         physicEngine().onCollision(PACMAN, SUPER_PAC, (e1, e2) -> {
             //soundEngine().play("eating_pac.wav",0.05);
@@ -83,9 +88,6 @@ public class PacMan extends GameApplication {
             // todo scatter ghost ia
             getLevel().destroyEntity(e2);
         });
-
-        GameMenu gameMenu = new GameMenu();
-        uiEngine().display(gameMenu.getMenuView());
     }
 
     private void loadLevel() {

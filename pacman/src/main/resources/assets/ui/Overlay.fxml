@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox prefHeight="620.0" prefWidth="510.0" style="-fx-background-color: transparent;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.univ.pacman.ui.controller.OverlayController">
+   <children>
+      <HBox alignment="CENTER_LEFT" prefHeight="30.0" style="-fx-background-color: transparent;">
+         <children>
+            <Label fx:id="score" style="-fx-text-fill: white; -fx-font-family: 'Press Start 2P', cursive; -fx-font-size: 15px; -fx-text-fill: red;" text="SCORE" HBox.hgrow="ALWAYS">
+               <font>
+                  <Font size="15.0" />
+               </font></Label>
+            <HBox fx:id="lives" alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="8.0" HBox.hgrow="ALWAYS">
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+               <padding>
+                  <Insets right="15.0" />
+               </padding>
+            </HBox>
+         </children>
+         <padding>
+            <Insets left="15.0" />
+         </padding>
+      </HBox>
+   </children>
+</VBox>

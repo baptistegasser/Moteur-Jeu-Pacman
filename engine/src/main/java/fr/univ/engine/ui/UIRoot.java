@@ -29,6 +29,7 @@ public class UIRoot {
      * Clear all children of the root.
      */
     public void clear() {
+        this.dependencies.clear();
         Platform.runLater(() -> root.getChildren().clear());
     }
 

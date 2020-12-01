@@ -51,7 +51,7 @@ public final class JFXApp extends Application {
     /**
      * StackPane allowing to stack elements on top of the Canvas.
      */
-    public static StackPane stackPane;
+    public static StackPane uiRoot;
 
     /**
      * Start the app and wait for it to be started.
@@ -82,12 +82,14 @@ public final class JFXApp extends Application {
         stage.setResizable(config.resizable);
 
         Canvas canvas = new Canvas(config.width, config.height);
-        stackPane = new StackPane(canvas);
+        uiRoot = new StackPane();
+        StackPane root = new StackPane();
+        root.getChildren().addAll(canvas, uiRoot);
         canvas.widthProperty().bind(stage.widthProperty());
         canvas.heightProperty().bind(stage.heightProperty());
         renderer = new JFXRenderer(new CanvasViewPort(canvas));
 
-        stage.setScene(new Scene(stackPane));
+        stage.setScene(new Scene(root));
         stage.setAlwaysOnTop(true);
 
         primaryStage.setOnCloseRequest(t -> stop());

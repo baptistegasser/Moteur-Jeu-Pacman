@@ -5,6 +5,10 @@ import fr.univ.engine.render.JFXApp;
 public class UiEngine {
     private UIRoot uiroot;
 
+    public void clear() {
+        uiroot.clear();
+    }
+
     public void display(UIElement element) {
         uiroot.display(element);
     }
@@ -14,6 +18,6 @@ public class UiEngine {
     }
 
     public void init() {
-        this.uiroot = new UIRoot(JFXApp.stackPane);
+        this.uiroot = new UIRoot(JFXApp.uiRoot);
     }
 }

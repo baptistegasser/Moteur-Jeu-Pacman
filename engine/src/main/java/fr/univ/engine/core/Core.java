@@ -213,7 +213,7 @@ public final class Core {
         if (this.state == State.PLAY) {
             this.state = State.PAUSE;
         } else {
-            LoggingEngine.warning("Attempting to pause while the game is not in play");
+            LoggingEngine.warning("Attempting to pause while the game is not in play" + state);
         }
     }
 
@@ -221,7 +221,7 @@ public final class Core {
         if (this.state == State.PAUSE) {
             this.state = State.PLAY;
         } else {
-            LoggingEngine.warning("Attempting to unpause while the game is not paused");
+            LoggingEngine.warning("Attempting to unpause while the game is not paused" + state);
         }
     }
 

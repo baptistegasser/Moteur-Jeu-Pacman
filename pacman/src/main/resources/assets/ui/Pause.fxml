@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox alignment="CENTER" prefHeight="620.0" prefWidth="510.0" spacing="32.0" style="-fx-background-color: rgba(0, 0, 0, .7);" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.univ.pacman.ui.controller.PauseController">
+   <children>
+      <Label style="-fx-text-fill: white; -fx-font-family: 'Press Start 2P', cursive; -fx-font-size: 40px;" text="PAUSE">
+         <font>
+            <Font size="40.0" />
+         </font>
+      </Label>
+      <Button mnemonicParsing="false" onAction="#unpause" style="-fx-text-fill: white; -fx-background-color: rgba(200, 200, 200, .7); -fx-font-family: 'Press Start 2P', cursive; -fx-font-size: 14px;" text="Back to the game">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Button>
+   </children>
+</VBox>
