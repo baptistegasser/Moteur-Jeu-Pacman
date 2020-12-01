@@ -9,12 +9,14 @@ import fr.univ.engine.core.config.Config;
 import fr.univ.engine.core.GameApplication;
 import fr.univ.engine.core.level.loader.TextLevelLoader;
 import fr.univ.engine.math.Point;
+import fr.univ.engine.render.component.RenderComponent;
+import fr.univ.engine.render.texture.Animation;
 import fr.univ.engine.render.texture.Texture;
-import fr.univ.pacman.controller.GameController;
 import fr.univ.pacman.component.PacManLogic;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
+
+import java.util.ArrayList;
 
 import static fr.univ.pacman.Type.*;
 
@@ -29,13 +31,6 @@ public class PacMan extends GameApplication {
         config.resizable = false;
         config.displayFPS = true;
     }
-/*
-    @Override
-    protected void drawApplication() {
-        GameMenu gameMenu = new GameMenu();
-        uiEngine().draw(gameMenu.getMenuView());
-        uiEngine().showWindow();
-    }*/
 
     @Override
     protected void initGame() {
@@ -60,17 +55,42 @@ public class PacMan extends GameApplication {
             uiEngine().display(AssetsLoader.loadView("Pause.fxml"));
         });
 
+        pacmanLogic.setCanMove(true);
+
         physicEngine().onCollision(PACMAN, WALL, (e1, e2) -> pacmanLogic.stop());
         physicEngine().onCollision(PACMAN, GHOST, (e1, e2) -> {
-            soundEngine().playClip("pac_die.wav");
-            pacmanLogic.hit();
             globalVars().put("lives", globalVars().getInt("lives")-1);
-            getLevel().getSingletonEntity(Type.PACMAN).getComponent(TransformComponent.class).setPosition(new Point(8,128));
+
+            soundEngine().playClip("pac_die.wav");
+            pacmanLogic.stop();
+            pacmanLogic.hit();
+            pacmanLogic.setCanMove(false);
+
+            getLevel().getSingletonEntity(Type.PACMAN).getComponent(TransformComponent.class).setRotation(0);
+            getLevel().getSingletonEntity(Type.PACMAN).getComponent(RenderComponent.class).setForAnimator(true);
+
+            ArrayList<Image> animationDeath = new ArrayList<>();
+            animationDeath.add(AssetsLoader.loadImage("sprites/animation/pacmanDeath/pacmanDeath1.png"));
+            animationDeath.add(AssetsLoader.loadImage("sprites/animation/pacmanDeath/pacmanDeath2.png"));
+            animationDeath.add(AssetsLoader.loadImage("sprites/animation/pacmanDeath/pacmanDeath3.png"));
+            animationDeath.add(AssetsLoader.loadImage("sprites/animation/pacmanDeath/pacmanDeath4.png"));
+            animationDeath.add(AssetsLoader.loadImage("sprites/animation/pacmanDeath/pacmanDeath5.png"));
+            animationDeath.add(AssetsLoader.loadImage("sprites/animation/pacmanDeath/pacmanDeath6.png"));
+            animationDeath.add(AssetsLoader.loadImage("sprites/animation/pacmanDeath/pacmanDeath7.png"));
+            animationDeath.add(AssetsLoader.loadImage("sprites/animation/pacmanDeath/pacmanDeath8.png"));
+            animationDeath.add(AssetsLoader.loadImage("sprites/animation/pacmanDeath/pacmanDeath9.png"));
+            animationDeath.add(AssetsLoader.loadImage("sprites/animation/pacmanDeath/pacmanDeath10.png"));
+            animationDeath.add(AssetsLoader.loadImage("sprites/animation/pacmanDeath/pacmanDeath11.png"));
+
+            Animation animation = new Animation(animationDeath, 70, 11, true);
+
+            getLevel().getSingletonEntity(Type.PACMAN).getComponent(RenderComponent.class).getTexture().setAnimation(animation);
+            animatedPause();
+
             if (globalVars().getInt("lives") <= 0) {
                 pause();
                 uiEngine().display(AssetsLoader.loadView("GameOver.fxml"));
             }
-            //TODO tp pacman au spawn
         });
         physicEngine().onCollision(PACMAN, PAC, (e1, e2) -> {
             soundEngine().playClip("eating_pac.wav", 0.05);
@@ -88,6 +108,27 @@ public class PacMan extends GameApplication {
             // todo scatter ghost ia
             getLevel().destroyEntity(e2);
         });
+        physicEngine().onCollision(PACMAN, TELEPORT, (e1, e2) -> {
+            // todo scatter ghost ia
+            TransformComponent trs = getLevel().getSingletonEntity(Type.PACMAN).getComponent(TransformComponent.class);
+            trs.setPosition(new Point(-1*trs.position().x, trs.position().y));
+        });
+
+    }
+
+    @Override
+    protected void initLevel() {
+        getLevel().getSingletonEntity(Type.PACMAN).getComponent(TransformComponent.class).setPosition(new Point(8,128));
+
+        ArrayList<Image> imageAnimated = new ArrayList<>();
+        imageAnimated.add(AssetsLoader.loadImage("sprites/animation/pacmanWalk/pacmanWalk1.png"));
+        imageAnimated.add(AssetsLoader.loadImage("sprites/animation/pacmanWalk/pacmanWalk2.png"));
+
+        Animation animation = new Animation(imageAnimated,60,2,false);
+
+        getLevel().getSingletonEntity(Type.PACMAN).getComponent(RenderComponent.class).getTexture().setAnimation(animation);
+
+        getLevel().getSingletonEntity(Type.PACMAN).getComponent(PacManLogic.class).setCanMove(true);
     }
 
     private void loadLevel() {

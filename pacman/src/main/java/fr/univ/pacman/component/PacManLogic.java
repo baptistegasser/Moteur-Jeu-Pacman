@@ -16,29 +16,38 @@ public class PacManLogic extends Component {
     private boolean changeDir = false;
     private Vector wantedDirection;
     private double wantedRotation;
+    private boolean canMove;
 
     public void up() {
-        this.wantedDirection = new Vector(0, -0.5d);
-        this.wantedRotation = 270;
-        this.changeDir = true;
+        if (canMove) {
+            this.wantedDirection = new Vector(0, -0.5d);
+            this.wantedRotation = 270;
+            this.changeDir = true;
+        }
     }
 
     public void down() {
-        this.wantedDirection = new Vector(0, 0.5d);
-        this.wantedRotation = 90;
-        this.changeDir = true;
+        if (canMove) {
+            this.wantedDirection = new Vector(0, 0.5d);
+            this.wantedRotation = 90;
+            this.changeDir = true;
+        }
     }
 
     public void left() {
-        this.wantedDirection = new Vector(-0.5d, 0);
-        this.wantedRotation = 180;
-        this.changeDir = true;
+        if (canMove) {
+            this.wantedDirection = new Vector(-0.5d, 0);
+            this.wantedRotation = 180;
+            this.changeDir = true;
+        }
     }
 
     public void right() {
-        this.wantedDirection = new Vector(0.5d, 0);
-        this.wantedRotation = 0;
-        this.changeDir = true;
+        if (canMove) {
+            this.wantedDirection = new Vector(0.5d, 0);
+            this.wantedRotation = 0;
+            this.changeDir = true;
+        }
     }
 
     public void stop() {
@@ -48,6 +57,10 @@ public class PacManLogic extends Component {
 
     public void hit() {
         LoggingEngine.log(Level.INFO, "Hit !");
+    }
+
+    public void setCanMove(boolean canMove) {
+        this.canMove = canMove;
     }
 
     @Override

@@ -44,6 +44,11 @@ public abstract class GameApplication {
      */
     protected abstract void initGame();
 
+    /**
+     * Method called just before starting the level.
+     */
+    protected abstract void initLevel();
+
     //*******************************//
     //*     attributes getters      *//
     //*******************************//
@@ -94,6 +99,13 @@ public abstract class GameApplication {
      */
     public void unpause() {
         core.unpause();
+    }
+
+    /**
+     * animatedPause the game.
+     */
+    public void animatedPause() {
+        core.animatedPause();
     }
 
     /**

@@ -80,6 +80,14 @@ public class Texture {
         return this.height;
     }
 
+    public Animation getAnimation() {
+        return animation;
+    }
+
+    public void setAnimation(Animation animation) {
+        this.animation = animation;
+    }
+
     public boolean haveAnimation() {
         return animation != null;
     }
