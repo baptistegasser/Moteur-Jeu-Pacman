@@ -161,7 +161,7 @@ public class PhysicEngine {
         HitBox hb = e.getComponent(PhysicComponent.class).getHitBox();
 
         // Entity without hitbox never collide
-        if (hb == null) {
+        if (hb == null || !hb.isSolid()) {
             return true;
         }
 
