@@ -26,7 +26,7 @@ public final class Core {
     /**
      * The possible value for the {@link #state} of this engine.
      */
-    private enum State { INIT, PLAY, PAUSE, STOP, QUIT }
+    private enum State { INIT, PLAY, PAUSE, STOP, ANIMATEDPAUSE, QUIT }
 
     /**
      * Store the current state of the engine.
@@ -65,6 +65,11 @@ public final class Core {
     private final UiEngine uiEngine;
 
     /**
+     * The animator for game animation
+     */
+    private final Animator animator;
+
+    /**
      * The current game level.
      */
     private Level level;
@@ -93,6 +98,7 @@ public final class Core {
         this.ioEngine = new IOEngine();
         this.soundEngine = new SoundEngine();
         this.uiEngine = new UiEngine();
+        this.animator = new Animator(this);
     }
 
     public void start(GameApplication app) {
@@ -105,7 +111,11 @@ public final class Core {
             app.initGame();
 
             while (state != State.STOP && state != State.QUIT) {
-                if (state == State.PLAY) loop();
+                if (state == State.PLAY) {
+                    app.initLevel();
+                    loop();
+                }
+                if (state == State.ANIMATEDPAUSE) animatedLoop();
             }
         }
 
@@ -205,6 +215,19 @@ public final class Core {
         return accumulator;
     }
 
+    /**
+     * The loop for game animation, nobody move and just animate animator entities
+     */
+    private void animatedLoop() {
+        System.out.println("aniam");
+        animator.init(level.getEntitiesWithComponent(RenderComponent.class));
+        animator.setStart(System.currentTimeMillis());
+        while (state == State.ANIMATEDPAUSE) {
+            renderEngine.render(animator.getEntities());
+            if (animator.isFinish(System.currentTimeMillis())) state = State.PLAY;
+        }
+    }
+
     void play() {
         this.state = State.PLAY;
     }
@@ -222,6 +245,13 @@ public final class Core {
             this.state = State.PLAY;
         } else {
             LoggingEngine.warning("Attempting to unpause while the game is not paused");
+        }
+    }
+    void animatedPause() {
+        if (this.state == State.PLAY) {
+            this.state = State.ANIMATEDPAUSE;
+        } else {
+            LoggingEngine.warning("Attempting to animated pause while the game is not in play");
         }
     }
 

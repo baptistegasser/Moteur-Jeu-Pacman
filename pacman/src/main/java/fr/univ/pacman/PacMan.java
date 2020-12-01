@@ -9,13 +9,20 @@ import fr.univ.engine.core.config.Config;
 import fr.univ.engine.core.GameApplication;
 import fr.univ.engine.core.level.loader.TextLevelLoader;
 import fr.univ.engine.math.Point;
+import fr.univ.engine.math.Vector;
+import fr.univ.engine.physic.component.PhysicComponent;
+import fr.univ.engine.render.component.RenderComponent;
+import fr.univ.engine.render.texture.Animation;
 import fr.univ.engine.render.texture.Texture;
 import fr.univ.pacman.controller.GameMenu;
 import fr.univ.pacman.controller.GameController;
 import fr.univ.pacman.component.PacManLogic;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
+
+import java.util.ArrayList;
 
 import static fr.univ.pacman.Type.*;
 
@@ -54,16 +61,46 @@ public class PacMan extends GameApplication {
         IOEngine().onKeyPressed(KeyCode.LEFT, pacmanLogic::left);
         IOEngine().onKeyPressed(KeyCode.RIGHT, pacmanLogic::right);
 
+        pacmanLogic.setCanMove(true);
+
         physicEngine().onCollision(PACMAN, WALL, (e1, e2) -> pacmanLogic.stop());
         physicEngine().onCollision(PACMAN, GHOST, (e1, e2) -> {
             soundEngine().playClip("pac_die.wav");
+            pacmanLogic.stop();
             pacmanLogic.hit();
+            pacmanLogic.setCanMove(false);
+
             gameController.getInventory().lostLife();
-            getLevel().getSingletonEntity(Type.PACMAN).getComponent(TransformComponent.class).setPosition(new Point(8,128));
+
+            getLevel().getSingletonEntity(Type.PACMAN).getComponent(TransformComponent.class).setRotation(0);
+            getLevel().getSingletonEntity(Type.PACMAN).getComponent(RenderComponent.class).setForAnimator(true);
+
+
+            ArrayList<Image> animationDeath = new ArrayList<>();
+
+            animationDeath.add(AssetsLoader.loadImage("sprites/animation/pacmanDeath/pacmanDeath1.png"));
+            animationDeath.add(AssetsLoader.loadImage("sprites/animation/pacmanDeath/pacmanDeath2.png"));
+            animationDeath.add(AssetsLoader.loadImage("sprites/animation/pacmanDeath/pacmanDeath3.png"));
+            animationDeath.add(AssetsLoader.loadImage("sprites/animation/pacmanDeath/pacmanDeath4.png"));
+            animationDeath.add(AssetsLoader.loadImage("sprites/animation/pacmanDeath/pacmanDeath5.png"));
+            animationDeath.add(AssetsLoader.loadImage("sprites/animation/pacmanDeath/pacmanDeath6.png"));
+            animationDeath.add(AssetsLoader.loadImage("sprites/animation/pacmanDeath/pacmanDeath7.png"));
+            animationDeath.add(AssetsLoader.loadImage("sprites/animation/pacmanDeath/pacmanDeath8.png"));
+            animationDeath.add(AssetsLoader.loadImage("sprites/animation/pacmanDeath/pacmanDeath9.png"));
+            animationDeath.add(AssetsLoader.loadImage("sprites/animation/pacmanDeath/pacmanDeath10.png"));
+            animationDeath.add(AssetsLoader.loadImage("sprites/animation/pacmanDeath/pacmanDeath11.png"));
+
+            Animation animation = new Animation(animationDeath, 70, 11, true);
+
+            getLevel().getSingletonEntity(Type.PACMAN).getComponent(RenderComponent.class).getTexture().setAnimation(animation);
+
+
+            animatedPause();
+
             if (gameController.getInventory().getLife() <= 0) {
                 stop();
             }
-            //TODO tp pacman au spawn
+
         });
         physicEngine().onCollision(PACMAN, PAC, (e1, e2) -> {
             soundEngine().playClip("eating_pac.wav", 0.05);
@@ -86,6 +123,21 @@ public class PacMan extends GameApplication {
 
         GameMenu gameMenu = new GameMenu();
         uiEngine().display(gameMenu.getMenuView());
+    }
+
+    @Override
+    protected void initLevel() {
+        getLevel().getSingletonEntity(Type.PACMAN).getComponent(TransformComponent.class).setPosition(new Point(8,128));
+
+        ArrayList<Image> imageAnimated = new ArrayList<>();
+        imageAnimated.add(AssetsLoader.loadImage("sprites/animation/pacmanWalk/pacmanWalk1.png"));
+        imageAnimated.add(AssetsLoader.loadImage("sprites/animation/pacmanWalk/pacmanWalk2.png"));
+
+        Animation animation = new Animation(imageAnimated,60,2,false);
+
+        getLevel().getSingletonEntity(Type.PACMAN).getComponent(RenderComponent.class).getTexture().setAnimation(animation);
+
+        getLevel().getSingletonEntity(Type.PACMAN).getComponent(PacManLogic.class).setCanMove(true);
     }
 
     private void loadLevel() {

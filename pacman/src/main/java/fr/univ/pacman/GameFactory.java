@@ -26,8 +26,8 @@ public class GameFactory extends EntityFactory<CharInfo> {
     @From("P")
     public Entity pacman(CharInfo info) {
         ArrayList<Image> imageAnimated = new ArrayList<>();
-        imageAnimated.add(AssetsLoader.loadImage("sprites/animation/pacmanWalk1.png"));
-        imageAnimated.add(AssetsLoader.loadImage("sprites/animation/pacmanWalk2.png"));
+        imageAnimated.add(AssetsLoader.loadImage("sprites/animation/pacmanWalk/pacmanWalk1.png"));
+        imageAnimated.add(AssetsLoader.loadImage("sprites/animation/pacmanWalk/pacmanWalk2.png"));
 
         Animation animation = new Animation(imageAnimated,60,2,false);
         Texture texture = new Texture(16, 16, animation);

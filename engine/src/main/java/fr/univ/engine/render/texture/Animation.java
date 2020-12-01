@@ -61,7 +61,12 @@ public class Animation {
      */
     public void nextFrame() {
         if (lastTimeFrame+speed < System.currentTimeMillis()) {
-            if (frame >= nbFrame) frame = 0;
+            if (frame >= nbFrame) {
+                frame = 0;
+                if (stopAnimation) {
+                    return;
+                }
+            }
             currentImage = imageAnimate.get(frame);
             frame+=1;
             lastTimeFrame = System.currentTimeMillis();
@@ -70,5 +75,13 @@ public class Animation {
 
     public Image getCurrentImage() {
         return currentImage;
+    }
+
+    public int getNbFrame() {
+        return nbFrame;
+    }
+
+    public int getSpeed() {
+        return speed;
     }
 }
