@@ -1,4 +1,4 @@
-package fr.univ.engine.render.renderer;
+package fr.univ.engine.render;
 
 import fr.univ.engine.math.Point;
 import javafx.beans.property.DoubleProperty;

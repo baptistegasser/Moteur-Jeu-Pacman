@@ -3,8 +3,6 @@ package fr.univ.engine.render;
 import com.sun.javafx.application.PlatformImpl;
 import fr.univ.engine.core.config.Config;
 import fr.univ.engine.io.KeyEventHandler;
-import fr.univ.engine.render.renderer.Renderer;
-import fr.univ.engine.render.renderer.ViewPort;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyBooleanProperty;
