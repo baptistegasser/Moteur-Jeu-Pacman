@@ -4,18 +4,16 @@ import fr.univ.engine.math.Point;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.value.ObservableValue;
+import javafx.scene.canvas.Canvas;
 
 /**
- * Representation of the area where the render is done.
- * This is a proxy for the underlying {@link #area} object.
- *
- * @param <T> the type of the area used to render, ie: a {@link javafx.scene.canvas.Canvas}.
+ * A viewport that contains a JavaFX {@link Canvas}.
  */
-public abstract class ViewPort<T> {
+public class ViewPort {
     /**
      * The area where the render is done.
      */
-    private final T area;
+    private final Canvas canvas;
 
     /**
      * Center point of the viewport.
@@ -30,26 +28,30 @@ public abstract class ViewPort<T> {
      */
     private final DoubleProperty heightProperty;
 
-    public ViewPort(T view) {
-        this.area = view;
+    public ViewPort(Canvas canvas) {
+        this.canvas = canvas;
         this.center = new Point(0, 0);
         this.widthProperty = new SimpleDoubleProperty(0);
         this.heightProperty = new SimpleDoubleProperty(0);
         this.widthProperty.addListener($ -> this.updateCenter());
         this.heightProperty.addListener($ -> this.updateCenter());
+        bindWidthProperty(canvas.widthProperty());
+        bindHeightProperty(canvas.heightProperty());
     }
 
     /**
      * Recalculate the center of this viewport.
      * Called when the width or height property is changed.
      */
-    protected abstract void updateCenter();
+    protected void updateCenter() {
+        setCenter(new Point(getWidth()/2, getHeight()/2));
+    }
 
     /**
      * @return the area where the render is done.
      */
-    public T getArea() {
-        return area;
+    public Canvas getArea() {
+        return this.canvas;
     }
 
     /**

@@ -3,9 +3,9 @@ package fr.univ.engine.render;
 import com.sun.javafx.application.PlatformImpl;
 import fr.univ.engine.core.config.Config;
 import fr.univ.engine.io.KeyEventHandler;
-import fr.univ.engine.render.renderer.CanvasViewPort;
 import fr.univ.engine.render.renderer.JFXRenderer;
 import fr.univ.engine.render.renderer.Renderer;
+import fr.univ.engine.render.renderer.ViewPort;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyBooleanProperty;
@@ -87,7 +87,7 @@ public final class JFXApp extends Application {
         root.getChildren().addAll(canvas, uiRoot);
         canvas.widthProperty().bind(stage.widthProperty());
         canvas.heightProperty().bind(stage.heightProperty());
-        renderer = new JFXRenderer(new CanvasViewPort(canvas));
+        renderer = new JFXRenderer(new ViewPort(canvas));
 
         stage.setScene(new Scene(root));
         stage.setAlwaysOnTop(true);

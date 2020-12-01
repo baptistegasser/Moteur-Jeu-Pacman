@@ -13,9 +13,9 @@ public abstract class Renderer<T> {
     /**
      * The viewport used by this renderer.
      */
-    protected final ViewPort<T> viewport;
+    protected final ViewPort viewport;
 
-    public Renderer(ViewPort<T> viewport) {
+    public Renderer(ViewPort viewport) {
         this.viewport = viewport;
     }
 

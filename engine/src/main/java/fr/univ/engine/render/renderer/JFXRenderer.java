@@ -20,7 +20,7 @@ import java.util.List;
  */
 public class JFXRenderer extends Renderer<Canvas> {
 
-    public JFXRenderer(ViewPort<Canvas> viewport) {
+    public JFXRenderer(ViewPort viewport) {
         super(viewport);
     }
 
