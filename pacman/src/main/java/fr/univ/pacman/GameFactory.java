@@ -17,12 +17,20 @@ import java.util.ArrayList;
 
 public class GameFactory extends EntityFactory<CharInfo> {
 
+    /**
+     * Size of each tile in the map
+     */
     private final int TILE_SIZE = 16;
 
     private Point tilePos(CharInfo info) {
         return new Point(TILE_SIZE * info.x() - 216, TILE_SIZE * info.y() - 240);
     }
 
+    /**
+     * Setup parameters for pacman
+     * @param info
+     * @return
+     */
     @From("P")
     public Entity pacman(CharInfo info) {
         ArrayList<Image> imageAnimated = new ArrayList<>();
@@ -42,6 +50,11 @@ public class GameFactory extends EntityFactory<CharInfo> {
                 .build();
     }
 
+    /**
+     * Setup parameters for common walls
+     * @param info
+     * @return
+     */
     @From("1")
     public Entity wall(CharInfo info) {
         return new EntityBuilder()
@@ -51,6 +64,11 @@ public class GameFactory extends EntityFactory<CharInfo> {
                 .build();
     }
 
+    /**
+     * Setup parameters for unbreakable walls
+     * @param info
+     * @return
+     */
     @From("7")
     public Entity greatwall(CharInfo info) {
         return new EntityBuilder()
@@ -60,6 +78,11 @@ public class GameFactory extends EntityFactory<CharInfo> {
                 .build();
     }
 
+    /**
+     * Setup parameters for pacs
+     * @param info
+     * @return
+     */
     @From("2")
     public Entity pac(CharInfo info) {
         Texture texture = new Texture(3, 3, AssetsLoader.loadImage("item/gomme.png"));
@@ -72,6 +95,11 @@ public class GameFactory extends EntityFactory<CharInfo> {
                 .build();
     }
 
+    /**
+     * Setup parameters for superpacs
+     * @param info
+     * @return
+     */
     @From("3")
     public Entity superpac(CharInfo info) {
         Texture texture = new Texture(10, 10, AssetsLoader.loadImage("item/superGomme.png"));
@@ -84,6 +112,11 @@ public class GameFactory extends EntityFactory<CharInfo> {
                 .build();
     }
 
+    /**
+     * Setup parameter for rainbowpacs
+     * @param info
+     * @return
+     */
     @From("4")
     public Entity rainbowpac(CharInfo info) {
         Texture texture = new Texture(10, 10, AssetsLoader.loadImage("item/superGommeArcEnCiel.png"));
@@ -96,6 +129,11 @@ public class GameFactory extends EntityFactory<CharInfo> {
                 .build();
     }
 
+    /**
+     * Setup parameter for the teleport
+     * @param info
+     * @return
+     */
     @From("5")
     public Entity teleport(CharInfo info) {
         return new EntityBuilder()
@@ -105,7 +143,6 @@ public class GameFactory extends EntityFactory<CharInfo> {
                 .isSolid(false)
                 .build();
     }
-
 
     @From("R")
     public Entity redGhost(CharInfo info) {

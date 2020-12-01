@@ -21,10 +21,20 @@ import java.util.ArrayList;
 
 import static fr.univ.pacman.Type.*;
 
+/**
+ * The logic of the PacMan game
+ */
 public class PacMan extends GameApplication {
 
+    /**
+     * The time when a superpower has been ate by Pacman
+     */
     private long lastSuperPower = 0L;
 
+    /**
+     * Configure the Pac-Man Window
+     * @param config the configuration to edit.
+     */
     @Override
     protected void config(Config config) {
         config.title = "Pac-Man";
@@ -35,6 +45,10 @@ public class PacMan extends GameApplication {
         config.displayFPS = true;
     }
 
+    /**
+     * Initialize the game (loading level, number of lives)
+     * Setup events for Pacman (keyboard)
+     */
     @Override
     protected void initGame() {
         globalVars().put("score", 0);
@@ -60,6 +74,16 @@ public class PacMan extends GameApplication {
 
         pacmanLogic.setCanMove(true);
 
+        setEvents(pacmanLogic);
+
+    }
+
+    /**
+     * Setup events for Pacman when he hit something (pac, ghost ...)
+     * Playing music or modify variable regarding of  the event.
+     * @param pacmanLogic
+     */
+    public void setEvents (PacManLogic pacmanLogic) {
         physicEngine().onCollision(PACMAN, GHOST, (e1, e2) -> {
             globalVars().put("lives", globalVars().getInt("lives")-1);
 
@@ -72,17 +96,10 @@ public class PacMan extends GameApplication {
             getLevel().getSingletonEntity(Type.PACMAN).getComponent(RenderComponent.class).setForAnimator(true);
 
             ArrayList<Image> animationDeath = new ArrayList<>();
-            animationDeath.add(AssetsLoader.loadImage("sprites/animation/pacmanDeath/pacmanDeath1.png"));
-            animationDeath.add(AssetsLoader.loadImage("sprites/animation/pacmanDeath/pacmanDeath2.png"));
-            animationDeath.add(AssetsLoader.loadImage("sprites/animation/pacmanDeath/pacmanDeath3.png"));
-            animationDeath.add(AssetsLoader.loadImage("sprites/animation/pacmanDeath/pacmanDeath4.png"));
-            animationDeath.add(AssetsLoader.loadImage("sprites/animation/pacmanDeath/pacmanDeath5.png"));
-            animationDeath.add(AssetsLoader.loadImage("sprites/animation/pacmanDeath/pacmanDeath6.png"));
-            animationDeath.add(AssetsLoader.loadImage("sprites/animation/pacmanDeath/pacmanDeath7.png"));
-            animationDeath.add(AssetsLoader.loadImage("sprites/animation/pacmanDeath/pacmanDeath8.png"));
-            animationDeath.add(AssetsLoader.loadImage("sprites/animation/pacmanDeath/pacmanDeath9.png"));
-            animationDeath.add(AssetsLoader.loadImage("sprites/animation/pacmanDeath/pacmanDeath10.png"));
-            animationDeath.add(AssetsLoader.loadImage("sprites/animation/pacmanDeath/pacmanDeath11.png"));
+            for (int i = 1; i < 12; i++) {
+                String deathName = "sprites/animation/pacmanDeath/pacmanDeath" + i + ".png";
+                animationDeath.add(AssetsLoader.loadImage(deathName));
+            }
 
             Animation animation = new Animation(animationDeath, 70, 11, true);
 
@@ -94,7 +111,9 @@ public class PacMan extends GameApplication {
                 uiEngine().display(AssetsLoader.loadView("GameOver.fxml"));
             }
         });
+
         physicEngine().onCollision(PACMAN, GREATWALL, (e1, e2) -> pacmanLogic.stop());
+
         physicEngine().onCollision(PACMAN, WALL, (e1, e2) -> {
             if(!e1.getComponent(PhysicComponent.class).getHitBox().isSolid()) {
                 Texture texture = new Texture(16, 16, AssetsLoader.loadImage("item/black.png"));
@@ -137,18 +156,22 @@ public class PacMan extends GameApplication {
             TransformComponent trs = getLevel().getSingletonEntity(Type.PACMAN).getComponent(TransformComponent.class);
             trs.setPosition(new Point(-1*trs.position().x, trs.position().y));
         });
-
     }
 
+    /**
+     * The initial pacman skin and position
+     */
     @Override
     protected void initLevel() {
         getLevel().getSingletonEntity(Type.PACMAN).getComponent(TransformComponent.class).setPosition(new Point(8,128));
-
         pacmanSkin(false);
-
         getLevel().getSingletonEntity(Type.PACMAN).getComponent(PacManLogic.class).setCanMove(true);
     }
 
+    /**
+     * Edit the PacMan skin
+     * @param isSuper True if you want the super pacman skin
+     */
     protected void pacmanSkin(boolean isSuper) {
         ArrayList<Image> imageAnimated = new ArrayList<>();
         if(isSuper) {
@@ -164,6 +187,9 @@ public class PacMan extends GameApplication {
         getLevel().getSingletonEntity(Type.PACMAN).getComponent(RenderComponent.class).getTexture().setAnimation(animation);
     }
 
+    /**
+     * Load the map with the map.txt
+     */
     private void loadLevel() {
         Level lvl = new TextLevelLoader().load(AssetsLoader.getLevel("map.txt"), new GameFactory());
         Texture texture = new Texture(448, 496, AssetsLoader.loadImage("map/map.png"));
