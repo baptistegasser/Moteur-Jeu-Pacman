@@ -1,4 +1,4 @@
-package fr.univ.engine.physic.component;
+package fr.univ.engine.physic;
 
 import fr.univ.engine.core.component.Component;
 import fr.univ.engine.math.Vector;

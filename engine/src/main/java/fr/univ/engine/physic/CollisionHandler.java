@@ -1,4 +1,4 @@
-package fr.univ.engine.physic.collision;
+package fr.univ.engine.physic;
 
 import fr.univ.engine.core.entity.Entity;
 

@@ -7,7 +7,7 @@ import fr.univ.engine.core.level.Level;
 import fr.univ.engine.io.IOEngine;
 import fr.univ.engine.logging.LoggingEngine;
 import fr.univ.engine.physic.PhysicEngine;
-import fr.univ.engine.physic.component.PhysicComponent;
+import fr.univ.engine.physic.PhysicComponent;
 import fr.univ.engine.render.JFXApp;
 import fr.univ.engine.render.RenderEngine;
 import fr.univ.engine.render.component.RenderComponent;
