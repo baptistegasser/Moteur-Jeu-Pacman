@@ -1,12 +1,10 @@
 package fr.univ.pacman.component;
 
-import fr.univ.engine.core.GameApplication;
 import fr.univ.engine.core.component.Component;
 import fr.univ.engine.core.component.TransformComponent;
 import fr.univ.engine.logging.LoggingEngine;
 import fr.univ.engine.math.Point;
 import fr.univ.engine.math.Vector;
-import fr.univ.engine.physic.PhysicEngine;
 import fr.univ.engine.physic.component.PhysicComponent;
 
 import java.util.logging.Level;
@@ -76,7 +74,7 @@ public class PacManLogic extends Component {
         Point newPos = transform.position().copy();
         newPos.add(newDirection);
 
-        if (PhysicEngine.canMoveTo(getEntity(), newPos)) {
+        if (Physics().canMoveTo(this.getEntity(), newPos)) {
             physic.setDirection(newDirection);
             transform.setRotation(rotation);
             nextDirection = Dir.NONE;
