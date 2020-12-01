@@ -94,27 +94,21 @@ public class PacMan extends GameApplication {
                 uiEngine().display(AssetsLoader.loadView("GameOver.fxml"));
             }
         });
-
+        physicEngine().onCollision(PACMAN, GREATWALL, (e1, e2) -> pacmanLogic.stop());
         physicEngine().onCollision(PACMAN, WALL, (e1, e2) -> {
-            if(!getLevel().getSingletonEntity(Type.PACMAN).getComponent(PhysicComponent.class).getHitBox().isSolid()) {
-                /*TransformComponent trs = e2.getComponent(TransformComponent.class);
-                getLevel().getSingletonEntity(PACMAN).getComponent(TransformComponent.class).setPosition(new Point(trs.position().x, trs.position().y));
-                */
-                //getLevel().destroyEntity(e2);
+            if(!e1.getComponent(PhysicComponent.class).getHitBox().isSolid()) {
                 Texture texture = new Texture(16, 16, AssetsLoader.loadImage("item/black.png"));
                 texture.setZIndex(1);
                 e2.getComponent(RenderComponent.class).setTexture(texture);
-                // e2.getComponent(PhysicComponent.class).getHitBox().setSolid(false);
-                //TODO Texture noir quand on passe à travers un mur
-                System.out.println();
+                e2.getComponent(PhysicComponent.class).getHitBox().setSolid(false);
             }
         });
 
         physicEngine().onCollision(PACMAN, PAC, (e1, e2) -> {
-            if(!getLevel().getSingletonEntity(Type.PACMAN).getComponent(PhysicComponent.class).getHitBox().isSolid()) {
+            if(!e1.getComponent(PhysicComponent.class).getHitBox().isSolid()) {
                 if(System.currentTimeMillis() - lastSuperPower > 10000 && lastSuperPower != 0) {
                     pacmanSkin(false);
-                    getLevel().getSingletonEntity(Type.PACMAN).getComponent(PhysicComponent.class).getHitBox().setSolid(true);
+                    e1.getComponent(PhysicComponent.class).getHitBox().setSolid(true);
                     soundEngine().stopClip("get_out_of_my_swamp.wav");
                 }
             }
@@ -124,16 +118,15 @@ public class PacMan extends GameApplication {
         });
 
         physicEngine().onCollision(PACMAN, SUPER_PAC, (e1, e2) -> {
-            //soundEngine().play("eating_pac.wav",0.05);
+            soundEngine().play("eating_pac.wav",0.05);
             soundEngine().playClip("pac_can_eat_ghost.wav",0.05);
-            // todo scatter ghost ia
             getLevel().destroyEntity(e2);
         });
 
         physicEngine().onCollision(PACMAN, SUPER_RAINBOW_PAC, (e1, e2) -> {
             soundEngine().playClip("get_out_of_my_swamp.wav",0.1);
             // todo scatter ghost ia
-            getLevel().getSingletonEntity(Type.PACMAN).getComponent(PhysicComponent.class).getHitBox().setSolid(false);
+            e1.getComponent(PhysicComponent.class).getHitBox().setSolid(false);
             getLevel().destroyEntity(e2);
             pacmanSkin(true);
             lastSuperPower = System.currentTimeMillis();
