@@ -9,6 +9,7 @@ import fr.univ.engine.physic.component.PhysicComponent;
 import fr.univ.pacman.Type;
 
 import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 /**
  * The red ghost is always chasing the playing
@@ -56,43 +57,115 @@ public class RedGhostAI extends Component {
         TransformComponent transform = getComponent(TransformComponent.class);
         Point myPosition = getComponent(TransformComponent.class).position();
         Point pacManPos = getLevel().getSingletonEntity(Type.PACMAN).getComponent(TransformComponent.class).position();
+        ArrayList<Boolean> move = whereCanIMove(transform);
 
-        //System.out.print("PAC MAN  : " + pacManPos.x + pacManPos.y);
-        //System.out.println("MOI : " + myPosition.x +  myPosition.y);
-        double xdiff = pacManPos.x - myPosition.x; // si négatif : pacman est plus à gauche
-        double ydiff = pacManPos.y - myPosition.y; // si négatif : pacman est plus haut
-
-        double absy = Math.abs(ydiff);
-        double absx = Math.abs(xdiff);
-        //System.out.println("absy : " + absy+ " absy x :"+ absx);
-
-        if(canMove) {
-            if (absy >= absx) {
-                // haut ou bas
-                //System.out.println("VERTICAL");
-                if (xdiff < 0) this.wantedDirection = new Vector(-0.5d, 0); // on va a gauche
-                else this.wantedDirection = new Vector(0.5d, 0); // on va a droite
+        double horizontal = pacManPos.x - myPosition.x; // si négatif : pacman est plus à gauche
+        double vertical = pacManPos.y - myPosition.y; // si négatif : pacman est plus haut
+        double absVertical = Math.abs(vertical);
+        double absHorizontal = Math.abs(horizontal);
+        if(absHorizontal >= absVertical) {
+            if (horizontal < 0) {
+                if (move.get(0)) this.wantedDirection = new Vector(-0.5d, 0); // on va a gauche
+                else if (move.get(1)) this.wantedDirection = new Vector(0.5d, 0); // on monte
+                else if (vertical < 0) {
+                    if (move.get(2)) this.wantedDirection = new Vector(0, -0.5d); // on monte
+                } else if (vertical > 0) {
+                    if (move.get(3)) this.wantedDirection = new Vector(0, 0.5d);
+                }
             } else {
-                //System.out.println("HORIZONTAL");
-                // gauche ou droite
-                if (ydiff < 0) this.wantedDirection = new Vector(0, -0.5d); // on monte
-                else this.wantedDirection = new Vector(0, 0.5d); // on descend
+                if (move.get(2)) this.wantedDirection = new Vector(0, -0.5d); // on va a gauche
+                else if (move.get(3)) this.wantedDirection = new Vector(0, 0.5d); // on monte
+                else if (horizontal < 0) {
+                    if (move.get(0)) this.wantedDirection = new Vector(-0.5d, 0); // on monte
+                } else if (horizontal > 0) {
+                    if (move.get(1)) this.wantedDirection = new Vector(0.5d, 0);
+                }
+            }
+        }
+        else {
+            if (vertical > 0) {
+                if (move.get(2)) this.wantedDirection = new Vector(-0.5d, 0); // on va a gauche
+                else if (move.get(3)) this.wantedDirection = new Vector(0.5d, 0); // on monte
+                else if (horizontal < 0) {
+                    if (move.get(0)) this.wantedDirection = new Vector(0, -0.5d); // on monte
+                } else if (horizontal > 0) {
+                    if (move.get(1)) this.wantedDirection = new Vector(0, 0.5d);
+                }
+            } else {
+                if (move.get(2)) this.wantedDirection = new Vector(0, -0.5d); // on va a gauche
+                else if (move.get(3)) this.wantedDirection = new Vector(0, 0.5d); // on monte
+                else if (vertical < 0) {
+                    if (move.get(0)) this.wantedDirection = new Vector(-0.5d, 0); // on monte
+                } else if (vertical > 0) {
+                    if (move.get(1)) this.wantedDirection = new Vector(0.5d, 0);
+                }
             }
         }
 
-        Point newPos = transform.position().copy();
 
-        if (getPhysics().canMoveTo(this.getEntity(), newPos)) {
-            System.out.println("i can move lmao");
-            physic.setDirection(wantedDirection);
-            transform.setRotation(wantedRotation);
-            changeDir = false;
-            canMove = false;
+
+       /* if (absVertical <= absHorizontal && (move.get(0) || move.get(1))) { // Si on peux bouger verticalement et que la distance vertical est la meilleure
+            // haut ou bas
+
+            if (vertical < 0) {
+                if(move.get(2)) this.wantedDirection = new Vector(0, -0.5d); // on monte
+            }
+            else {
+                if(move.get(3)) this.wantedDirection = new Vector(0, 0.5d); // on descend
+            }
         }
-        else {
-            //System.out.println("BRUH");
-            canMove = true;
+        else if (absHorizontal < absVertical && (move.get(2) || move.get(3))) { // Si on peux bouger verticalement et que la distance horizontale est l
+            // gauche ou droite
+            if (horizontal < 0) {
+                if(move.get(0))this.wantedDirection = new Vector(-0.5d, 0); // on va a gauche
+            }
+            else{
+                if(move.get(1)) this.wantedDirection = new Vector(0.5d, 0); // on va a droite
+            }
         }
+        else if(absVertical <= absHorizontal && (move.get(2) || move.get(3))) {
+            if (horizontal < 0) {
+                if(move.get(0))this.wantedDirection = new Vector(-0.5d, 0); // on va a gauche
+            }
+            else{
+                if(move.get(1)) this.wantedDirection = new Vector(0.5d, 0); // on va a droite
+            }
+        }
+        else if(absHorizontal < absVertical && (move.get(0) || move.get(1))) {
+            if (vertical < 0) {
+                if(move.get(2)) this.wantedDirection = new Vector(0, -0.5d); // on monte
+            }
+            else {
+                if(move.get(3)) this.wantedDirection = new Vector(0, 0.5d); // on descend
+            }
+        }*/
+
+
+
+        Point newPos = transform.position().copy();
+        newPos.add(wantedDirection);
+        physic.setDirection(wantedDirection);
+        transform.setRotation(wantedRotation);
 
     }
+
+    public ArrayList<Boolean> whereCanIMove(TransformComponent transform) {
+        //TODO Refractor cette fonction DEGEULASSE
+        ArrayList<Boolean> move = new ArrayList<>();
+        Point newPos = transform.position().copy();
+        newPos.add(new Vector(-0.5d, 0));
+        if (getPhysics().canMoveTo(this.getEntity(), newPos)) move.add(Boolean.TRUE);
+        else move.add(Boolean.FALSE);
+        newPos.add(new Vector(0.5d, 0));
+        if (getPhysics().canMoveTo(this.getEntity(), newPos)) move.add(Boolean.TRUE);
+        else move.add(Boolean.FALSE);
+        newPos.add(new Vector(0, -0.5d));
+        if (getPhysics().canMoveTo(this.getEntity(), newPos)) move.add(Boolean.TRUE);
+        else move.add(Boolean.FALSE);
+        newPos.add(new Vector(0, 0.5d));
+        if (getPhysics().canMoveTo(this.getEntity(), newPos)) move.add(Boolean.TRUE);
+        else move.add(Boolean.FALSE);
+        return move;
+    }
+
 }

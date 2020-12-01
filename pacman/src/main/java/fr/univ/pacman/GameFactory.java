@@ -85,6 +85,16 @@ public class GameFactory extends EntityFactory<CharInfo> {
                 .build();
     }
 
+    @From("5")
+    public Entity teleport(CharInfo info) {
+        return new EntityBuilder()
+                .type(Type.TELEPORT)
+                .position(tilePos(info))
+                .hitbox(new SquareHitBox(16))
+                .isSolid(false)
+                .build();
+    }
+
 
     @From("R")
     public Entity redGhost(CharInfo info) {
