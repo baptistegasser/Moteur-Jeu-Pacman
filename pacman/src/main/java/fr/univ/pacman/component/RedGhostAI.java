@@ -1,14 +1,12 @@
 package fr.univ.pacman.component;
 
-import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import fr.univ.engine.core.component.Component;
 import fr.univ.engine.core.component.TransformComponent;
 import fr.univ.engine.math.Point;
 import fr.univ.engine.math.Vector;
-import fr.univ.engine.physic.component.PhysicComponent;
+import fr.univ.engine.physic.PhysicComponent;
 import fr.univ.pacman.Type;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**

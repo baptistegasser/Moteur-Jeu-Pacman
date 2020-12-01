@@ -5,7 +5,7 @@ import fr.univ.engine.core.component.TransformComponent;
 import fr.univ.engine.logging.LoggingEngine;
 import fr.univ.engine.math.Point;
 import fr.univ.engine.math.Vector;
-import fr.univ.engine.physic.component.PhysicComponent;
+import fr.univ.engine.physic.PhysicComponent;
 
 import java.util.logging.Level;
 

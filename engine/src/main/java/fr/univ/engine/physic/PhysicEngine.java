@@ -5,11 +5,8 @@ import fr.univ.engine.core.component.TransformComponent;
 import fr.univ.engine.core.entity.Entity;
 import fr.univ.engine.math.Point;
 import fr.univ.engine.math.Vector;
-import fr.univ.engine.physic.collision.CollisionHandler;
-import fr.univ.engine.physic.collision.CollisionHandlerWrapper;
 import fr.univ.engine.physic.hitbox.HitBox;
 import fr.univ.engine.physic.hitbox.HitBoxIntersecter;
-import fr.univ.engine.physic.component.PhysicComponent;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -9,7 +9,7 @@ import fr.univ.engine.core.config.Config;
 import fr.univ.engine.core.GameApplication;
 import fr.univ.engine.core.level.loader.TextLevelLoader;
 import fr.univ.engine.math.Point;
-import fr.univ.engine.physic.component.PhysicComponent;
+import fr.univ.engine.physic.PhysicComponent;
 import fr.univ.engine.render.component.RenderComponent;
 import fr.univ.engine.render.texture.Animation;
 import fr.univ.engine.render.texture.Texture;
@@ -17,7 +17,6 @@ import fr.univ.pacman.component.PacManLogic;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 
-import java.awt.*;
 import java.util.ArrayList;
 
 import static fr.univ.pacman.Type.*;

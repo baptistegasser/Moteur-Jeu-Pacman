@@ -1,7 +1,5 @@
 package fr.univ.engine.physic.hitbox;
 
-import fr.univ.engine.math.Point;
-
 /**
  * Represent the HitBox of object
  */
@@ -24,6 +22,11 @@ public abstract class HitBox {
         return isSolid;
     }
 
+    /**
+     * Set if the object is solid.
+     *
+     * @param solid the new solidity.
+     */
     public void setSolid(boolean solid) {
         isSolid = solid;
     }

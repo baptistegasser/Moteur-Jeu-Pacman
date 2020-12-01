@@ -1,4 +1,4 @@
-package fr.univ.engine.physic.collision;
+package fr.univ.engine.physic;
 
 /**
  * Wrapper that associate a {@link CollisionHandler} with two types.
