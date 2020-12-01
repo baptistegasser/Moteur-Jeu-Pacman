@@ -1,6 +1,9 @@
 package fr.univ.engine.core.component;
 
+import fr.univ.engine.core.GameApplication;
 import fr.univ.engine.core.entity.Entity;
+import fr.univ.engine.physic.PhysicEngine;
+import fr.univ.engine.sound.SoundEngine;
 
 /**
  * Base component that should be implemented by any other entity's components.
@@ -43,5 +46,23 @@ public abstract class Component {
      */
     public final <T extends Component> T getComponent(Class<T> componentClass) {
         return entity.getComponent(componentClass);
+    }
+
+    /**
+     * Easy accessor to the sound engine for components.
+     *
+     * @return the current sound engine of the running app.
+     */
+    protected final SoundEngine Sounds() {
+        return GameApplication.app().soundEngine();
+    }
+
+    /**
+     * Easy accessor to the physic engine for components.
+     *
+     * @return the current physic engine of the running app.
+     */
+    protected final PhysicEngine Physics() {
+        return GameApplication.app().physicEngine();
     }
 }

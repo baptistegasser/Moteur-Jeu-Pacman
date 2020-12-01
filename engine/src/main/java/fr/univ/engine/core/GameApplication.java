@@ -156,17 +156,17 @@ public abstract class GameApplication {
     }
 
     /**
+     * @return the sound engine of this game.
+     */
+    public final SoundEngine soundEngine() {
+        return core.soundEngine();
+    }
+
+    /**
      * @return the input/output engine of this game.
      */
     protected final IOEngine IOEngine() {
         return core.IOEngine();
-    }
-
-    /**
-     * @return the sound engine of this game.
-     */
-    protected final SoundEngine soundEngine() {
-        return core.soundEngine();
     }
 
     /**
