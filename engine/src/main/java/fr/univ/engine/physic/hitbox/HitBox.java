@@ -5,12 +5,7 @@ import fr.univ.engine.math.Point;
 /**
  * Represent the HitBox of object
  */
-public abstract class HitBox implements Intersect {
-    /**
-     * The position of the HitBox, set to be the center.
-     */
-    private Point position;
-
+public abstract class HitBox {
     /**
      * Specify if an object is solid
      * An object can be solid such as a wall, or not, like a Gomme
@@ -19,43 +14,7 @@ public abstract class HitBox implements Intersect {
     private boolean isSolid;
 
     public HitBox() {
-        this.position = new Point(0, 0);
         this.isSolid = false;
-    }
-
-    /**
-     * Method to implement by hit boxes to get an approximative
-     * value of there size for physic testing.
-     *
-     * @return an approximative size.
-     */
-    public abstract double approximateSize();
-
-    /**
-     * @return The X position of the hitbox
-     */
-    public double x() {
-        return position.x;
-    }
-    /**
-     * @return The Y position of the hitbox
-     */
-    public double y() {
-        return position.y;
-    }
-
-    /**
-     * @param position Set the position of the hitbox
-     */
-    public void setPosition(Point position) {
-        this.position = position;
-    }
-
-    /**
-     * @return The position of the hitbox
-     */
-    public Point getPosition() {
-        return position;
     }
 
     /**
