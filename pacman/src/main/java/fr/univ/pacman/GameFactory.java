@@ -85,16 +85,13 @@ public class GameFactory extends EntityFactory<CharInfo> {
                 .build();
     }
 
-    private Point ghostPos(CharInfo info) {
-        return new Point(TILE_SIZE * info.x() - 218, TILE_SIZE * info.y() - 238);
-    }
 
     @From("R")
     public Entity redGhost(CharInfo info) {
         Texture texture = new Texture(20, 20, AssetsLoader.loadImage("sprites/ghosts/redGhost.png"));
         return new EntityBuilder()
                 .type(Type.GHOST)
-                .position(ghostPos(info))
+                .position(tilePos(info))
                 .texture(texture)
                 .hitbox(new SquareHitBox(16))
                 .with(new RedGhostAI())
@@ -107,7 +104,7 @@ public class GameFactory extends EntityFactory<CharInfo> {
         Texture texture = new Texture(20, 20, AssetsLoader.loadImage("sprites/ghosts/blueGhost.png"));
         return new EntityBuilder()
                 .type(Type.GHOST)
-                .position(ghostPos(info))
+                .position(tilePos(info))
                 .texture(texture)
                 .hitbox(new SquareHitBox(16))
                 // TODO blue ghost behavior component
@@ -119,7 +116,7 @@ public class GameFactory extends EntityFactory<CharInfo> {
         Texture texture = new Texture(20, 20, AssetsLoader.loadImage("sprites/ghosts/orangeGhost.png"));
         return new EntityBuilder()
                 .type(Type.GHOST)
-                .position(ghostPos(info))
+                .position(tilePos(info))
                 .texture(texture)
                 .hitbox(new SquareHitBox(16))
                 // TODO orange ghost behavior component
@@ -131,7 +128,7 @@ public class GameFactory extends EntityFactory<CharInfo> {
         Texture texture = new Texture(20, 20, AssetsLoader.loadImage("sprites/ghosts/pinkGhost.png"));
         return new EntityBuilder()
                 .type(Type.GHOST)
-                .position(ghostPos(info))
+                .position(tilePos(info))
                 .texture(texture)
                 .hitbox(new SquareHitBox(16))
                 // TODO pink ghost behavior component

@@ -1,5 +1,6 @@
 package fr.univ.pacman.component;
 
+import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import fr.univ.engine.core.component.Component;
 import fr.univ.engine.core.component.TransformComponent;
 import fr.univ.engine.math.Point;
@@ -50,7 +51,7 @@ public class RedGhostAI extends Component {
 
     @Override
     public void update() {
-/*
+
         PhysicComponent physic = getComponent(PhysicComponent.class);
         TransformComponent transform = getComponent(TransformComponent.class);
         Point myPosition = getComponent(TransformComponent.class).position();
@@ -81,18 +82,17 @@ public class RedGhostAI extends Component {
 
         Point newPos = transform.position().copy();
 
-
         if (getPhysics().canMoveTo(this.getEntity(), newPos)) {
-            System.out.println("NOT BRUH");
+            System.out.println("i can move lmao");
             physic.setDirection(wantedDirection);
             transform.setRotation(wantedRotation);
             changeDir = false;
             canMove = false;
         }
         else {
-            System.out.println("BRUH");
+            //System.out.println("BRUH");
             canMove = true;
         }
-*/
+
     }
 }
