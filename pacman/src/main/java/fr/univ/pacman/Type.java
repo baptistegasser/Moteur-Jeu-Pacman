@@ -10,5 +10,6 @@ public enum Type {
     SUPER_PAC,
     SUPER_RAINBOW_PAC,
     WALL,
+    GREATWALL,
     TELEPORT
 }

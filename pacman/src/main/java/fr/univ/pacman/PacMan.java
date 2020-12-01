@@ -61,7 +61,7 @@ public class PacMan extends GameApplication {
 
         pacmanLogic.setCanMove(true);
 
-        physicEngine().onCollision(PACMAN, WALL, (e1, e2) -> pacmanLogic.stop());
+        physicEngine().onCollision(PACMAN, GREATWALL, (e1, e2) -> pacmanLogic.stop());
         physicEngine().onCollision(PACMAN, GHOST, (e1, e2) -> {
             globalVars().put("lives", globalVars().getInt("lives")-1);
 
@@ -102,11 +102,11 @@ public class PacMan extends GameApplication {
                 /*TransformComponent trs = e2.getComponent(TransformComponent.class);
                 getLevel().getSingletonEntity(PACMAN).getComponent(TransformComponent.class).setPosition(new Point(trs.position().x, trs.position().y));
                 */
-                getLevel().destroyEntity(e2);
+                //getLevel().destroyEntity(e2);
                 Texture texture = new Texture(16, 16, AssetsLoader.loadImage("item/black.png"));
-                texture.setZIndex(-1);
+                texture.setZIndex(1);
                 e2.getComponent(RenderComponent.class).setTexture(texture);
-               // e2.getComponent(PhysicComponent.class).getHitBox().setSolid(false);
+                // e2.getComponent(PhysicComponent.class).getHitBox().setSolid(false);
                 //TODO Texture noir quand on passe à travers un mur
 
             }
@@ -157,7 +157,7 @@ public class PacMan extends GameApplication {
 
         getLevel().getSingletonEntity(Type.PACMAN).getComponent(PacManLogic.class).setCanMove(true);
     }
-    
+
     protected void pacmanSkin(boolean isSuper) {
         ArrayList<Image> imageAnimated = new ArrayList<>();
         if(isSuper) {

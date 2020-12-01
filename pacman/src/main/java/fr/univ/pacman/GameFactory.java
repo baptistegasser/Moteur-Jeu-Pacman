@@ -53,6 +53,16 @@ public class GameFactory extends EntityFactory<CharInfo> {
                 .build();
     }
 
+    @From("7")
+    public Entity greatwall(CharInfo info) {
+        return new EntityBuilder()
+                .type(Type.GREATWALL)
+                .position(tilePos(info))
+                .hitbox(new SquareHitBox(16))
+                .isSolid(true)
+                .build();
+    }
+
     @From("2")
     public Entity pac(CharInfo info) {
         Texture texture = new Texture(3, 3, AssetsLoader.loadImage("item/gomme.png"));
@@ -104,6 +114,7 @@ public class GameFactory extends EntityFactory<CharInfo> {
                 .type(Type.GHOST)
                 .position(tilePos(info))
                 .texture(texture)
+                .isSolid(true)
                 .hitbox(new SquareHitBox(16))
                 .with(new RedGhostAI())
                 // TODO red ghost behavior component
