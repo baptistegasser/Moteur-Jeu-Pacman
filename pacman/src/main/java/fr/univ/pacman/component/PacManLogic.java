@@ -9,15 +9,10 @@ import fr.univ.engine.physic.component.PhysicComponent;
 
 import java.util.logging.Level;
 
+/**
+ * The component handling Pac-Man movement logic.
+ */
 public class PacManLogic extends Component {
-    private static enum Dir {
-        UP,
-        DOWN,
-        LEFT,
-        RIGHT,
-        NONE
-    }
-
     private boolean changeDir = false;
     private Vector wantedDirection;
     private double wantedRotation;
