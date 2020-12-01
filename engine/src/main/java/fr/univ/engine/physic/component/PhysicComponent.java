@@ -52,6 +52,8 @@ public final class PhysicComponent extends Component {
 
     /**
      * Set the direction of the entity.
+     *
+     * @param newDirection the new direction of the entity.
      */
     public void setDirection(Vector newDirection) {
         this.direction = newDirection;
