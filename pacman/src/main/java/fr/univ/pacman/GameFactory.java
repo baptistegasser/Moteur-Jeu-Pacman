@@ -39,7 +39,6 @@ public class GameFactory extends EntityFactory<CharInfo> {
                 .texture(texture)
                 .hitbox(new SquareHitBox(16))
                 .with(new PacManLogic())
-                .isSolid(true)
                 .build();
     }
 
@@ -49,7 +48,6 @@ public class GameFactory extends EntityFactory<CharInfo> {
                 .type(Type.WALL)
                 .position(tilePos(info))
                 .hitbox(new SquareHitBox(16))
-                .isSolid(true)
                 .build();
     }
 
@@ -59,7 +57,6 @@ public class GameFactory extends EntityFactory<CharInfo> {
                 .type(Type.GREATWALL)
                 .position(tilePos(info))
                 .hitbox(new SquareHitBox(16))
-                .isSolid(true)
                 .build();
     }
 
@@ -71,6 +68,7 @@ public class GameFactory extends EntityFactory<CharInfo> {
                 .position(tilePos(info))
                 .texture(texture)
                 .hitbox(new SquareHitBox(3))
+                .isSolid(false)
                 .build();
     }
 
@@ -82,6 +80,7 @@ public class GameFactory extends EntityFactory<CharInfo> {
                 .position(tilePos(info))
                 .texture(texture)
                 .hitbox(new SquareHitBox(10))
+                .isSolid(false)
                 .build();
     }
 
@@ -93,6 +92,7 @@ public class GameFactory extends EntityFactory<CharInfo> {
                 .position(tilePos(info))
                 .texture(texture)
                 .hitbox(new SquareHitBox(10))
+                .isSolid(false)
                 .build();
     }
 
@@ -117,7 +117,6 @@ public class GameFactory extends EntityFactory<CharInfo> {
                 .isSolid(true)
                 .hitbox(new SquareHitBox(16))
                 .with(new RedGhostAI())
-                // TODO red ghost behavior component
                 .build();
     }
 

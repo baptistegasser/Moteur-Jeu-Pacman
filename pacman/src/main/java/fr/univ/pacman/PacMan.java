@@ -61,7 +61,6 @@ public class PacMan extends GameApplication {
 
         pacmanLogic.setCanMove(true);
 
-        physicEngine().onCollision(PACMAN, GREATWALL, (e1, e2) -> pacmanLogic.stop());
         physicEngine().onCollision(PACMAN, GHOST, (e1, e2) -> {
             globalVars().put("lives", globalVars().getInt("lives")-1);
 
@@ -108,7 +107,7 @@ public class PacMan extends GameApplication {
                 e2.getComponent(RenderComponent.class).setTexture(texture);
                 // e2.getComponent(PhysicComponent.class).getHitBox().setSolid(false);
                 //TODO Texture noir quand on passe à travers un mur
-
+                System.out.println();
             }
         });
 

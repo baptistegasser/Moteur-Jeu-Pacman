@@ -34,9 +34,9 @@ public class EntityBuilder {
      */
     private HitBox hitBox = null;
     /**
-     * The entity have a solid hitbox.
+     * The entity have a solid hitbox, true by default.
      */
-    private boolean isSolid = false;
+    private boolean isSolid = true;
     /**
      * The direction in which the entity will go at spawn.
      */
