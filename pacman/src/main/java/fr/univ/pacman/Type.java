@@ -11,5 +11,6 @@ public enum Type {
     SUPER_RAINBOW_PAC,
     WALL,
     GREATWALL,
-    TELEPORT
+    TELEPORT,
+    SPAWN_EXIT;
 }

@@ -61,4 +61,15 @@ public class Vector {
     public Vector reverse() {
         return new Vector(-x, -y);
     }
+
+    /**
+     * Return a new vector with values multiplied.
+     *
+     * @param scale the multiplier.
+     * @return a new multiplied vector.
+     */
+    public Vector multiplyBy(double scale) {
+        return new Vector(x*scale, y*scale);
+    }
+    }
 }

@@ -10,7 +10,10 @@ import fr.univ.engine.physic.hitbox.SquareHitBox;
 import fr.univ.engine.render.texture.Animation;
 import fr.univ.engine.render.texture.Texture;
 import fr.univ.pacman.component.PacManLogic;
-import fr.univ.pacman.component.RedGhostAI;
+import fr.univ.pacman.component.ai.BlueGhostAIComponent;
+import fr.univ.pacman.component.ai.OrangeGhostAIComponent;
+import fr.univ.pacman.component.ai.PinkGhostAIComponent;
+import fr.univ.pacman.component.ai.RedGhostAIComponent;
 import javafx.scene.image.Image;
 
 import java.util.ArrayList;
@@ -144,52 +147,65 @@ public class GameFactory extends EntityFactory<CharInfo> {
                 .build();
     }
 
+    @From("S")
+    public Entity spawnExit(CharInfo info) {
+        return new EntityBuilder()
+                .type(Type.SPAWN_EXIT)
+                .position(tilePos(info))
+                .hitbox(new SquareHitBox(16))
+                .isSolid(false)
+                .build();
+    }
+
     @From("R")
     public Entity redGhost(CharInfo info) {
         Texture texture = new Texture(20, 20, AssetsLoader.loadImage("sprites/ghosts/redGhost.png"));
+        texture.setZIndex(9);
         return new EntityBuilder()
                 .type(Type.GHOST)
                 .position(tilePos(info))
                 .texture(texture)
-                .isSolid(true)
                 .hitbox(new SquareHitBox(16))
-                .with(new RedGhostAI())
+                .with(new RedGhostAIComponent())
                 .build();
     }
 
     @From("B")
     public Entity blueGhost(CharInfo info) {
         Texture texture = new Texture(20, 20, AssetsLoader.loadImage("sprites/ghosts/blueGhost.png"));
+        texture.setZIndex(9);
         return new EntityBuilder()
                 .type(Type.GHOST)
                 .position(tilePos(info))
                 .texture(texture)
                 .hitbox(new SquareHitBox(16))
-                // TODO blue ghost behavior component
+                .with(new BlueGhostAIComponent())
                 .build();
     }
 
     @From("O")
     public Entity orangeGhost(CharInfo info) {
         Texture texture = new Texture(20, 20, AssetsLoader.loadImage("sprites/ghosts/orangeGhost.png"));
+        texture.setZIndex(9);
         return new EntityBuilder()
                 .type(Type.GHOST)
                 .position(tilePos(info))
                 .texture(texture)
                 .hitbox(new SquareHitBox(16))
-                // TODO orange ghost behavior component
+                .with(new OrangeGhostAIComponent())
                 .build();
     }
 
     @From("I")
     public Entity pinkGhost(CharInfo info) {
         Texture texture = new Texture(20, 20, AssetsLoader.loadImage("sprites/ghosts/pinkGhost.png"));
+        texture.setZIndex(9);
         return new EntityBuilder()
                 .type(Type.GHOST)
                 .position(tilePos(info))
                 .texture(texture)
                 .hitbox(new SquareHitBox(16))
-                // TODO pink ghost behavior component
+                .with(new PinkGhostAIComponent())
                 .build();
     }
 }

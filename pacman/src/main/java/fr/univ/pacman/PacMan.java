@@ -14,10 +14,13 @@ import fr.univ.engine.render.RenderComponent;
 import fr.univ.engine.render.texture.Animation;
 import fr.univ.engine.render.texture.Texture;
 import fr.univ.pacman.component.PacManLogic;
+import fr.univ.pacman.component.ai.GhostAIComponent;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import static fr.univ.pacman.Type.*;
 
@@ -62,6 +65,12 @@ public class PacMan extends GameApplication {
 
         loadLevel();
 
+        List<Entity> ghosts = getLevel().getEntitiesWithComponent(GhostAIComponent.class);
+        for (int i = 1; i <= 4; ++i) {
+            final int index = i-1;
+            timeEngine().runIn(i*10, TimeUnit.SECONDS, () -> ghosts.get(index).getComponent(GhostAIComponent.class).spawn());
+        }
+
         PacManLogic pacmanLogic = getLevel().getSingletonEntity(Type.PACMAN).getComponent(PacManLogic.class);
         IOEngine().onKeyPressed(KeyCode.UP, pacmanLogic::up);
         IOEngine().onKeyPressed(KeyCode.DOWN, pacmanLogic::down);
@@ -76,6 +85,9 @@ public class PacMan extends GameApplication {
 
         setEvents(pacmanLogic);
 
+        physicEngine().onCollision(GHOST, SPAWN_EXIT, (ghost, e2) -> {
+            ghost.getComponent(GhostAIComponent.class).notifySpawnExit();
+        });
     }
 
     /**
@@ -105,6 +117,12 @@ public class PacMan extends GameApplication {
 
             getLevel().getSingletonEntity(Type.PACMAN).getComponent(RenderComponent.class).getTexture().setAnimation(animation);
             animatedPause();
+
+            getLevel().getEntitiesWithComponent(GhostAIComponent.class).forEach(ghost -> {
+                GhostAIComponent ai = ghost.getComponent(GhostAIComponent.class);
+                ai.teleportToBase();
+                ai.spawn();
+            });
 
             if (globalVars().getInt("lives") <= 0) {
                 pause();
