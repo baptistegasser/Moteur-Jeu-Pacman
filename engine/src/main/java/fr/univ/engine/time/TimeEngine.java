@@ -37,10 +37,13 @@ public class TimeEngine {
     public void update() {
         long time = System.nanoTime();
 
+        List<Long> consumed = new ArrayList<>();
         timeToActions.forEach((start, runnables) -> {
             if (start <= time) {
                 runnables.forEach(Runnable::run);
+                consumed.add(start);
             }
         });
+        consumed.forEach(timeToActions::remove);
     }
 }
