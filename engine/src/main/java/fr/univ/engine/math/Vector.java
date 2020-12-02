@@ -71,5 +71,4 @@ public class Vector {
     public Vector multiplyBy(double scale) {
         return new Vector(x*scale, y*scale);
     }
-    }
 }
