@@ -48,9 +48,8 @@ public class Entity {
      * @return the first component matching the class or null.
      */
     public <T extends Component> T getComponent(Class<T> componentClass) {
-        final String name = componentClass.getName();
         for (Component c : components) {
-            if (c.getClass().getName().equals(name)) {
+            if (componentClass.isAssignableFrom(c.getClass())) {
                 //noinspection unchecked
                 return (T) c;
             }
@@ -65,9 +64,8 @@ public class Entity {
      * @return true if their is a non null component matching the wanted type.
      */
     public boolean hasComponent(Class<? extends Component> componentClass) {
-        final String name = componentClass.getName();
         for (Component c : components) {
-            if (c != null && c.getClass().getName().equals(name)) {
+            if (c != null && componentClass.isAssignableFrom(c.getClass())) {
                 return true;
             }
         }
