@@ -86,7 +86,7 @@ public class Level {
      */
     public List<Entity> getEntities(Object type) {
         return entities.stream()
-                .filter(entity -> entity.type().equals(type))
+                .filter(entity -> type.equals(entity.type()))
                 .collect(Collectors.toList());
     }
 
