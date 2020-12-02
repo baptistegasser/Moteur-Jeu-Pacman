@@ -39,6 +39,16 @@ public class Point {
         this.y = point.y;
     }
 
+    /**
+     * Calculate the distance between this point and another.
+     *
+     * @param p the other point.
+     * @return the distance.
+     */
+    public double distance(Point p) {
+        return Math.hypot(p.x-this.x, p.y-this.y);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
