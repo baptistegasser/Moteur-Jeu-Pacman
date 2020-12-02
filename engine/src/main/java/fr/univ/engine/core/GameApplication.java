@@ -6,6 +6,7 @@ import fr.univ.engine.io.IOEngine;
 import fr.univ.engine.physic.PhysicEngine;
 import fr.univ.engine.render.RenderEngine;
 import fr.univ.engine.sound.SoundEngine;
+import fr.univ.engine.time.TimeEngine;
 import fr.univ.engine.ui.UiEngine;
 
 /**
@@ -138,6 +139,13 @@ public abstract class GameApplication {
      */
     public final PhysicEngine physicEngine() {
         return core.physicEngine();
+    }
+
+    /**
+     * @return the time engine of this game.
+     */
+    public final TimeEngine timeEngine() {
+        return core.timeEngine();
     }
 
     /**

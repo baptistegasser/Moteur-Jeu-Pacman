@@ -12,6 +12,7 @@ import fr.univ.engine.render.JFXApp;
 import fr.univ.engine.render.RenderEngine;
 import fr.univ.engine.render.RenderComponent;
 import fr.univ.engine.sound.SoundEngine;
+import fr.univ.engine.time.TimeEngine;
 import fr.univ.engine.ui.UiEngine;
 import javafx.application.Platform;
 import javafx.scene.paint.Color;
@@ -48,6 +49,11 @@ public final class Core {
      * The physic engine instance.
      */
     private final PhysicEngine physicEngine;
+
+    /**
+     * The time engine instance.
+     */
+    private final TimeEngine timeEngine;
 
     /**
      * The I/O engine instance
@@ -95,6 +101,7 @@ public final class Core {
         this.config = new Config();
         this.renderEngine = new RenderEngine(config);
         this.physicEngine = new PhysicEngine(this);
+        this.timeEngine = new TimeEngine();
         this.ioEngine = new IOEngine();
         this.soundEngine = new SoundEngine();
         this.uiEngine = new UiEngine();
@@ -195,12 +202,20 @@ public final class Core {
         }
     }
 
+    /**
+     * Update the physic and time engine.
+     *
+     * @param accumulator
+     * @return
+     */
     private double integrate(double accumulator) {
         while (accumulator >= dt) {
             // Integrate a step of time dt
             long s = System.nanoTime();
             physicEngine.integrate(level.getEntitiesWithComponent(PhysicComponent.class));
             LoggingEngine.logElapsedTime(s, System.nanoTime(), "PhysicEngine::integrate");
+
+            timeEngine.update();
 
             // Update the components
             for (Entity e : level.getEntities()) {
@@ -272,6 +287,13 @@ public final class Core {
      */
     PhysicEngine physicEngine() {
         return this.physicEngine;
+    }
+
+    /**
+     * @return the time engine handled by this core instance.
+     */
+    TimeEngine timeEngine() {
+        return this.timeEngine;
     }
 
     /**
