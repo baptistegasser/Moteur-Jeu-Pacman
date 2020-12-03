@@ -103,13 +103,6 @@ public abstract class GameApplication {
     }
 
     /**
-     * animatedPause the game.
-     */
-    public void animatedPause() {
-        core.animatedPause();
-    }
-
-    /**
      * Stop the current game (restart).
      */
     public void stop() {

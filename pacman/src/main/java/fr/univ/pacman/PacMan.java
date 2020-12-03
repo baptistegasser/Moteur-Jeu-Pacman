@@ -116,7 +116,8 @@ public class PacMan extends GameApplication {
             Animation animation = new Animation(animationDeath, 70, 11, true);
 
             getLevel().getSingletonEntity(Type.PACMAN).getComponent(RenderComponent.class).getTexture().setAnimation(animation);
-            animatedPause();
+
+            timeEngine().runIn(1, TimeUnit.SECONDS, this::replaceEntity);
 
             getLevel().getEntitiesWithComponent(GhostAIComponent.class).forEach(ghost -> {
                 GhostAIComponent ai = ghost.getComponent(GhostAIComponent.class);
@@ -174,6 +175,12 @@ public class PacMan extends GameApplication {
             TransformComponent trs = getLevel().getSingletonEntity(Type.PACMAN).getComponent(TransformComponent.class);
             trs.setPosition(new Point(-1*trs.position().x, trs.position().y));
         });
+    }
+
+    private void replaceEntity() {
+        getLevel().getSingletonEntity(Type.PACMAN).getComponent(TransformComponent.class).setPosition(new Point(8,128));
+        pacmanSkin(false);
+        getLevel().getSingletonEntity(Type.PACMAN).getComponent(PacManLogic.class).setCanMove(true);
     }
 
     /**

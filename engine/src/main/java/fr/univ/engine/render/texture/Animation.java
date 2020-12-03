@@ -28,7 +28,7 @@ public class Animation {
     /**
      * The animation speed
      */
-    private int speed;
+    private int frameTime;
 
     /**
      * The time when the current frame is charge
@@ -40,7 +40,7 @@ public class Animation {
      */
     private boolean stopAnimation;
 
-    public Animation(ArrayList<Image> imageAnimate, int speed, int nbFrame, boolean stopAnimation) {
+    public Animation(ArrayList<Image> imageAnimate, int frameTime, int nbFrame, boolean stopAnimation) {
         if (imageAnimate.size() == 0) {
             System.out.println("Liste d'animation vide");
             return;
@@ -50,7 +50,7 @@ public class Animation {
 
         lastTimeFrame = System.currentTimeMillis();
 
-        this.speed = speed;
+        this.frameTime = frameTime;
         this.nbFrame = nbFrame;
         this.frame = 0;
         this.stopAnimation = stopAnimation;
@@ -60,7 +60,7 @@ public class Animation {
      * Go to the next image on the animation
      */
     public void nextFrame() {
-        if (lastTimeFrame+speed < System.currentTimeMillis()) {
+        if (lastTimeFrame+ frameTime < System.currentTimeMillis()) {
             if (frame >= nbFrame) {
                 frame = 0;
                 if (stopAnimation) {
@@ -81,7 +81,7 @@ public class Animation {
         return nbFrame;
     }
 
-    public int getSpeed() {
-        return speed;
+    public int getFrameTime() {
+        return frameTime;
     }
 }
