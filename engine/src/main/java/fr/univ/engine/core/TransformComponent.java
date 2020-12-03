@@ -1,4 +1,4 @@
-package fr.univ.engine.core.component;
+package fr.univ.engine.core;
 
 import fr.univ.engine.math.Point;
 import fr.univ.engine.math.Vector;

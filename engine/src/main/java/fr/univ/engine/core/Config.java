@@ -1,4 +1,4 @@
-package fr.univ.engine.core.config;
+package fr.univ.engine.core;
 
 /**
  * The class charged of storing the config of a game.

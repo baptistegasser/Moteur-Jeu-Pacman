@@ -1,7 +1,7 @@
 package fr.univ.engine;
 
 import fr.univ.engine.core.GameApplication;
-import fr.univ.engine.core.config.Config;
+import fr.univ.engine.core.Config;
 import org.junit.jupiter.api.BeforeAll;
 
 /**

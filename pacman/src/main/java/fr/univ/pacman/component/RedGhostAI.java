@@ -1,7 +1,7 @@
 package fr.univ.pacman.component;
 
-import fr.univ.engine.core.component.Component;
-import fr.univ.engine.core.component.TransformComponent;
+import fr.univ.engine.core.Component;
+import fr.univ.engine.core.TransformComponent;
 import fr.univ.engine.math.Point;
 import fr.univ.engine.math.Vector;
 import fr.univ.engine.physic.PhysicComponent;

@@ -1,7 +1,7 @@
 package fr.univ.engine.physic;
 
 import fr.univ.engine.core.Core;
-import fr.univ.engine.core.component.TransformComponent;
+import fr.univ.engine.core.TransformComponent;
 import fr.univ.engine.core.entity.Entity;
 import fr.univ.engine.math.Point;
 import fr.univ.engine.math.Vector;

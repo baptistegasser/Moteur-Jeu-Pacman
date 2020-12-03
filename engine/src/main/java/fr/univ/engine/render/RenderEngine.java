@@ -1,6 +1,6 @@
 package fr.univ.engine.render;
 
-import fr.univ.engine.core.config.Config;
+import fr.univ.engine.core.Config;
 import fr.univ.engine.core.entity.Entity;
 import javafx.application.Platform;
 

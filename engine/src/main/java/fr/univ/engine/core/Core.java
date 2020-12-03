@@ -1,7 +1,5 @@
 package fr.univ.engine.core;
 
-import fr.univ.engine.core.component.Component;
-import fr.univ.engine.core.config.Config;
 import fr.univ.engine.core.entity.Entity;
 import fr.univ.engine.core.entity.Level;
 import fr.univ.engine.io.IOEngine;

@@ -1,11 +1,11 @@
 package fr.univ.pacman;
 
 import fr.univ.engine.assets.AssetsLoader;
-import fr.univ.engine.core.component.TransformComponent;
+import fr.univ.engine.core.TransformComponent;
 import fr.univ.engine.core.entity.Entity;
 import fr.univ.engine.core.entity.EntityBuilder;
 import fr.univ.engine.core.entity.Level;
-import fr.univ.engine.core.config.Config;
+import fr.univ.engine.core.Config;
 import fr.univ.engine.core.GameApplication;
 import fr.univ.engine.core.entity.LevelLoader;
 import fr.univ.engine.math.Point;

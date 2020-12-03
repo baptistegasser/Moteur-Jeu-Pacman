@@ -1,6 +1,6 @@
 package fr.univ.engine.core.entity;
 
-import fr.univ.engine.core.component.Component;
+import fr.univ.engine.core.Component;
 
 import java.util.List;
 

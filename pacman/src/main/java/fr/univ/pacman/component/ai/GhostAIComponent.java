@@ -1,7 +1,7 @@
 package fr.univ.pacman.component.ai;
 
-import fr.univ.engine.core.component.Component;
-import fr.univ.engine.core.component.TransformComponent;
+import fr.univ.engine.core.Component;
+import fr.univ.engine.core.TransformComponent;
 import fr.univ.engine.core.entity.Entity;
 import fr.univ.engine.logging.LoggingEngine;
 import fr.univ.engine.math.Point;

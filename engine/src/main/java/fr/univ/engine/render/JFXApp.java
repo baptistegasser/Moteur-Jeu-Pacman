@@ -1,7 +1,7 @@
 package fr.univ.engine.render;
 
 import com.sun.javafx.application.PlatformImpl;
-import fr.univ.engine.core.config.Config;
+import fr.univ.engine.core.Config;
 import fr.univ.engine.io.KeyEventHandler;
 import javafx.application.Application;
 import javafx.application.Platform;

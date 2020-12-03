@@ -1,6 +1,5 @@
-package fr.univ.engine.core.component;
+package fr.univ.engine.core;
 
-import fr.univ.engine.core.GameApplication;
 import fr.univ.engine.core.entity.Entity;
 import fr.univ.engine.core.entity.Level;
 import fr.univ.engine.physic.PhysicEngine;
