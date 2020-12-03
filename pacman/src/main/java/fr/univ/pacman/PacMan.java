@@ -122,7 +122,6 @@ public class PacMan extends GameApplication {
             getLevel().getEntitiesWithComponent(GhostAIComponent.class).forEach(ghost -> {
                 GhostAIComponent ai = ghost.getComponent(GhostAIComponent.class);
                 ai.teleportToBase();
-                ai.spawn();
             });
 
             if (globalVars().getInt("lives") <= 0) {
@@ -184,16 +183,6 @@ public class PacMan extends GameApplication {
     }
 
     /**
-     * The initial pacman skin and position
-     */
-    @Override
-    protected void initLevel() {
-        getLevel().getSingletonEntity(Type.PACMAN).getComponent(TransformComponent.class).setPosition(new Point(8,128));
-        pacmanSkin(false);
-        getLevel().getSingletonEntity(Type.PACMAN).getComponent(PacManLogic.class).setCanMove(true);
-    }
-
-    /**
      * Edit the PacMan skin
      * @param isSuper True if you want the super pacman skin
      */
@@ -208,7 +197,7 @@ public class PacMan extends GameApplication {
             imageAnimated.add(AssetsLoader.loadImage("sprites/animation/pacmanWalk/pacmanWalk1.png"));
             imageAnimated.add(AssetsLoader.loadImage("sprites/animation/pacmanWalk/pacmanWalk2.png"));
         }
-        Animation animation = new Animation(imageAnimated,60,2,false);
+        Animation animation = new Animation(imageAnimated,150,2,false);
         getLevel().getSingletonEntity(Type.PACMAN).getComponent(RenderComponent.class).getTexture().setAnimation(animation);
     }
 

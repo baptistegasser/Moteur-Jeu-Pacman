@@ -1,8 +1,10 @@
 package fr.univ.pacman.component.ai;
 
+import fr.univ.engine.assets.AssetsLoader;
 import fr.univ.engine.core.TransformComponent;
 import fr.univ.engine.core.entity.Entity;
 import fr.univ.engine.math.Point;
+import fr.univ.engine.render.RenderComponent;
 import fr.univ.pacman.Type;
 
 public class OrangeGhostAIComponent extends GhostAIComponent {
@@ -18,5 +20,10 @@ public class OrangeGhostAIComponent extends GhostAIComponent {
 
         double distance = pacmanPos.distance(getComponent(TransformComponent.class).position());
         return (distance >= 320) ? pacmanPos : scatterPos;
+    }
+
+    @Override
+    protected void updateSprite(String dir) {
+        this.getEntity().getComponent(RenderComponent.class).getTexture().setImage(AssetsLoader.loadImage("sprites/ghosts/orangeGhost"+dir+".png"));
     }
 }

@@ -133,6 +133,7 @@ public abstract class GhostAIComponent extends Component {
 
         if (bestDir != null) {
             getComponent(PhysicComponent.class).setDirection(bestDir);
+            updateSpriteByVector(bestDir);
         }
     }
 
@@ -158,6 +159,20 @@ public abstract class GhostAIComponent extends Component {
      * @return the target pos.
      */
     protected abstract Point calcTargetPos();
+
+    private void updateSpriteByVector(Vector dir) {
+        if (dir.x()>0 && dir.y()==0) {
+            this.updateSprite("right");
+        } else if (dir.x()<0 && dir.y()==0) {
+            this.updateSprite("left");
+        } else if (dir.x()==0 && dir.y()>0) {
+            this.updateSprite("down");
+        } else if (dir.x()==0 && dir.y()<0) {
+            this.updateSprite("up");
+        }
+    }
+
+    protected abstract void updateSprite(String dir);
 
     public void spawn() {
         List<Entity> exits = getLevel().getEntities(Type.SPAWN_EXIT);

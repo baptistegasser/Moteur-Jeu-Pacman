@@ -44,11 +44,6 @@ public abstract class GameApplication {
      */
     protected abstract void initGame();
 
-    /**
-     * Method called just before starting the level.
-     */
-    protected abstract void initLevel();
-
     //*******************************//
     //*     attributes getters      *//
     //*******************************//

@@ -39,7 +39,7 @@ public class GameFactory extends EntityFactory {
         imageAnimated.add(AssetsLoader.loadImage("sprites/animation/pacmanWalk/pacmanWalk1.png"));
         imageAnimated.add(AssetsLoader.loadImage("sprites/animation/pacmanWalk/pacmanWalk2.png"));
 
-        Animation animation = new Animation(imageAnimated,60,2,false);
+        Animation animation = new Animation(imageAnimated,100,2,false);
         Texture texture = new Texture(16, 16, animation);
         //Texture texture = new Texture(16, 16, AssetsLoader.loadImage("sprites/pacman.png"));
         texture.setZIndex(10);
@@ -158,7 +158,7 @@ public class GameFactory extends EntityFactory {
 
     @From('R')
     public Entity redGhost(Point charPos) {
-        Texture texture = new Texture(20, 20, AssetsLoader.loadImage("sprites/ghosts/redGhost.png"));
+        Texture texture = new Texture(20, 20, AssetsLoader.loadImage("sprites/ghosts/redGhostRight.png"));
         texture.setZIndex(9);
         return new EntityBuilder()
                 .type(Type.GHOST)
@@ -171,7 +171,7 @@ public class GameFactory extends EntityFactory {
 
     @From('B')
     public Entity blueGhost(Point charPos) {
-        Texture texture = new Texture(20, 20, AssetsLoader.loadImage("sprites/ghosts/blueGhost.png"));
+        Texture texture = new Texture(20, 20, AssetsLoader.loadImage("sprites/ghosts/blueGhostRight.png"));
         texture.setZIndex(9);
         return new EntityBuilder()
                 .type(Type.GHOST)
@@ -184,7 +184,7 @@ public class GameFactory extends EntityFactory {
 
     @From('O')
     public Entity orangeGhost(Point charPos) {
-        Texture texture = new Texture(20, 20, AssetsLoader.loadImage("sprites/ghosts/orangeGhost.png"));
+        Texture texture = new Texture(20, 20, AssetsLoader.loadImage("sprites/ghosts/orangeGhostRight.png"));
         texture.setZIndex(9);
         return new EntityBuilder()
                 .type(Type.GHOST)
@@ -197,7 +197,7 @@ public class GameFactory extends EntityFactory {
 
     @From('I')
     public Entity pinkGhost(Point charPos) {
-        Texture texture = new Texture(20, 20, AssetsLoader.loadImage("sprites/ghosts/pinkGhost.png"));
+        Texture texture = new Texture(20, 20, AssetsLoader.loadImage("sprites/ghosts/pinkGhostRight.png"));
         texture.setZIndex(9);
         return new EntityBuilder()
                 .type(Type.GHOST)
