@@ -80,6 +80,16 @@ public class GameFactory extends EntityFactory {
                 .build();
     }
 
+    @From('8')
+    public Entity ghostWall(Point charPos) {
+        return new EntityBuilder()
+                .type(Type.GHOSTWALL)
+                .position(tilePos(charPos))
+                .hitbox(new SquareHitBox(16))
+                .isSolid(false)
+                .build();
+    }
+
     /**
      * Setup parameters for pacs
      * @param charPos

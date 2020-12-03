@@ -12,5 +12,6 @@ public enum Type {
     WALL,
     GREATWALL,
     TELEPORT,
-    SPAWN_EXIT;
+    SPAWN_EXIT,
+    GHOSTWALL
 }

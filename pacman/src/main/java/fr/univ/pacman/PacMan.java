@@ -9,6 +9,7 @@ import fr.univ.engine.core.Config;
 import fr.univ.engine.core.GameApplication;
 import fr.univ.engine.core.entity.LevelLoader;
 import fr.univ.engine.math.Point;
+import fr.univ.engine.math.Vector;
 import fr.univ.engine.physic.PhysicComponent;
 import fr.univ.engine.render.RenderComponent;
 import fr.univ.engine.render.texture.Animation;
@@ -131,6 +132,10 @@ public class PacMan extends GameApplication {
         });
 
         physicEngine().onCollision(PACMAN, GREATWALL, (e1, e2) -> pacmanLogic.stop());
+
+        physicEngine().onCollision(GHOST, GHOSTWALL, (e1, e2) -> {
+            //TODO Ghost ne doit pas aller dans le couloir de TP
+        });
 
         physicEngine().onCollision(PACMAN, WALL, (e1, e2) -> {
             if(!e1.getComponent(PhysicComponent.class).getHitBox().isSolid()) {
