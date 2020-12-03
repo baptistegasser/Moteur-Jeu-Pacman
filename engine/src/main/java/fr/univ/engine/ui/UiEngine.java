@@ -17,7 +17,17 @@ public class UiEngine {
         element.destroy();
     }
 
-    public void init() {
+    /**
+     * Handle one time config when being launched for first time.
+     */
+    public void start() {
         this.uiroot = new UIRoot(JFXApp.uiRoot);
+    }
+
+    /**
+     * Initialize the current state of the ui.
+     */
+    public void init() {
+        this.clear();
     }
 }

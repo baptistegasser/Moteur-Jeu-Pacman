@@ -24,10 +24,16 @@ public class PhysicEngine {
     /**
      * List of handler for different kinds of collision.
      */
-    private final List<CollisionHandlerWrapper> collisionHandlers;
+    private List<CollisionHandlerWrapper> collisionHandlers;
 
     public PhysicEngine(Core core) {
         this.core = core;
+    }
+
+    /**
+     * Initialize the engine values before a new game.
+     */
+    public void init() {
         this.collisionHandlers = new ArrayList<>();
     }
 

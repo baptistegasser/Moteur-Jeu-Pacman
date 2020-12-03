@@ -110,10 +110,11 @@ public final class Core {
 
     public void start(GameApplication app) {
         app.config(this.config);
-        this.init();
+        preInit();
 
         System.out.println("Starting " + config.title + " v" + config.version);
         while (state != State.QUIT) {
+            this.init();
             state = State.INIT;
             app.initGame();
 
@@ -130,22 +131,31 @@ public final class Core {
     }
 
     /**
-     * Initialize the sub engines.
+     * The first initialization done only once.
+     */
+    private void preInit() {
+        try {
+            renderEngine.start();
+            JFXApp.showWindow();
+            JFXApp.getIsClosingProperty().addListener(o -> this.quit()); // listen for render app closing
+            ioEngine.start();
+            uiEngine.start();
+        } catch (InterruptedException e) {
+            throw new CoreException("Failed to init windows", e);
+        }
+    }
+
+    /**
+     * Initialize the sub engines each time a game start.
      */
     private void init() {
         LoggingEngine.setLevel(java.util.logging.Level.INFO);
         LoggingEngine.setAutoColor(true);
 
-        renderEngine.init();
-        ioEngine.start();
+        ioEngine.init();
         uiEngine.init();
-
-        try {
-            JFXApp.showWindow();
-        } catch (InterruptedException e) {
-            throw new CoreException("Failed to init windows", e);
-        }
-        JFXApp.getIsClosingProperty().addListener(o -> this.quit()); // listen for render app closing
+        physicEngine.init();
+        soundEngine.init();
     }
 
     /**

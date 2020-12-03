@@ -17,24 +17,27 @@ public class IOEngine implements KeyEventHandler {
     /**
      * Store the {@link KeyCode} and their current datas.
      */
-    private final ConcurrentHashMap<KeyCode, KeyData> keys;
+    private ConcurrentHashMap<KeyCode, KeyData> keys;
 
     /**
      * Queue of {@link KeyBoardEvent} to be treated.
      */
-    private final ConcurrentLinkedDeque<KeyBoardEvent> queue;
-
-    public IOEngine() {
-        // Init the map size. Prevent resizing the map's bucket pool too soon.
-        keys = new ConcurrentHashMap<>(40);
-        queue = new ConcurrentLinkedDeque<>();
-    }
+    private ConcurrentLinkedDeque<KeyBoardEvent> queue;
 
     /**
      * Method in charge of linking the engine to the app.
      */
     public void start() {
         JFXApp.setKeyEventHandler(this);
+    }
+
+    /**
+     * Initialize the engine keys states and actions to do on key events.
+     */
+    public void init() {
+        // Init the map size. Prevent resizing the map's bucket pool too soon.
+        keys = new ConcurrentHashMap<>(40);
+        queue = new ConcurrentLinkedDeque<>();
     }
 
     /**

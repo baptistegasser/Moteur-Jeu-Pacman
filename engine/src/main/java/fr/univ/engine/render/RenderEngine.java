@@ -28,7 +28,7 @@ public class RenderEngine {
     /**
      * Start the Rendering engine.
      */
-    public void init() {
+    public void start() {
         try {
             JFXApp.startAndWaitUntilReady();
             this.renderer = JFXApp.getRenderer();

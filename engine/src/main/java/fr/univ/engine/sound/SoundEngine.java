@@ -12,14 +12,23 @@ import java.util.Map;
  * Engine charged of playing sounds.
  */
 public class SoundEngine {
-
-    HashMap<String, AudioClip> currentlyPlaying = new HashMap<>();
+    /**
+     * The sounds currently being played.
+     */
+    private HashMap<String, AudioClip> currentlyPlaying;
     /**
      * The global volume of the sound engine.
      * A media played at max volume will correspond to this volume.
      * The value is clamped to the range <code>[0.0,&nbsp;1.0]</code>
      */
     private double globalVolume = 1.0;
+
+    /**
+     * Init the soud engine.
+     */
+    public void init() {
+        this.currentlyPlaying = new HashMap<>();
+    }
 
     /**
      * Set the new global volume value.
