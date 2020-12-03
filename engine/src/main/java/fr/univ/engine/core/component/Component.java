@@ -2,7 +2,7 @@ package fr.univ.engine.core.component;
 
 import fr.univ.engine.core.GameApplication;
 import fr.univ.engine.core.entity.Entity;
-import fr.univ.engine.core.level.Level;
+import fr.univ.engine.core.entity.Level;
 import fr.univ.engine.physic.PhysicEngine;
 import fr.univ.engine.sound.SoundEngine;
 

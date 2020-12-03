@@ -4,10 +4,10 @@ import fr.univ.engine.assets.AssetsLoader;
 import fr.univ.engine.core.component.TransformComponent;
 import fr.univ.engine.core.entity.Entity;
 import fr.univ.engine.core.entity.EntityBuilder;
-import fr.univ.engine.core.level.Level;
+import fr.univ.engine.core.entity.Level;
 import fr.univ.engine.core.config.Config;
 import fr.univ.engine.core.GameApplication;
-import fr.univ.engine.core.level.loader.TextLevelLoader;
+import fr.univ.engine.core.entity.LevelLoader;
 import fr.univ.engine.math.Point;
 import fr.univ.engine.physic.PhysicComponent;
 import fr.univ.engine.render.RenderComponent;
@@ -216,7 +216,7 @@ public class PacMan extends GameApplication {
      * Load the map with the map.txt
      */
     private void loadLevel() {
-        Level lvl = new TextLevelLoader().load(AssetsLoader.getLevel("map.txt"), new GameFactory());
+        Level lvl = new LevelLoader(new GameFactory()).load(AssetsLoader.getLevel("map.txt"));
         Texture texture = new Texture(448, 496, AssetsLoader.loadImage("map/map.png"));
         texture.setZIndex(-1);
         Entity background = new EntityBuilder()

@@ -1,4 +1,4 @@
-package fr.univ.engine.core.level;
+package fr.univ.engine.core.entity;
 
 import fr.univ.engine.core.component.Component;
 import fr.univ.engine.core.entity.Entity;
@@ -15,16 +15,11 @@ public class Level {
     /**
      * The entities present in this level.
      */
-    private final List<Entity> entities;
+    private final List<Entity> entities = new ArrayList<>();
     /**
      * A HashSet that contains the entities for a fast contains() check.
      */
-    private final HashSet<Entity> entitiesSet;
-
-    public Level() {
-        entities = new ArrayList<>();
-        entitiesSet = new HashSet<>();
-    }
+    private final HashSet<Entity> entitiesSet = new HashSet<>();
 
     /**
      * Add an entity to the level.

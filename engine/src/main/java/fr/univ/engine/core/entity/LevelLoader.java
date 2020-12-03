@@ -1,8 +1,6 @@
-package fr.univ.engine.core.level.loader;
+package fr.univ.engine.core.entity;
 
-import fr.univ.engine.core.entity.Entity;
-import fr.univ.engine.core.entity.EntityFactory;
-import fr.univ.engine.core.level.Level;
+import fr.univ.engine.math.Point;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -10,12 +8,12 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 /**
- * Level loader loading level from simple txt files.
- * This parse file considering that each characters represent
- * an entity positioned at pos (x,y).
+ * Load a level from a simple txt file.
+ * This parse file considering that each characters represent an entity.
+ * Entities are build with a provided {@link EntityFactory} implementation.
  * Note (x,y) represent the pos relative to the file, not the game.
  */
-public class TextLevelLoader implements LevelLoader<CharInfo> {
+public class LevelLoader {
     /**
      * The level being loaded.
      */
@@ -23,17 +21,25 @@ public class TextLevelLoader implements LevelLoader<CharInfo> {
     /**
      * The factory used to create entities.
      */
-    private EntityFactory<CharInfo> factory;
+    private final EntityFactory factory;
     /**
-     * Informations on the current char.
+     * The position of the current char.
      */
-    private CharInfo info;
-    
-    @Override
-    public Level load(InputStream mapStream, EntityFactory<CharInfo> factory) {
-        this.level = new Level();
-        this.info = new CharInfo();
+    private Point charPos;
+
+    public LevelLoader(EntityFactory factory) {
         this.factory = factory;
+    }
+
+    /**
+     * Load a level from a file.
+     *
+     * @param mapStream a streaming containing the level data.
+     * @return the created Level instance.
+     */
+    public Level load(InputStream mapStream) {
+        this.level = new Level();
+        this.charPos = new Point(0, 0);
 
         try (InputStreamReader isr = new InputStreamReader(mapStream);
              BufferedReader br = new BufferedReader(isr)
@@ -41,8 +47,8 @@ public class TextLevelLoader implements LevelLoader<CharInfo> {
             String line;
             while ((line = br.readLine()) != null) {
                 parseLine(line);
-                info.x = 0;
-                info.y += 1;
+                charPos.x = 0;
+                charPos.y += 1;
             }
         } catch (IOException ioe) {
             throw new RuntimeException("Failed to load map from", ioe);
@@ -58,13 +64,13 @@ public class TextLevelLoader implements LevelLoader<CharInfo> {
      */
     private void parseLine(String line) {
         for (char c : line.toCharArray()) {
-            Entity e = factory.getEntity(String.valueOf(c), info);
+            Entity e = factory.getEntity(c, charPos);
 
             if (e != null) {
                 level.add(e);
             }
 
-            info.x += 1;
+            charPos.x += 1;
         }
     }
 }

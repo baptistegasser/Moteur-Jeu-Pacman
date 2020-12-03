@@ -1,6 +1,6 @@
 package fr.univ.engine.core.entity;
 
-import fr.univ.engine.core.level.loader.LevelInfo;
+import fr.univ.engine.math.Point;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -14,12 +14,24 @@ import java.util.Map;
  * Representation of a factory capable of producing {@link Entity}.
  * A factory should implement methods annotated with the {@link From}
  * annotation to define how to build an entity based on a string key value.
+ * <p>
+ * An entity factory implementation should declare methods that take a
+ * Point as only argument, return an entity and are annotated with the
+ * {@link From} annotation.
+ * <p>
+ * Example, this method is valid and will be called for char 'A':
+ * <pre>
+ *     {@literal @}From('A')
+ *     public void myFunc(Point charPos) {
+ *         return appropriateEntity();
+ *     }
+ * </pre>
  */
-public abstract class EntityFactory<T extends LevelInfo> {
+public abstract class EntityFactory {
     /**
      * The valid builder found in this instance.
      */
-    private final Map<String, Method> builderMethods;
+    private final Map<Character, Method> builderMethods;
 
     /**
      * Constructor, build a list of valid builder methods.
@@ -31,7 +43,7 @@ public abstract class EntityFactory<T extends LevelInfo> {
                     && method.canAccess(this)
                     && Entity.class.isAssignableFrom(method.getReturnType())
                     && method.getParameterCount() == 1
-                    && LevelInfo.class.isAssignableFrom(method.getParameterTypes()[0])
+                    && Point.class.isAssignableFrom(method.getParameterTypes()[0])
             ) {
                 From from = method.getAnnotation(From.class);
                 builderMethods.put(from.value(), method);
@@ -47,12 +59,12 @@ public abstract class EntityFactory<T extends LevelInfo> {
      * @param key the key identifying the entity.
      * @return a new entity instance or null.
      */
-    public final Entity getEntity(String key, T info) {
-        Method builder = this.builderMethods.get(key);
+    public final Entity getEntity(char character, Point charPos) {
+        Method builder = this.builderMethods.get(character);
         if (builder == null)
             return null;
         try {
-            return ((Entity) builder.invoke(this, info));
+            return ((Entity) builder.invoke(this, charPos));
         } catch (Exception e) {
             // Don't handle exception it can come from the user factory failing.
             e.printStackTrace();
@@ -63,6 +75,6 @@ public abstract class EntityFactory<T extends LevelInfo> {
     @Target(ElementType.METHOD)
     @Retention(RetentionPolicy.RUNTIME)
     public @interface From {
-        String value();
+        char value();
     }
 }
