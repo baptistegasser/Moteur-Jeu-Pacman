@@ -38,12 +38,15 @@ public class TimeEngine {
         long time = System.nanoTime();
 
         List<Long> consumed = new ArrayList<>();
-        timeToActions.forEach((start, runnables) -> {
+        timeToActions.forEach((start, runnable) -> {
             if (start <= time) {
-                runnables.forEach(Runnable::run);
                 consumed.add(start);
             }
         });
-        consumed.forEach(timeToActions::remove);
+
+        consumed.forEach(start -> {
+            timeToActions.get(start).forEach(Runnable::run);
+            timeToActions.remove(start);
+        });
     }
 }
