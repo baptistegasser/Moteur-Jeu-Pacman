@@ -147,18 +147,27 @@ public class PacMan extends GameApplication {
             soundEngine().playClip("eating_pac.wav", 0.05);
             globalVars().put("score", globalVars().getInt("score")+10);
             getLevel().destroyEntity(e2);
+            if(remainingPacs() == 0) {
+                //do stuff
+            }
         });
 
         physicEngine().onCollision(PACMAN, SUPER_PAC, (e1, e2) -> {
             soundEngine().play("eating_pac.wav",0.05);
             soundEngine().playClip("pac_can_eat_ghost.wav",0.05);
             getLevel().destroyEntity(e2);
+            if(remainingPacs() == 0) {
+                //do stuff
+            }
         });
 
         physicEngine().onCollision(PACMAN, SUPER_RAINBOW_PAC, (pacman, rainbowPac) -> {
             pacmanLogic.setCurrentMode(PacManLogic.Mode.RAINBOW);
             soundEngine().playClip("get_out_of_my_swamp.wav", 0.1);
             getLevel().destroyEntity(rainbowPac);
+            if(remainingPacs() == 0){
+                // do stuff
+            }
             timeEngine().runIn(5, TimeUnit.SECONDS, () -> {
                 pacmanLogic.setCurrentMode(PacManLogic.Mode.NORMAL);
                 soundEngine().stopClip("get_out_of_my_swamp.wav");
@@ -234,6 +243,13 @@ public class PacMan extends GameApplication {
             default:
                 System.out.println("Can't find this type fruit");
         }
+    }
+
+    public int remainingPacs() {
+        int pac =  getLevel().getEntities(PAC).size();
+        int superpac = getLevel().getEntities(SUPER_PAC).size();
+        int rainbowpac = getLevel().getEntities(SUPER_RAINBOW_PAC).size();
+        return pac + superpac + rainbowpac;
     }
 
     public static void main(String[] args) {
