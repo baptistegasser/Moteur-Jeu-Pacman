@@ -76,6 +76,9 @@ public abstract class GhostAIComponent extends Component {
         // If the global state have changed and ghost is not in dead/spawning state, update the state.
         if (state != currentGlobalState && state != State.DEAD && state != State.SPAWN) {
             state = currentGlobalState;
+            if (currentGlobalState == State.SCARED) {
+                this.getComponent(PhysicComponent.class).setDirection(this.getComponent(PhysicComponent.class).direction().reverse());
+            }
             LoggingEngine.info(this + " setting current global mode");
         }
 
@@ -165,18 +168,25 @@ public abstract class GhostAIComponent extends Component {
     protected abstract Point calcTargetPos();
 
     private void updateSpriteByVector(Vector dir) {
+        String sDir = "";
+
         if (this.state == State.SCARED) {
             this.getEntity().getComponent(RenderComponent.class).getTexture().setImage(AssetsLoader.loadImage("sprites/ghosts/afraidGhost.png"));
         } else {
             if (dir.x() > 0 && dir.y() == 0) {
-                this.updateSprite("Right");
+                sDir = "Right";
             } else if (dir.x() < 0 && dir.y() == 0) {
-                this.updateSprite("Left");
+                sDir = "Left";
             } else if (dir.x() == 0 && dir.y() > 0) {
-                this.updateSprite("Down");
+                sDir = "Down";
             } else if (dir.x() == 0 && dir.y() < 0) {
-                this.updateSprite("Up");
+                sDir = "Up";
+            } else {
+                System.out.println("No direction");
+                return;
             }
+            if (this.state == State.DEAD) this.getEntity().getComponent(RenderComponent.class).getTexture().setImage(AssetsLoader.loadImage("sprites/ghosts/deadGhost"+sDir+".png"));
+            else this.updateSprite(sDir);
         }
     }
 

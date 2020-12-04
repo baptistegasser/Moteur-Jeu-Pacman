@@ -64,7 +64,6 @@ public class Vector {
         } else if (this.x() == 0 && this.y() > 0 || this.y() < 0) {
             return new Vector(0, -y);
         }
-        System.out.println("00");
         return new Vector(0,0);
     }
 

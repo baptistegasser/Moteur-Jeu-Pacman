@@ -98,7 +98,9 @@ public class PacMan extends GameApplication {
      */
     public void setEvents (PacManLogic pacmanLogic) {
         physicEngine().onCollision(PACMAN, GHOST, (e1, e2) -> {
-            if (GhostAIComponent.getCurrentGlobalState() == GhostAIComponent.State.SCARED) {
+            if (GhostAIComponent.getCurrentGlobalState() == GhostAIComponent.State.DEAD) {
+                return;
+            } else if (GhostAIComponent.getCurrentGlobalState() == GhostAIComponent.State.SCARED) {
                 eatGhost(e2.getComponent(GhostAIComponent.class));
                 return;
             }
@@ -162,7 +164,6 @@ public class PacMan extends GameApplication {
             soundEngine().playClip("pac_can_eat_ghost.wav",0.05);
             GhostAIComponent.setCurrentGlobalState(GhostAIComponent.State.SCARED);
             timeEngine().runIn(15, TimeUnit.SECONDS, () -> {
-                System.out.println("Fin");
                 GhostAIComponent.setCurrentGlobalState(GhostAIComponent.State.CHASE);
             });
             getLevel().destroyEntity(e2);
@@ -264,7 +265,6 @@ public class PacMan extends GameApplication {
 
     private void eatGhost(GhostAIComponent ghost) {
         ghost.setDead();
-        //ghost.spawn();
     }
 
     public static void main(String[] args) {
