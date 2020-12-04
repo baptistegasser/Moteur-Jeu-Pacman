@@ -162,13 +162,13 @@ public abstract class GhostAIComponent extends Component {
 
     private void updateSpriteByVector(Vector dir) {
         if (dir.x()>0 && dir.y()==0) {
-            this.updateSprite("right");
+            this.updateSprite("Right");
         } else if (dir.x()<0 && dir.y()==0) {
-            this.updateSprite("left");
+            this.updateSprite("Left");
         } else if (dir.x()==0 && dir.y()>0) {
-            this.updateSprite("down");
+            this.updateSprite("Down");
         } else if (dir.x()==0 && dir.y()<0) {
-            this.updateSprite("up");
+            this.updateSprite("Up");
         }
     }
 
