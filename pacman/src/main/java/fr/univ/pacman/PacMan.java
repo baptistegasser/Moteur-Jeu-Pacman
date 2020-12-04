@@ -9,6 +9,7 @@ import fr.univ.engine.core.Config;
 import fr.univ.engine.core.GameApplication;
 import fr.univ.engine.core.entity.LevelLoader;
 import fr.univ.engine.math.Point;
+import fr.univ.engine.physic.CollisionHandler;
 import fr.univ.engine.physic.PhysicComponent;
 import fr.univ.engine.render.RenderComponent;
 import fr.univ.engine.render.texture.Animation;
@@ -28,11 +29,6 @@ import static fr.univ.pacman.Type.*;
  * The logic of the PacMan game
  */
 public class PacMan extends GameApplication {
-
-    /**
-     * The time when a superpower has been ate by Pacman
-     */
-    private long lastSuperPower = 0L;
 
     /**
      * Configure the Pac-Man Window
@@ -99,6 +95,7 @@ public class PacMan extends GameApplication {
         physicEngine().onCollision(PACMAN, GHOST, (e1, e2) -> {
             globalVars().put("lives", globalVars().getInt("lives")-1);
 
+            soundEngine().stopAllClips();
             soundEngine().playClip("pac_die.wav");
             pacmanLogic.stop();
             pacmanLogic.hit();
@@ -133,23 +130,16 @@ public class PacMan extends GameApplication {
 
         physicEngine().onCollision(PACMAN, GREATWALL, (e1, e2) -> pacmanLogic.stop());
 
-        physicEngine().onCollision(PACMAN, WALL, (e1, e2) -> {
-            if(!e1.getComponent(PhysicComponent.class).getHitBox().isSolid()) {
+        physicEngine().onCollision(PACMAN, WALL, (pacman, wall) -> {
+            if (pacman.getComponent(PacManLogic.class).isInRainbowMode()) {
                 Texture texture = new Texture(16, 16, AssetsLoader.loadImage("item/black.png"));
                 texture.setZIndex(1);
-                e2.getComponent(RenderComponent.class).setTexture(texture);
-                e2.getComponent(PhysicComponent.class).getHitBox().setSolid(false);
+                wall.getComponent(RenderComponent.class).setTexture(texture);
+                wall.getComponent(PhysicComponent.class).getHitBox().setSolid(false);
             }
         });
 
         physicEngine().onCollision(PACMAN, PAC, (e1, e2) -> {
-            if(!e1.getComponent(PhysicComponent.class).getHitBox().isSolid()) {
-                if(System.currentTimeMillis() - lastSuperPower > 10000 && lastSuperPower != 0) {
-                    pacmanSkin(false);
-                    e1.getComponent(PhysicComponent.class).getHitBox().setSolid(true);
-                    soundEngine().stopClip("get_out_of_my_swamp.wav");
-                }
-            }
             soundEngine().playClip("eating_pac.wav", 0.05);
             globalVars().put("score", globalVars().getInt("score")+10);
             getLevel().destroyEntity(e2);
@@ -161,55 +151,29 @@ public class PacMan extends GameApplication {
             getLevel().destroyEntity(e2);
         });
 
-        physicEngine().onCollision(PACMAN, SUPER_RAINBOW_PAC, (e1, e2) -> {
-            soundEngine().playClip("get_out_of_my_swamp.wav",0.1);
-            // todo scatter ghost ia
-            e1.getComponent(PhysicComponent.class).getHitBox().setSolid(false);
-            getLevel().destroyEntity(e2);
-            pacmanSkin(true);
-            lastSuperPower = System.currentTimeMillis();
+        physicEngine().onCollision(PACMAN, SUPER_RAINBOW_PAC, (pacman, rainbowPac) -> {
+            pacmanLogic.setCurrentMode(PacManLogic.Mode.RAINBOW);
+            soundEngine().playClip("get_out_of_my_swamp.wav", 0.1);
+            getLevel().destroyEntity(rainbowPac);
+            timeEngine().runIn(5, TimeUnit.SECONDS, () -> {
+                pacmanLogic.setCurrentMode(PacManLogic.Mode.NORMAL);
+                soundEngine().stopClip("get_out_of_my_swamp.wav");
+            });
         });
 
-        physicEngine().onCollision(PACMAN, TELEPORT, (e1, e2) -> {
-            // todo scatter ghost ia
-            TransformComponent trs = getLevel().getSingletonEntity(Type.PACMAN).getComponent(TransformComponent.class);
-            trs.setPosition(new Point(-1*trs.position().x, trs.position().y));
-        });
+        // Teleport entities that hit a teleport pad.
+        CollisionHandler teleportCollisionsHandler = (e1, pad) -> {
+            TransformComponent transform = e1.getComponent(TransformComponent.class);
+            transform.setPosition(new Point(-1*transform.position().x, transform.position().y));
+        };
+        physicEngine().onCollision(PACMAN, TELEPORT, teleportCollisionsHandler);
+        physicEngine().onCollision(GHOST, TELEPORT, teleportCollisionsHandler);
     }
 
     private void replaceEntity() {
         getLevel().getSingletonEntity(Type.PACMAN).getComponent(TransformComponent.class).setPosition(new Point(8,128));
-        pacmanSkin(false);
+        getLevel().getSingletonEntity(Type.PACMAN).getComponent(PacManLogic.class).setCurrentMode(PacManLogic.Mode.NORMAL);
         getLevel().getSingletonEntity(Type.PACMAN).getComponent(PacManLogic.class).setCanMove(true);
-    }
-
-    /**
-     * The initial pacman skin and position
-     */
-    @Override
-    protected void initLevel() {
-        getLevel().getSingletonEntity(Type.PACMAN).getComponent(TransformComponent.class).setPosition(new Point(8,128));
-        pacmanSkin(false);
-        getLevel().getSingletonEntity(Type.PACMAN).getComponent(PacManLogic.class).setCanMove(true);
-    }
-
-    /**
-     * Edit the PacMan skin
-     * @param isSuper True if you want the super pacman skin
-     */
-    protected void pacmanSkin(boolean isSuper) {
-        ArrayList<Image> imageAnimated = new ArrayList<>();
-        if(isSuper) {
-            imageAnimated.add(AssetsLoader.loadImage("sprites/animation/pacmanWalk/super_open.png"));
-            imageAnimated.add(AssetsLoader.loadImage("sprites/animation/pacmanWalk/super_close.png"));
-        }
-        else
-        {
-            imageAnimated.add(AssetsLoader.loadImage("sprites/animation/pacmanWalk/pacmanWalk1.png"));
-            imageAnimated.add(AssetsLoader.loadImage("sprites/animation/pacmanWalk/pacmanWalk2.png"));
-        }
-        Animation animation = new Animation(imageAnimated,60,2,false);
-        getLevel().getSingletonEntity(Type.PACMAN).getComponent(RenderComponent.class).getTexture().setAnimation(animation);
     }
 
     /**

@@ -1,12 +1,18 @@
 package fr.univ.pacman.component;
 
+import fr.univ.engine.assets.AssetsLoader;
 import fr.univ.engine.core.Component;
 import fr.univ.engine.core.TransformComponent;
 import fr.univ.engine.logging.LoggingEngine;
 import fr.univ.engine.math.Point;
 import fr.univ.engine.math.Vector;
 import fr.univ.engine.physic.PhysicComponent;
+import fr.univ.engine.render.RenderComponent;
+import fr.univ.engine.render.texture.Animation;
+import fr.univ.pacman.Type;
+import javafx.scene.image.Image;
 
+import java.util.ArrayList;
 import java.util.logging.Level;
 
 /**
@@ -17,6 +23,14 @@ public class PacManLogic extends Component {
     private Vector wantedDirection;
     private double wantedRotation;
     private boolean canMove;
+
+    public enum Mode {
+        NORMAL,
+        SUPER,
+        RAINBOW
+    }
+
+    private Mode currentMode = Mode.NORMAL;
 
     public void up() {
         if (canMove) {
@@ -61,6 +75,34 @@ public class PacManLogic extends Component {
 
     public void setCanMove(boolean canMove) {
         this.canMove = canMove;
+    }
+
+    public void setCurrentMode(Mode currentMode) {
+        this.currentMode = currentMode;
+
+        ArrayList<Image> frames = new ArrayList<>();
+        if (currentMode == Mode.RAINBOW) {
+            frames.add(AssetsLoader.loadImage("sprites/animation/pacmanWalk/super_open.png"));
+            frames.add(AssetsLoader.loadImage("sprites/animation/pacmanWalk/super_close.png"));
+        } else {
+            frames.add(AssetsLoader.loadImage("sprites/animation/pacmanWalk/pacmanWalk1.png"));
+            frames.add(AssetsLoader.loadImage("sprites/animation/pacmanWalk/pacmanWalk2.png"));
+        }
+
+        Animation animation = new Animation(frames, 150, 2, false);
+        getComponent(RenderComponent.class).getTexture().setAnimation(animation);
+    }
+
+    public boolean isInNormalMode() {
+        return currentMode == Mode.NORMAL;
+    }
+
+    public boolean isInSuperMode() {
+        return currentMode == Mode.SUPER;
+    }
+
+    public boolean isInRainbowMode() {
+        return currentMode == Mode.RAINBOW;
     }
 
     @Override
