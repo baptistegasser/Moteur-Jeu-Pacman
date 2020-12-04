@@ -11,6 +11,7 @@ import fr.univ.engine.core.entity.LevelLoader;
 import fr.univ.engine.math.Point;
 import fr.univ.engine.physic.CollisionHandler;
 import fr.univ.engine.physic.PhysicComponent;
+import fr.univ.engine.physic.hitbox.SquareHitBox;
 import fr.univ.engine.render.RenderComponent;
 import fr.univ.engine.render.texture.Animation;
 import fr.univ.engine.render.texture.Texture;
@@ -84,6 +85,10 @@ public class PacMan extends GameApplication {
         physicEngine().onCollision(GHOST, SPAWN_EXIT, (ghost, e2) -> {
             ghost.getComponent(GhostAIComponent.class).notifySpawnExit();
         });
+
+        timeEngine().runIn(30, TimeUnit.SECONDS, () -> loadFruit(CHERRY));
+
+        timeEngine().runIn(70, TimeUnit.SECONDS, () -> loadFruit(STRAWBERRY));
     }
 
     /**
@@ -167,6 +172,16 @@ public class PacMan extends GameApplication {
         };
         physicEngine().onCollision(PACMAN, TELEPORT, teleportCollisionsHandler);
         physicEngine().onCollision(GHOST, TELEPORT, teleportCollisionsHandler);
+
+        physicEngine().onCollision(PACMAN, CHERRY, (e1, e2) -> {
+            globalVars().put("score", globalVars().getInt("score")+200);
+            getLevel().destroyEntity(e2);
+        });
+
+        physicEngine().onCollision(PACMAN, STRAWBERRY, (e1, e2) -> {
+            globalVars().put("score", globalVars().getInt("score")+500);
+            getLevel().destroyEntity(e2);
+        });
     }
 
     private void replaceEntity() {
@@ -188,6 +203,37 @@ public class PacMan extends GameApplication {
                 .build();
         lvl.add(background);
         setLevel(lvl);
+    }
+
+    private void loadFruit(Type fruitType) {
+        switch (fruitType) {
+            case CHERRY:
+                Texture textureCherry = new Texture(18, 18, AssetsLoader.loadImage("sprites/fruits/cherry.png"));
+                Entity cherry = new EntityBuilder()
+                        .type(fruitType)
+                        .position(new Point(0, 32))
+                        .texture(textureCherry)
+                        .hitbox(new SquareHitBox(16))
+                        .isSolid(false)
+                        .build();
+                getLevel().add(cherry);
+                timeEngine().runIn(15, TimeUnit.SECONDS, () -> getLevel().destroyEntity(cherry));
+                break;
+            case STRAWBERRY:
+                Texture textureStrawberry = new Texture(18, 18, AssetsLoader.loadImage("sprites/fruits/strawberry.png"));
+                Entity strawberry = new EntityBuilder()
+                        .type(fruitType)
+                        .position(new Point(0, 32))
+                        .texture(textureStrawberry)
+                        .hitbox(new SquareHitBox(16))
+                        .isSolid(false)
+                        .build();
+                getLevel().add(strawberry);
+                timeEngine().runIn(15, TimeUnit.SECONDS, () -> getLevel().destroyEntity(strawberry));
+                break;
+            default:
+                System.out.println("Can't find this type fruit");
+        }
     }
 
     public static void main(String[] args) {
