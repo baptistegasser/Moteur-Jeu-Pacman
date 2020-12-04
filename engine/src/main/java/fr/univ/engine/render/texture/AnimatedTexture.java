@@ -4,6 +4,9 @@ import javafx.scene.image.Image;
 
 import java.util.List;
 
+/**
+ * A texture that change the displayed image to create animation.
+ */
 public class AnimatedTexture extends Texture {
     /**
      * The different frames of this texture.
