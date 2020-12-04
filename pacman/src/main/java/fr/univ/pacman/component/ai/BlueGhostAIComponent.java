@@ -11,7 +11,7 @@ import fr.univ.pacman.Type;
 
 public class BlueGhostAIComponent extends GhostAIComponent {
     public BlueGhostAIComponent() {
-        this.base = new Point(-24, -16);
+        this.base = new Point(-8, 32);
         this.scatterPos = new Point(224, 260);
     }
 

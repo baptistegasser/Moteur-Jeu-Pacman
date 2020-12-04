@@ -146,6 +146,15 @@ public class GameFactory extends EntityFactory {
                 .build();
     }
 
+    @From('G')
+    public Entity ghostBase(Point charPos) {
+        return new EntityBuilder()
+                .type(Type.GHOST_BASE)
+                .position(tilePos(charPos))
+                .hitbox(new SquareHitBox(16))
+                .build();
+    }
+
     @From('R')
     public Entity redGhost(Point charPos) {
         Texture texture = AssetsLoader.loadTexture(20, 20, "sprites/ghosts/redGhostRight.png");

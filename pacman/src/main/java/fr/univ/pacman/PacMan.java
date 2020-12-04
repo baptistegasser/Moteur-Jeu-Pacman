@@ -82,7 +82,13 @@ public class PacMan extends GameApplication {
         setEvents(pacmanLogic);
 
         physicEngine().onCollision(GHOST, SPAWN_EXIT, (ghost, e2) -> {
+            if (!ghost.getComponent(GhostAIComponent.class).isDead())
+                ghost.getComponent(GhostAIComponent.class).notifySpawnExit();
+        });
+
+        physicEngine().onCollision(GHOST, GHOST_BASE, (ghost, e2) -> {
             ghost.getComponent(GhostAIComponent.class).notifySpawnExit();
+            ghost.getComponent(GhostAIComponent.class).spawn();
         });
 
         timeEngine().runIn(30, TimeUnit.SECONDS, () -> loadFruit(CHERRY));
