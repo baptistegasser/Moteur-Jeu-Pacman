@@ -156,7 +156,7 @@ public class PacMan extends GameApplication {
             globalVars().put("score", globalVars().getInt("score")+10);
             getLevel().destroyEntity(e2);
             if(remainingPacs() == 0) {
-                //do stuff
+                System.out.println("gg");
             }
         });
 
@@ -169,7 +169,7 @@ public class PacMan extends GameApplication {
             });
             getLevel().destroyEntity(e2);
             if(remainingPacs() == 0) {
-                //do stuff
+                System.out.println("gg");
             }
         });
 
@@ -178,7 +178,7 @@ public class PacMan extends GameApplication {
             soundEngine().playClip("get_out_of_my_swamp.wav", 0.1);
             getLevel().destroyEntity(rainbowPac);
             if(remainingPacs() == 0){
-                // do stuff
+                System.out.println("gg");
             }
             timeEngine().runIn(5, TimeUnit.SECONDS, () -> {
                 pacmanLogic.setCurrentMode(PacManLogic.Mode.NORMAL);
