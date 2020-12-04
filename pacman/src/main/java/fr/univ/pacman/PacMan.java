@@ -11,6 +11,7 @@ import fr.univ.engine.core.entity.LevelLoader;
 import fr.univ.engine.math.Point;
 import fr.univ.engine.physic.CollisionHandler;
 import fr.univ.engine.physic.PhysicComponent;
+import fr.univ.engine.physic.hitbox.SquareHitBox;
 import fr.univ.engine.render.RenderComponent;
 import fr.univ.engine.render.texture.Animation;
 import fr.univ.engine.render.texture.Texture;
@@ -62,8 +63,8 @@ public class PacMan extends GameApplication {
         loadLevel();
 
         List<Entity> ghosts = getLevel().getEntitiesWithComponent(GhostAIComponent.class);
-        for (int i = 1; i <= 4; ++i) {
-            final int index = i-1;
+        for (int i = 0; i <= 3; ++i) {
+            final int index = i;
             timeEngine().runIn(i*10, TimeUnit.SECONDS, () -> ghosts.get(index).getComponent(GhostAIComponent.class).spawn());
         }
 
@@ -84,6 +85,10 @@ public class PacMan extends GameApplication {
         physicEngine().onCollision(GHOST, SPAWN_EXIT, (ghost, e2) -> {
             ghost.getComponent(GhostAIComponent.class).notifySpawnExit();
         });
+
+        timeEngine().runIn(30, TimeUnit.SECONDS, () -> loadFruit(CHERRY));
+
+        timeEngine().runIn(70, TimeUnit.SECONDS, () -> loadFruit(STRAWBERRY));
     }
 
     /**
@@ -93,6 +98,11 @@ public class PacMan extends GameApplication {
      */
     public void setEvents (PacManLogic pacmanLogic) {
         physicEngine().onCollision(PACMAN, GHOST, (e1, e2) -> {
+            if (GhostAIComponent.getCurrentGlobalState() == GhostAIComponent.State.SCARED) {
+                eatGhost(e2.getComponent(GhostAIComponent.class));
+                return;
+            }
+
             globalVars().put("lives", globalVars().getInt("lives")-1);
 
             soundEngine().stopAllClips();
@@ -142,18 +152,32 @@ public class PacMan extends GameApplication {
             soundEngine().playClip("eating_pac.wav", 0.05);
             globalVars().put("score", globalVars().getInt("score")+10);
             getLevel().destroyEntity(e2);
+            if(remainingPacs() == 0) {
+                //do stuff
+            }
         });
 
         physicEngine().onCollision(PACMAN, SUPER_PAC, (e1, e2) -> {
             soundEngine().play("eating_pac.wav",0.05);
             soundEngine().playClip("pac_can_eat_ghost.wav",0.05);
+            GhostAIComponent.setCurrentGlobalState(GhostAIComponent.State.SCARED);
+            timeEngine().runIn(15, TimeUnit.SECONDS, () -> {
+                System.out.println("Fin");
+                GhostAIComponent.setCurrentGlobalState(GhostAIComponent.State.CHASE);
+            });
             getLevel().destroyEntity(e2);
+            if(remainingPacs() == 0) {
+                //do stuff
+            }
         });
 
         physicEngine().onCollision(PACMAN, SUPER_RAINBOW_PAC, (pacman, rainbowPac) -> {
             pacmanLogic.setCurrentMode(PacManLogic.Mode.RAINBOW);
             soundEngine().playClip("get_out_of_my_swamp.wav", 0.1);
             getLevel().destroyEntity(rainbowPac);
+            if(remainingPacs() == 0){
+                // do stuff
+            }
             timeEngine().runIn(5, TimeUnit.SECONDS, () -> {
                 pacmanLogic.setCurrentMode(PacManLogic.Mode.NORMAL);
                 soundEngine().stopClip("get_out_of_my_swamp.wav");
@@ -167,6 +191,16 @@ public class PacMan extends GameApplication {
         };
         physicEngine().onCollision(PACMAN, TELEPORT, teleportCollisionsHandler);
         physicEngine().onCollision(GHOST, TELEPORT, teleportCollisionsHandler);
+
+        physicEngine().onCollision(PACMAN, CHERRY, (e1, e2) -> {
+            globalVars().put("score", globalVars().getInt("score")+200);
+            getLevel().destroyEntity(e2);
+        });
+
+        physicEngine().onCollision(PACMAN, STRAWBERRY, (e1, e2) -> {
+            globalVars().put("score", globalVars().getInt("score")+500);
+            getLevel().destroyEntity(e2);
+        });
     }
 
     private void replaceEntity() {
@@ -188,6 +222,49 @@ public class PacMan extends GameApplication {
                 .build();
         lvl.add(background);
         setLevel(lvl);
+    }
+
+    private void loadFruit(Type fruitType) {
+        switch (fruitType) {
+            case CHERRY:
+                Texture textureCherry = new Texture(18, 18, AssetsLoader.loadImage("sprites/fruits/cherry.png"));
+                Entity cherry = new EntityBuilder()
+                        .type(fruitType)
+                        .position(new Point(0, 32))
+                        .texture(textureCherry)
+                        .hitbox(new SquareHitBox(16))
+                        .isSolid(false)
+                        .build();
+                getLevel().add(cherry);
+                timeEngine().runIn(15, TimeUnit.SECONDS, () -> getLevel().destroyEntity(cherry));
+                break;
+            case STRAWBERRY:
+                Texture textureStrawberry = new Texture(18, 18, AssetsLoader.loadImage("sprites/fruits/strawberry.png"));
+                Entity strawberry = new EntityBuilder()
+                        .type(fruitType)
+                        .position(new Point(0, 32))
+                        .texture(textureStrawberry)
+                        .hitbox(new SquareHitBox(16))
+                        .isSolid(false)
+                        .build();
+                getLevel().add(strawberry);
+                timeEngine().runIn(15, TimeUnit.SECONDS, () -> getLevel().destroyEntity(strawberry));
+                break;
+            default:
+                System.out.println("Can't find this type fruit");
+        }
+    }
+
+    public int remainingPacs() {
+        int pac =  getLevel().getEntities(PAC).size();
+        int superpac = getLevel().getEntities(SUPER_PAC).size();
+        int rainbowpac = getLevel().getEntities(SUPER_RAINBOW_PAC).size();
+        return pac + superpac + rainbowpac;
+    }
+
+    private void eatGhost(GhostAIComponent ghost) {
+        ghost.setDead();
+        //ghost.spawn();
     }
 
     public static void main(String[] args) {

@@ -1,5 +1,7 @@
 package fr.univ.pacman.component.ai;
 
+import fr.univ.engine.assets.AssetException;
+import fr.univ.engine.assets.AssetsLoader;
 import fr.univ.engine.core.Component;
 import fr.univ.engine.core.TransformComponent;
 import fr.univ.engine.core.entity.Entity;
@@ -7,6 +9,7 @@ import fr.univ.engine.logging.LoggingEngine;
 import fr.univ.engine.math.Point;
 import fr.univ.engine.math.Vector;
 import fr.univ.engine.physic.PhysicComponent;
+import fr.univ.engine.render.RenderComponent;
 import fr.univ.pacman.Type;
 
 import java.util.ArrayList;
@@ -106,6 +109,7 @@ public abstract class GhostAIComponent extends Component {
 
         Collections.shuffle(validDirections);
         getComponent(PhysicComponent.class).setDirection(validDirections.get(0));
+        updateSpriteByVector(validDirections.get(0));
     }
 
     /**
@@ -145,7 +149,7 @@ public abstract class GhostAIComponent extends Component {
             Point p = getComponent(TransformComponent.class).position().copy();
             p.add(dir);
 
-            if (getPhysics().canMoveTo(getEntity(), p) && !dir.equals(currentDir.reverse())) {
+            if (getPhysics().canMoveTo(getEntity(), p) && !(dir.x() == currentDir.reverse().x() && dir.y() == currentDir.reverse().y())) {
                 validDirections.add(dir);
             }
         }
@@ -161,14 +165,18 @@ public abstract class GhostAIComponent extends Component {
     protected abstract Point calcTargetPos();
 
     private void updateSpriteByVector(Vector dir) {
-        if (dir.x()>0 && dir.y()==0) {
-            this.updateSprite("Right");
-        } else if (dir.x()<0 && dir.y()==0) {
-            this.updateSprite("Left");
-        } else if (dir.x()==0 && dir.y()>0) {
-            this.updateSprite("Down");
-        } else if (dir.x()==0 && dir.y()<0) {
-            this.updateSprite("Up");
+        if (this.state == State.SCARED) {
+            this.getEntity().getComponent(RenderComponent.class).getTexture().setImage(AssetsLoader.loadImage("sprites/ghosts/afraidGhost.png"));
+        } else {
+            if (dir.x() > 0 && dir.y() == 0) {
+                this.updateSprite("Right");
+            } else if (dir.x() < 0 && dir.y() == 0) {
+                this.updateSprite("Left");
+            } else if (dir.x() == 0 && dir.y() > 0) {
+                this.updateSprite("Down");
+            } else if (dir.x() == 0 && dir.y() < 0) {
+                this.updateSprite("Up");
+            }
         }
     }
 
@@ -190,6 +198,10 @@ public abstract class GhostAIComponent extends Component {
 
     public static void setCurrentGlobalState(State currentGlobalState) {
         GhostAIComponent.currentGlobalState = currentGlobalState;
+    }
+
+    public static State getCurrentGlobalState() {
+        return currentGlobalState;
     }
 
     public void teleportToBase() {
