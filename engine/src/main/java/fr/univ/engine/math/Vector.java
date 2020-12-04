@@ -59,7 +59,13 @@ public class Vector {
      * @return the opposite vector to this instance.
      */
     public Vector reverse() {
-        return new Vector(-x, -y);
+        if (this.x() > 0 || this.x() < 0 && this.y() == 0) {
+            return new Vector(-x, 0);
+        } else if (this.x() == 0 && this.y() > 0 || this.y() < 0) {
+            return new Vector(0, -y);
+        }
+        System.out.println("00");
+        return new Vector(0,0);
     }
 
     /**

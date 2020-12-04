@@ -63,8 +63,8 @@ public class PacMan extends GameApplication {
         loadLevel();
 
         List<Entity> ghosts = getLevel().getEntitiesWithComponent(GhostAIComponent.class);
-        for (int i = 1; i <= 4; ++i) {
-            final int index = i-1;
+        for (int i = 0; i <= 3; ++i) {
+            final int index = i;
             timeEngine().runIn(i*10, TimeUnit.SECONDS, () -> ghosts.get(index).getComponent(GhostAIComponent.class).spawn());
         }
 
@@ -263,7 +263,8 @@ public class PacMan extends GameApplication {
     }
 
     private void eatGhost(GhostAIComponent ghost) {
-        ghost.teleportToBase();
+        ghost.setDead();
+        //ghost.spawn();
     }
 
     public static void main(String[] args) {

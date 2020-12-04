@@ -149,7 +149,7 @@ public abstract class GhostAIComponent extends Component {
             Point p = getComponent(TransformComponent.class).position().copy();
             p.add(dir);
 
-            if (getPhysics().canMoveTo(getEntity(), p) && !dir.equals(currentDir.reverse())) {
+            if (getPhysics().canMoveTo(getEntity(), p) && !(dir.x() == currentDir.reverse().x() && dir.y() == currentDir.reverse().y())) {
                 validDirections.add(dir);
             }
         }
@@ -165,7 +165,7 @@ public abstract class GhostAIComponent extends Component {
     protected abstract Point calcTargetPos();
 
     private void updateSpriteByVector(Vector dir) {
-        if (currentGlobalState == State.SCARED) {
+        if (this.state == State.SCARED) {
             this.getEntity().getComponent(RenderComponent.class).getTexture().setImage(AssetsLoader.loadImage("sprites/ghosts/afraidGhost.png"));
         } else {
             if (dir.x() > 0 && dir.y() == 0) {
