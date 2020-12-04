@@ -9,7 +9,7 @@ import fr.univ.pacman.Type;
 
 public class OrangeGhostAIComponent extends GhostAIComponent {
     public OrangeGhostAIComponent() {
-        this.base = new Point(-8, -16);
+        this.base = new Point(-8, -32);
         this.scatterPos = new Point(-224, 260);
     }
 

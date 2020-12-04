@@ -13,6 +13,7 @@ public enum Type {
     GREATWALL,
     TELEPORT,
     SPAWN_EXIT,
+    GHOST_BASE,
     CHERRY,
     STRAWBERRY
 }

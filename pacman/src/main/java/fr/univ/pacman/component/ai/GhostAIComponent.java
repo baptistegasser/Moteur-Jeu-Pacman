@@ -206,6 +206,10 @@ public abstract class GhostAIComponent extends Component {
         this.state = State.DEAD;
     }
 
+    public boolean isDead() {
+        return state == State.DEAD;
+    }
+
     public static void setCurrentGlobalState(State currentGlobalState) {
         GhostAIComponent.currentGlobalState = currentGlobalState;
     }
