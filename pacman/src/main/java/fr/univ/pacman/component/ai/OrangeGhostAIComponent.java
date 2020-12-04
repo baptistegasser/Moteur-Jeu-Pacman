@@ -24,6 +24,6 @@ public class OrangeGhostAIComponent extends GhostAIComponent {
 
     @Override
     protected void updateSprite(String dir) {
-        this.getEntity().getComponent(RenderComponent.class).getTexture().setImage(AssetsLoader.loadImage("sprites/ghosts/orangeGhost"+dir+".png"));
+        getComponent(RenderComponent.class).setTexture(AssetsLoader.loadTexture(20, 20, "sprites/ghosts/orangeGhost"+dir+".png"));
     }
 }

@@ -1,26 +1,25 @@
 package fr.univ.pacman;
 
 import fr.univ.engine.assets.AssetsLoader;
+import fr.univ.engine.core.Config;
+import fr.univ.engine.core.GameApplication;
 import fr.univ.engine.core.TransformComponent;
 import fr.univ.engine.core.entity.Entity;
 import fr.univ.engine.core.entity.EntityBuilder;
 import fr.univ.engine.core.entity.Level;
-import fr.univ.engine.core.Config;
-import fr.univ.engine.core.GameApplication;
 import fr.univ.engine.core.entity.LevelLoader;
 import fr.univ.engine.math.Point;
 import fr.univ.engine.physic.CollisionHandler;
 import fr.univ.engine.physic.PhysicComponent;
 import fr.univ.engine.physic.hitbox.SquareHitBox;
 import fr.univ.engine.render.RenderComponent;
-import fr.univ.engine.render.texture.Animation;
 import fr.univ.engine.render.texture.Texture;
 import fr.univ.pacman.component.PacManLogic;
 import fr.univ.pacman.component.ai.GhostAIComponent;
-import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -116,15 +115,11 @@ public class PacMan extends GameApplication {
             getLevel().getSingletonEntity(Type.PACMAN).getComponent(TransformComponent.class).setRotation(0);
             getLevel().getSingletonEntity(Type.PACMAN).getComponent(RenderComponent.class).setForAnimator(true);
 
-            ArrayList<Image> animationDeath = new ArrayList<>();
+            List<String> framesName = new ArrayList<>();
             for (int i = 1; i < 12; i++) {
-                String deathName = "sprites/animation/pacmanDeath/pacmanDeath" + i + ".png";
-                animationDeath.add(AssetsLoader.loadImage(deathName));
+                framesName.add("sprites/animation/pacmanDeath/pacmanDeath" + i + ".png");
             }
-
-            Animation animation = new Animation(animationDeath, 70, 11, true);
-
-            getLevel().getSingletonEntity(Type.PACMAN).getComponent(RenderComponent.class).getTexture().setAnimation(animation);
+            getLevel().getSingletonEntity(Type.PACMAN).getComponent(RenderComponent.class).setTexture(AssetsLoader.loadAnimatedTexture(16, 16, 70, framesName));
 
             timeEngine().runIn(1, TimeUnit.SECONDS, this::replaceEntity);
 
@@ -143,7 +138,7 @@ public class PacMan extends GameApplication {
 
         physicEngine().onCollision(PACMAN, WALL, (pacman, wall) -> {
             if (pacman.getComponent(PacManLogic.class).isInRainbowMode()) {
-                Texture texture = new Texture(16, 16, AssetsLoader.loadImage("item/black.png"));
+                Texture texture = AssetsLoader.loadTexture(16, 16, "item/black.png");
                 texture.setZIndex(1);
                 wall.getComponent(RenderComponent.class).setTexture(texture);
                 wall.getComponent(PhysicComponent.class).getHitBox().setSolid(false);
@@ -205,6 +200,7 @@ public class PacMan extends GameApplication {
     }
 
     private void replaceEntity() {
+        getLevel().getSingletonEntity(Type.PACMAN).getComponent(RenderComponent.class).setTexture(AssetsLoader.loadAnimatedTexture(16, 16, 100, Arrays.asList("sprites/animation/pacmanWalk/pacmanWalk1.png", "sprites/animation/pacmanWalk/pacmanWalk2.png")));
         getLevel().getSingletonEntity(Type.PACMAN).getComponent(TransformComponent.class).setPosition(new Point(8,128));
         getLevel().getSingletonEntity(Type.PACMAN).getComponent(PacManLogic.class).setCurrentMode(PacManLogic.Mode.NORMAL);
         getLevel().getSingletonEntity(Type.PACMAN).getComponent(PacManLogic.class).setCanMove(true);
@@ -215,7 +211,7 @@ public class PacMan extends GameApplication {
      */
     private void loadLevel() {
         Level lvl = new LevelLoader(new GameFactory()).load(AssetsLoader.getLevel("map.txt"));
-        Texture texture = new Texture(448, 496, AssetsLoader.loadImage("map/map.png"));
+        Texture texture = AssetsLoader.loadTexture(448, 496, "map/map.png");
         texture.setZIndex(-1);
         Entity background = new EntityBuilder()
                 .position(new Point(0, 0))
@@ -228,7 +224,7 @@ public class PacMan extends GameApplication {
     private void loadFruit(Type fruitType) {
         switch (fruitType) {
             case CHERRY:
-                Texture textureCherry = new Texture(18, 18, AssetsLoader.loadImage("item/Cherry.png"));
+                Texture textureCherry = AssetsLoader.loadTexture(18, 18, "item/Cherry.png");
                 Entity cherry = new EntityBuilder()
                         .type(fruitType)
                         .position(new Point(0, 32))
@@ -240,7 +236,7 @@ public class PacMan extends GameApplication {
                 timeEngine().runIn(15, TimeUnit.SECONDS, () -> getLevel().destroyEntity(cherry));
                 break;
             case STRAWBERRY:
-                Texture textureStrawberry = new Texture(18, 18, AssetsLoader.loadImage("item/Strawberry.png"));
+                Texture textureStrawberry = AssetsLoader.loadTexture(18, 18, "item/Strawberry.png");
                 Entity strawberry = new EntityBuilder()
                         .type(fruitType)
                         .position(new Point(0, 32))

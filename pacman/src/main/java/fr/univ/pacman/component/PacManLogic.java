@@ -8,9 +8,6 @@ import fr.univ.engine.math.Point;
 import fr.univ.engine.math.Vector;
 import fr.univ.engine.physic.PhysicComponent;
 import fr.univ.engine.render.RenderComponent;
-import fr.univ.engine.render.texture.Animation;
-import fr.univ.pacman.Type;
-import javafx.scene.image.Image;
 
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -80,17 +77,16 @@ public class PacManLogic extends Component {
     public void setCurrentMode(Mode currentMode) {
         this.currentMode = currentMode;
 
-        ArrayList<Image> frames = new ArrayList<>();
+        ArrayList<String> frames = new ArrayList<>();
         if (currentMode == Mode.RAINBOW) {
-            frames.add(AssetsLoader.loadImage("sprites/animation/pacmanWalk/super_open.png"));
-            frames.add(AssetsLoader.loadImage("sprites/animation/pacmanWalk/super_close.png"));
+            frames.add("sprites/animation/pacmanWalk/super_open.png");
+            frames.add("sprites/animation/pacmanWalk/super_close.png");
         } else {
-            frames.add(AssetsLoader.loadImage("sprites/animation/pacmanWalk/pacmanWalk1.png"));
-            frames.add(AssetsLoader.loadImage("sprites/animation/pacmanWalk/pacmanWalk2.png"));
+            frames.add("sprites/animation/pacmanWalk/pacmanWalk1.png");
+            frames.add("sprites/animation/pacmanWalk/pacmanWalk2.png");
         }
 
-        Animation animation = new Animation(frames, 150, 2, false);
-        getComponent(RenderComponent.class).getTexture().setAnimation(animation);
+        getComponent(RenderComponent.class).setTexture(AssetsLoader.loadAnimatedTexture(16, 16, 150, frames));
     }
 
     public boolean isInNormalMode() {

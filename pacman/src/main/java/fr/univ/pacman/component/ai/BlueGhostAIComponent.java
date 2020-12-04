@@ -31,6 +31,6 @@ public class BlueGhostAIComponent extends GhostAIComponent {
 
     @Override
     protected void updateSprite(String dir) {
-        this.getEntity().getComponent(RenderComponent.class).getTexture().setImage(AssetsLoader.loadImage("sprites/ghosts/blueGhost"+dir+".png"));
+        getComponent(RenderComponent.class).setTexture(AssetsLoader.loadTexture(20, 20, "sprites/ghosts/blueGhost"+dir+".png"));
     }
 }
