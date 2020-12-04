@@ -24,10 +24,14 @@ public class SoundEngine {
     private double globalVolume = 1.0;
 
     /**
-     * Init the soud engine.
+     * Init the sound engine.
      */
     public void init() {
-        this.currentlyPlaying = new HashMap<>();
+        if (currentlyPlaying != null && !currentlyPlaying.isEmpty()) {
+            stopAllClips();
+        } else {
+            this.currentlyPlaying = new HashMap<>();
+        }
     }
 
     /**
@@ -150,6 +154,16 @@ public class SoundEngine {
                 currentlyPlaying.remove(clip);
             }
         }
+    }
+
+    /**
+     * Stop all currently playing clips.
+     */
+    public void stopAllClips() {
+        for (Map.Entry<String, AudioClip> clip: currentlyPlaying.entrySet()) {
+            clip.getValue().stop();
+        }
+        currentlyPlaying.clear();
     }
 
     /**
