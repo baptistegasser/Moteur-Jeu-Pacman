@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<VBox alignment="CENTER" prefHeight="620.0" prefWidth="510.0" spacing="32.0" style="-fx-background-color: rgba(0, 0, 0, .7);" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.univ.pacman.ui.controller.PauseController">
+<VBox alignment="CENTER" prefHeight="620.0" prefWidth="510.0" spacing="32.0" style="-fx-background-color: rgba(0, 0, 0, .7);" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.univ.pacman.controller.PauseController">
    <children>
       <Label style="-fx-text-fill: white; -fx-font-family: 'Press Start 2P', cursive; -fx-font-size: 40px;" text="PAUSE">
          <font>

@@ -1,4 +1,4 @@
-package fr.univ.pacman.ui.controller;
+package fr.univ.pacman.controller;
 
 import fr.univ.engine.assets.AssetsLoader;
 import fr.univ.engine.core.GameApplication;

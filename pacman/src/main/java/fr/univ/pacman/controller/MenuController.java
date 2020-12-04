@@ -1,4 +1,4 @@
-package fr.univ.pacman.ui.controller;
+package fr.univ.pacman.controller;
 
 import fr.univ.engine.ui.JFXController;
 import fr.univ.pacman.PacMan;
