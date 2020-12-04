@@ -141,13 +141,17 @@ public class PhysicEngine {
 
             if (HitBoxIntersecter.intersect(h1, p1, h2, p2)) {
                 // Rollback pos if hit a solid entity
-                if ( h1.isSolid() && h2.isSolid()) {
+                if (h2.isSolid()) {
                     p1.add(entity.getComponent(PhysicComponent.class).direction().reverse());
                 }
 
                 // Call the handlers
                 for (CollisionHandler handler : getCollisionHandlers(entity.type(), e2.type())) {
                     handler.handleCollision(entity, e2);
+                }
+                // Call the handlers is set in other side
+                for (CollisionHandler handler : getCollisionHandlers(e2.type(), entity.type())) {
+                    handler.handleCollision(e2, entity);
                 }
             }
         }
@@ -164,7 +168,7 @@ public class PhysicEngine {
         HitBox hb = e.getComponent(PhysicComponent.class).getHitBox();
 
         // Entity without hitbox never collide
-        if (hb == null || !hb.isSolid()) {
+        if (hb == null) {
             return true;
         }
 

@@ -63,6 +63,7 @@ public class GameFactory extends EntityFactory {
                 .type(Type.WALL)
                 .position(tilePos(charPos))
                 .hitbox(new SquareHitBox(16))
+                .isSolid(true)
                 .build();
     }
 
@@ -77,6 +78,7 @@ public class GameFactory extends EntityFactory {
                 .type(Type.GREATWALL)
                 .position(tilePos(charPos))
                 .hitbox(new SquareHitBox(16))
+                .isSolid(true)
                 .build();
     }
 
@@ -93,7 +95,6 @@ public class GameFactory extends EntityFactory {
                 .position(tilePos(charPos))
                 .texture(texture)
                 .hitbox(new SquareHitBox(3))
-                .isSolid(false)
                 .build();
     }
 
@@ -110,7 +111,6 @@ public class GameFactory extends EntityFactory {
                 .position(tilePos(charPos))
                 .texture(texture)
                 .hitbox(new SquareHitBox(10))
-                .isSolid(false)
                 .build();
     }
 
@@ -127,7 +127,6 @@ public class GameFactory extends EntityFactory {
                 .position(tilePos(charPos))
                 .texture(texture)
                 .hitbox(new SquareHitBox(10))
-                .isSolid(false)
                 .build();
     }
 
@@ -142,7 +141,6 @@ public class GameFactory extends EntityFactory {
                 .type(Type.TELEPORT)
                 .position(tilePos(charPos))
                 .hitbox(new SquareHitBox(16))
-                .isSolid(false)
                 .build();
     }
 
@@ -152,7 +150,6 @@ public class GameFactory extends EntityFactory {
                 .type(Type.SPAWN_EXIT)
                 .position(tilePos(charPos))
                 .hitbox(new SquareHitBox(16))
-                .isSolid(false)
                 .build();
     }
 
