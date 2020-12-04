@@ -228,7 +228,7 @@ public class PacMan extends GameApplication {
     private void loadFruit(Type fruitType) {
         switch (fruitType) {
             case CHERRY:
-                Texture textureCherry = new Texture(18, 18, AssetsLoader.loadImage("sprites/fruits/cherry.png"));
+                Texture textureCherry = new Texture(18, 18, AssetsLoader.loadImage("item/Cherry.png"));
                 Entity cherry = new EntityBuilder()
                         .type(fruitType)
                         .position(new Point(0, 32))
@@ -240,7 +240,7 @@ public class PacMan extends GameApplication {
                 timeEngine().runIn(15, TimeUnit.SECONDS, () -> getLevel().destroyEntity(cherry));
                 break;
             case STRAWBERRY:
-                Texture textureStrawberry = new Texture(18, 18, AssetsLoader.loadImage("sprites/fruits/strawberry.png"));
+                Texture textureStrawberry = new Texture(18, 18, AssetsLoader.loadImage("item/Strawberry.png"));
                 Entity strawberry = new EntityBuilder()
                         .type(fruitType)
                         .position(new Point(0, 32))
