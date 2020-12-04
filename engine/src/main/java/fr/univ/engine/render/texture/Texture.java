@@ -80,6 +80,10 @@ public class Texture {
         return image;
     }
 
+    public void setImage(Image image) {
+        this.image = image;
+    }
+
     public double width() {
         return this.width;
     }

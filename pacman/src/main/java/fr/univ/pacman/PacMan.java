@@ -119,7 +119,6 @@ public class PacMan extends GameApplication {
             getLevel().getEntitiesWithComponent(GhostAIComponent.class).forEach(ghost -> {
                 GhostAIComponent ai = ghost.getComponent(GhostAIComponent.class);
                 ai.teleportToBase();
-                ai.spawn();
             });
 
             if (globalVars().getInt("lives") <= 0) {
