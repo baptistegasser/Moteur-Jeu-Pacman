@@ -1,12 +1,10 @@
 package fr.univ.pacman.component.ai;
 
-import fr.univ.engine.assets.AssetsLoader;
 import fr.univ.engine.core.TransformComponent;
 import fr.univ.engine.core.entity.Entity;
 import fr.univ.engine.math.Point;
 import fr.univ.engine.math.Vector;
 import fr.univ.engine.physic.PhysicComponent;
-import fr.univ.engine.render.RenderComponent;
 import fr.univ.pacman.Type;
 
 public class BlueGhostAIComponent extends GhostAIComponent {
@@ -27,10 +25,5 @@ public class BlueGhostAIComponent extends GhostAIComponent {
         Vector vector = new Vector(target.x - redGhostPos.x, target.y - redGhostPos.y);
         target.add(vector);
         return target;
-    }
-
-    @Override
-    protected void updateSprite(String dir) {
-        getComponent(RenderComponent.class).setTexture(AssetsLoader.loadTexture(20, 20, "sprites/ghosts/blueGhost"+dir+".png"));
     }
 }

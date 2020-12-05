@@ -1,6 +1,5 @@
 package fr.univ.pacman.component.ai;
 
-import fr.univ.engine.assets.AssetsLoader;
 import fr.univ.engine.core.Component;
 import fr.univ.engine.core.TransformComponent;
 import fr.univ.engine.core.entity.Entity;
@@ -167,30 +166,30 @@ public abstract class GhostAIComponent extends Component {
     protected abstract Point calcTargetPos();
 
     private void updateSpriteByVector(Vector dir) {
-        String sDir = "";
+        String textureChannel = "up";
 
         if (this.state == State.SCARED) {
-            getComponent(RenderComponent.class).setTexture(AssetsLoader.loadTexture(20, 20, "sprites/ghosts/afraidGhost.png"));
+            textureChannel = "afraid";
         } else {
             if (dir.x() > 0 && dir.y() == 0) {
-                sDir = "Right";
+                textureChannel = "right";
             } else if (dir.x() < 0 && dir.y() == 0) {
-                sDir = "Left";
+                textureChannel = "left";
             } else if (dir.x() == 0 && dir.y() > 0) {
-                sDir = "Down";
+                textureChannel = "down";
             } else if (dir.x() == 0 && dir.y() < 0) {
-                sDir = "Up";
+                textureChannel = "up";
             } else {
                 System.out.println("No direction");
                 return;
             }
-            if (this.state == State.DEAD)
-                getComponent(RenderComponent.class).setTexture(AssetsLoader.loadTexture(20, 20, "sprites/ghosts/deadGhost"+sDir+".png"));
-            else this.updateSprite(sDir);
+            if (this.state == State.DEAD) {
+                textureChannel = "dead_" + textureChannel;
+            }
         }
-    }
 
-    protected abstract void updateSprite(String dir);
+        getComponent(RenderComponent.class).getTexture().setCurrentChannel(textureChannel);
+    }
 
     public void spawn() {
         List<Entity> exits = getLevel().getEntities(Type.SPAWN_EXIT);

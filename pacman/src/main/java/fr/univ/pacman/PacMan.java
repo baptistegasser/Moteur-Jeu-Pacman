@@ -18,8 +18,6 @@ import fr.univ.pacman.component.PacManLogic;
 import fr.univ.pacman.component.ai.GhostAIComponent;
 import javafx.scene.input.KeyCode;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -121,11 +119,7 @@ public class PacMan extends GameApplication {
             getLevel().getSingletonEntity(Type.PACMAN).getComponent(TransformComponent.class).setRotation(0);
             getLevel().getSingletonEntity(Type.PACMAN).getComponent(RenderComponent.class).setForAnimator(true);
 
-            List<String> framesName = new ArrayList<>();
-            for (int i = 1; i < 12; i++) {
-                framesName.add("sprites/animation/pacmanDeath/pacmanDeath" + i + ".png");
-            }
-            getLevel().getSingletonEntity(Type.PACMAN).getComponent(RenderComponent.class).setTexture(AssetsLoader.loadAnimatedTexture(16, 16, 70, framesName));
+            getLevel().getSingletonEntity(Type.PACMAN).getComponent(RenderComponent.class).getTexture().setCurrentChannel("death");
 
             timeEngine().runIn(1, TimeUnit.SECONDS, this::replaceEntity);
 
@@ -144,9 +138,7 @@ public class PacMan extends GameApplication {
 
         physicEngine().onCollision(PACMAN, WALL, (pacman, wall) -> {
             if (pacman.getComponent(PacManLogic.class).isInRainbowMode()) {
-                Texture texture = AssetsLoader.loadTexture(16, 16, "item/black.png");
-                texture.setZIndex(1);
-                wall.getComponent(RenderComponent.class).setTexture(texture);
+                wall.getComponent(RenderComponent.class).getTexture().setCurrentChannel("destroyed");
                 wall.getComponent(PhysicComponent.class).getHitBox().setSolid(false);
             }
         });
@@ -206,7 +198,7 @@ public class PacMan extends GameApplication {
     }
 
     private void replaceEntity() {
-        getLevel().getSingletonEntity(Type.PACMAN).getComponent(RenderComponent.class).setTexture(AssetsLoader.loadAnimatedTexture(16, 16, 100, Arrays.asList("sprites/animation/pacmanWalk/pacmanWalk1.png", "sprites/animation/pacmanWalk/pacmanWalk2.png")));
+        getLevel().getSingletonEntity(Type.PACMAN).getComponent(RenderComponent.class).getTexture().setCurrentChannel("walking");
         getLevel().getSingletonEntity(Type.PACMAN).getComponent(TransformComponent.class).setPosition(new Point(8,128));
         getLevel().getSingletonEntity(Type.PACMAN).getComponent(PacManLogic.class).setCurrentMode(PacManLogic.Mode.NORMAL);
         getLevel().getSingletonEntity(Type.PACMAN).getComponent(PacManLogic.class).setCanMove(true);
@@ -217,8 +209,7 @@ public class PacMan extends GameApplication {
      */
     private void loadLevel() {
         Level lvl = new LevelLoader(new GameFactory()).load(AssetsLoader.getLevel("map.txt"));
-        Texture texture = AssetsLoader.loadTexture(448, 496, "map/map.png");
-        texture.setZIndex(-1);
+        Texture texture = new Texture(448, 496, -1, AssetsLoader.loadSprite("map/map.png"));
         Entity background = new EntityBuilder()
                 .position(new Point(0, 0))
                 .texture(texture)
@@ -230,7 +221,7 @@ public class PacMan extends GameApplication {
     private void loadFruit(Type fruitType) {
         switch (fruitType) {
             case CHERRY:
-                Texture textureCherry = AssetsLoader.loadTexture(18, 18, "item/Cherry.png");
+                Texture textureCherry = new Texture(18, 18, AssetsLoader.loadSprite("item/Cherry.png"));
                 Entity cherry = new EntityBuilder()
                         .type(fruitType)
                         .position(new Point(0, 32))
@@ -242,7 +233,7 @@ public class PacMan extends GameApplication {
                 timeEngine().runIn(15, TimeUnit.SECONDS, () -> getLevel().destroyEntity(cherry));
                 break;
             case STRAWBERRY:
-                Texture textureStrawberry = AssetsLoader.loadTexture(18, 18, "item/Strawberry.png");
+                Texture textureStrawberry = new Texture(18, 18, AssetsLoader.loadSprite("item/Strawberry.png"));
                 Entity strawberry = new EntityBuilder()
                         .type(fruitType)
                         .position(new Point(0, 32))

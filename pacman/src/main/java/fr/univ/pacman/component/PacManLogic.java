@@ -77,16 +77,11 @@ public class PacManLogic extends Component {
     public void setCurrentMode(Mode currentMode) {
         this.currentMode = currentMode;
 
-        ArrayList<String> frames = new ArrayList<>();
         if (currentMode == Mode.RAINBOW) {
-            frames.add("sprites/animation/pacmanWalk/super_open.png");
-            frames.add("sprites/animation/pacmanWalk/super_close.png");
+            getComponent(RenderComponent.class).getTexture().setCurrentChannel("super");
         } else {
-            frames.add("sprites/animation/pacmanWalk/pacmanWalk1.png");
-            frames.add("sprites/animation/pacmanWalk/pacmanWalk2.png");
+            getComponent(RenderComponent.class).getTexture().setCurrentChannel("walking");
         }
-
-        getComponent(RenderComponent.class).setTexture(AssetsLoader.loadAnimatedTexture(16, 16, 150, frames));
     }
 
     public boolean isInNormalMode() {

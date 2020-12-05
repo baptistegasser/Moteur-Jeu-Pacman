@@ -6,6 +6,8 @@ import fr.univ.engine.core.entity.EntityBuilder;
 import fr.univ.engine.core.entity.EntityFactory;
 import fr.univ.engine.math.Point;
 import fr.univ.engine.physic.hitbox.SquareHitBox;
+import fr.univ.engine.render.RenderComponent;
+import fr.univ.engine.render.texture.ISprite;
 import fr.univ.engine.render.texture.Texture;
 import fr.univ.pacman.component.PacManLogic;
 import fr.univ.pacman.component.ai.BlueGhostAIComponent;
@@ -13,7 +15,9 @@ import fr.univ.pacman.component.ai.OrangeGhostAIComponent;
 import fr.univ.pacman.component.ai.PinkGhostAIComponent;
 import fr.univ.pacman.component.ai.RedGhostAIComponent;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class GameFactory extends EntityFactory {
 
@@ -33,9 +37,16 @@ public class GameFactory extends EntityFactory {
      */
     @From('P')
     public Entity pacman(Point charPos) {
-        Texture texture = AssetsLoader.loadAnimatedTexture(16, 16, 100, Arrays.asList("sprites/animation/pacmanWalk/pacmanWalk1.png", "sprites/animation/pacmanWalk/pacmanWalk2.png"));
-        //Texture texture = new Texture(16, 16, AssetsLoader.loadImage("sprites/pacman.png"));
-        texture.setZIndex(10);
+        Texture texture = new Texture(16, 16, 10);
+        texture.addSprite("walking", AssetsLoader.loadAnimation(100, Arrays.asList("sprites/animation/pacmanWalk/pacmanWalk1.png", "sprites/animation/pacmanWalk/pacmanWalk2.png")));
+
+        texture.addSprite("super", AssetsLoader.loadAnimation(100, Arrays.asList("sprites/animation/pacmanWalk/super_open.png", "sprites/animation/pacmanWalk/super_close.png")));
+
+        List<String> framesName = new ArrayList<>();
+        for (int i = 1; i < 12; i++) framesName.add("sprites/animation/pacmanDeath/pacmanDeath" + i + ".png");
+        texture.addSprite("death", AssetsLoader.loadAnimation(70, framesName));
+
+        texture.setCurrentChannel("walking");
         return new EntityBuilder()
                 .type(Type.PACMAN)
                 .position(tilePos(charPos))
@@ -52,6 +63,11 @@ public class GameFactory extends EntityFactory {
      */
     @From('1')
     public Entity wall(Point charPos) {
+        Texture texture = new Texture(16, 16);
+        texture.addSprite("destroyed", AssetsLoader.loadSprite("item/black.png"));
+        texture.addSprite("none", ISprite.NONE);
+        texture.setCurrentChannel("none");
+
         return new EntityBuilder()
                 .type(Type.WALL)
                 .position(tilePos(charPos))
@@ -82,7 +98,7 @@ public class GameFactory extends EntityFactory {
      */
     @From('2')
     public Entity pac(Point charPos) {
-        Texture texture = AssetsLoader.loadTexture(3, 3, "item/gomme.png");
+        Texture texture = new Texture(3, 3, AssetsLoader.loadSprite("item/gomme.png"));
         return new EntityBuilder()
                 .type(Type.PAC)
                 .position(tilePos(charPos))
@@ -98,7 +114,7 @@ public class GameFactory extends EntityFactory {
      */
     @From('3')
     public Entity superpac(Point charPos) {
-        Texture texture = AssetsLoader.loadTexture(10, 10, "item/superGomme.png");
+        Texture texture = new Texture(10, 10, AssetsLoader.loadSprite("item/superGomme.png"));
         return new EntityBuilder()
                 .type(Type.SUPER_PAC)
                 .position(tilePos(charPos))
@@ -114,7 +130,7 @@ public class GameFactory extends EntityFactory {
      */
     @From('4')
     public Entity rainbowpac(Point charPos) {
-        Texture texture = AssetsLoader.loadTexture(10, 10, "item/superGommeArcEnCiel.png");
+        Texture texture = new Texture(10, 10, AssetsLoader.loadSprite("item/superGommeArcEnCiel.png"));
         return new EntityBuilder()
                 .type(Type.SUPER_RAINBOW_PAC)
                 .position(tilePos(charPos))
@@ -157,8 +173,8 @@ public class GameFactory extends EntityFactory {
 
     @From('R')
     public Entity redGhost(Point charPos) {
-        Texture texture = AssetsLoader.loadTexture(20, 20, "sprites/ghosts/redGhostRight.png");
-        texture.setZIndex(9);
+        Texture texture = createGhostTexture("red");
+        texture.setCurrentChannel("up");
         return new EntityBuilder()
                 .type(Type.GHOST)
                 .position(tilePos(charPos))
@@ -170,8 +186,8 @@ public class GameFactory extends EntityFactory {
 
     @From('B')
     public Entity blueGhost(Point charPos) {
-        Texture texture = AssetsLoader.loadTexture(20, 20, "sprites/ghosts/blueGhostRight.png");
-        texture.setZIndex(9);
+        Texture texture = createGhostTexture("blue");
+        texture.setCurrentChannel("up");
         return new EntityBuilder()
                 .type(Type.GHOST)
                 .position(tilePos(charPos))
@@ -183,8 +199,8 @@ public class GameFactory extends EntityFactory {
 
     @From('O')
     public Entity orangeGhost(Point charPos) {
-        Texture texture = AssetsLoader.loadTexture(20, 20, "sprites/ghosts/orangeGhostRight.png");
-        texture.setZIndex(9);
+        Texture texture = createGhostTexture("orange");
+        texture.setCurrentChannel("up");
         return new EntityBuilder()
                 .type(Type.GHOST)
                 .position(tilePos(charPos))
@@ -196,8 +212,8 @@ public class GameFactory extends EntityFactory {
 
     @From('I')
     public Entity pinkGhost(Point charPos) {
-        Texture texture = AssetsLoader.loadTexture(20, 20, "sprites/ghosts/pinkGhostRight.png");
-        texture.setZIndex(9);
+        Texture texture = createGhostTexture("pink");
+        texture.setCurrentChannel("up");
         return new EntityBuilder()
                 .type(Type.GHOST)
                 .position(tilePos(charPos))
@@ -205,5 +221,22 @@ public class GameFactory extends EntityFactory {
                 .hitbox(new SquareHitBox(16))
                 .with(new PinkGhostAIComponent())
                 .build();
+    }
+
+    private Texture createGhostTexture(String color) {
+        Texture texture = new Texture(20, 20, 9);
+        texture.addSprite("up", AssetsLoader.loadSprite("sprites/ghosts/"+color+"GhostUp.png"));
+        texture.addSprite("down", AssetsLoader.loadSprite("sprites/ghosts/"+color+"GhostDown.png"));
+        texture.addSprite("left", AssetsLoader.loadSprite("sprites/ghosts/"+color+"GhostLeft.png"));
+        texture.addSprite("right", AssetsLoader.loadSprite("sprites/ghosts/"+color+"GhostRight.png"));
+
+        texture.addSprite("afraid", AssetsLoader.loadSprite("sprites/ghosts/afraidGhost.png"));
+
+        texture.addSprite("dead_up", AssetsLoader.loadSprite("sprites/ghosts/deadGhostUp.png"));
+        texture.addSprite("dead_down", AssetsLoader.loadSprite("sprites/ghosts/deadGhostDown.png"));
+        texture.addSprite("dead_left", AssetsLoader.loadSprite("sprites/ghosts/deadGhostLeft.png"));
+        texture.addSprite("dead_right", AssetsLoader.loadSprite("sprites/ghosts/deadGhostRight.png"));
+
+        return texture;
     }
 }
