@@ -115,13 +115,13 @@ public class PacMan extends GameApplication {
 
         physicEngine().onCollision(PACMAN, CHERRY, (e1, e2) -> {
             globalVars().put("score", globalVars().getInt("score")+200);
-            soundEngine().playClip("eating_fruit.wav", 0.05);
+            soundEngine().playClip("eating_fruit.wav", 0.1);
             getLevel().destroyEntity(e2);
         });
 
         physicEngine().onCollision(PACMAN, STRAWBERRY, (e1, e2) -> {
             globalVars().put("score", globalVars().getInt("score")+500);
-            soundEngine().playClip("eating_fruit.wav", 0.05);
+            soundEngine().playClip("eating_fruit.wav", 0.1);
             getLevel().destroyEntity(e2);
         });
 
@@ -131,6 +131,9 @@ public class PacMan extends GameApplication {
         });
 
         physicEngine().onCollision(GHOST, GHOST_BASE, (ghost, e2) -> {
+            if(ghost.getComponent(GhostAIComponent.class).isScared()) {
+                soundEngine().stopSound("ghost_return_spawn.wav");
+            }
             ghost.getComponent(GhostAIComponent.class).spawn();
         });
     }
@@ -283,7 +286,7 @@ public class PacMan extends GameApplication {
     private void eatGhost(GhostAIComponent ghost) {
         ghost.setDead();
         globalVars().put("score", globalVars().getInt("score")+200);
-        soundEngine().playClip("ghost_return_spawn.wav", 0.04);
+        soundEngine().playLoop("ghost_return_spawn.wav", 0.15);
     }
 
     public static void main(String[] args) {
