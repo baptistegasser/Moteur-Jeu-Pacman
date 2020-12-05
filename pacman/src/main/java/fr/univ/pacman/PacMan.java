@@ -136,6 +136,10 @@ public class PacMan extends GameApplication {
                 soundEngine().stopSound("ghost_return_spawn.wav");
             ghost.getComponent(GhostAIComponent.class).spawn();
         });
+
+        physicEngine().onCollision(PACMAN, GHOST_BASE, (e1, e2) -> {
+            pacmanLogic.stop();
+        });
     }
 
     private void replaceEntity() {
@@ -261,7 +265,7 @@ public class PacMan extends GameApplication {
         globalVars().put("lives", globalVars().getInt("lives")-1);
 
         soundEngine().stopAllSounds();
-        soundEngine().playClip("pac_die.wav");
+        soundEngine().playClip("pac_die.wav", 0.05);
         pacmanLogic.stop();
         pacmanLogic.hit();
         pacmanLogic.setCanMove(false);
