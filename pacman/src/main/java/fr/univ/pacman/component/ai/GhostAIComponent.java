@@ -51,6 +51,10 @@ public abstract class GhostAIComponent extends Component {
     private static State currentGlobalState = State.CHASE;
 
     /**
+     * If ghost must keep this current state
+     */
+    private boolean takeCurrentGlobalState = true;
+    /**
      * The ghost base position.
      */
     protected Point base;
@@ -72,7 +76,7 @@ public abstract class GhostAIComponent extends Component {
         }
 
         // If the global state have changed and ghost is not in dead/spawning state, update the state.
-        if (state != currentGlobalState && state != State.DEAD && state != State.SPAWN) {
+        if (state != currentGlobalState && state != State.DEAD && state != State.SPAWN && takeCurrentGlobalState) {
             state = currentGlobalState;
             if (currentGlobalState == State.SCARED) {
                 this.getComponent(PhysicComponent.class).setDirection(this.getComponent(PhysicComponent.class).direction().reverse());
@@ -203,7 +207,8 @@ public abstract class GhostAIComponent extends Component {
     }
 
     public void notifySpawnExit() {
-        this.state = currentGlobalState;
+        this.state = State.CHASE;
+        takeCurrentGlobalState = false;
     }
 
     public void setDead() {
@@ -224,5 +229,13 @@ public abstract class GhostAIComponent extends Component {
 
     public void teleportToBase() {
         getComponent(TransformComponent.class).setPosition(base);
+    }
+
+    public void setTakeCurrentGlobalState(boolean takeCurrentGlobalState) {
+        this.takeCurrentGlobalState = takeCurrentGlobalState;
+    }
+
+    public boolean idScared() {
+        return this.state == State.SCARED;
     }
 }

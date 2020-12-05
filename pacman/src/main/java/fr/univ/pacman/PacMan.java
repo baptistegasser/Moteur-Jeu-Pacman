@@ -81,16 +81,6 @@ public class PacMan extends GameApplication {
 
         setEvents(pacmanLogic);
 
-        physicEngine().onCollision(GHOST, SPAWN_EXIT, (ghost, e2) -> {
-            if (!ghost.getComponent(GhostAIComponent.class).isDead())
-                ghost.getComponent(GhostAIComponent.class).notifySpawnExit();
-        });
-
-        physicEngine().onCollision(GHOST, GHOST_BASE, (ghost, e2) -> {
-            ghost.getComponent(GhostAIComponent.class).notifySpawnExit();
-            ghost.getComponent(GhostAIComponent.class).spawn();
-        });
-
         timeEngine().runIn(30, TimeUnit.SECONDS, () -> loadFruit(CHERRY));
 
         timeEngine().runIn(70, TimeUnit.SECONDS, () -> loadFruit(STRAWBERRY));
@@ -130,6 +120,15 @@ public class PacMan extends GameApplication {
         physicEngine().onCollision(PACMAN, STRAWBERRY, (e1, e2) -> {
             globalVars().put("score", globalVars().getInt("score")+500);
             getLevel().destroyEntity(e2);
+        });
+
+        physicEngine().onCollision(GHOST, SPAWN_EXIT, (ghost, e2) -> {
+            if (!ghost.getComponent(GhostAIComponent.class).isDead() && !ghost.getComponent(GhostAIComponent.class).idScared())
+                ghost.getComponent(GhostAIComponent.class).notifySpawnExit();
+        });
+
+        physicEngine().onCollision(GHOST, GHOST_BASE, (ghost, e2) -> {
+            ghost.getComponent(GhostAIComponent.class).spawn();
         });
     }
 
@@ -193,9 +192,9 @@ public class PacMan extends GameApplication {
     }
 
     private void pacmanWithGhost(Entity pacman, Entity ghost) {
-        if (GhostAIComponent.getCurrentGlobalState() == GhostAIComponent.State.DEAD) {
+        if (ghost.getComponent(GhostAIComponent.class).isDead()) {
             return;
-        } else if (GhostAIComponent.getCurrentGlobalState() == GhostAIComponent.State.SCARED) {
+        } else if (ghost.getComponent(GhostAIComponent.class).idScared()) {
             eatGhost(ghost.getComponent(GhostAIComponent.class));
         } else pacmanHit();
     }
@@ -220,8 +219,16 @@ public class PacMan extends GameApplication {
         soundEngine().play("eating_pac.wav",0.05);
         soundEngine().playClip("pac_can_eat_ghost.wav",0.05);
         GhostAIComponent.setCurrentGlobalState(GhostAIComponent.State.SCARED);
-        timeEngine().runIn(15, TimeUnit.SECONDS, () -> {
+        getLevel().getEntitiesWithComponent(GhostAIComponent.class).forEach(ghost -> {
+            ghost.getComponent(GhostAIComponent.class).setTakeCurrentGlobalState(true);
+        });
+
+        timeEngine().runIn(20, TimeUnit.SECONDS, () -> {
+            System.out.println("fin");
             GhostAIComponent.setCurrentGlobalState(GhostAIComponent.State.CHASE);
+            getLevel().getEntitiesWithComponent(GhostAIComponent.class).forEach(ghost -> {
+                ghost.getComponent(GhostAIComponent.class).setTakeCurrentGlobalState(true);
+            });
         });
         getLevel().destroyEntity(superPac);
         if(remainingPacs() == 0) {
