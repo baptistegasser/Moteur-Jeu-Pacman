@@ -1,6 +1,5 @@
 package fr.univ.pacman.component.ai;
 
-import fr.univ.engine.assets.AssetException;
 import fr.univ.engine.assets.AssetsLoader;
 import fr.univ.engine.core.Component;
 import fr.univ.engine.core.TransformComponent;
@@ -176,7 +175,7 @@ public abstract class GhostAIComponent extends Component {
         String sDir = "";
 
         if (this.state == State.SCARED) {
-            this.getEntity().getComponent(RenderComponent.class).getTexture().setImage(AssetsLoader.loadImage("sprites/ghosts/afraidGhost.png"));
+            getComponent(RenderComponent.class).setTexture(AssetsLoader.loadTexture(20, 20, "sprites/ghosts/afraidGhost.png"));
         } else {
             if (dir.x() > 0 && dir.y() == 0) {
                 sDir = "Right";
@@ -190,7 +189,8 @@ public abstract class GhostAIComponent extends Component {
                 System.out.println("No direction");
                 return;
             }
-            if (this.state == State.DEAD) this.getEntity().getComponent(RenderComponent.class).getTexture().setImage(AssetsLoader.loadImage("sprites/ghosts/deadGhost"+sDir+".png"));
+            if (this.state == State.DEAD)
+                getComponent(RenderComponent.class).setTexture(AssetsLoader.loadTexture(20, 20, "sprites/ghosts/deadGhost"+sDir+".png"));
             else this.updateSprite(sDir);
         }
     }

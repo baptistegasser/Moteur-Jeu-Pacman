@@ -1,6 +1,8 @@
 package fr.univ.engine.assets;
 
 import fr.univ.engine.core.GameApplication;
+import fr.univ.engine.render.texture.AnimatedTexture;
+import fr.univ.engine.render.texture.FixedTexture;
 import fr.univ.engine.ui.JFXController;
 import fr.univ.engine.ui.JFXView;
 import javafx.fxml.FXMLLoader;
@@ -13,7 +15,9 @@ import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Load an asset from the src/main/resources folder of a game.
@@ -66,6 +70,55 @@ public final class AssetsLoader {
             cache.put(key, image);
         }
         return image;
+    }
+
+    /**
+     * Load a fixed texture from the textures folder.
+     * The name is relative ie:
+     *  - pacman.png
+     *  - item/pac.png
+     *
+     * @param width the width at which to render the texture.
+     * @param height the height at which to render the texture.
+     * @param name the image full name relative to the texture folder.
+     * @return a {@link FixedTexture} instance.
+     */
+    public static FixedTexture loadTexture(double width, double height, String name) {
+        FixedTexture texture = getFromCache(FixedTexture.class, name);
+
+        if (texture == null) {
+            texture = new FixedTexture(width, height, loadImage(name));
+            cache.put(name, texture);
+        }
+
+        return texture;
+    }
+
+    /**
+     * Load an animated texture from the textures folder.
+     * The names are relative ie:
+     *  - pacman.png
+     *  - item/pac.png
+     *
+     * @param width the width at which to render the texture.
+     * @param height the height at which to render the texture.
+     * @param frameDuration the duration of a single frame.
+     * @param names the frames' images names relative to the texture folder.
+     * @return a {@link AnimatedTexture} instance.
+     */
+    public static AnimatedTexture loadAnimatedTexture(double width, double height, int frameDuration, List<String> names) {
+        StringBuilder key = new StringBuilder();
+        names.forEach(key::append);
+        AnimatedTexture texture = getFromCache(AnimatedTexture.class, key.toString());
+
+        if (texture == null) {
+            List<Image> frames = new ArrayList<>();
+            names.forEach(name -> frames.add(loadImage(name)));
+            texture = new AnimatedTexture(width, height, frameDuration, frames);
+            cache.put(key.toString(), texture);
+        }
+
+        return texture;
     }
 
     /**

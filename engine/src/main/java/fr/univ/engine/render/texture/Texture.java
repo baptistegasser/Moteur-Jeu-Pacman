@@ -3,53 +3,45 @@ package fr.univ.engine.render.texture;
 import javafx.scene.image.Image;
 
 /**
- * A texture that can be shown on screen.
+ * Abstract base class for texture objects.
  */
-public class Texture {
+public abstract class Texture {
+    /**
+     * The width at which to render this texture.
+     */
     private final double width;
+    /**
+     * The height at which to render this texture.
+     */
     private final double height;
     /**
      * Z-index used to tell if this texture should be behind or in front of another.
      */
     private int zIndex;
-    /**
-     * The image of this texture.
-     */
-    private Image image;
 
-    /**
-     * The texture can be an animation
-     */
-    private Animation animation;
-
-    /**
-     * Creates a new texture for the given image without animation .
-     *
-     * @param width the width of this texture.
-     * @param height the height of this texture.
-     * @param image the image used by this texture.
-     */
-    public Texture(double width, double height, Image image) {
+    protected Texture(double width, double height) {
         this.width = width;
         this.height = height;
         this.zIndex = 0;
-        this.image = image;
-        this.animation = null;
     }
 
     /**
-     * Creates a new texture with animation.
-     *
-     * @param width the width of this texture.
-     * @param height the height of this texture.
-     * @param animation the images animation.
+     * @return the image to render for this texture.
      */
-    public Texture(double width, double height, Animation animation) {
-        this.width = width;
-        this.height = height;
-        this.zIndex = 0;
-        this.animation = animation;
-        this.image = animation.getCurrentImage();
+    public abstract Image getImage();
+
+    /**
+     * @return the width at which to render this texture.
+     */
+    public double width() {
+        return this.width;
+    }
+
+    /**
+     * @return the height at which to render this texture.
+     */
+    public double height() {
+        return this.height;
     }
 
     /**
@@ -66,49 +58,5 @@ public class Texture {
      */
     public int zIndex() {
         return zIndex;
-    }
-
-    /**
-     * get the image depending on the animation
-     * @return the image
-     */
-    public Image getImage() {
-        if (haveAnimation()) {
-            animation.nextFrame();
-            image = animation.getCurrentImage();
-        }
-        return image;
-    }
-
-    public void setImage(Image image) {
-        this.image = image;
-    }
-
-    public double width() {
-        return this.width;
-    }
-
-    public double height() {
-        return this.height;
-    }
-
-    public Animation getAnimation() {
-        return animation;
-    }
-
-    public void setAnimation(Animation animation) {
-        this.animation = animation;
-    }
-
-    public boolean haveAnimation() {
-        return animation != null;
-    }
-
-    @Override
-    public String toString() {
-        return "Texture{" +
-                "zIndex=" + zIndex +
-                ", image=" + image.getUrl() +
-                '}';
     }
 }

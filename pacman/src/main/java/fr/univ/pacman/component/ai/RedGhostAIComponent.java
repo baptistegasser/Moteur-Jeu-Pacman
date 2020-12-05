@@ -4,7 +4,6 @@ import fr.univ.engine.assets.AssetsLoader;
 import fr.univ.engine.core.TransformComponent;
 import fr.univ.engine.core.entity.Entity;
 import fr.univ.engine.math.Point;
-import fr.univ.engine.math.Vector;
 import fr.univ.engine.render.RenderComponent;
 import fr.univ.pacman.Type;
 
@@ -23,6 +22,6 @@ public class RedGhostAIComponent extends GhostAIComponent {
 
     @Override
     protected void updateSprite(String dir) {
-        this.getEntity().getComponent(RenderComponent.class).getTexture().setImage(AssetsLoader.loadImage("sprites/ghosts/redGhost"+dir+".png"));
+        getComponent(RenderComponent.class).setTexture(AssetsLoader.loadTexture(20, 20, "sprites/ghosts/redGhost"+dir+".png"));
     }
 }

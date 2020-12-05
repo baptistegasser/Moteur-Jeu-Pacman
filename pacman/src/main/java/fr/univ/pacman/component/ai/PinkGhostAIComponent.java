@@ -24,6 +24,6 @@ public class PinkGhostAIComponent extends GhostAIComponent {
 
     @Override
     protected void updateSprite(String dir) {
-        this.getEntity().getComponent(RenderComponent.class).getTexture().setImage(AssetsLoader.loadImage("sprites/ghosts/pinkGhost"+dir+".png"));
+        getComponent(RenderComponent.class).setTexture(AssetsLoader.loadTexture(20, 20, "sprites/ghosts/pinkGhost"+dir+".png"));
     }
 }
