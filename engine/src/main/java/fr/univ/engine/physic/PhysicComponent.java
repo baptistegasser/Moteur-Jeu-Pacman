@@ -71,11 +71,7 @@ public final class PhysicComponent extends Component {
      * @return the vector with speed
      */
     public Vector getDirectionSpeed(Vector vector) {
-        if (vector.x()>0) return new Vector(speed, 0);
-        else if (vector.x()<0) return new Vector(-speed, 0);
-        else if (vector.y()>0) return new Vector(0, speed);
-        else if (vector.y()<0) return new Vector(0, -speed);
-        else return new Vector(0,0);
+        return vector.multiplyBy(speed);
     }
 
     public void setSpeed(double speed) {

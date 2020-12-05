@@ -151,7 +151,7 @@ public abstract class GhostAIComponent extends Component {
             Point p = getComponent(TransformComponent.class).position().copy();
             p.add(realDir);
 
-            if (getPhysics().canMoveTo(getEntity(), p) && !Vector.sameDirection(realDir, currentDir.reverse())) {
+            if (getPhysics().canMoveTo(getEntity(), p) && !realDir.equals(currentDir.reverse())) {
                 validDirections.add(realDir);
             }
         }
@@ -176,13 +176,13 @@ public abstract class GhostAIComponent extends Component {
         if (this.state == State.SCARED) {
             textureChannel = "afraid";
         } else {
-            if (dir.x() > 0 && dir.y() == 0) {
+            if (dir.xValue() > 0 && dir.yValue() == 0) {
                 textureChannel = "right";
-            } else if (dir.x() < 0 && dir.y() == 0) {
+            } else if (dir.xValue() < 0 && dir.yValue() == 0) {
                 textureChannel = "left";
-            } else if (dir.x() == 0 && dir.y() > 0) {
+            } else if (dir.xValue() == 0 && dir.yValue() > 0) {
                 textureChannel = "down";
-            } else if (dir.x() == 0 && dir.y() < 0) {
+            } else if (dir.xValue() == 0 && dir.yValue() < 0) {
                 textureChannel = "up";
             } else {
                 System.out.println("No direction");

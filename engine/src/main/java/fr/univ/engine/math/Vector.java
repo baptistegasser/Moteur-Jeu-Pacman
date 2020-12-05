@@ -1,70 +1,83 @@
 package fr.univ.engine.math;
 
+import java.math.BigDecimal;
+import java.math.MathContext;
+
 /**
  * Representation of a 2D Vector.
  */
 public class Vector {
-    private double x;
-    private double y;
+    private final BigDecimal x;
+    private final BigDecimal y;
     /**
      * The magnitude (length) of this vector.
      */
-    private double magnitude;
+    private final BigDecimal magnitude;
 
     public Vector(double x, double y) {
+        this(BigDecimal.valueOf(x), BigDecimal.valueOf(y));
+    }
+
+    public Vector(BigDecimal x, BigDecimal y) {
         this.x = x;
         this.y = y;
-        updateMagnitude();
-    }
-
-    public double x() {
-        return x;
-    }
-
-    public double y() {
-        return y;
-    }
-
-    public void setX(double x) {
-        this.x = x;
-        updateMagnitude();
-    }
-
-    public void setY(double y) {
-        this.y = y;
-        updateMagnitude();
-    }
-
-    public void set(double x, double y) {
-        this.x = x;
-        this.y = y;
-        updateMagnitude();
+        this.magnitude = x.pow(2).add(y.pow(2)).sqrt(MathContext.DECIMAL128);
     }
 
     /**
-     * Recalculate and set the magnitude value of this vector.
+     * @return the x value of this vector.
      */
-    private void updateMagnitude() {
-        this.magnitude = Math.sqrt(x*x + y*y);
+    public BigDecimal x() {
+        return x;
+    }
+
+    /**
+     * @return the x value of this vector cast as a double.
+     */
+    public double xValue() {
+        return x.doubleValue();
+    }
+
+    /**
+     * @return the y value of this vector.
+     */
+    public BigDecimal y() {
+        return y;
+    }
+
+    /**
+     * @return the y value of this vector cast as a double.
+     */
+    public double yValue() {
+        return y.doubleValue();
     }
 
     /**
      * @return the magnitude (length) of this vector.
      */
-    public double magnitude() {
+    public BigDecimal magnitude() {
         return magnitude;
+    }
+
+    /**
+     * @return the magnitude (length) of this vector cast as a double.
+     */
+    public double magnitudeValue() {
+        return magnitude.doubleValue();
     }
 
     /**
      * @return the opposite vector to this instance.
      */
     public Vector reverse() {
-        if (this.x() > 0 || this.x() < 0 && this.y() == 0) {
-            return new Vector(-x, 0);
-        } else if (this.x() == 0 && this.y() > 0 || this.y() < 0) {
-            return new Vector(0, -y);
-        }
-        return new Vector(0,0);
+        return new Vector(x.multiply(BigDecimal.valueOf(-1)), y.multiply(BigDecimal.valueOf(-1)));
+    }
+
+    /**
+     * @return a unit vector of magnitude 1 going in the same direction as this vector.
+     */
+    public Vector getUnitVector() {
+        return new Vector(x.divide(magnitude, MathContext.UNLIMITED), y.divide(magnitude, MathContext.UNLIMITED));
     }
 
     /**
@@ -74,19 +87,36 @@ public class Vector {
      * @return a new multiplied vector.
      */
     public Vector multiplyBy(double scale) {
-        return new Vector(x*scale, y*scale);
+        return multiplyBy(BigDecimal.valueOf(scale));
     }
 
     /**
-     * Return true if two vector are a same direction
-     * @param v1 first vector
-     * @param v2 second vector
+     * Return a new vector with values multiplied.
+     *
+     * @param scale the multiplier.
+     * @return a new multiplied vector.
+     */
+    public Vector multiplyBy(BigDecimal scale) {
+        return new Vector(x.multiply(scale), y.multiply(scale));
+    }
+
+    /**
+     * Test if a given vector have the same values.
+     *
+     * @param vector the vector to test.
+     * @return true if these two vector are equals.
+     */
+    public boolean equals(Vector vector) {
+        return x.compareTo(vector.x) == 0 && y.compareTo(vector.y) == 0;
+    }
+
+    /**
+     * Test if a given vector is in the same direction
+     *
+     * @param v the vector to confront.
      * @return if they are in same direction
      */
-    public static boolean sameDirection(Vector v1, Vector v2) {
-        return (v1.x > 0 && v2.x > 0 && v1.y == 0 && v2.y == 0)
-                || (v1.x < 0 && v2.x < 0 && v1.y == 0 && v2.y == 0)
-                || (v1.x == 0 && v2.x == 0 && v1.y > 0 && v2.y > 0)
-                || (v1.x == 0 && v2.x == 0 && v1.y < 0 && v2.y < 0);
+    public boolean sameDirection(Vector v) {
+        return getUnitVector().equals(v.getUnitVector());
     }
 }

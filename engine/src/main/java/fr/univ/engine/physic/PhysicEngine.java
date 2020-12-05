@@ -108,7 +108,7 @@ public class PhysicEngine {
      */
     private boolean updatePosition(Entity entity) {
         Vector direction = entity.getComponent(PhysicComponent.class).direction();
-        if (direction.magnitude() != 0) {
+        if (direction.magnitudeValue() != 0) {
             entity.getComponent(TransformComponent.class).position().add(direction);
             return true;
         } else {
