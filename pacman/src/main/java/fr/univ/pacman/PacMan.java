@@ -244,7 +244,7 @@ public class PacMan extends GameApplication {
         if(remainingPacs() == 0){
             System.out.println("gg");
         }
-        timeEngine().runIn(5, TimeUnit.SECONDS, () -> {
+        timeEngine().runIn(10, TimeUnit.SECONDS, () -> {
             pacmanLogic.setCurrentMode(PacManLogic.Mode.NORMAL);
             soundEngine().stopSound("get_out_of_my_swamp.wav");
         });
