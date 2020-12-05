@@ -115,11 +115,13 @@ public class PacMan extends GameApplication {
 
         physicEngine().onCollision(PACMAN, CHERRY, (e1, e2) -> {
             globalVars().put("score", globalVars().getInt("score")+200);
+            soundEngine().playClip("eating_fruit.wav", 0.05);
             getLevel().destroyEntity(e2);
         });
 
         physicEngine().onCollision(PACMAN, STRAWBERRY, (e1, e2) -> {
             globalVars().put("score", globalVars().getInt("score")+500);
+            soundEngine().playClip("eating_fruit.wav", 0.05);
             getLevel().destroyEntity(e2);
         });
 
@@ -240,7 +242,7 @@ public class PacMan extends GameApplication {
 
     private void eatRainbowPac(Entity pacman, Entity rainbowPac) {
         pacmanLogic.setCurrentMode(PacManLogic.Mode.RAINBOW);
-        soundEngine().playClip("get_out_of_my_swamp.wav", 0.1);
+        soundEngine().playClip("get_out_of_my_swamp.wav", 0.05);
         getLevel().destroyEntity(rainbowPac);
         if(remainingPacs() == 0){
             System.out.println("gg");
