@@ -155,6 +155,11 @@ public class GameFactory extends EntityFactory {
                 .build();
     }
 
+    /**
+     * Setup parameter for the spawn exit
+     * @param charPos
+     * @return
+     */
     @From('S')
     public Entity spawnExit(Point charPos) {
         return new EntityBuilder()
@@ -164,6 +169,11 @@ public class GameFactory extends EntityFactory {
                 .build();
     }
 
+    /**
+     * Setup parameter for the ghost base
+     * @param charPos
+     * @return
+     */
     @From('G')
     public Entity ghostBase(Point charPos) {
         return new EntityBuilder()
@@ -173,6 +183,11 @@ public class GameFactory extends EntityFactory {
                 .build();
     }
 
+    /**
+     * Setup parameter or the red ghost
+     * @param charPos
+     * @return
+     */
     @From('R')
     public Entity redGhost(Point charPos) {
         Texture texture = createGhostTexture("red");
@@ -187,6 +202,11 @@ public class GameFactory extends EntityFactory {
                 .build();
     }
 
+    /**
+     * Setup parameter for the blue ghost
+     * @param charPos
+     * @return
+     */
     @From('B')
     public Entity blueGhost(Point charPos) {
         Texture texture = createGhostTexture("blue");
@@ -201,6 +221,11 @@ public class GameFactory extends EntityFactory {
                 .build();
     }
 
+    /**
+     * Setup the orange ghost
+     * @param charPos
+     * @return
+     */
     @From('O')
     public Entity orangeGhost(Point charPos) {
         Texture texture = createGhostTexture("orange");
@@ -215,6 +240,11 @@ public class GameFactory extends EntityFactory {
                 .build();
     }
 
+    /**
+     * Setup the pink ghost
+     * @param charPos
+     * @return
+     */
     @From('I')
     public Entity pinkGhost(Point charPos) {
         Texture texture = createGhostTexture("pink");
@@ -229,6 +259,11 @@ public class GameFactory extends EntityFactory {
                 .build();
     }
 
+    /**
+     * Setup the textures for all the ghosts : eyes, afraid, dead ...
+     * @param color
+     * @return
+     */
     private Texture createGhostTexture(String color) {
         Texture texture = new Texture(20, 20, 9);
         texture.addSprite("up", AssetsLoader.loadSprite("sprites/ghosts/"+color+"GhostUp.png"));

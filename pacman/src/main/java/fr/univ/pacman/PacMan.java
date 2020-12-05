@@ -116,11 +116,13 @@ public class PacMan extends GameApplication {
 
         physicEngine().onCollision(PACMAN, CHERRY, (e1, e2) -> {
             globalVars().put("score", globalVars().getInt("score")+200);
+            soundEngine().playClip("eating_fruit.wav", 0.1);
             getLevel().destroyEntity(e2);
         });
 
         physicEngine().onCollision(PACMAN, STRAWBERRY, (e1, e2) -> {
             globalVars().put("score", globalVars().getInt("score")+500);
+            soundEngine().playClip("eating_fruit.wav", 0.1);
             getLevel().destroyEntity(e2);
         });
 
@@ -130,6 +132,9 @@ public class PacMan extends GameApplication {
         });
 
         physicEngine().onCollision(GHOST, GHOST_BASE, (ghost, e2) -> {
+            if(ghost.getComponent(GhostAIComponent.class).idScared()) {
+                soundEngine().stopSound("ghost_return_spawn.wav");
+            }
             ghost.getComponent(GhostAIComponent.class).spawn();
         });
     }
@@ -209,7 +214,7 @@ public class PacMan extends GameApplication {
     }
 
     private void eatPac(Entity pacman, Entity pac) {
-        soundEngine().playClip("eating_pac.wav", 0.05);
+        soundEngine().playClip("eating_pac.wav", 0.04);
         globalVars().put("score", globalVars().getInt("score")+10);
         getLevel().destroyEntity(pac);
         if(remainingPacs() == 0) {
@@ -218,15 +223,16 @@ public class PacMan extends GameApplication {
     }
 
     private void eatSuperPac(Entity pacman, Entity superPac) {
+        soundEngine().stopSound("pac_can_eat_ghost.wav");
         soundEngine().play("eating_pac.wav",0.05);
-        soundEngine().playClip("pac_can_eat_ghost.wav",0.05);
+        soundEngine().playLoop("pac_can_eat_ghost.wav",0.05);
         GhostAIComponent.setCurrentGlobalState(GhostAIComponent.State.SCARED);
         getLevel().getEntitiesWithComponent(GhostAIComponent.class).forEach(ghost -> {
             ghost.getComponent(GhostAIComponent.class).setTakeCurrentGlobalState(true);
         });
 
         timeEngine().schedule(20, TimeUnit.SECONDS, () -> {
-            System.out.println("fin");
+            soundEngine().stopSound("pac_can_eat_ghost.wav");
             GhostAIComponent.setCurrentGlobalState(GhostAIComponent.State.CHASE);
             getLevel().getEntitiesWithComponent(GhostAIComponent.class).forEach(ghost -> {
                 ghost.getComponent(GhostAIComponent.class).setTakeCurrentGlobalState(true);
@@ -240,13 +246,13 @@ public class PacMan extends GameApplication {
 
     private void eatRainbowPac(Entity pacman, Entity rainbowPac) {
         pacmanLogic.setCurrentMode(PacManLogic.Mode.RAINBOW);
-        soundEngine().playClip("get_out_of_my_swamp.wav", 0.1);
+        soundEngine().playClip("get_out_of_my_swamp.wav", 0.05);
         getLevel().destroyEntity(rainbowPac);
         if(remainingPacs() == 0){
             System.out.println("gg");
         }
 
-        timeEngine().schedule(5, TimeUnit.SECONDS, () -> {
+        timeEngine().schedule(10, TimeUnit.SECONDS, () -> {
             pacmanLogic.setCurrentMode(PacManLogic.Mode.NORMAL);
             soundEngine().stopSound("get_out_of_my_swamp.wav");
         });
@@ -281,6 +287,8 @@ public class PacMan extends GameApplication {
 
     private void eatGhost(GhostAIComponent ghost) {
         ghost.setDead();
+        globalVars().put("score", globalVars().getInt("score")+200);
+        soundEngine().playLoop("ghost_return_spawn.wav", 0.15);
     }
 
     public static void main(String[] args) {
