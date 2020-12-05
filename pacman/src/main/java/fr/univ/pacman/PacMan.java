@@ -28,6 +28,8 @@ import static fr.univ.pacman.Type.*;
  */
 public class PacMan extends GameApplication {
 
+    PacManLogic pacmanLogic;
+
     /**
      * Configure the Pac-Man Window
      * @param config the configuration to edit.
@@ -65,7 +67,7 @@ public class PacMan extends GameApplication {
             timeEngine().runIn(i*10, TimeUnit.SECONDS, () -> ghosts.get(index).getComponent(GhostAIComponent.class).spawn());
         }
 
-        PacManLogic pacmanLogic = getLevel().getSingletonEntity(Type.PACMAN).getComponent(PacManLogic.class);
+        pacmanLogic = getLevel().getSingletonEntity(Type.PACMAN).getComponent(PacManLogic.class);
         IOEngine().onKeyPressed(KeyCode.UP, pacmanLogic::up);
         IOEngine().onKeyPressed(KeyCode.DOWN, pacmanLogic::down);
         IOEngine().onKeyPressed(KeyCode.LEFT, pacmanLogic::left);
@@ -100,83 +102,17 @@ public class PacMan extends GameApplication {
      * @param pacmanLogic
      */
     public void setEvents (PacManLogic pacmanLogic) {
-        physicEngine().onCollision(PACMAN, GHOST, (e1, e2) -> {
-            if (GhostAIComponent.getCurrentGlobalState() == GhostAIComponent.State.DEAD) {
-                return;
-            } else if (GhostAIComponent.getCurrentGlobalState() == GhostAIComponent.State.SCARED) {
-                eatGhost(e2.getComponent(GhostAIComponent.class));
-                return;
-            }
-
-            globalVars().put("lives", globalVars().getInt("lives")-1);
-
-            soundEngine().stopAllClips();
-            soundEngine().playClip("pac_die.wav");
-            pacmanLogic.stop();
-            pacmanLogic.hit();
-            pacmanLogic.setCanMove(false);
-
-            getLevel().getSingletonEntity(Type.PACMAN).getComponent(TransformComponent.class).setRotation(0);
-            getLevel().getSingletonEntity(Type.PACMAN).getComponent(RenderComponent.class).setForAnimator(true);
-
-            getLevel().getSingletonEntity(Type.PACMAN).getComponent(RenderComponent.class).getTexture().setCurrentChannel("death");
-
-            timeEngine().runIn(1, TimeUnit.SECONDS, this::replaceEntity);
-
-            getLevel().getEntitiesWithComponent(GhostAIComponent.class).forEach(ghost -> {
-                GhostAIComponent ai = ghost.getComponent(GhostAIComponent.class);
-                ai.teleportToBase();
-            });
-
-            if (globalVars().getInt("lives") <= 0) {
-                pause();
-                uiEngine().display(AssetsLoader.loadView("GameOver.fxml"));
-            }
-        });
+        physicEngine().onCollision(PACMAN, GHOST, this::pacmanWithGhost);
 
         physicEngine().onCollision(PACMAN, GREATWALL, (e1, e2) -> pacmanLogic.stop());
 
-        physicEngine().onCollision(PACMAN, WALL, (pacman, wall) -> {
-            if (pacman.getComponent(PacManLogic.class).isInRainbowMode()) {
-                wall.getComponent(RenderComponent.class).getTexture().setCurrentChannel("destroyed");
-                wall.getComponent(PhysicComponent.class).getHitBox().setSolid(false);
-            }
-        });
+        physicEngine().onCollision(PACMAN, WALL, this::pacmanWithWall);
 
-        physicEngine().onCollision(PACMAN, PAC, (e1, e2) -> {
-            soundEngine().playClip("eating_pac.wav", 0.05);
-            globalVars().put("score", globalVars().getInt("score")+10);
-            getLevel().destroyEntity(e2);
-            if(remainingPacs() == 0) {
-                System.out.println("gg");
-            }
-        });
+        physicEngine().onCollision(PACMAN, PAC, this::eatPac);
 
-        physicEngine().onCollision(PACMAN, SUPER_PAC, (e1, e2) -> {
-            soundEngine().play("eating_pac.wav",0.05);
-            soundEngine().playClip("pac_can_eat_ghost.wav",0.05);
-            GhostAIComponent.setCurrentGlobalState(GhostAIComponent.State.SCARED);
-            timeEngine().runIn(15, TimeUnit.SECONDS, () -> {
-                GhostAIComponent.setCurrentGlobalState(GhostAIComponent.State.CHASE);
-            });
-            getLevel().destroyEntity(e2);
-            if(remainingPacs() == 0) {
-                System.out.println("gg");
-            }
-        });
+        physicEngine().onCollision(PACMAN, SUPER_PAC, this::eatSuperPac);
 
-        physicEngine().onCollision(PACMAN, SUPER_RAINBOW_PAC, (pacman, rainbowPac) -> {
-            pacmanLogic.setCurrentMode(PacManLogic.Mode.RAINBOW);
-            soundEngine().playClip("get_out_of_my_swamp.wav", 0.1);
-            getLevel().destroyEntity(rainbowPac);
-            if(remainingPacs() == 0){
-                System.out.println("gg");
-            }
-            timeEngine().runIn(5, TimeUnit.SECONDS, () -> {
-                pacmanLogic.setCurrentMode(PacManLogic.Mode.NORMAL);
-                soundEngine().stopClip("get_out_of_my_swamp.wav");
-            });
-        });
+        physicEngine().onCollision(PACMAN, SUPER_RAINBOW_PAC, this::eatRainbowPac);
 
         // Teleport entities that hit a teleport pad.
         CollisionHandler teleportCollisionsHandler = (e1, pad) -> {
@@ -254,6 +190,83 @@ public class PacMan extends GameApplication {
         int superpac = getLevel().getEntities(SUPER_PAC).size();
         int rainbowpac = getLevel().getEntities(SUPER_RAINBOW_PAC).size();
         return pac + superpac + rainbowpac;
+    }
+
+    private void pacmanWithGhost(Entity pacman, Entity ghost) {
+        if (GhostAIComponent.getCurrentGlobalState() == GhostAIComponent.State.DEAD) {
+            return;
+        } else if (GhostAIComponent.getCurrentGlobalState() == GhostAIComponent.State.SCARED) {
+            eatGhost(ghost.getComponent(GhostAIComponent.class));
+        } else pacmanHit();
+    }
+
+    private void pacmanWithWall(Entity pacman, Entity wall) {
+        if (pacman.getComponent(PacManLogic.class).isInRainbowMode()) {
+            wall.getComponent(RenderComponent.class).getTexture().setCurrentChannel("destroyed");
+            wall.getComponent(PhysicComponent.class).getHitBox().setSolid(false);
+        }
+    }
+
+    private void eatPac(Entity pacman, Entity pac) {
+        soundEngine().playClip("eating_pac.wav", 0.05);
+        globalVars().put("score", globalVars().getInt("score")+10);
+        getLevel().destroyEntity(pac);
+        if(remainingPacs() == 0) {
+            System.out.println("gg");
+        }
+    }
+
+    private void eatSuperPac(Entity pacman, Entity superPac) {
+        soundEngine().play("eating_pac.wav",0.05);
+        soundEngine().playClip("pac_can_eat_ghost.wav",0.05);
+        GhostAIComponent.setCurrentGlobalState(GhostAIComponent.State.SCARED);
+        timeEngine().runIn(15, TimeUnit.SECONDS, () -> {
+            GhostAIComponent.setCurrentGlobalState(GhostAIComponent.State.CHASE);
+        });
+        getLevel().destroyEntity(superPac);
+        if(remainingPacs() == 0) {
+            System.out.println("gg");
+        }
+    }
+
+    private void eatRainbowPac(Entity pacman, Entity rainbowPac) {
+        pacmanLogic.setCurrentMode(PacManLogic.Mode.RAINBOW);
+        soundEngine().playClip("get_out_of_my_swamp.wav", 0.1);
+        getLevel().destroyEntity(rainbowPac);
+        if(remainingPacs() == 0){
+            System.out.println("gg");
+        }
+        timeEngine().runIn(5, TimeUnit.SECONDS, () -> {
+            pacmanLogic.setCurrentMode(PacManLogic.Mode.NORMAL);
+            soundEngine().stopClip("get_out_of_my_swamp.wav");
+        });
+    }
+
+    private void pacmanHit() {
+        globalVars().put("lives", globalVars().getInt("lives")-1);
+
+        soundEngine().stopAllClips();
+        soundEngine().playClip("pac_die.wav");
+        pacmanLogic.stop();
+        pacmanLogic.hit();
+        pacmanLogic.setCanMove(false);
+
+        getLevel().getSingletonEntity(Type.PACMAN).getComponent(TransformComponent.class).setRotation(0);
+        getLevel().getSingletonEntity(Type.PACMAN).getComponent(RenderComponent.class).setForAnimator(true);
+
+        getLevel().getSingletonEntity(Type.PACMAN).getComponent(RenderComponent.class).getTexture().setCurrentChannel("death");
+
+        timeEngine().runIn(1, TimeUnit.SECONDS, this::replaceEntity);
+
+        getLevel().getEntitiesWithComponent(GhostAIComponent.class).forEach(ghost -> {
+            GhostAIComponent ai = ghost.getComponent(GhostAIComponent.class);
+            ai.teleportToBase();
+        });
+
+        if (globalVars().getInt("lives") <= 0) {
+            pause();
+            uiEngine().display(AssetsLoader.loadView("GameOver.fxml"));
+        }
     }
 
     private void eatGhost(GhostAIComponent ghost) {
