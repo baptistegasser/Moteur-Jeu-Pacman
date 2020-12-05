@@ -265,7 +265,7 @@ public class PacMan extends GameApplication {
         GhostAIComponent.setCurrentGlobalState(GhostAIComponent.State.SCARED);
         getLevel().getEntitiesWithComponent(GhostAIComponent.class).forEach(ghost -> {
             ghost.getComponent(GhostAIComponent.class).setTakeCurrentGlobalState(true);
-            ghost.getComponent(PhysicComponent.class).setSpeed(0.4);
+            ghost.getComponent(PhysicComponent.class).setSpeed(0.35);
         });
 
         timeEngine().schedule(20, TimeUnit.SECONDS, () -> {
@@ -273,7 +273,8 @@ public class PacMan extends GameApplication {
             GhostAIComponent.setCurrentGlobalState(GhostAIComponent.State.CHASE);
             getLevel().getEntitiesWithComponent(GhostAIComponent.class).forEach(ghost -> {
                 ghost.getComponent(GhostAIComponent.class).setTakeCurrentGlobalState(true);
-                ghost.getComponent(PhysicComponent.class).setSpeed(0.57);
+                if (!ghost.getComponent(GhostAIComponent.class).isDead())
+                    ghost.getComponent(PhysicComponent.class).setSpeed(0.55);
             });
         });
         getLevel().destroyEntity(superPac);
