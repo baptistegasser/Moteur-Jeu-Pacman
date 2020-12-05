@@ -131,7 +131,7 @@ public class PacMan extends GameApplication {
         });
 
         physicEngine().onCollision(GHOST, GHOST_BASE, (ghost, e2) -> {
-            if(ghost.getComponent(GhostAIComponent.class).isScared()) {
+            if(ghost.getComponent(GhostAIComponent.class).idScared()) {
                 soundEngine().stopSound("ghost_return_spawn.wav");
             }
             ghost.getComponent(GhostAIComponent.class).spawn();
