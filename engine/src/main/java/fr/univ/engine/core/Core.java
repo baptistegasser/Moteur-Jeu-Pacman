@@ -91,6 +91,14 @@ public final class Core {
         // TODO parse arguments
         System.out.println("Args: " + Arrays.toString(args));
 
+        // Configure handling of unhandled exceptions
+        Thread.setDefaultUncaughtExceptionHandler((t, e) -> {
+            LoggingEngine.severe("Unhandled exception, the game will now crash.");
+            close();
+            e.printStackTrace();
+            System.exit(1);
+        });
+
         this.config = new Config();
         this.renderEngine = new RenderEngine(config);
         this.physicEngine = new PhysicEngine(this);
