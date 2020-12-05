@@ -44,6 +44,9 @@ public class SoundEngine {
         this.globalVolume = clamp(volume);
     }
 
+    /**
+     * @return the current global volume.
+     */
     public double getGlobalVolume() {
         return globalVolume;
     }

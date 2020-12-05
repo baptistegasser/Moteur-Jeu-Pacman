@@ -16,4 +16,8 @@ public abstract class JFXController {
     protected final JFXView getView() {
         return this.view;
     }
+
+    protected final void display(UIElement element) {
+        view.display(element);
+    }
 }
