@@ -143,6 +143,9 @@ public class PacMan extends GameApplication {
         });
     }
 
+    /**
+     * Replace entities when PacMan is dying
+     */
     private void replaceEntity() {
         getLevel().getSingletonEntity(Type.PACMAN).getComponent(RenderComponent.class).getTexture().setCurrentChannel("walking");
         getLevel().getSingletonEntity(Type.PACMAN).getComponent(TransformComponent.class).setPosition(new Point(8,128));
@@ -164,6 +167,10 @@ public class PacMan extends GameApplication {
         setLevel(lvl);
     }
 
+    /**
+     * Load bonus
+     * @param fruitType The fruit type (strawberry, cherry)
+     */
     private void loadFruit(Type fruitType) {
         switch (fruitType) {
             case CHERRY:
@@ -195,6 +202,10 @@ public class PacMan extends GameApplication {
         }
     }
 
+    /**
+     * Calculating remaining pacs
+     * @return The remaining pacs
+     */
     public int remainingPacs() {
         int pac =  getLevel().getEntities(PAC).size();
         int superpac = getLevel().getEntities(SUPER_PAC).size();
@@ -202,6 +213,11 @@ public class PacMan extends GameApplication {
         return pac + superpac + rainbowpac;
     }
 
+    /**
+     * Handle when pacman hit a ghost and chose the action to do
+     * @param pacman
+     * @param ghost
+     */
     private void pacmanWithGhost(Entity pacman, Entity ghost) {
         if (ghost.getComponent(GhostAIComponent.class).isDead()) {
             return;
@@ -210,6 +226,11 @@ public class PacMan extends GameApplication {
         } else pacmanHit();
     }
 
+    /**
+     * Handle action with walls
+     * @param pacman
+     * @param wall
+     */
     private void pacmanWithWall(Entity pacman, Entity wall) {
         if (pacman.getComponent(PacManLogic.class).isInRainbowMode()) {
             wall.getComponent(RenderComponent.class).getTexture().setCurrentChannel("destroyed");
@@ -217,6 +238,11 @@ public class PacMan extends GameApplication {
         }
     }
 
+    /**
+     * Handle action when pacman eat a pac
+     * @param pacman
+     * @param pac
+     */
     private void eatPac(Entity pacman, Entity pac) {
         soundEngine().playClip("eating_pac.wav", 0.04);
         globalVars().put("score", globalVars().getInt("score")+10);
@@ -226,6 +252,11 @@ public class PacMan extends GameApplication {
         }
     }
 
+    /**
+     * Handle hen pacman eat a superpac
+     * @param pacman
+     * @param superPac
+     */
     private void eatSuperPac(Entity pacman, Entity superPac) {
         soundEngine().stopSound("pac_can_eat_ghost.wav");
         soundEngine().play("eating_pac.wav",0.05);
@@ -248,6 +279,11 @@ public class PacMan extends GameApplication {
         }
     }
 
+    /**
+     * Handle when action eat a raimbowpac
+     * @param pacman
+     * @param rainbowPac
+     */
     private void eatRainbowPac(Entity pacman, Entity rainbowPac) {
         pacmanLogic.setCurrentMode(PacManLogic.Mode.RAINBOW);
         soundEngine().playClip("get_out_of_my_swamp.wav", 0.05);
@@ -262,6 +298,9 @@ public class PacMan extends GameApplication {
         });
     }
 
+    /**
+     * Handle when pacman is hit by a fantom who was chasing him
+     */
     private void pacmanHit() {
         globalVars().put("lives", globalVars().getInt("lives")-1);
 
@@ -289,6 +328,10 @@ public class PacMan extends GameApplication {
         }
     }
 
+    /**
+     * Handle when pacman hit a ghost while ghost was scared
+     * @param ghost
+     */
     private void eatGhost(GhostAIComponent ghost) {
         ghost.setDead();
         globalVars().put("score", globalVars().getInt("score")+200);
