@@ -7,9 +7,12 @@ import fr.univ.engine.logging.LoggingEngine;
 import fr.univ.engine.math.Point;
 import fr.univ.engine.math.Vector;
 import fr.univ.engine.physic.PhysicComponent;
+import fr.univ.engine.physic.hitbox.HitBoxIntersecter;
+import fr.univ.engine.physic.hitbox.SquareHitBox;
 import fr.univ.engine.render.RenderComponent;
 import fr.univ.pacman.Type;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -146,6 +149,10 @@ public abstract class GhostAIComponent extends Component {
         }
     }
 
+    /**
+     * Get the directions who entity can go
+     * @return the list of direction who can go
+     */
     private List<Vector> getValidDirections() {
         final Vector currentDir = getComponent(PhysicComponent.class).direction();
         List<Vector> validDirections = new ArrayList<>();
@@ -155,8 +162,55 @@ public abstract class GhostAIComponent extends Component {
             Point p = getComponent(TransformComponent.class).position().copy();
             p.add(realDir);
 
-            if (getPhysics().canMoveTo(getEntity(), p) && !realDir.equals(currentDir.reverse())) {
-                validDirections.add(realDir);
+            //Recup the entity in collision if there is one
+            Entity collisionEntity = getPhysics().canMoveTo(getEntity(), p);
+
+            if (!realDir.sameDirection(currentDir.reverse())) {
+                // They are no collision between them
+                if (collisionEntity == null) {
+                    validDirections.add(realDir);
+                } else {
+                    // Else we can move for glue the edge
+
+                    //Recup the size of collision
+                    Vector collisionSize = HitBoxIntersecter.collisionSize(getComponent(PhysicComponent.class).getHitBox(), p,
+                            collisionEntity.getComponent(PhysicComponent.class).getHitBox(),
+                            collisionEntity.getComponent(TransformComponent.class).position());
+
+                    Vector realFinalDir = null;
+
+                    //Set the direction vector in function the size of the collision and a possible direction
+                    // we must have two x or two y value different and different than zero
+                    // And the calculation for x or y value depend if they are higher or lower than 0
+                    if (realDir.xValue() > 0 && collisionSize.xValue() > 0
+                            && realDir.x().compareTo(collisionSize.x()) != 0)
+                        realFinalDir = new Vector(realDir.x().subtract(collisionSize.x()).doubleValue(), 0);
+                    else if (realDir.xValue() > 0 && collisionSize.xValue() < 0
+                            && realDir.x().compareTo(collisionSize.x()) != 0)
+                        realFinalDir = new Vector(realDir.x().add(collisionSize.x()).doubleValue(), 0);
+                    else if (realDir.xValue() < 0 && collisionSize.xValue() > 0
+                            && realDir.x().compareTo(collisionSize.x()) != 0)
+                        realFinalDir = new Vector(realDir.x().add(collisionSize.x()).doubleValue(), 0);
+                    else if (realDir.xValue() < 0 && collisionSize.xValue() < 0
+                            && realDir.x().compareTo(collisionSize.x()) != 0)
+                        realFinalDir = new Vector(realDir.x().subtract(collisionSize.x()).doubleValue(), 0);
+                    else if (realDir.yValue() > 0 && collisionSize.yValue() > 0
+                            && realDir.y().compareTo(collisionSize.y()) != 0)
+                        realFinalDir = new Vector(0, realDir.y().subtract(collisionSize.y()).doubleValue());
+                    else if (realDir.yValue() > 0 && collisionSize.yValue() < 0
+                            && realDir.y().compareTo(collisionSize.y()) != 0)
+                        realFinalDir = new Vector(0, realDir.y().add(collisionSize.y()).doubleValue());
+                    else if (realDir.yValue() < 0 && collisionSize.yValue() > 0
+                            && realDir.y().compareTo(collisionSize.y()) != 0)
+                        realFinalDir = new Vector(0, realDir.y().add(collisionSize.y()).doubleValue());
+                    else if (realDir.yValue() < 0 && collisionSize.yValue() < 0
+                            && realDir.y().compareTo(collisionSize.y()) != 0)
+                        realFinalDir = new Vector(0, realDir.y().subtract(collisionSize.y()).doubleValue());
+
+                    if (realFinalDir != null) {
+                        validDirections.add(realFinalDir);
+                    }
+                }
             }
         }
 
@@ -235,7 +289,7 @@ public abstract class GhostAIComponent extends Component {
         this.takeCurrentGlobalState = takeCurrentGlobalState;
     }
 
-    public boolean idScared() {
+    public boolean isScared() {
         return this.state == State.SCARED;
     }
 }

@@ -198,7 +198,7 @@ public class GameFactory extends EntityFactory {
                 .texture(texture)
                 .hitbox(new SquareHitBox(16))
                 .with(new RedGhostAIComponent())
-                .speed(0.5)
+                .speed(0.57)
                 .build();
     }
 
@@ -217,7 +217,7 @@ public class GameFactory extends EntityFactory {
                 .texture(texture)
                 .hitbox(new SquareHitBox(16))
                 .with(new BlueGhostAIComponent())
-                .speed(0.5)
+                .speed(0.57)
                 .build();
     }
 
@@ -236,7 +236,7 @@ public class GameFactory extends EntityFactory {
                 .texture(texture)
                 .hitbox(new SquareHitBox(16))
                 .with(new OrangeGhostAIComponent())
-                .speed(0.5)
+                .speed(0.57)
                 .build();
     }
 
@@ -255,7 +255,7 @@ public class GameFactory extends EntityFactory {
                 .texture(texture)
                 .hitbox(new SquareHitBox(16))
                 .with(new PinkGhostAIComponent())
-                .speed(0.5)
+                .speed(0.57)
                 .build();
     }
 

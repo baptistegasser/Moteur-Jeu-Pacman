@@ -117,6 +117,9 @@ public class Vector {
      * @return if they are in same direction
      */
     public boolean sameDirection(Vector v) {
+        if (magnitude.doubleValue() == 0 || v.magnitude().doubleValue() == 0) {
+            return false;
+        }
         return getUnitVector().equals(v.getUnitVector());
     }
 }

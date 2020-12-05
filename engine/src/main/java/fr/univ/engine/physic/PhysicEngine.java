@@ -162,14 +162,14 @@ public class PhysicEngine {
      *
      * @param e the entity.
      * @param targetPos the destination.
-     * @return true if the entity can move without colliding with a solid entity.
+     * @return The Entity if there is one, null else.
      */
-    public boolean canMoveTo(Entity e, Point targetPos) {
+    public Entity canMoveTo(Entity e, Point targetPos) {
         HitBox hb = e.getComponent(PhysicComponent.class).getHitBox();
 
         // Entity without hitbox never collide
         if (hb == null) {
-            return true;
+            return null;
         }
 
         List<Entity> entities = core.getLevel().getEntitiesWithComponent(PhysicComponent.class);
@@ -182,10 +182,10 @@ public class PhysicEngine {
             }
 
             if (HitBoxIntersecter.intersect(hb, targetPos, hb1, e1.getComponent(TransformComponent.class).position())) {
-                return false;
+                return e1;
             }
         }
 
-        return true;
+        return null;
     }
 }

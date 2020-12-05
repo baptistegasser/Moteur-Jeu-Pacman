@@ -107,7 +107,7 @@ public class PacManLogic extends Component {
         Point newPos = transform.position().copy();
         newPos.add(wantedDirection);
         // Test if can move to new pos
-        if (getPhysics().canMoveTo(this.getEntity(), newPos)) {
+        if (getPhysics().canMoveTo(this.getEntity(), newPos) == null) {
             physic.setDirection(physic.getDirectionSpeed(wantedDirection));
             transform.setRotation(wantedRotation);
             changeDir = false;

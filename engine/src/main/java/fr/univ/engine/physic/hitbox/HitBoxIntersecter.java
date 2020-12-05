@@ -2,6 +2,7 @@ package fr.univ.engine.physic.hitbox;
 
 import fr.univ.engine.logging.LoggingEngine;
 import fr.univ.engine.math.Point;
+import fr.univ.engine.math.Vector;
 
 import java.math.BigDecimal;
 
@@ -60,5 +61,41 @@ public class HitBoxIntersecter {
                 p1.x().subtract(p2.x()).compareTo(negativeDiff) > 0 &&
                 p1.y().subtract(p2.y()).compareTo(diff) < 0 &&
                 p1.y().subtract(p2.y()).compareTo(negativeDiff) > 0;
+    }
+
+    /**
+     * Get the size of collision between two entity
+     * @param h1 HitBox of the first entity
+     * @param p1 Position of the first entity
+     * @param h2 HitBox of the first entity
+     * @param p2 Position of the first entity
+     * @return A vector who represent the size of collision
+     */
+    public static Vector collisionSize(HitBox h1, Point p1, HitBox h2, Point p2) {
+        BigDecimal diff = null;
+        if (h1 instanceof SquareHitBox && h2 instanceof SquareHitBox) {
+            diff = BigDecimal.valueOf((((SquareHitBox) h1).size() + ((SquareHitBox) h2).size()) / 2);
+        } else if (h1 instanceof CircleHitBox && h2 instanceof CircleHitBox) {
+            diff = BigDecimal.valueOf((((CircleHitBox) h1).diameter() + ((CircleHitBox) h2).diameter()) / 2);
+        }
+
+        if (diff == null) {
+            LoggingEngine.severe(String.format("CollisionSize method not implemented for (%s, %s)", h1, h2));
+            return new Vector(0,0);
+        }
+
+        BigDecimal negativeDiff = diff.multiply(BigDecimal.valueOf(-1));
+
+        BigDecimal x = (p1.x().subtract(p2.x()));
+        BigDecimal y = (p1.y().subtract(p2.y()));
+
+        // If x > 0 add diff but if x < 0 add negativeDiff and if x == 0, add nothing
+        if (x.doubleValue() > 0) x = x.add(negativeDiff);
+        else if (x.doubleValue() < 0) x = x.add(diff);
+
+        if (y.compareTo(BigDecimal.valueOf(0)) > 0) y = y.add(negativeDiff);
+        else if (y.compareTo(BigDecimal.valueOf(0)) < 0) y = y.add(diff);
+
+        return new Vector(x,y);
     }
 }
