@@ -37,10 +37,10 @@ public abstract class GhostAIComponent extends Component {
      * Possible directions.
      */
     private final Vector[] directions = new Vector[] {
-            new Vector(0, -0.5),    // UP
-            new Vector(0, 0.5),     // DOWN
-            new Vector(0.5, 0),     // RIGHT
-            new Vector(-0.5, 0)     // LEFT
+            new Vector(0, -1d),    // UP
+            new Vector(0, 1d),     // DOWN
+            new Vector(1d, 0),     // RIGHT
+            new Vector(-1d, 0)     // LEFT
     };
 
     /**
@@ -149,11 +149,12 @@ public abstract class GhostAIComponent extends Component {
         List<Vector> validDirections = new ArrayList<>();
 
         for (Vector dir : directions) {
+            Vector realDir = getComponent(PhysicComponent.class).getDirectionSpeed(dir);
             Point p = getComponent(TransformComponent.class).position().copy();
-            p.add(dir);
+            p.add(realDir);
 
-            if (getPhysics().canMoveTo(getEntity(), p) && !(dir.x() == currentDir.reverse().x() && dir.y() == currentDir.reverse().y())) {
-                validDirections.add(dir);
+            if (getPhysics().canMoveTo(getEntity(), p) && !Vector.sameDirection(realDir, currentDir.reverse())) {
+                validDirections.add(realDir);
             }
         }
 
@@ -167,6 +168,10 @@ public abstract class GhostAIComponent extends Component {
      */
     protected abstract Point calcTargetPos();
 
+    /**
+     * Update the sprite in function the direction and the state of ghost
+     * @param dir the current direction of ghost
+     */
     private void updateSpriteByVector(Vector dir) {
         String sDir = "";
 
@@ -190,6 +195,10 @@ public abstract class GhostAIComponent extends Component {
         }
     }
 
+    /**
+     * Update sprite for ghost
+     * @param dir the current direction
+     */
     protected abstract void updateSprite(String dir);
 
     public void spawn() {

@@ -41,6 +41,11 @@ public class EntityBuilder {
      * The direction in which the entity will go at spawn.
      */
     private Vector direction = new Vector(0, 0);
+
+    /**
+     * The speed of physic entity
+     */
+    private double speed = 1;
     /**
      * The texture used to render the entity.
      */
@@ -90,6 +95,11 @@ public class EntityBuilder {
         return this;
     }
 
+    public EntityBuilder speed(double speed) {
+        this.speed = speed;
+        return this;
+    }
+
     public EntityBuilder with(Component component) {
         components.add(component);
         return this;
@@ -101,7 +111,7 @@ public class EntityBuilder {
         }
         components.set(0, new TransformComponent(position, rotation));
         components.set(1, new RenderComponent(texture));
-        components.set(2, new PhysicComponent(hitBox, direction));
+        components.set(2, new PhysicComponent(hitBox, direction, speed));
         return new Entity(type, components);
     }
 }
