@@ -72,6 +72,7 @@ public class GameFactory extends EntityFactory {
         return new EntityBuilder()
                 .type(Type.WALL)
                 .position(tilePos(charPos))
+                .texture(texture)
                 .hitbox(new SquareHitBox(16))
                 .isSolid(true)
                 .build();
