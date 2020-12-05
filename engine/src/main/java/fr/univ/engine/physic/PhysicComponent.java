@@ -18,9 +18,15 @@ public final class PhysicComponent extends Component {
      */
     private Vector direction;
 
-    public PhysicComponent(HitBox hitBox, Vector direction) {
+    /**
+     * The speed of the entity
+     */
+    private double speed;
+
+    public PhysicComponent(HitBox hitBox, Vector direction, double speed) {
         this.hitBox = hitBox;
         this.direction = direction;
+        this.speed = speed;
     }
 
     /**
@@ -57,5 +63,22 @@ public final class PhysicComponent extends Component {
      */
     public void setDirection(Vector newDirection) {
         this.direction = newDirection;
+    }
+
+    /**
+     * Get the direction with the speed
+     * @param vector the direction vector
+     * @return the vector with speed
+     */
+    public Vector getDirectionSpeed(Vector vector) {
+        if (vector.x()>0) return new Vector(speed, 0);
+        else if (vector.x()<0) return new Vector(-speed, 0);
+        else if (vector.y()>0) return new Vector(0, speed);
+        else if (vector.y()<0) return new Vector(0, -speed);
+        else return new Vector(0,0);
+    }
+
+    public void setSpeed(double speed) {
+        this.speed = speed;
     }
 }

@@ -76,4 +76,17 @@ public class Vector {
     public Vector multiplyBy(double scale) {
         return new Vector(x*scale, y*scale);
     }
+
+    /**
+     * Return true if two vector are a same direction
+     * @param v1 first vector
+     * @param v2 second vector
+     * @return if they are in same direction
+     */
+    public static boolean sameDirection(Vector v1, Vector v2) {
+        return (v1.x > 0 && v2.x > 0 && v1.y == 0 && v2.y == 0)
+                || (v1.x < 0 && v2.x < 0 && v1.y == 0 && v2.y == 0)
+                || (v1.x == 0 && v2.x == 0 && v1.y > 0 && v2.y > 0)
+                || (v1.x == 0 && v2.x == 0 && v1.y < 0 && v2.y < 0);
+    }
 }

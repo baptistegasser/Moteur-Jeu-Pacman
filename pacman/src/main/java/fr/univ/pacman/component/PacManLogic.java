@@ -31,7 +31,7 @@ public class PacManLogic extends Component {
 
     public void up() {
         if (canMove) {
-            this.wantedDirection = new Vector(0, -0.5d);
+            this.wantedDirection = new Vector(0, -1d);
             this.wantedRotation = 270;
             this.changeDir = true;
         }
@@ -39,7 +39,7 @@ public class PacManLogic extends Component {
 
     public void down() {
         if (canMove) {
-            this.wantedDirection = new Vector(0, 0.5d);
+            this.wantedDirection = new Vector(0, 1d);
             this.wantedRotation = 90;
             this.changeDir = true;
         }
@@ -47,7 +47,7 @@ public class PacManLogic extends Component {
 
     public void left() {
         if (canMove) {
-            this.wantedDirection = new Vector(-0.5d, 0);
+            this.wantedDirection = new Vector(-1d, 0);
             this.wantedRotation = 180;
             this.changeDir = true;
         }
@@ -55,7 +55,7 @@ public class PacManLogic extends Component {
 
     public void right() {
         if (canMove) {
-            this.wantedDirection = new Vector(0.5d, 0);
+            this.wantedDirection = new Vector(1d, 0);
             this.wantedRotation = 0;
             this.changeDir = true;
         }
@@ -108,7 +108,7 @@ public class PacManLogic extends Component {
         newPos.add(wantedDirection);
         // Test if can move to new pos
         if (getPhysics().canMoveTo(this.getEntity(), newPos)) {
-            physic.setDirection(wantedDirection);
+            physic.setDirection(physic.getDirectionSpeed(wantedDirection));
             transform.setRotation(wantedRotation);
             changeDir = false;
         }
