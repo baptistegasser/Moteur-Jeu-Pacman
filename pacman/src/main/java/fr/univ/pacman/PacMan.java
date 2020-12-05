@@ -282,6 +282,8 @@ public class PacMan extends GameApplication {
 
     private void eatGhost(GhostAIComponent ghost) {
         ghost.setDead();
+        globalVars().put("score", globalVars().getInt("score")+200);
+        soundEngine().playClip("ghost_return_spawn.wav", 0.04);
     }
 
     public static void main(String[] args) {
