@@ -14,6 +14,7 @@ import fr.univ.engine.physic.PhysicComponent;
 import fr.univ.engine.physic.hitbox.SquareHitBox;
 import fr.univ.engine.render.RenderComponent;
 import fr.univ.engine.render.texture.Texture;
+import fr.univ.engine.time.FutureTask;
 import fr.univ.pacman.component.PacManLogic;
 import fr.univ.pacman.component.ai.GhostAIComponent;
 import javafx.scene.input.KeyCode;
@@ -65,7 +66,7 @@ public class PacMan extends GameApplication {
         List<Entity> ghosts = getLevel().getEntitiesWithComponent(GhostAIComponent.class);
         for (int i = 0; i <= 3; ++i) {
             final int index = i;
-            timeEngine().runIn(i*10, TimeUnit.SECONDS, () -> ghosts.get(index).getComponent(GhostAIComponent.class).spawn());
+            timeEngine().schedule(i*10, TimeUnit.SECONDS, () -> ghosts.get(index).getComponent(GhostAIComponent.class).spawn());
         }
 
         pacmanLogic = getLevel().getSingletonEntity(Type.PACMAN).getComponent(PacManLogic.class);
@@ -82,9 +83,9 @@ public class PacMan extends GameApplication {
 
         setEvents(pacmanLogic);
 
-        timeEngine().runIn(30, TimeUnit.SECONDS, () -> loadFruit(CHERRY));
+        timeEngine().schedule(30, TimeUnit.SECONDS, () -> loadFruit(CHERRY));
 
-        timeEngine().runIn(70, TimeUnit.SECONDS, () -> loadFruit(STRAWBERRY));
+        timeEngine().schedule(70, TimeUnit.SECONDS, () -> loadFruit(STRAWBERRY));
     }
 
     /**
@@ -166,7 +167,7 @@ public class PacMan extends GameApplication {
                         .isSolid(false)
                         .build();
                 getLevel().add(cherry);
-                timeEngine().runIn(15, TimeUnit.SECONDS, () -> getLevel().destroyEntity(cherry));
+                timeEngine().schedule(15, TimeUnit.SECONDS, () -> getLevel().destroyEntity(cherry));
                 break;
             case STRAWBERRY:
                 Texture textureStrawberry = new Texture(18, 18, AssetsLoader.loadSprite("item/Strawberry.png"));
@@ -178,7 +179,7 @@ public class PacMan extends GameApplication {
                         .isSolid(false)
                         .build();
                 getLevel().add(strawberry);
-                timeEngine().runIn(15, TimeUnit.SECONDS, () -> getLevel().destroyEntity(strawberry));
+                timeEngine().schedule(15, TimeUnit.SECONDS, () -> getLevel().destroyEntity(strawberry));
                 break;
             default:
                 System.out.println("Can't find this type fruit");
@@ -224,7 +225,7 @@ public class PacMan extends GameApplication {
             ghost.getComponent(GhostAIComponent.class).setTakeCurrentGlobalState(true);
         });
 
-        timeEngine().runIn(20, TimeUnit.SECONDS, () -> {
+        timeEngine().schedule(20, TimeUnit.SECONDS, () -> {
             System.out.println("fin");
             GhostAIComponent.setCurrentGlobalState(GhostAIComponent.State.CHASE);
             getLevel().getEntitiesWithComponent(GhostAIComponent.class).forEach(ghost -> {
@@ -244,7 +245,8 @@ public class PacMan extends GameApplication {
         if(remainingPacs() == 0){
             System.out.println("gg");
         }
-        timeEngine().runIn(5, TimeUnit.SECONDS, () -> {
+
+        timeEngine().schedule(5, TimeUnit.SECONDS, () -> {
             pacmanLogic.setCurrentMode(PacManLogic.Mode.NORMAL);
             soundEngine().stopSound("get_out_of_my_swamp.wav");
         });
@@ -264,7 +266,7 @@ public class PacMan extends GameApplication {
 
         getLevel().getSingletonEntity(Type.PACMAN).getComponent(RenderComponent.class).getTexture().setCurrentChannel("death");
 
-        timeEngine().runIn(1, TimeUnit.SECONDS, this::replaceEntity);
+        timeEngine().schedule(1, TimeUnit.SECONDS, this::replaceEntity);
 
         getLevel().getEntitiesWithComponent(GhostAIComponent.class).forEach(ghost -> {
             GhostAIComponent ai = ghost.getComponent(GhostAIComponent.class);

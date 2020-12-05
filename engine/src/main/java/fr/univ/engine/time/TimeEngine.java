@@ -1,52 +1,65 @@
 package fr.univ.engine.time;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.Comparator;
+import java.util.PriorityQueue;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Engine used to manipulate time sensitive events.
+ * Engine used to run task at a future point and generally
+ * any time related work should be handled by this engine.
  */
 public class TimeEngine {
     /**
-     * Map a list of actions to the point in time they should start.
-     * The point of start is expressed in nanoseconds.
+     * The scheduled action to run later.
      */
-    private final Map<Long, List<Runnable>> timeToActions = new HashMap<>();
+    private final PriorityQueue<FutureTask> scheduledTasks = new PriorityQueue<>(Comparator.comparingLong(o -> o.startTime));
 
     /**
-     * Run a given function when a duration will have passed.
+     * Schedule a task to be run in the future.
      *
-     * @param duration the time to wait.
-     * @param unit the unit in which the time to wait is mesure.
-     * @param r the action to schedule.
+     * @param task the task.
      */
-    public void runIn(long duration, TimeUnit unit, Runnable r) {
-        long start = System.nanoTime() + unit.toNanos(duration);
-
-        List<Runnable> actions = timeToActions.getOrDefault(start, new ArrayList<>());
-        actions.add(r);
-        timeToActions.put(start, actions);
+    public void schedule(FutureTask task) {
+        scheduledTasks.add(task);
     }
 
     /**
-     * Update the TimeEngine and call actions if the time has come.
+     * Construct and schedule a task to be run in the future.
+     *
+     * @see FutureTask#FutureTask(long, TimeUnit, Runnable) for the constructor used.
+     */
+    public void schedule(long runIn, TimeUnit timeUnit, Runnable action) {
+        scheduledTasks.add(new FutureTask(runIn, timeUnit, action));
+    }
+
+    /**
+     * Cancel a specific task from running.
+     *
+     * @param task the task to cancel.
+     */
+    public void cancel(FutureTask task) {
+        this.scheduledTasks.remove(task);
+    }
+
+    /**
+     * Cancel all task that have a specific identifier.
+     *
+     * @param identifier the identifier of the tasks to cancel.
+     */
+    public void cancel(Object identifier) {
+        this.scheduledTasks.removeIf(task -> task.identifier.equals(identifier));
+    }
+
+    /**
+     * Update the TimeEngine and run actions if the time has come for them to go.
      */
     public void update() {
         long time = System.nanoTime();
 
-        List<Long> consumed = new ArrayList<>();
-        timeToActions.forEach((start, runnable) -> {
-            if (start <= time) {
-                consumed.add(start);
-            }
-        });
-
-        consumed.forEach(start -> {
-            timeToActions.get(start).forEach(Runnable::run);
-            timeToActions.remove(start);
-        });
+        FutureTask task;
+        while (!scheduledTasks.isEmpty() && scheduledTasks.peek() != null && scheduledTasks.peek().startTime <= time) {
+            task = scheduledTasks.remove();
+            task.action.run();
+        }
     }
 }
