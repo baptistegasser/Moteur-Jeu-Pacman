@@ -8,6 +8,7 @@ import fr.univ.engine.core.entity.Entity;
 import fr.univ.engine.core.entity.EntityBuilder;
 import fr.univ.engine.core.entity.Level;
 import fr.univ.engine.core.entity.LevelLoader;
+import fr.univ.engine.logging.LoggingEngine;
 import fr.univ.engine.math.Point;
 import fr.univ.engine.physic.CollisionHandler;
 import fr.univ.engine.physic.PhysicComponent;
@@ -292,6 +293,11 @@ public class PacMan extends GameApplication {
         ghost.setDead();
         globalVars().put("score", globalVars().getInt("score")+200);
         soundEngine().playLoop("ghost_return_spawn.wav", 0.15);
+    }
+
+    @Override
+    protected void startPlay() {
+        LoggingEngine.info("salut !");
     }
 
     public static void main(String[] args) {

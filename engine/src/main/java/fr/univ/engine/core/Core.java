@@ -118,9 +118,20 @@ public final class Core {
             state = State.INIT;
             app.initGame();
 
+            while (this.state != State.PLAY) {
+                try {
+                    synchronized (this) {
+                        this.wait();
+                    }
+                } catch (InterruptedException e) {
+                    throw new CoreException("Failed to wait for game start", e);
+                }
+            }
+
+            app.startPlay();
+
             while (state != State.STOP && state != State.QUIT) {
                 loop();
-
             }
         }
 
@@ -239,6 +250,9 @@ public final class Core {
 
     void play() {
         this.state = State.PLAY;
+        synchronized (this) {
+            this.notifyAll();
+        }
     }
 
     void pause() {

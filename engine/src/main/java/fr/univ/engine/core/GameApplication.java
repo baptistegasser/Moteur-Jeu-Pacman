@@ -40,9 +40,18 @@ public abstract class GameApplication {
     protected abstract void config(Config config);
 
     /**
-     * Method called just before starting the game.
+     * Method called for initialization purposes.
+     * Here we should load, configure, link the different elements
+     * of our super awesome game totally not bugged game.
      */
     protected abstract void initGame();
+
+    /**
+     * Method called just before entering the game loop.
+     * Allow to start event that should not be planed until last moments
+     * such as time related event.
+     */
+    protected abstract void startPlay();
 
     //*******************************//
     //*     attributes getters      *//
