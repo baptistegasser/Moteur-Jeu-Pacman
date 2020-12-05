@@ -5,9 +5,9 @@ import javafx.scene.image.Image;
 import java.util.List;
 
 /**
- * A texture that change the displayed image to create animation.
+ * A sprite that change the displayed image over time to create animation.
  */
-public class AnimatedTexture extends Texture {
+public class Animation implements ISprite {
     /**
      * The different frames of this texture.
      */
@@ -30,15 +30,12 @@ public class AnimatedTexture extends Texture {
     private long lastFrameChange;
 
     /**
-     * Create an animated texture.
+     * Create an animated sprite.
      *
-     * @param width the width at which to render.
-     * @param height the height at which to render.
      * @param frameDuration the duration of a single frame.
      * @param frames the list of frames making the animation.
      */
-    public AnimatedTexture(double width, double height, int frameDuration, List<Image> frames) {
-        super(width, height);
+    public Animation(int frameDuration, List<Image> frames) {
         this.frames = frames;
         this.frameCount = frames.size();
         this.frameDuration = frameDuration;

@@ -3,16 +3,15 @@ package fr.univ.engine.render.texture;
 import javafx.scene.image.Image;
 
 /**
- * A simple texture made from one image that never change.
+ * A simple sprite made from one image that never change.
  */
-public class FixedTexture extends Texture {
+public class Sprite implements ISprite {
     /**
-     * The image of this texture.
+     * The image of this sprite.
      */
     private final Image image;
 
-    public FixedTexture(double width, double height, Image image) {
-        super(width, height);
+    public Sprite(Image image) {
         this.image = image;
     }
 
