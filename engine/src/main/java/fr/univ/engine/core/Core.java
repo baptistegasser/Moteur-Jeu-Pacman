@@ -118,7 +118,8 @@ public final class Core {
             state = State.INIT;
             app.initGame();
 
-            while (this.state != State.PLAY) {
+            // Wait for the game to either start to play or quit the engine
+            while (this.state != State.PLAY && this.state != State.QUIT) {
                 try {
                     synchronized (this) {
                         this.wait();
@@ -127,8 +128,12 @@ public final class Core {
                     throw new CoreException("Failed to wait for game start", e);
                 }
             }
-
-            app.startPlay();
+            // After waiting quit or call the game's startPlay() method
+            if (state == State.QUIT) {
+                break;
+            } else {
+                app.startPlay();
+            }
 
             while (state != State.STOP && state != State.QUIT) {
                 loop();
@@ -248,16 +253,26 @@ public final class Core {
         return accumulator;
     }
 
-    void play() {
-        this.state = State.PLAY;
+    /**
+     * Update the current state.
+     *
+     * @param state the new state.
+     */
+    private void setState(State state) {
+        this.state = state;
+
         synchronized (this) {
             this.notifyAll();
         }
     }
 
+    void play() {
+        setState(State.PLAY);
+    }
+
     void pause() {
         if (this.state == State.PLAY) {
-            this.state = State.PAUSE;
+            setState(State.PAUSE);
         } else {
             LoggingEngine.warning("Attempting to pause while the game is not in play" + state);
         }
@@ -265,18 +280,18 @@ public final class Core {
 
     void unpause() {
         if (this.state == State.PAUSE) {
-            this.state = State.PLAY;
+            setState(State.PLAY);
         } else {
             LoggingEngine.warning("Attempting to unpause while the game is not paused" + state);
         }
     }
 
     void stop() {
-        this.state = State.STOP;
+        setState(State.STOP);
     }
 
     void quit() {
-        this.state = State.QUIT;
+        setState(State.QUIT);
     }
 
     //*******************************//
