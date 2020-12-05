@@ -246,14 +246,14 @@ public class PacMan extends GameApplication {
         }
         timeEngine().runIn(5, TimeUnit.SECONDS, () -> {
             pacmanLogic.setCurrentMode(PacManLogic.Mode.NORMAL);
-            soundEngine().stopClip("get_out_of_my_swamp.wav");
+            soundEngine().stopSound("get_out_of_my_swamp.wav");
         });
     }
 
     private void pacmanHit() {
         globalVars().put("lives", globalVars().getInt("lives")-1);
 
-        soundEngine().stopAllClips();
+        soundEngine().stopAllSounds();
         soundEngine().playClip("pac_die.wav");
         pacmanLogic.stop();
         pacmanLogic.hit();

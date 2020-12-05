@@ -1,21 +1,23 @@
 package fr.univ.engine.sound;
 
 import fr.univ.engine.assets.AssetsLoader;
+import fr.univ.engine.logging.LoggingEngine;
 import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Engine charged of playing sounds.
  */
 public class SoundEngine {
     /**
-     * The sounds currently being played.
+     * Store the sounds currently being played.
+     * Store only an object reference as different class might be
+     * used to play different sounds.
      */
-    private HashMap<String, AudioClip> currentlyPlaying;
+    private HashMap<String, Object> currentlyPlaying;
     /**
      * The global volume of the sound engine.
      * A media played at max volume will correspond to this volume.
@@ -28,7 +30,7 @@ public class SoundEngine {
      */
     public void init() {
         if (currentlyPlaying != null && !currentlyPlaying.isEmpty()) {
-            stopAllClips();
+            stopAllSounds();
         } else {
             this.currentlyPlaying = new HashMap<>();
         }
@@ -114,6 +116,7 @@ public class SoundEngine {
             mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
         }
         mediaPlayer.play();
+        currentlyPlaying.put(name, mediaPlayer);
         return mediaPlayer;
     }
 
@@ -146,27 +149,38 @@ public class SoundEngine {
     }
 
     /**
-     * Stop the given music name
-     * If the music is playing, the music is stopped
-     * @param name
+     * Stop a specific sound currently playing.
+     * 
+     * @param name the sound's name.
      */
-    public void stopClip (String name) {
-        for (Map.Entry<String, AudioClip> clip: currentlyPlaying.entrySet()){
-            if(clip.getKey().equals(name)) {
-                clip.getValue().stop();
-                currentlyPlaying.remove(clip);
-            }
-        }
+    public void stopSound(String name) {
+        stopSound(this.currentlyPlaying.get(name));
+        this.currentlyPlaying.remove(name);
     }
 
     /**
-     * Stop all currently playing clips.
+     * Stop all currently playing sounds.
      */
-    public void stopAllClips() {
-        for (Map.Entry<String, AudioClip> clip: currentlyPlaying.entrySet()) {
-            clip.getValue().stop();
+    public void stopAllSounds() {
+        this.currentlyPlaying.forEach((name, sound) -> stopSound(sound));
+        this.currentlyPlaying.clear();
+    }
+
+    /**
+     * Stop a sound from playing any longer.
+     *
+     * @param o the object representing the sound.
+     */
+    private void stopSound(Object o) {
+        if (o == null) return;
+
+        if (o instanceof AudioClip) {
+            ((AudioClip) o).stop();
+        } else if (o instanceof MediaPlayer) {
+            ((MediaPlayer) o).stop();
+        } else {
+            LoggingEngine.severe("Unknown music object currently playing, can't stop it.");
         }
-        currentlyPlaying.clear();
     }
 
     /**
