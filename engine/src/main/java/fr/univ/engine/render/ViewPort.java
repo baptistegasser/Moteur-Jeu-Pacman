@@ -6,6 +6,8 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.canvas.Canvas;
 
+import java.math.BigDecimal;
+
 /**
  * A viewport that contains a JavaFX {@link Canvas}.
  */
@@ -91,8 +93,8 @@ public class ViewPort {
      * @param pos the new position
      */
     private void setCenter(Point pos) {
-        this.center.x = pos.x;
-        this.center.y = pos.y;
+        this.center.setX(pos.x());
+        this.center.setY(pos.y());
     }
 
     /***
@@ -106,8 +108,8 @@ public class ViewPort {
      */
     Point toAbsolutePos(Point pos, double w, double h) {
         Point abs = pos.copy();
-        abs.x = abs.x - w/2 + center.x;
-        abs.y = abs.y - h/2 + center.y;
+        abs.setX(abs.x().subtract(BigDecimal.valueOf(w/2)).add(center.x()));
+        abs.setY(abs.y().subtract(BigDecimal.valueOf(h/2)).add(center.y()));
         return abs;
     }
 }

@@ -18,6 +18,7 @@ import fr.univ.pacman.component.PacManLogic;
 import fr.univ.pacman.component.ai.GhostAIComponent;
 import javafx.scene.input.KeyCode;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -117,7 +118,7 @@ public class PacMan extends GameApplication {
         // Teleport entities that hit a teleport pad.
         CollisionHandler teleportCollisionsHandler = (e1, pad) -> {
             TransformComponent transform = e1.getComponent(TransformComponent.class);
-            transform.setPosition(new Point(-1*transform.position().x, transform.position().y));
+            transform.setPosition(new Point(transform.position().x().multiply(BigDecimal.valueOf(-1)), transform.position().y()));
         };
         physicEngine().onCollision(PACMAN, TELEPORT, teleportCollisionsHandler);
         physicEngine().onCollision(GHOST, TELEPORT, teleportCollisionsHandler);

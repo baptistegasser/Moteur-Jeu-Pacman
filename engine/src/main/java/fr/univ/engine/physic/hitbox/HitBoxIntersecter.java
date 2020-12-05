@@ -3,6 +3,8 @@ package fr.univ.engine.physic.hitbox;
 import fr.univ.engine.logging.LoggingEngine;
 import fr.univ.engine.math.Point;
 
+import java.math.BigDecimal;
+
 /**
  * Static utility class to test if hit boxes intersects.
  */
@@ -37,11 +39,7 @@ public class HitBoxIntersecter {
      * @return true if the two hitbox intersect.
      */
     private static boolean intersect(CircleHitBox h1, Point p1, CircleHitBox h2, Point p2) {
-        double dx = p1.x - p2.x;
-        double dy = p1.y - p2.y;
-        double distance = Math.sqrt(dx * dx + dy * dy);
-
-        return distance < h1.diameter() / 2 + h2.diameter() / 2;
+        return p1.distance(p2) < h1.diameter() / 2 + h2.diameter() / 2;
     }
 
     /**
@@ -55,11 +53,12 @@ public class HitBoxIntersecter {
      */
     private static boolean intersect(SquareHitBox h1, Point p1, SquareHitBox h2, Point p2) {
         // Size between two center element
-        double diff = (h1.size() + h2.size()) / 2;
+        BigDecimal diff = BigDecimal.valueOf((h1.size() + h2.size()) / 2);
+        BigDecimal negativeDiff = diff.multiply(BigDecimal.valueOf(-1));
 
-        return  p1.x - p2.x < diff &&
-                p1.x - p2.x > -diff &&
-                p1.y - p2.y < diff &&
-                p1.y - p2.y > -diff;
+        return  p1.x().subtract(p2.x()).compareTo(diff) < 0 &&
+                p1.x().subtract(p2.x()).compareTo(negativeDiff) > 0 &&
+                p1.y().subtract(p2.y()).compareTo(diff) < 0 &&
+                p1.y().subtract(p2.y()).compareTo(negativeDiff) > 0;
     }
 }

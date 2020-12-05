@@ -22,7 +22,7 @@ public class BlueGhostAIComponent extends GhostAIComponent {
         Entity redGhost = getLevel().getEntitiesWithComponent(RedGhostAIComponent.class).get(0);
         Point redGhostPos = redGhost.getComponent(TransformComponent.class).position();
 
-        Vector vector = new Vector(target.x - redGhostPos.x, target.y - redGhostPos.y);
+        Vector vector = new Vector(target.x().subtract(redGhostPos.x()), target.y().subtract(redGhostPos.y()));
         target.add(vector);
         return target;
     }

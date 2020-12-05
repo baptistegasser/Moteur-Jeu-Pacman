@@ -49,14 +49,17 @@ public class Renderer {
             TransformComponent transform = entity.getComponent(TransformComponent.class);
             Point pos = viewport.toAbsolutePos(transform.position(), texture.width(), texture.height());
 
+            double x  = pos.xValue();
+            double y  = pos.yValue();
+
             if ((transform.rotation() % 360) == 0) {
-                actions.add(ctx -> ctx.drawImage(texture.getImage(), pos.x, pos.y, texture.width(), texture.height()));
+                actions.add(ctx -> ctx.drawImage(texture.getImage(), x, y, texture.width(), texture.height()));
             } else {
                 actions.add(ctx -> {
                     ctx.save();
-                    Rotate rt = new Rotate(transform.rotation(), pos.x + texture.width()/2, pos.y + texture.height()/2);
+                    Rotate rt = new Rotate(transform.rotation(), x + texture.width()/2, y + texture.height()/2);
                     ctx.setTransform(rt.getMxx(), rt.getMyx(), rt.getMxy(), rt.getMyy(), rt.getTx(), rt.getTy());
-                    ctx.drawImage(texture.getImage(), pos.x, pos.y, texture.width(), texture.height());
+                    ctx.drawImage(texture.getImage(), x, y, texture.width(), texture.height());
                     ctx.restore();
                 });
             }

@@ -23,8 +23,16 @@ public class Point {
         return x;
     }
 
+    public double xValue() {
+        return x.doubleValue();
+    }
+
     public BigDecimal y() {
         return y;
+    }
+
+    public double yValue() {
+        return y.doubleValue();
     }
 
     /**
@@ -52,6 +60,46 @@ public class Point {
     public void set(Point point) {
         this.x = x.add(point.x);
         this.y = y.add(point.y);
+    }
+
+    public void setX(double x) {
+        setX(BigDecimal.valueOf(x));
+    }
+
+    public void setX(BigDecimal x) {
+        this.x = x;
+    }
+
+    public void incrementX() {
+        incrementX(1.0);
+    }
+
+    public void incrementX(double val) {
+        incrementX(BigDecimal.valueOf(val));
+    }
+
+    public void incrementX(BigDecimal val) {
+        setX(x.add(val));
+    }
+
+    public void setY(double y) {
+        setY(BigDecimal.valueOf(y));
+    }
+
+    public void setY(BigDecimal y) {
+        this.y = y;
+    }
+
+    public void incrementY() {
+        incrementY(1.0);
+    }
+
+    public void incrementY(double val) {
+        incrementY(BigDecimal.valueOf(val));
+    }
+
+    public void incrementY(BigDecimal val) {
+        setY(y.add(val));
     }
 
     /**

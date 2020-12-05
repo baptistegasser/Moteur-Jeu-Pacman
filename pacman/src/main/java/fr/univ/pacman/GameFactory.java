@@ -27,7 +27,7 @@ public class GameFactory extends EntityFactory {
     private final int TILE_SIZE = 16;
 
     private Point tilePos(Point charPos) {
-        return new Point(TILE_SIZE * charPos.x - 216, TILE_SIZE * charPos.y - 240);
+        return new Point(TILE_SIZE * charPos.xValue() - 216, TILE_SIZE * charPos.yValue() - 240);
     }
 
     /**

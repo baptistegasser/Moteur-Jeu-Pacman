@@ -47,8 +47,8 @@ public class LevelLoader {
             String line;
             while ((line = br.readLine()) != null) {
                 parseLine(line);
-                charPos.x = 0;
-                charPos.y += 1;
+                charPos.setX(0);
+                charPos.incrementY();
             }
         } catch (IOException ioe) {
             throw new RuntimeException("Failed to load map from", ioe);
@@ -70,7 +70,7 @@ public class LevelLoader {
                 level.add(e);
             }
 
-            charPos.x += 1;
+            charPos.incrementX();
         }
     }
 }
