@@ -8,7 +8,6 @@ import fr.univ.engine.core.entity.Entity;
 import fr.univ.engine.core.entity.EntityBuilder;
 import fr.univ.engine.core.entity.Level;
 import fr.univ.engine.core.entity.LevelLoader;
-import fr.univ.engine.logging.LoggingEngine;
 import fr.univ.engine.math.Point;
 import fr.univ.engine.physic.CollisionHandler;
 import fr.univ.engine.physic.PhysicComponent;
@@ -132,8 +131,9 @@ public class PacMan extends GameApplication {
         });
 
         physicEngine().onCollision(GHOST, GHOST_BASE, (ghost, e2) -> {
-            if(ghost.getComponent(GhostAIComponent.class).isDead())
-                soundEngine().stopSound("ghost_return_spawn.wav");
+            if(ghost.getComponent(GhostAIComponent.class).isDead()) {
+                soundEngine().stop("ghost_return_spawn.wav", ghost);
+            }
             ghost.getComponent(GhostAIComponent.class).spawn();
             ghost.getComponent(PhysicComponent.class).setSpeed(GhostAIComponent.NORMALESPEED);
         });
@@ -212,7 +212,7 @@ public class PacMan extends GameApplication {
         if (ghost.getComponent(GhostAIComponent.class).isDead()) {
             return;
         } else if (ghost.getComponent(GhostAIComponent.class).isScared()) {
-            eatGhost(ghost.getComponent(GhostAIComponent.class));
+            eatGhost(ghost);
         } else pacmanHit(pacman);
     }
 
@@ -248,9 +248,8 @@ public class PacMan extends GameApplication {
      * @param superPac
      */
     private void eatSuperPac(Entity pacman, Entity superPac) {
-        soundEngine().stopSound("pac_can_eat_ghost.wav");
-        soundEngine().play("eating_pac.wav",0.05);
-        soundEngine().playLoop("pac_can_eat_ghost.wav",0.05);
+        soundEngine().playClip("eating_pac.wav",0.05);
+        soundEngine().playClip("pac_can_eat_ghost.wav",0.05);
         GhostAIComponent.setCurrentGlobalState(GhostAIComponent.State.SCARED);
         getLevel().getEntitiesWithComponent(GhostAIComponent.class).forEach(ghost -> {
             ghost.getComponent(GhostAIComponent.class).setTakeCurrentGlobalState(true);
@@ -261,7 +260,7 @@ public class PacMan extends GameApplication {
         timeEngine().cancel("FINISHPOWER");
 
         FutureTask finishPower = new FutureTask(14, TimeUnit.SECONDS, "FINISHPOWER", () -> {
-            soundEngine().stopSound("pac_can_eat_ghost.wav");
+            soundEngine().stop("pac_can_eat_ghost.wav");
             GhostAIComponent.setCurrentGlobalState(GhostAIComponent.State.CHASE);
             getLevel().getEntitiesWithComponent(GhostAIComponent.class).forEach(ghost -> {
                 ghost.getComponent(GhostAIComponent.class).setTakeCurrentGlobalState(true);
@@ -285,7 +284,7 @@ public class PacMan extends GameApplication {
      */
     private void eatRainbowPac(Entity pacman, Entity rainbowPac) {
         pacmanLogic.setCurrentMode(PacManLogic.Mode.RAINBOW);
-        soundEngine().playClip("get_out_of_my_swamp.wav", 0.05);
+        soundEngine().playSong("get_out_of_my_swamp.wav", 0.05);
         getLevel().destroyEntity(rainbowPac);
         if(remainingPacs() == 0){
             System.out.println("gg");
@@ -293,7 +292,7 @@ public class PacMan extends GameApplication {
 
         timeEngine().schedule(10, TimeUnit.SECONDS, () -> {
             pacmanLogic.setCurrentMode(PacManLogic.Mode.NORMAL);
-            soundEngine().stopSound("get_out_of_my_swamp.wav");
+            soundEngine().stop("get_out_of_my_swamp.wav");
         });
     }
 
@@ -305,7 +304,7 @@ public class PacMan extends GameApplication {
             System.out.println("HIT");
             globalVars().put("lives", globalVars().getInt("lives") - 1);
 
-            soundEngine().stopAllSounds();
+            soundEngine().stopAll();
             soundEngine().playClip("pac_die.wav", 0.05);
 
             pacmanLogic.stop();
@@ -354,10 +353,12 @@ public class PacMan extends GameApplication {
      * Handle when pacman hit a ghost while ghost was scared
      * @param ghost
      */
-    private void eatGhost(GhostAIComponent ghost) {
-        ghost.setDead();
+    private void eatGhost(Entity ghost) {
+        GhostAIComponent ai = ghost.getComponent(GhostAIComponent.class);
+        ai.setDead();
         globalVars().put("score", globalVars().getInt("score")+200);
-        soundEngine().playLoop("ghost_return_spawn.wav", 0.15);
+        System.out.println(ghost);
+        soundEngine().playSong("ghost_return_spawn.wav", 0.15, true, ghost);
         ghost.getComponent(PhysicComponent.class).setSpeed(GhostAIComponent.DEATHSPEED);
     }
 
