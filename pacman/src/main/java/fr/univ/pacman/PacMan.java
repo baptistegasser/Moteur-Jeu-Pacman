@@ -98,14 +98,24 @@ public class PacMan extends GameApplication {
         uiEngine().clear();
         AssetsLoader.loadFont("PressStart2P.ttf");
         uiEngine().display(AssetsLoader.loadView("Menu.fxml"));
+
+        IOEngine().onKeyPressed(KeyCode.UP, () -> pacmanLogic.up());
+        IOEngine().onKeyPressed(KeyCode.DOWN, () -> pacmanLogic.down());
+        IOEngine().onKeyPressed(KeyCode.LEFT, () -> pacmanLogic.left());
+        IOEngine().onKeyPressed(KeyCode.RIGHT, () -> pacmanLogic.right());
+        IOEngine().onKeyPressed(KeyCode.ESCAPE, () -> {
+            pause();
+            uiEngine().display(AssetsLoader.loadView("Pause.fxml"));
+        });
+
+        setEvents();
     }
 
     /**
      * Setup events for Pacman when he hit something (pac, ghost ...)
      * Playing music or modify variable regarding of  the event.
-     * @param pacmanLogic
      */
-    public void setEvents (PacManLogic pacmanLogic) {
+    public void setEvents () {
         physicEngine().onCollision(PACMAN, GHOST, this::pacmanWithGhost);
 
         physicEngine().onCollision(PACMAN, GREATWALL, (e1, e2) -> pacmanLogic.stop());
@@ -394,24 +404,13 @@ public class PacMan extends GameApplication {
         soundEngine().playClip("intro.wav", 0.05);
         uiEngine().display(AssetsLoader.loadView("Overlay.fxml"));
         loadLevel();
+        pacmanLogic = getLevel().getSingletonEntity(Type.PACMAN).getComponent(PacManLogic.class);
 
         List<Entity> ghosts = getLevel().getEntitiesWithComponent(GhostAIComponent.class);
         for (int i = 0; i <= 3; ++i) {
             final int index = i;
             timeEngine().schedule((i*7)+4, TimeUnit.SECONDS, () -> ghosts.get(index).getComponent(GhostAIComponent.class).spawn());
         }
-
-        pacmanLogic = getLevel().getSingletonEntity(Type.PACMAN).getComponent(PacManLogic.class);
-        IOEngine().onKeyPressed(KeyCode.UP, pacmanLogic::up);
-        IOEngine().onKeyPressed(KeyCode.DOWN, pacmanLogic::down);
-        IOEngine().onKeyPressed(KeyCode.LEFT, pacmanLogic::left);
-        IOEngine().onKeyPressed(KeyCode.RIGHT, pacmanLogic::right);
-        IOEngine().onKeyPressed(KeyCode.ESCAPE, () -> {
-            pause();
-            uiEngine().display(AssetsLoader.loadView("Pause.fxml"));
-        });
-
-        setEvents(pacmanLogic);
 
         for (int i = 0; i<currentListFruits.size(); i++) {
             switch (i) {
