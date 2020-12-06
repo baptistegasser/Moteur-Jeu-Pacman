@@ -273,7 +273,10 @@ public abstract class GhostAIComponent extends Component {
     }
 
     public void teleportToBase() {
-        getComponent(TransformComponent.class).setPosition(base);
+        if (state != State.NONE) {
+            getComponent(TransformComponent.class).setPosition(base);
+            this.spawn();
+        }
     }
 
     public void setTakeCurrentGlobalState(boolean takeCurrentGlobalState) {

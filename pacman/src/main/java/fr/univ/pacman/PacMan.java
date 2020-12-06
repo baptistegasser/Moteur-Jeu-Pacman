@@ -345,7 +345,6 @@ public class PacMan extends GameApplication {
      * Replace entities when PacMan is dying
      */
     private void replaceEntity(Entity pacman) {
-        System.out.println("replace 2");
         //Replace PacMan
         pacman.getComponent(RenderComponent.class).getTexture().setCurrentChannel("walking");
         pacman.getComponent(TransformComponent.class).setPosition(new Point(8,128));
