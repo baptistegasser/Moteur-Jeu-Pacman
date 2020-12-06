@@ -1,10 +1,7 @@
 package fr.univ.engine.sound;
 
 import fr.univ.engine.assets.AssetsLoader;
-import fr.univ.engine.logging.LoggingEngine;
-import javafx.scene.media.AudioClip;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
+import fr.univ.engine.math.Math;
 
 import java.util.HashMap;
 
@@ -13,11 +10,13 @@ import java.util.HashMap;
  */
 public class SoundEngine {
     /**
-     * Store the sounds currently being played.
-     * Store only an object reference as different class might be
-     * used to play different sounds.
+     * Map sounds to their associated keys.
      */
-    private HashMap<String, Object> currentlyPlaying;
+    private final HashMap<Object, HashMap<String, Sound<?>>> keyToSounds = new HashMap<>();
+    /**
+     * Default key if none is given.
+     */
+    private final static Object NO_KEY = new Object();
     /**
      * The global volume of the sound engine.
      * A media played at max volume will correspond to this volume.
@@ -26,14 +25,217 @@ public class SoundEngine {
     private double globalVolume = 1.0;
 
     /**
+     * Initialize the list for a specific key if none present.
+     *
+     * @param key the key to check and init.
+     */
+    private void initKeyIfNeeded(Object key) {
+        this.keyToSounds.computeIfAbsent(key, k -> new HashMap<>());
+    }
+
+    /**
+     * Load an and play a clip from assets (short media).
+     *
+     * @param name the clip name.
+     */
+    public void playClip(String name) {
+        playClip(name, 1.0, false, NO_KEY);
+    }
+
+    /**
+     * Load an and play a clip from assets (short media).
+     *
+     * @param name the clip name.
+     */
+    public void playClip(String name, Object key) {
+        playClip(name, 1.0, false, key);
+    }
+
+    /**
+     * Load an and play a clip from assets (short media).
+     *
+     * @param name the clip name.
+     * @param volume the wanted output volume level.
+     */
+    public void playClip(String name, double volume) {
+        playClip(name, volume, false, NO_KEY);
+    }
+
+    /**
+     * Load an and play a clip from assets (short media).
+     *
+     * @param name the clip name.
+     * @param volume the wanted output volume level.
+     */
+    public void playClip(String name, double volume, Object key) {
+        playClip(name, volume, false, key);
+    }
+
+    /**
+     * Load an and play a clip from assets (short media).
+     *
+     * @param name the clip name.
+     * @param volume the wanted output volume level.
+     ** @param loop set to true to loop the sound.
+     */
+    public void playClip(String name, double volume, boolean loop) {
+        playClip(name, volume, loop, NO_KEY);
+    }
+
+    /**
+     * Load an and play a clip from assets (short media).
+     *
+     * @param name the clip name.
+     * @param volume the wanted output volume level.
+     ** @param loop set to true to loop the sound.
+     */
+    public void playClip(String name, double volume, boolean loop, Object key) {
+        Clip clip = AssetsLoader.loadClip(name);
+        clip.setVolume(volume);
+        if (loop) clip.setLoop();
+        play(clip, key);
+    }
+
+    /**
+     * Load an and play a song from assets (long media).
+     *
+     * @param name the song name.
+     */
+    public void playSong(String name) {
+        playSong(name, 1.0, false, NO_KEY);
+    }
+
+    /**
+     * Load an and play a song from assets (long media).
+     *
+     * @param name the song name.
+     */
+    public void playSong(String name, Object key) {
+        playSong(name, 1.0, false, key);
+    }
+
+    /**
+     * Load an and play a song from assets (long media).
+     *
+     * @param name the song name.
+     * @param volume the wanted output volume level.
+     */
+    public void playSong(String name, double volume) {
+        playSong(name, volume, false, NO_KEY);
+    }
+
+    /**
+     * Load an and play a song from assets (long media).
+     *
+     * @param name the song name.
+     * @param volume the wanted output volume level.
+     */
+    public void playSong(String name, double volume, Object key) {
+        playSong(name, volume, false, key);
+    }
+
+    /**
+     * Load an and play a song from assets (long media).
+     *
+     * @param name the song name.
+     * @param volume the wanted output volume level.
+     * @param loop set to true to loop the sound.
+     */
+    public void playSong(String name, double volume, boolean loop) {
+        playSong(name, volume, loop, NO_KEY);
+    }
+
+    /**
+     * Load an and play a song from assets (long media).
+     *
+     * @param name the song name.
+     * @param volume the wanted output volume level.
+     * @param loop set to true to loop the sound.
+     */
+    public void playSong(String name, double volume, boolean loop, Object key) {
+        Song song = AssetsLoader.loadSong(name);
+        song.setVolume(volume);
+        if (loop) song.setLoop();
+        play(song, key);
+    }
+
+    /**
+     * Play a sound without associating a key to it.
+     *
+     * @param sound the sound to play.
+     */
+    public void play(Sound<?> sound) {
+        play(sound, NO_KEY);
+    }
+
+    /**
+     * Play a sound and associate it to a key for identification.
+     *
+     * @param sound the sound to play.
+     * @param key the key.
+     */
+    public void play(Sound<?> sound, Object key) {
+        initKeyIfNeeded(key);
+        Sound<?> current = keyToSounds.get(key).get(sound.name);
+        if (current != null) {
+            current.stop();
+        }
+
+        sound.play();
+        keyToSounds.get(key).put(sound.name, sound);
+    }
+
+    /**
+     * Stop all sound associated with a key.
+     *
+     * @param key the key.
+     */
+    public void stop(Object key) {
+        initKeyIfNeeded(key);
+        keyToSounds.get(key).forEach((s, sound) -> sound.stop());
+        keyToSounds.get(key).clear();
+    }
+
+    /**
+     * Stop all sound that are not associated to a key
+     * and have a specific name.
+     *
+     * @param soundName the sound name.
+     */
+    public void stop(String soundName) {
+        stop(soundName, NO_KEY);
+    }
+
+    /**
+     * Stop all sound associated with a key and with a
+     * specific name.
+     *
+     * @param soundName the sound name.
+     * @param key the key.
+     */
+    public void stop(String soundName, Object key) {
+        initKeyIfNeeded(key);
+        Sound<?> s = keyToSounds.get(key).remove(soundName);
+        if (s != null) s.stop();
+        else
+            System.out.println();
+    }
+
+    /**
+     * Stop all currently playing sounds.
+     */
+    public void stopAll() {
+        this.keyToSounds.forEach((o, sounds) -> {
+            sounds.forEach((s, sound) -> sound.stop());
+            sounds.clear();
+        });
+    }
+
+    /**
      * Init the sound engine.
      */
     public void init() {
-        if (currentlyPlaying != null && !currentlyPlaying.isEmpty()) {
-            stopAllSounds();
-        } else {
-            this.currentlyPlaying = new HashMap<>();
-        }
+        stopAll();
     }
 
     /**
@@ -43,7 +245,7 @@ public class SoundEngine {
      * @param volume the new global volume.
      */
     public void setGlobalVolume(double volume) {
-        this.globalVolume = clamp(volume);
+        this.globalVolume = Math.clamp(0.0, 1.0, volume);
     }
 
     /**
@@ -51,146 +253,5 @@ public class SoundEngine {
      */
     public double getGlobalVolume() {
         return globalVolume;
-    }
-
-    /**
-     * Play a sound at max volume (1.0).
-     *
-     * @param name the name of the assets.
-     * @return the media player controlling the sound playing.
-     */
-    public MediaPlayer play(String name) {
-        return play(name, 1.0);
-    }
-
-    /**
-     * Play a sound at a specified volume.
-     *
-     * @param name the name of the assets.
-     * @param volume the desired volume level (clamped to the range <code>[0.0,&nbsp;1.0]</code>).
-     * @return the media player controlling the sound playing.
-     */
-    public MediaPlayer play(String name, double volume) {
-        return play(name, clamp(volume), false);
-    }
-
-
-    /**
-     * Play a sound at max volume (1.0) and loop it indefinitely.
-     *
-     * @param name the name of the assets.
-     * @return the media player controlling the sound playing.
-     */
-    public MediaPlayer playLoop(String name) {
-        return playLoop(name, 1.0);
-    }
-
-
-    /**
-     * Play a sound at a specified volume and loop it indefinitely.
-     *
-     * @param name the name of the assets.
-     * @param volume the desired volume level (clamped to the range <code>[0.0,&nbsp;1.0]</code>).
-     * @return the media player controlling the sound playing.
-     */
-    public MediaPlayer playLoop(String name, double volume) {
-        return play(name, clamp(volume), true);
-    }
-
-    /**
-     * Create a {@link MediaPlayer} and start playing a sound.
-     *
-     * @param name the name of the assets sound to play.
-     * @param volume the output volume level (clamped to the range <code>[0.0,&nbsp;1.0]</code>).
-     * @param loop specify if the sound should loop until stopped.
-     * @return the media player controlling the sound playing.
-     */
-    private MediaPlayer play(String name, double volume, boolean loop) {
-        // The target volume is the desired volume in function of the global volume
-        double targetVolume = globalVolume * volume;
-
-        Media media = AssetsLoader.loadSound(name);
-        MediaPlayer mediaPlayer = new MediaPlayer(media);
-        mediaPlayer.setVolume(targetVolume);
-        if (loop) {
-            mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
-        }
-        mediaPlayer.play();
-        currentlyPlaying.put(name, mediaPlayer);
-        return mediaPlayer;
-    }
-
-    /**
-     * Play a clip at max volume (1.0).
-     *
-     * @param name the name of the clip.
-     * @return the AudioClip being played.
-     */
-    public AudioClip playClip(String name) {
-        return playClip(name, 1.0);
-    }
-
-    /**
-     * Create a {@link AudioClip} and start playing it at a specific volume.
-     *
-     * @param name the name of the clip to play.
-     * @param volume the output volume level (clamped to the range <code>[0.0,&nbsp;1.0]</code>).
-     * @return the media player controlling the sound playing.
-     */
-    public AudioClip playClip(String name, double volume) {
-        // The target volume is the desired volume in function of the global volume
-        double targetVolume = globalVolume * clamp(volume);
-
-        AudioClip clip = AssetsLoader.loadClip(name);
-        clip.setVolume(targetVolume);
-        clip.play();
-        currentlyPlaying.put(name, clip);
-        return clip;
-    }
-
-    /**
-     * Stop a specific sound currently playing.
-     * 
-     * @param name the sound's name.
-     */
-    public void stopSound(String name) {
-        stopSound(this.currentlyPlaying.get(name));
-        this.currentlyPlaying.remove(name);
-    }
-
-    /**
-     * Stop all currently playing sounds.
-     */
-    public void stopAllSounds() {
-        this.currentlyPlaying.forEach((name, sound) -> stopSound(sound));
-        this.currentlyPlaying.clear();
-    }
-
-    /**
-     * Stop a sound from playing any longer.
-     *
-     * @param o the object representing the sound.
-     */
-    private void stopSound(Object o) {
-        if (o == null) return;
-
-        if (o instanceof AudioClip) {
-            ((AudioClip) o).stop();
-        } else if (o instanceof MediaPlayer) {
-            ((MediaPlayer) o).stop();
-        } else {
-            LoggingEngine.severe("Unknown music object currently playing, can't stop it.");
-        }
-    }
-
-    /**
-     * Clamp a volume value between the values accepted by
-     * JavaFX, i.e. between 0.0 and 1.0.
-     *
-     * @param volume the volume to clamped.
-     * @return the clamped value.
-     */
-    private double clamp(double volume) {
-        return Math.max(0.0, Math.min(volume, 1.0));
     }
 }
