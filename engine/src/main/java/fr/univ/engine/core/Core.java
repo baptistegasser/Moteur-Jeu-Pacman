@@ -1,6 +1,5 @@
 package fr.univ.engine.core;
 
-import fr.univ.engine.core.entity.Entity;
 import fr.univ.engine.core.entity.Level;
 import fr.univ.engine.io.IOEngine;
 import fr.univ.engine.logging.LoggingEngine;
@@ -15,11 +14,8 @@ import fr.univ.engine.ui.UiEngine;
 import javafx.application.Platform;
 import javafx.scene.paint.Color;
 
-import java.util.Arrays;
-
 /**
  * The core engine, charged to link all subsequent engines.
- * Their can be only one instance at a time of the Core engine.
  */
 public final class Core {
     /**
@@ -74,13 +70,13 @@ public final class Core {
     private Level level;
 
     /**
-     * Time step between call to the physic engine.
+     * Delta time step between call to the physic engine.
      */
-    private final double dt = 0.01;
+    private static final double DT = 0.01;
     /**
      * Target time step between two frame render.
      */
-    private final double SECOND_PER_FRAME = 1/60d;
+    private static final double SECOND_PER_FRAME = 1/60d;
 
     /**
      * Create a new instance of the core engine.
@@ -88,9 +84,6 @@ public final class Core {
      * @param args arguments passed from the commande line.
      */
     Core(String... args) {
-        // TODO parse arguments
-        System.out.println("Args: " + Arrays.toString(args));
-
         // Configure handling of unhandled exceptions
         Thread.setDefaultUncaughtExceptionHandler((t, e) -> {
             LoggingEngine.severe("Unhandled exception, the game will now crash.");
@@ -108,12 +101,19 @@ public final class Core {
         this.uiEngine = new UiEngine();
     }
 
+    /**
+     * Entry point of the core engine, start a game.
+     *
+     * @param app the game to run.
+     */
     public void start(GameApplication app) {
+        System.out.println("Starting " + config.title + " v" + config.version);
+
         app.config(this.config);
         preInit();
 
-        System.out.println("Starting " + config.title + " v" + config.version);
         while (state != State.QUIT) {
+            // Init the game
             this.init();
             state = State.INIT;
             app.initGame();
@@ -135,6 +135,7 @@ public final class Core {
                 app.startPlay();
             }
 
+            // While the game is playing or paused, run the main loop
             while (state != State.STOP && state != State.QUIT) {
                 loop();
             }
@@ -144,7 +145,8 @@ public final class Core {
     }
 
     /**
-     * The first initialization done only once.
+     * The first initialization done only once to setup engine notably JavaFX
+     * related configuration that should be called here.
      */
     private void preInit() {
         try {
@@ -159,7 +161,7 @@ public final class Core {
     }
 
     /**
-     * Initialize the sub engines each time a game start.
+     * Initialize the sub engines each time a new game is played.
      */
     private void init() {
         LoggingEngine.setLevel(java.util.logging.Level.INFO);
@@ -172,6 +174,65 @@ public final class Core {
     }
 
     /**
+     * The main loop of the engine.
+     * Charged of updating the different engines and components of
+     * a running game at the right time.
+     */
+    private void loop() {
+        double accumulator = 0.0; // The accumulated time to simulate
+        double currentTime = System.currentTimeMillis() / 1000d; // The current time
+
+        double startFrames = currentTime;   // The time at which we rendered the first frame
+        double lastFrames = currentTime;    // Store the last time we rendered a frame
+        int frames = 0;                     // The number of frames since startFrames
+
+        // Loop while state is valid (no paused, stopped...)
+        while (state == State.PLAY) {
+            // Update the current time and elapsed time
+            double newTime = System.currentTimeMillis() / 1000d;
+            double elapsedTime = newTime - currentTime;
+            currentTime = newTime;
+
+            // Accumulate the elapsed time to simulate
+            accumulator += elapsedTime;
+            // While the elapsed time have not been simulated, simulate a step of time dt
+            while (accumulator >= DT) {
+                // Tell the physic engine to do it's job
+                physicEngine.integrate(level.getEntitiesWithComponent(PhysicComponent.class));
+                // Tell the time engine to update
+                timeEngine.update();
+
+                // Call the components fixed updates
+                level.getEntities().forEach(e -> e.getComponents().forEach(Component::fixedUpdate));
+
+                // Decrease remaining time to integrate by dt
+                accumulator -= DT;
+            }
+
+            // Render a frame if enough time have elapsed
+            if (currentTime - lastFrames >= SECOND_PER_FRAME) {
+                lastFrames = currentTime;
+                frames += 1;
+
+                // Notify the io engine that a frame elapsed
+                ioEngine.nextFrame();
+                // Render the elapsed frame
+                renderEngine.render(level.getEntitiesWithComponent(RenderComponent.class));
+
+                // Call the components updates
+                level.getEntities().forEach(e -> e.getComponents().forEach(Component::update));
+            }
+
+            // If one second elapsed, display FPS
+            if (currentTime - startFrames >= 1) {
+                LoggingEngine.info("FPS: " + frames, Color.DARKCYAN);
+                startFrames = currentTime;
+                frames = 0;
+            }
+        }
+    }
+
+    /**
      * Close the app.
      */
     private void close() {
@@ -179,79 +240,9 @@ public final class Core {
         Platform.exit();
     }
 
-    private void loop() {
-        double accumulator = 0.0;
-        double currentTime = System.currentTimeMillis() / 1000d;
-
-        int frames = 0;
-        double startFrames = currentTime;
-        double lastFrames = currentTime;
-
-        while (state == State.PLAY) {
-            double newTime = System.currentTimeMillis() / 1000d;
-            double elapsedTime = newTime - currentTime;
-            currentTime = newTime;
-
-            accumulator += elapsedTime; // accumulate
-            accumulator = integrate(accumulator); // Integrate
-
-            // Render a frame if enough time have elapsed
-            if (currentTime - lastFrames >= SECOND_PER_FRAME) {
-                lastFrames = currentTime;
-                frames += 1;
-
-                long s = System.nanoTime();
-                ioEngine.nextFrame();
-                LoggingEngine.logElapsedTime(s, System.nanoTime(), "IOEngine::nextFrame");
-
-                s = System.nanoTime();
-                renderEngine.render(level.getEntitiesWithComponent(RenderComponent.class));
-                LoggingEngine.logElapsedTime(s, System.nanoTime(), "RenderEngine::render");
-
-                // Update the components
-                for (Entity e : level.getEntities()) {
-                    for (Component c : e.getComponents()) {
-                        c.update();
-                    }
-                }
-            }
-
-            // Display FPS TODO move to render
-            if (currentTime - startFrames >= 1) {
-                startFrames = currentTime;
-                LoggingEngine.info("FPS: " + frames, Color.DARKCYAN);
-                frames = 0;
-            }
-        }
-    }
-
-    /**
-     * Update the physic and time engine.
-     *
-     * @param accumulator
-     * @return
-     */
-    private double integrate(double accumulator) {
-        while (accumulator >= dt) {
-            // Integrate a step of time dt
-            long s = System.nanoTime();
-            physicEngine.integrate(level.getEntitiesWithComponent(PhysicComponent.class));
-            LoggingEngine.logElapsedTime(s, System.nanoTime(), "PhysicEngine::integrate");
-
-            timeEngine.update();
-
-            // Update the components
-            for (Entity e : level.getEntities()) {
-                for (Component c : e.getComponents()) {
-                    c.fixedUpdate();
-                }
-            }
-
-            // Decrease remaining time to integrate by dt
-            accumulator -= dt;
-        }
-        return accumulator;
-    }
+    //*******************************//
+    //*   change the engine state   *//
+    //*******************************//
 
     /**
      * Update the current state.
@@ -266,10 +257,17 @@ public final class Core {
         }
     }
 
+    /**
+     * Ask the game to start playing.
+     * Needed to be called after init for the game to truly start.
+     */
     void play() {
         setState(State.PLAY);
     }
 
+    /**
+     * Ask to put the game in pause.
+     */
     void pause() {
         if (this.state == State.PLAY) {
             setState(State.PAUSE);
@@ -278,6 +276,9 @@ public final class Core {
         }
     }
 
+    /**
+     * Ask to unpause mode en go back to playing.
+     */
     void unpause() {
         if (this.state == State.PAUSE) {
             setState(State.PLAY);
@@ -286,10 +287,16 @@ public final class Core {
         }
     }
 
+    /**
+     * Ask to stop the current play and start a new one.
+     */
     void stop() {
         setState(State.STOP);
     }
 
+    /**
+     * Ask to quit the application.
+     */
     void quit() {
         setState(State.QUIT);
     }
@@ -341,13 +348,6 @@ public final class Core {
     }
 
     /**
-     * @return the configuration of the current game.
-     */
-    public Config config() {
-        return config;
-    }
-
-    /**
      * Set the current level.
      *
      * @param level the new level.
@@ -357,7 +357,7 @@ public final class Core {
     }
 
     /**
-     * Get the game level.
+     * @return the current game level.
      */
     public Level getLevel() {
         return this.level;
