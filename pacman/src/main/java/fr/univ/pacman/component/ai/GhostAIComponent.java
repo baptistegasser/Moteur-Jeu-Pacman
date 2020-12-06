@@ -8,11 +8,9 @@ import fr.univ.engine.math.Point;
 import fr.univ.engine.math.Vector;
 import fr.univ.engine.physic.PhysicComponent;
 import fr.univ.engine.physic.hitbox.HitBoxIntersecter;
-import fr.univ.engine.physic.hitbox.SquareHitBox;
 import fr.univ.engine.render.RenderComponent;
 import fr.univ.pacman.Type;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -91,6 +89,7 @@ public abstract class GhostAIComponent extends Component {
         // If the global state have changed and ghost is not in dead/spawning state, update the state.
         if (state != currentGlobalState && state != State.DEAD && state != State.SPAWN && takeCurrentGlobalState) {
             state = currentGlobalState;
+            this.getComponent(PhysicComponent.class).getHitBox().setSpecial(false);
             if (currentGlobalState == State.SCARED) {
                 this.getComponent(PhysicComponent.class).setDirection(this.getComponent(PhysicComponent.class).direction().reverse());
             }
@@ -247,15 +246,18 @@ public abstract class GhostAIComponent extends Component {
         List<Entity> exits = getLevel().getEntities(Type.SPAWN_EXIT);
         this.spawnExit = exits.get(new Random().nextInt(exits.size())).getComponent(TransformComponent.class).position();
         this.state = State.SPAWN;
+        this.getComponent(PhysicComponent.class).getHitBox().setSpecial(true);
     }
 
     public void notifySpawnExit() {
         this.state = State.CHASE;
         takeCurrentGlobalState = false;
+        this.getComponent(PhysicComponent.class).getHitBox().setSpecial(false);
     }
 
     public void setDead() {
         this.state = State.DEAD;
+        this.getComponent(PhysicComponent.class).getHitBox().setSpecial(true);
     }
 
     public boolean isDead() {

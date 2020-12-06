@@ -38,6 +38,10 @@ public class EntityBuilder {
      */
     private boolean isSolid = false;
     /**
+     * The entity have a same hitbox, false by default.
+     */
+    private boolean isSpecial = false;
+    /**
      * The direction in which the entity will go at spawn.
      */
     private Vector direction = new Vector(0, 0);
@@ -116,6 +120,17 @@ public class EntityBuilder {
     }
 
     /**
+     * Set if the entity hitbox should be special.
+     *
+     * @param isSpecial the desired special value.
+     * @return this builder allowing to chain methods.
+     */
+    public EntityBuilder isSpecial(boolean isSpecial) {
+        this.isSpecial = isSpecial;
+        return this;
+    }
+
+    /**
      * Set the texture to render the entity.
      *
      * @param texture the desired texture.
@@ -167,6 +182,7 @@ public class EntityBuilder {
     public Entity build() {
         if (hitBox != null) {
             hitBox.setSolid(isSolid);
+            hitBox.setSpecial(isSpecial);
         }
         components.set(0, new TransformComponent(position, rotation));
         components.set(1, new RenderComponent(texture));
