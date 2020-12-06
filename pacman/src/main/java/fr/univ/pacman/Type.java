@@ -15,5 +15,6 @@ public enum Type {
     SPAWN_EXIT, // Exit of ghost spawn
     GHOST_BASE, // Ghost area (their spawn)
     CHERRY, // Bonus + 200
-    STRAWBERRY // Bonus + 500
+    STRAWBERRY, // Bonus + 500
+    ORANGE // Bonus + 1000
 }

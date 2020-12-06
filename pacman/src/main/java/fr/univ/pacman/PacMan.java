@@ -66,6 +66,8 @@ public class PacMan extends GameApplication {
 
         Texture textureCherry = new Texture(18, 18, AssetsLoader.loadSprite("item/Cherry.png"));
         Texture textureStrawberry = new Texture(18, 18, AssetsLoader.loadSprite("item/Strawberry.png"));
+        Texture textureOrange = new Texture(18, 18, AssetsLoader.loadSprite("item/Orange.png"));
+
 
         listFruits.add(new EntityBuilder()
                 .type(CHERRY)
@@ -79,6 +81,14 @@ public class PacMan extends GameApplication {
                 .type(STRAWBERRY)
                 .position(new Point(0, 32))
                 .texture(textureStrawberry)
+                .hitbox(new SquareHitBox(16))
+                .isSolid(false)
+                .build());
+
+        listFruits.add(new EntityBuilder()
+                .type(ORANGE)
+                .position(new Point(0, 32))
+                .texture(textureOrange)
                 .hitbox(new SquareHitBox(16))
                 .isSolid(false)
                 .build());
@@ -132,6 +142,14 @@ public class PacMan extends GameApplication {
             globalVars().put("fruits", globalVars().getInt("fruits")-1);
         });
 
+        physicEngine().onCollision(PACMAN, ORANGE, (e1, e2) -> {
+            globalVars().put("score", globalVars().getInt("score")+1000);
+            soundEngine().playClip("eating_fruit.wav", 0.1);
+            getLevel().destroyEntity(e2);
+            currentListFruits.remove(e2);
+            globalVars().put("fruits", globalVars().getInt("fruits")-1);
+        });
+
         physicEngine().onCollision(GHOST, SPAWN_EXIT, (ghost, e2) -> {
             if (!ghost.getComponent(GhostAIComponent.class).isDead() && !ghost.getComponent(GhostAIComponent.class).isScared()) {
                 ghost.getComponent(GhostAIComponent.class).notifySpawnExit();
@@ -176,6 +194,10 @@ public class PacMan extends GameApplication {
             case STRAWBERRY:
                 getLevel().add(listFruits.get(1));
                 timeEngine().schedule(15, TimeUnit.SECONDS, () -> getLevel().destroyEntity(listFruits.get(1)));
+                break;
+            case ORANGE:
+                getLevel().add(listFruits.get(2));
+                timeEngine().schedule(15, TimeUnit.SECONDS, () -> getLevel().destroyEntity(listFruits.get(2)));
                 break;
             default:
                 System.out.println("Can't find this type fruit");
@@ -291,7 +313,6 @@ public class PacMan extends GameApplication {
      */
     private void pacmanHit(Entity pacman) {
         if (!pacman.getComponent(PacManLogic.class).isDeath()) {
-            System.out.println("HIT");
             globalVars().put("lives", globalVars().getInt("lives") - 1);
 
             soundEngine().stopAll();
@@ -307,7 +328,6 @@ public class PacMan extends GameApplication {
 
             pacman.getComponent(RenderComponent.class).getTexture().setCurrentChannel("death");
 
-            System.out.println("replace");
             timeEngine().schedule(1, TimeUnit.SECONDS, () -> replaceEntity(pacman));
 
             getLevel().getEntitiesWithComponent(GhostAIComponent.class).forEach(ghost -> {
@@ -347,7 +367,6 @@ public class PacMan extends GameApplication {
         GhostAIComponent ai = ghost.getComponent(GhostAIComponent.class);
         ai.setDead();
         globalVars().put("score", globalVars().getInt("score")+200);
-        System.out.println(ghost);
         soundEngine().playSong("ghost_return_spawn.wav", 0.15, true, ghost);
         ghost.getComponent(PhysicComponent.class).setSpeed(GhostAIComponent.DEATHSPEED);
     }
@@ -359,6 +378,7 @@ public class PacMan extends GameApplication {
         nbLevel += 1;
 
         currentListFruits.clear();
+        timeEngine().cancel("LOADFRUIT");
 
         for (int i = 0; i<nbLevel; i++) {
             if (i<listFruits.size())
@@ -392,10 +412,16 @@ public class PacMan extends GameApplication {
         for (int i = 0; i<currentListFruits.size(); i++) {
             switch (i) {
                 case 0 :
-                    timeEngine().schedule(30, TimeUnit.SECONDS, () -> loadFruit(CHERRY));
+                    FutureTask futureTaskCherry = new FutureTask(30, TimeUnit.SECONDS, "LOADFRUIT", () -> loadFruit(CHERRY));
+                    timeEngine().schedule(futureTaskCherry);
                     break;
                 case 1:
-                    timeEngine().schedule(60, TimeUnit.SECONDS, () -> loadFruit(STRAWBERRY));
+                    FutureTask futureTaskStrawberry = new FutureTask(60, TimeUnit.SECONDS, "LOADFRUIT", () -> loadFruit(STRAWBERRY));
+                    timeEngine().schedule(futureTaskStrawberry);
+                    break;
+                case 2:
+                    FutureTask futureTaskOrange = new FutureTask(90, TimeUnit.SECONDS, "LOADFRUIT", () -> loadFruit(ORANGE));
+                    timeEngine().schedule(futureTaskOrange);
                     break;
                 default:
                     System.out.println("No fruit");
