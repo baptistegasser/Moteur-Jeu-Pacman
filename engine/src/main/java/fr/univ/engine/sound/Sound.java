@@ -28,6 +28,16 @@ public abstract class Sound<T> {
     public abstract void play();
 
     /**
+     * Method to pause the sound.
+     */
+    public abstract void pause();
+
+    /**
+     * Method to unpause the sound.
+     */
+    public abstract void unpause();
+
+    /**
      * Method to call to stop the sound.
      */
     public abstract void stop();

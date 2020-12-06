@@ -10,14 +10,41 @@ import java.util.concurrent.TimeUnit;
  */
 public class TimeEngine {
     /**
+     * The delay accumulated by pauses.
+     */
+    private long delay;
+    /**
+     * The timestamp when the current pause started.
+     */
+    private long currentPauseStart;
+    /**
      * The scheduled action to run later.
      */
     private final PriorityQueue<FutureTask> scheduledTasks = new PriorityQueue<>(Comparator.comparingLong(o -> o.startTime));
 
+    /**
+     * Initialize the time engine, clear any task if needed.
+     */
     public void init() {
         if (!scheduledTasks.isEmpty()) {
             cancelAll();
         }
+        delay = 0;
+    }
+
+    /**
+     * Pause the engine and take in account the delay.
+     */
+    public void pause() {
+        this.currentPauseStart = System.nanoTime();
+    }
+
+    /**
+     * Unpause the engine and take in account the delay.
+     */
+    public void unpause() {
+        this.delay += System.nanoTime() - this.currentPauseStart;
+        this.currentPauseStart = 0;
     }
 
     /**
@@ -67,7 +94,7 @@ public class TimeEngine {
      * Update the TimeEngine and run actions if the time has come for them to go.
      */
     public void update() {
-        long time = System.nanoTime();
+        long time = System.nanoTime() - delay;
 
         FutureTask task;
         while (!scheduledTasks.isEmpty() && scheduledTasks.peek() != null && scheduledTasks.peek().startTime <= time) {

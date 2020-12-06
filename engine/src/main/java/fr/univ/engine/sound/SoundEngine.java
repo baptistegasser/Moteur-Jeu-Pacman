@@ -34,6 +34,24 @@ public class SoundEngine {
     }
 
     /**
+     * Pause the sound engine, effectively pausing all sounds.
+     */
+    public void pause() {
+        this.keyToSounds.forEach((o, sounds) -> {
+            sounds.forEach((s, sound) -> sound.pause());
+        });
+    }
+
+    /**
+     * Unpause the sound engine, effectively restarting all sounds.
+     */
+    public void unpause() {
+        this.keyToSounds.forEach((o, sounds) -> {
+            sounds.forEach((s, sound) -> sound.unpause());
+        });
+    }
+
+    /**
      * Load an and play a clip from assets (short media).
      *
      * @param name the clip name.

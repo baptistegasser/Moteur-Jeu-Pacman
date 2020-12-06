@@ -18,6 +18,16 @@ public class Song extends Sound<MediaPlayer> {
     }
 
     @Override
+    public void pause() {
+        player.pause();
+    }
+
+    @Override
+    public void unpause() {
+        player.play();
+    }
+
+    @Override
     public void stop() {
         player.stop();
     }

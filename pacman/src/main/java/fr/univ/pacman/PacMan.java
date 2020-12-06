@@ -272,7 +272,7 @@ public class PacMan extends GameApplication {
      */
     private void eatSuperPac(Entity pacman, Entity superPac) {
         soundEngine().playClip("eating_pac.wav",0.05);
-        soundEngine().playClip("pac_can_eat_ghost.wav",0.05);
+        soundEngine().playSong("pac_can_eat_ghost.wav", 0.05, true);
         GhostAIComponent.setCurrentGlobalState(GhostAIComponent.State.SCARED);
         getLevel().getEntitiesWithComponent(GhostAIComponent.class).forEach(ghost -> {
             ghost.getComponent(GhostAIComponent.class).setTakeCurrentGlobalState(true);
@@ -327,7 +327,7 @@ public class PacMan extends GameApplication {
             globalVars().put("lives", globalVars().getInt("lives") - 1);
 
             soundEngine().stopAll();
-            soundEngine().playClip("pac_die.wav", 0.05);
+            soundEngine().playSong("pac_die.wav", 0.05);
 
             pacmanLogic.stop();
             pacmanLogic.setCanMove(false);
@@ -399,7 +399,7 @@ public class PacMan extends GameApplication {
 
         globalVars().put("fruits", nbLevel);
 
-        soundEngine().playClip("intro.wav", 0.05);
+        soundEngine().playSong("intro.wav", 0.05);
         uiEngine().display(AssetsLoader.loadView("Overlay.fxml"));
         loadLevel();
         pacmanLogic = getLevel().getSingletonEntity(Type.PACMAN).getComponent(PacManLogic.class);

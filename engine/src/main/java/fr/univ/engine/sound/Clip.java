@@ -8,6 +8,15 @@ import javafx.scene.media.AudioClip;
  * Recommended for short sound such as hit sound.
  */
 public class Clip extends Sound<AudioClip> {
+    /**
+     * Store the current volume for pause/unpause.
+     */
+    private double currentVolume;
+    /**
+     * True if this clip paused.
+     */
+    private boolean paused;
+
     public Clip(AudioClip player, String name) {
         super(player, name);
     }
@@ -15,6 +24,20 @@ public class Clip extends Sound<AudioClip> {
     @Override
     public void play() {
         player.play();
+    }
+
+    @Override
+    public void pause() {
+        // We can't pause nor unpause, just muting the sound lmao
+        player.setVolume(0);
+        paused = true;
+    }
+
+    @Override
+    public void unpause() {
+        // We can't pause nor unpause, just muting the sound lmao
+        player.setVolume(currentVolume);
+        paused = false;
     }
 
     @Override
@@ -29,7 +52,10 @@ public class Clip extends Sound<AudioClip> {
 
     @Override
     public void setVolume(double volume) {
-        player.setVolume(Math.clamp(0.0, 1.0, volume));
+        if (!paused) {
+            player.setVolume(Math.clamp(0.0, 1.0, volume));
+        }
+        this.currentVolume = volume;
     }
 
     @Override

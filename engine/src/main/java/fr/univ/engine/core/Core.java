@@ -272,6 +272,8 @@ public final class Core {
     void pause() {
         if (this.state == State.PLAY) {
             setState(State.PAUSE);
+            timeEngine.pause();
+            soundEngine.pause();
         } else {
             LoggingEngine.warning("Attempting to pause while the game is not in play" + state);
         }
@@ -283,6 +285,8 @@ public final class Core {
     void unpause() {
         if (this.state == State.PAUSE) {
             setState(State.PLAY);
+            timeEngine.unpause();
+            soundEngine.unpause();
         } else {
             LoggingEngine.warning("Attempting to unpause while the game is not paused" + state);
         }
