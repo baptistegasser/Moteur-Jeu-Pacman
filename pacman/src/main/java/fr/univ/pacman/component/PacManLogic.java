@@ -18,11 +18,15 @@ import java.util.logging.Level;
  * The component handling Pac-Man movement logic.
  */
 public class PacManLogic extends Component {
+
     private boolean changeDir = false;
     private Vector wantedDirection;
     private double wantedRotation;
     private boolean canMove;
 
+    /**
+     * Pacman modes
+     */
     public enum Mode {
         NORMAL,
         SUPER,
@@ -31,8 +35,14 @@ public class PacManLogic extends Component {
         SPAWN
     }
 
+    /**
+     * Current mode
+     */
     private Mode currentMode = Mode.SPAWN;
 
+    /**
+     * Pacman goes up
+     */
     public void up() {
         if (canMove) {
             this.wantedDirection = getComponent(PhysicComponent.class).getDirectionSpeed(new Vector(0, -1d));
@@ -41,6 +51,9 @@ public class PacManLogic extends Component {
         }
     }
 
+    /**
+     * Pac man goes down
+     */
     public void down() {
         if (canMove) {
             this.wantedDirection = getComponent(PhysicComponent.class).getDirectionSpeed(new Vector(0, 1d));
@@ -49,6 +62,9 @@ public class PacManLogic extends Component {
         }
     }
 
+    /**
+     * Pacman goes left
+     */
     public void left() {
         if (canMove) {
             this.wantedDirection = getComponent(PhysicComponent.class).getDirectionSpeed(new Vector(-1d, 0));
@@ -57,6 +73,9 @@ public class PacManLogic extends Component {
         }
     }
 
+    /**
+     * Pacman goes right
+     */
     public void right() {
         if (canMove) {
             this.wantedDirection = getComponent(PhysicComponent.class).getDirectionSpeed(new Vector(1d, 0));
@@ -65,19 +84,33 @@ public class PacManLogic extends Component {
         }
     }
 
+    /**
+     * Pacman is stopped
+     */
     public void stop() {
         this.wantedDirection = new Vector(0, 0);
         this.changeDir = true;
     }
 
+    /**
+     * Pacman hit something
+     */
     public void hit() {
         LoggingEngine.log(Level.INFO, "Hit !");
     }
 
+    /**
+     * Allow pacman to move, or not
+     * @param canMove If pacman can move
+     */
     public void setCanMove(boolean canMove) {
         this.canMove = canMove;
     }
 
+    /**
+     * Set the current mode : spawning, super power, normal ...
+     * @param currentMode The current mode
+     */
     public void setCurrentMode(Mode currentMode) {
         this.currentMode = currentMode;
 
@@ -89,6 +122,7 @@ public class PacManLogic extends Component {
             getComponent(RenderComponent.class).getTexture().setCurrentChannel("walking");
         }
     }
+
 
     public boolean isInNormalMode() {
         return currentMode == Mode.NORMAL;
@@ -106,6 +140,10 @@ public class PacManLogic extends Component {
         return currentMode == Mode.DEATH;
     }
 
+    /**
+     * Update the pacman status
+     * Allow us to catch colisions, next positions ...
+     */
     @Override
     public void fixedUpdate() {
         if (!changeDir) return;
