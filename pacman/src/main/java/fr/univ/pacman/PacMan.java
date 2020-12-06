@@ -326,8 +326,6 @@ public class PacMan extends GameApplication {
 
             pacman.getComponent(PacManLogic.class).setCurrentMode(PacManLogic.Mode.DEATH);
 
-            pacman.getComponent(TransformComponent.class).setRotation(0);
-
             pacman.getComponent(RenderComponent.class).getTexture().setCurrentChannel("death");
 
             timeEngine().schedule(1, TimeUnit.SECONDS, () -> replaceEntity(pacman));
@@ -352,6 +350,7 @@ public class PacMan extends GameApplication {
         pacman.getComponent(TransformComponent.class).setPosition(new Point(8,128));
         pacman.getComponent(PacManLogic.class).setCurrentMode(PacManLogic.Mode.NORMAL);
         pacman.getComponent(PacManLogic.class).setCanMove(true);
+        pacman.getComponent(TransformComponent.class).setRotation(0);
 
         //replaceGhost
         getLevel().getEntitiesWithComponent(GhostAIComponent.class).forEach(ghost -> {
