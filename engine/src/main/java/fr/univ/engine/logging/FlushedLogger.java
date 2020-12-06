@@ -39,6 +39,7 @@ class FlushedLogger extends Logger {
     }
 
     /**
+     * @param autoColor true if we want to use auto coloration.
      * @see ColorFormatter#setAutoColor(boolean)
      */
     public void setAutoColor(boolean autoColor) {

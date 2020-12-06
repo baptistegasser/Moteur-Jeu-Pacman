@@ -33,7 +33,7 @@ class FlushedLoggerTest {
     }
 
     /**
-     * Assert that the {@link #()} method work.
+     * Assert that the redirect method work.
      */
     @Test
     void assertRedirectOutput() {

@@ -41,6 +41,7 @@ public final class LoggingEngine {
     }
 
     /**
+     * @param autoColor true if we want to use auto coloration.
      * @see ColorFormatter#setAutoColor(boolean)
      */
     public static void setAutoColor(boolean autoColor) {
@@ -207,6 +208,7 @@ public final class LoggingEngine {
      *
      * @param level the level of this message
      * @param msg   the message to log
+     * @param color the color wanted for display.
      */
     private static void logImpl(Level level, String msg, Color color) {
         // Don't try to log message that won't be shown
