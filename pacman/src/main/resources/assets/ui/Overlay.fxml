@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<VBox maxHeight="620.0" maxWidth="510.0" prefHeight="620.0" prefWidth="510.0" style="-fx-background-color: transparent;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.univ.pacman.controller.OverlayController">
+<VBox prefHeight="620.0" prefWidth="510.0" style="-fx-background-color: transparent;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.univ.pacman.controller.OverlayController">
    <children>
       <HBox alignment="CENTER_LEFT" prefHeight="30.0" style="-fx-background-color: transparent;">
          <children>
@@ -18,14 +18,14 @@
                <HBox.margin>
                   <Insets />
                </HBox.margin>
+               <padding>
+                  <Insets right="15.0" />
+               </padding>
             </HBox>
          </children>
          <padding>
-            <Insets left="15.0" right="15.0" top="15.0" />
+            <Insets left="15.0" top="15.0" />
          </padding>
-         <VBox.margin>
-            <Insets />
-         </VBox.margin>
       </HBox>
       <VBox fx:id="ready" alignment="CENTER" prefHeight="552.0" prefWidth="510.0">
          <children>
@@ -41,24 +41,12 @@
             <Insets top="75.0" />
          </padding>
       </VBox>
-      <HBox alignment="CENTER_LEFT" prefHeight="30.0">
-         <children>
-            <Label fx:id="level" prefHeight="36.0" prefWidth="160.0" style="-fx-font-family: 'Press Start 2P', cursive; -fx-font-size: 13px; -fx-text-fill: yellow;" text="LEVEL 1" textFill="#fbff00" HBox.hgrow="ALWAYS">
-               <font>
-                  <Font size="15.0" />
-               </font>
-            </Label>
-            <HBox fx:id="fruits" alignment="CENTER_RIGHT" prefHeight="100.0" spacing="8.0" HBox.hgrow="ALWAYS">
-               <padding>
-                  <Insets right="100.0" />
-               </padding>
-            </HBox>
-         </children>
+      <HBox fx:id="fruits" alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="8.0">
          <VBox.margin>
             <Insets />
          </VBox.margin>
          <padding>
-            <Insets bottom="8.0" left="15.0" right="15.0" />
+            <Insets right="100.0" />
          </padding>
       </HBox>
    </children>
