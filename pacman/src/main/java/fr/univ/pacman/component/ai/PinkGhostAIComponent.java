@@ -7,10 +7,15 @@ import fr.univ.engine.physic.PhysicComponent;
 import fr.univ.pacman.Type;
 
 public class PinkGhostAIComponent extends GhostAIComponent {
+
+    /**
+     * Initialise pink ghost
+     */
     public PinkGhostAIComponent() {
         this.base = new Point(8, -32);
         this.scatterPos = new Point(-224, -260);
     }
+
 
     @Override
     protected Point calcTargetPos() {

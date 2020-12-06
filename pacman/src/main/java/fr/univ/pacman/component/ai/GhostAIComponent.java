@@ -76,6 +76,11 @@ public abstract class GhostAIComponent extends Component {
      */
     protected Point scatterPos;
 
+    /**
+     * Update the ghost
+     * Allow us to catch when the ghost is scared, dead ...
+     * and adapt its behavior
+     */
     @Override
     public void fixedUpdate() {
         // Ignore if no state.
