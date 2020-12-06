@@ -86,9 +86,6 @@ public class HitBoxIntersecter {
 
         BigDecimal negativeDiff = diff.multiply(BigDecimal.valueOf(-1));
 
-        System.out.println("P1 X : "+p1.x()+" Y : "+p1.y());
-        System.out.println("P2 X : "+p2.x()+" Y : "+p2.y() + "\n");
-
         BigDecimal x = (p1.x().subtract(p2.x()));
         BigDecimal y = (p1.y().subtract(p2.y()));
 

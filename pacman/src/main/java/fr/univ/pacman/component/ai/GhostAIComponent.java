@@ -23,8 +23,8 @@ import java.util.Random;
  */
 public abstract class GhostAIComponent extends Component {
 
-    public static final double NORMALESPEED = 0.39;
-    public static final double SCAREDSPEED = 0.43;
+    public static final double NORMALESPEED = 0.67;
+    public static final double SCAREDSPEED = 0.53;
     public static final double DEATHSPEED = 1;
 
     /**
@@ -121,7 +121,6 @@ public abstract class GhostAIComponent extends Component {
         }
 
         Collections.shuffle(validDirections);
-        System.out.println("BEST DIR "+validDirections.get(0).toString()+"\n");
         getComponent(PhysicComponent.class).setDirection(validDirections.get(0));
         updateSpriteByVector(validDirections.get(0));
     }
@@ -140,10 +139,8 @@ public abstract class GhostAIComponent extends Component {
         double bestDistance = Double.MAX_VALUE;
         for (Vector dir : validDirections) {
             Point p = getComponent(TransformComponent.class).position().copy();
-            System.out.println("ACTUAL POS X : "+p.x()+" Y : "+p.y());
             p.add(dir);
 
-            System.out.println("Dir POS X : "+dir.x()+" Y : "+dir.y()+"\n");
 
             double distance = target.distance(p);
             if (distance < bestDistance) {
@@ -153,7 +150,6 @@ public abstract class GhostAIComponent extends Component {
         }
 
         if (bestDir != null) {
-            System.out.println("BEST DIR "+bestDir.toString()+"\n");
             getComponent(PhysicComponent.class).setDirection(bestDir);
             updateSpriteByVector(bestDir);
         }
@@ -196,7 +192,6 @@ public abstract class GhostAIComponent extends Component {
                         Point p2 = getComponent(TransformComponent.class).position().copy();
                         p2.add(realFinalDir);
                         if (getPhysics().canMoveTo(getEntity(), p2) == null && currentDir.sameOrientalDirection(realFinalDir)) {
-                            System.out.println("realFinalDir " + realFinalDir.toString() + "\n");
                             validDirections.add(realFinalDir);
                         }
                     }
