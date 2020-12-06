@@ -144,7 +144,7 @@ public class PhysicEngine {
                 // Rollback pos if hit a solid entity but go to paste edge if possible
                 if (h2.isSolid() && (!h1.isSpecial() || !h2.isSpecial())) {
                     Vector collisionSize = HitBoxIntersecter.collisionSize(h1, p1, h2, p2);
-                    Vector perfectVector = HitBoxIntersecter.getVectorForPasteEdge(entity.getComponent(PhysicComponent.class).direction(), collisionSize, entity.getComponent(PhysicComponent.class).getSpeed());
+                    Vector perfectVector = entity.getComponent(PhysicComponent.class).direction().getVectorForPasteEdge(collisionSize, entity.getComponent(PhysicComponent.class).getSpeed());
 
                     p1.add(entity.getComponent(PhysicComponent.class).direction().reverse());
                     if (perfectVector != null) {
