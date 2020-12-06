@@ -29,6 +29,8 @@ public class OverlayController extends JFXController implements Initializable {
     @FXML
     private Label score;
     @FXML
+    private Label level;
+    @FXML
     private HBox lives;
     @FXML
     private VBox ready;
@@ -40,6 +42,7 @@ public class OverlayController extends JFXController implements Initializable {
         GameApplication.app().globalVars().addListener("score", ($, $$, s) -> Platform.runLater(() -> score.setText("SCORE " + s)));
         GameApplication.app().globalVars().addListener("lives", ($, $$, lifeCount) -> Platform.runLater(() -> displayLives(((int) lifeCount))));
         GameApplication.app().globalVars().addListener("fruits", ($, $$, nbFruit) -> Platform.runLater(this::displayFruits));
+        GameApplication.app().globalVars().addListener("level", ($, $$, s) -> Platform.runLater(() -> level.setText("LEVEL " + s)));
 
         blink();
 

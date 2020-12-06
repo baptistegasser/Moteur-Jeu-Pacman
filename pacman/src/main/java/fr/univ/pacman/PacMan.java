@@ -36,8 +36,6 @@ public class PacMan extends GameApplication {
 
     private static int eatMultipliyer = 0;
 
-    public static int nbLevel = 0;
-
     public static final ArrayList<Entity> listFruits = new ArrayList<>();
 
     public static ArrayList<Entity> currentListFruits = new ArrayList<>();
@@ -64,6 +62,7 @@ public class PacMan extends GameApplication {
     protected void initGame() {
         globalVars().put("score", 0);
         globalVars().put("lives", 3);
+        globalVars().put("level", 0);
 
         Texture textureCherry = new Texture(18, 18, AssetsLoader.loadSprite("item/Cherry.png"));
         Texture textureStrawberry = new Texture(18, 18, AssetsLoader.loadSprite("item/Strawberry.png"));
@@ -387,17 +386,17 @@ public class PacMan extends GameApplication {
         soundEngine().stopAll();
         uiEngine().clear();
 
-        nbLevel += 1;
 
         currentListFruits.clear();
         timeEngine().cancel("LOADFRUIT");
 
-        for (int i = 0; i<nbLevel; i++) {
+        globalVars().put("level", globalVars().getInt("level") + 1);
+        for (int i = 0; i< globalVars().getInt("level"); i++) {
             if (i<listFruits.size())
                 currentListFruits.add(listFruits.get(i));
         }
 
-        globalVars().put("fruits", nbLevel);
+        globalVars().put("fruits", globalVars().getInt("level"));
 
         soundEngine().playSong("intro.wav", 0.05);
         uiEngine().display(AssetsLoader.loadView("Overlay.fxml"));
