@@ -12,11 +12,6 @@ public class RenderComponent extends Component {
      */
     private Texture texture;
 
-    /**
-     * Texture must animated in the animator while global animation
-     */
-    private boolean forAnimator = false;
-
     public RenderComponent(Texture texture) {
         this.texture = texture;
     }
@@ -37,13 +32,5 @@ public class RenderComponent extends Component {
      */
     public void setTexture(Texture texture) {
         this.texture = texture;
-    }
-
-    public void setForAnimator(boolean forAnimator) {
-        this.forAnimator = forAnimator;
-    }
-
-    public boolean isForAnimator() {
-        return forAnimator;
     }
 }

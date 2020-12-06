@@ -24,7 +24,8 @@ public class PacManLogic extends Component {
     public enum Mode {
         NORMAL,
         SUPER,
-        RAINBOW
+        RAINBOW,
+        DEATH
     }
 
     private Mode currentMode = Mode.NORMAL;
@@ -94,6 +95,10 @@ public class PacManLogic extends Component {
 
     public boolean isInRainbowMode() {
         return currentMode == Mode.RAINBOW;
+    }
+
+    public boolean isDeath() {
+        return currentMode == Mode.DEATH;
     }
 
     @Override
