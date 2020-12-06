@@ -3,6 +3,10 @@ package fr.univ.engine.sound;
 import fr.univ.engine.math.Math;
 import javafx.scene.media.MediaPlayer;
 
+/**
+ * Sound implementation using a {@link MediaPlayer} as player.
+ * Recommended for longer sound such as music.
+ */
 public class Song extends Sound<MediaPlayer> {
     public Song(MediaPlayer player, String name) {
         super(player, name);

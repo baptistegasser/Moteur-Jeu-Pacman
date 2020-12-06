@@ -1,12 +1,9 @@
 package fr.univ.engine.sound;
 
-import javafx.scene.media.AudioClip;
-import javafx.scene.media.MediaPlayer;
-
 import java.util.Objects;
 
 /**
- * Abstract sound implementation that server as a proxy for a player.
+ * Abstract sound implementation that act as a proxy for a media player.
  */
 public abstract class Sound<T> {
     /**

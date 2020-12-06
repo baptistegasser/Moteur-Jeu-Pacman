@@ -217,8 +217,6 @@ public class SoundEngine {
         initKeyIfNeeded(key);
         Sound<?> s = keyToSounds.get(key).remove(soundName);
         if (s != null) s.stop();
-        else
-            System.out.println();
     }
 
     /**

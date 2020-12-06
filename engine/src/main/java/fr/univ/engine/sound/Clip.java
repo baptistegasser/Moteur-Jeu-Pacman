@@ -4,6 +4,10 @@ import fr.univ.engine.math.Math;
 import javafx.scene.media.AudioClip;
 import javafx.scene.media.MediaPlayer;
 
+/**
+ * Sound implementation using a {@link AudioClip} as player.
+ * Recommended for short sound such as hit sound.
+ */
 public class Clip extends Sound<AudioClip> {
     public Clip(AudioClip player, String name) {
         super(player, name);
