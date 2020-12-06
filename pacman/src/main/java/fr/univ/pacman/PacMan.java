@@ -58,32 +58,7 @@ public class PacMan extends GameApplication {
 
         uiEngine().clear();
         AssetsLoader.loadFont("PressStart2P.ttf");
-        uiEngine().display(AssetsLoader.loadView("Overlay.fxml"));
         uiEngine().display(AssetsLoader.loadView("Menu.fxml"));
-
-        loadLevel();
-
-        List<Entity> ghosts = getLevel().getEntitiesWithComponent(GhostAIComponent.class);
-        for (int i = 0; i <= 3; ++i) {
-            final int index = i;
-            timeEngine().schedule((i*10)+5, TimeUnit.SECONDS, () -> ghosts.get(index).getComponent(GhostAIComponent.class).spawn());
-        }
-
-        pacmanLogic = getLevel().getSingletonEntity(Type.PACMAN).getComponent(PacManLogic.class);
-        IOEngine().onKeyPressed(KeyCode.UP, pacmanLogic::up);
-        IOEngine().onKeyPressed(KeyCode.DOWN, pacmanLogic::down);
-        IOEngine().onKeyPressed(KeyCode.LEFT, pacmanLogic::left);
-        IOEngine().onKeyPressed(KeyCode.RIGHT, pacmanLogic::right);
-        IOEngine().onKeyPressed(KeyCode.ESCAPE, () -> {
-            pause();
-            uiEngine().display(AssetsLoader.loadView("Pause.fxml"));
-        });
-
-        setEvents(pacmanLogic);
-
-        timeEngine().schedule(30, TimeUnit.SECONDS, () -> loadFruit(CHERRY));
-
-        timeEngine().schedule(70, TimeUnit.SECONDS, () -> loadFruit(STRAWBERRY));
     }
 
     /**
@@ -238,7 +213,7 @@ public class PacMan extends GameApplication {
         globalVars().put("score", globalVars().getInt("score")+10);
         getLevel().destroyEntity(pac);
         if(remainingPacs() == 0) {
-            System.out.println("gg");
+            startPlay();
         }
     }
 
@@ -274,7 +249,7 @@ public class PacMan extends GameApplication {
 
         getLevel().destroyEntity(superPac);
         if(remainingPacs() == 0) {
-            System.out.println("gg");
+            startPlay();
         }
     }
 
@@ -288,7 +263,7 @@ public class PacMan extends GameApplication {
         soundEngine().playClip("get_out_of_my_swamp.wav", 0.05);
         getLevel().destroyEntity(rainbowPac);
         if(remainingPacs() == 0){
-            System.out.println("gg");
+            startPlay();
         }
 
         timeEngine().schedule(10, TimeUnit.SECONDS, () -> {
@@ -364,6 +339,31 @@ public class PacMan extends GameApplication {
     @Override
     protected void startPlay() {
         soundEngine().playClip("intro.wav", 0.05);
+        uiEngine().display(AssetsLoader.loadView("Overlay.fxml"));
+        loadLevel();
+
+        List<Entity> ghosts = getLevel().getEntitiesWithComponent(GhostAIComponent.class);
+        for (int i = 0; i <= 3; ++i) {
+            final int index = i;
+            timeEngine().schedule((i*7)+4, TimeUnit.SECONDS, () -> ghosts.get(index).getComponent(GhostAIComponent.class).spawn());
+        }
+
+        pacmanLogic = getLevel().getSingletonEntity(Type.PACMAN).getComponent(PacManLogic.class);
+        IOEngine().onKeyPressed(KeyCode.UP, pacmanLogic::up);
+        IOEngine().onKeyPressed(KeyCode.DOWN, pacmanLogic::down);
+        IOEngine().onKeyPressed(KeyCode.LEFT, pacmanLogic::left);
+        IOEngine().onKeyPressed(KeyCode.RIGHT, pacmanLogic::right);
+        IOEngine().onKeyPressed(KeyCode.ESCAPE, () -> {
+            pause();
+            uiEngine().display(AssetsLoader.loadView("Pause.fxml"));
+        });
+
+        setEvents(pacmanLogic);
+
+        timeEngine().schedule(30, TimeUnit.SECONDS, () -> loadFruit(CHERRY));
+
+        timeEngine().schedule(70, TimeUnit.SECONDS, () -> loadFruit(STRAWBERRY));
+
         pacmanLogic.setCanMove(false);
         timeEngine().schedule(4, TimeUnit.SECONDS, () -> {
             pacmanLogic.setCanMove(true);
