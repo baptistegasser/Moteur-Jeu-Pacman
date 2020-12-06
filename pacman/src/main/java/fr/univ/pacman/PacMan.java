@@ -10,6 +10,7 @@ import fr.univ.engine.core.entity.Level;
 import fr.univ.engine.core.entity.LevelLoader;
 import fr.univ.engine.logging.LoggingEngine;
 import fr.univ.engine.math.Point;
+import fr.univ.engine.math.Vector;
 import fr.univ.engine.physic.CollisionHandler;
 import fr.univ.engine.physic.PhysicComponent;
 import fr.univ.engine.physic.hitbox.SquareHitBox;
@@ -366,6 +367,8 @@ public class PacMan extends GameApplication {
 
         pacmanLogic.setCanMove(false);
         timeEngine().schedule(4, TimeUnit.SECONDS, () -> {
+            pacmanLogic.setCurrentMode(PacManLogic.Mode.NORMAL);
+            pacmanLogic.getComponent(PhysicComponent.class).setDirection(new Vector(PacManLogic.PACMANSPEED,0));
             pacmanLogic.setCanMove(true);
         });
     }
