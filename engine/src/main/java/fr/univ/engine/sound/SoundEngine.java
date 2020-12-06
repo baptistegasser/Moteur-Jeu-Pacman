@@ -177,7 +177,7 @@ public class SoundEngine {
     public void play(Sound<?> sound, Object key) {
         initKeyIfNeeded(key);
         Sound<?> current = keyToSounds.get(key).get(sound.name);
-        if (current != null) {
+        if (current != null && !(current instanceof Clip)) {
             current.stop();
         }
 
