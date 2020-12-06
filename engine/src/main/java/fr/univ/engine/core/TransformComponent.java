@@ -30,7 +30,7 @@ public final class TransformComponent extends Component {
     }
 
     public void setPosition(Point position) {
-        this.position = position;
+        this.position = position.copy();
     }
 
     public double rotation() {

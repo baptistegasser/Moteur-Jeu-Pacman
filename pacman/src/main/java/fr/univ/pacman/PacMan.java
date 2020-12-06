@@ -146,16 +146,6 @@ public class PacMan extends GameApplication {
     }
 
     /**
-     * Replace entities when PacMan is dying
-     */
-    private void replaceEntity() {
-        getLevel().getSingletonEntity(Type.PACMAN).getComponent(RenderComponent.class).getTexture().setCurrentChannel("walking");
-        getLevel().getSingletonEntity(Type.PACMAN).getComponent(TransformComponent.class).setPosition(new Point(8,128));
-        getLevel().getSingletonEntity(Type.PACMAN).getComponent(PacManLogic.class).setCurrentMode(PacManLogic.Mode.NORMAL);
-        getLevel().getSingletonEntity(Type.PACMAN).getComponent(PacManLogic.class).setCanMove(true);
-    }
-
-    /**
      * Load the map with the map.txt
      */
     private void loadLevel() {
@@ -225,7 +215,7 @@ public class PacMan extends GameApplication {
             return;
         } else if (ghost.getComponent(GhostAIComponent.class).isScared()) {
             eatGhost(ghost.getComponent(GhostAIComponent.class));
-        } else pacmanHit();
+        } else pacmanHit(pacman);
     }
 
     /**
@@ -272,7 +262,7 @@ public class PacMan extends GameApplication {
 
         timeEngine().cancel("FINISHPOWER");
 
-        FutureTask finishPower = new FutureTask(20, TimeUnit.SECONDS, "FINISHPOWER", () -> {
+        FutureTask finishPower = new FutureTask(14, TimeUnit.SECONDS, "FINISHPOWER", () -> {
             soundEngine().stopSound("pac_can_eat_ghost.wav");
             GhostAIComponent.setCurrentGlobalState(GhostAIComponent.State.CHASE);
             getLevel().getEntitiesWithComponent(GhostAIComponent.class).forEach(ghost -> {
@@ -312,31 +302,54 @@ public class PacMan extends GameApplication {
     /**
      * Handle when pacman is hit by a fantom who was chasing him
      */
-    private void pacmanHit() {
-        globalVars().put("lives", globalVars().getInt("lives")-1);
+    private void pacmanHit(Entity pacman) {
+        if (!pacman.getComponent(PacManLogic.class).isDeath()) {
+            System.out.println("HIT");
+            globalVars().put("lives", globalVars().getInt("lives") - 1);
 
-        soundEngine().stopAllSounds();
-        soundEngine().playClip("pac_die.wav", 0.05);
-        pacmanLogic.stop();
-        pacmanLogic.hit();
-        pacmanLogic.setCanMove(false);
+            soundEngine().stopAllSounds();
+            soundEngine().playClip("pac_die.wav", 0.05);
 
-        getLevel().getSingletonEntity(Type.PACMAN).getComponent(TransformComponent.class).setRotation(0);
-        getLevel().getSingletonEntity(Type.PACMAN).getComponent(RenderComponent.class).setForAnimator(true);
+            pacmanLogic.stop();
+            pacmanLogic.hit();
+            pacmanLogic.setCanMove(false);
 
-        getLevel().getSingletonEntity(Type.PACMAN).getComponent(RenderComponent.class).getTexture().setCurrentChannel("death");
+            pacman.getComponent(PacManLogic.class).setCurrentMode(PacManLogic.Mode.DEATH);
 
-        timeEngine().schedule(1, TimeUnit.SECONDS, this::replaceEntity);
+            pacman.getComponent(TransformComponent.class).setRotation(0);
 
-        getLevel().getEntitiesWithComponent(GhostAIComponent.class).forEach(ghost -> {
-            GhostAIComponent ai = ghost.getComponent(GhostAIComponent.class);
-            ai.teleportToBase();
-        });
+            pacman.getComponent(RenderComponent.class).getTexture().setCurrentChannel("death");
 
-        if (globalVars().getInt("lives") <= 0) {
-            pause();
-            uiEngine().display(AssetsLoader.loadView("GameOver.fxml"));
+            System.out.println("replace");
+            timeEngine().schedule(1, TimeUnit.SECONDS, () -> replaceEntity(pacman));
+
+            getLevel().getEntitiesWithComponent(GhostAIComponent.class).forEach(ghost -> {
+                ghost.getComponent(PhysicComponent.class).setSpeed(0);
+            });
+
+            if (globalVars().getInt("lives") <= 0) {
+                pause();
+                uiEngine().display(AssetsLoader.loadView("GameOver.fxml"));
+            }
         }
+    }
+
+    /**
+     * Replace entities when PacMan is dying
+     */
+    private void replaceEntity(Entity pacman) {
+        System.out.println("replace 2");
+        //Replace PacMan
+        pacman.getComponent(RenderComponent.class).getTexture().setCurrentChannel("walking");
+        pacman.getComponent(TransformComponent.class).setPosition(new Point(8,128));
+        pacman.getComponent(PacManLogic.class).setCurrentMode(PacManLogic.Mode.NORMAL);
+        pacman.getComponent(PacManLogic.class).setCanMove(true);
+
+        //replaceGhost
+        getLevel().getEntitiesWithComponent(GhostAIComponent.class).forEach(ghost -> {
+            ghost.getComponent(GhostAIComponent.class).teleportToBase();
+            ghost.getComponent(PhysicComponent.class).setSpeed(0.57);
+        });
     }
 
     /**

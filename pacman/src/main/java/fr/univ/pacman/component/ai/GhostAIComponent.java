@@ -243,7 +243,6 @@ public abstract class GhostAIComponent extends Component {
             } else if (dir.xValue() == 0 && dir.yValue() < 0) {
                 textureChannel = "up";
             } else {
-                System.out.println("No direction");
                 return;
             }
             if (this.state == State.DEAD) {
