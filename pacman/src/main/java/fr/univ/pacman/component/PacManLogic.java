@@ -23,7 +23,7 @@ public class PacManLogic extends Component {
     private double wantedRotation;
     private boolean canMove;
 
-    public static final double PACMANSPEED = 0.6;
+    public static final double PACMANSPEED = 1.2;
 
     public enum Mode {
         NORMAL,

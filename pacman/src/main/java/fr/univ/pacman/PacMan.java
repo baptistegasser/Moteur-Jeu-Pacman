@@ -19,9 +19,11 @@ import fr.univ.engine.render.texture.Texture;
 import fr.univ.engine.time.FutureTask;
 import fr.univ.pacman.component.PacManLogic;
 import fr.univ.pacman.component.ai.GhostAIComponent;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -33,6 +35,12 @@ import static fr.univ.pacman.Type.*;
 public class PacMan extends GameApplication {
 
     PacManLogic pacmanLogic;
+
+    public static int nbLevel = 0;
+
+    public static final ArrayList<Entity> listFruits = new ArrayList<>();
+
+    public static ArrayList<Entity> currentListFruits = new ArrayList<>();
 
     /**
      * Configure the Pac-Man Window
@@ -56,6 +64,25 @@ public class PacMan extends GameApplication {
     protected void initGame() {
         globalVars().put("score", 0);
         globalVars().put("lives", 3);
+
+        Texture textureCherry = new Texture(18, 18, AssetsLoader.loadSprite("item/Cherry.png"));
+        Texture textureStrawberry = new Texture(18, 18, AssetsLoader.loadSprite("item/Strawberry.png"));
+
+        listFruits.add(new EntityBuilder()
+                .type(CHERRY)
+                .position(new Point(0, 32))
+                .texture(textureCherry)
+                .hitbox(new SquareHitBox(16))
+                .isSolid(false)
+                .build());
+
+        listFruits.add(new EntityBuilder()
+                .type(STRAWBERRY)
+                .position(new Point(0, 32))
+                .texture(textureStrawberry)
+                .hitbox(new SquareHitBox(16))
+                .isSolid(false)
+                .build());
 
         uiEngine().clear();
         AssetsLoader.loadFont("PressStart2P.ttf");
@@ -92,12 +119,16 @@ public class PacMan extends GameApplication {
             globalVars().put("score", globalVars().getInt("score")+200);
             soundEngine().playClip("eating_fruit.wav", 0.1);
             getLevel().destroyEntity(e2);
+            currentListFruits.remove(e2);
+            globalVars().put("fruits", globalVars().getInt("fruits")-1);
         });
 
         physicEngine().onCollision(PACMAN, STRAWBERRY, (e1, e2) -> {
             globalVars().put("score", globalVars().getInt("score")+500);
             soundEngine().playClip("eating_fruit.wav", 0.1);
             getLevel().destroyEntity(e2);
+            currentListFruits.remove(e2);
+            globalVars().put("fruits", globalVars().getInt("fruits")-1);
         });
 
         physicEngine().onCollision(GHOST, SPAWN_EXIT, (ghost, e2) -> {
@@ -140,28 +171,12 @@ public class PacMan extends GameApplication {
     private void loadFruit(Type fruitType) {
         switch (fruitType) {
             case CHERRY:
-                Texture textureCherry = new Texture(18, 18, AssetsLoader.loadSprite("item/Cherry.png"));
-                Entity cherry = new EntityBuilder()
-                        .type(fruitType)
-                        .position(new Point(0, 32))
-                        .texture(textureCherry)
-                        .hitbox(new SquareHitBox(16))
-                        .isSolid(false)
-                        .build();
-                getLevel().add(cherry);
-                timeEngine().schedule(15, TimeUnit.SECONDS, () -> getLevel().destroyEntity(cherry));
+                getLevel().add(listFruits.get(0));
+                timeEngine().schedule(15, TimeUnit.SECONDS, () -> getLevel().destroyEntity(listFruits.get(0)));
                 break;
             case STRAWBERRY:
-                Texture textureStrawberry = new Texture(18, 18, AssetsLoader.loadSprite("item/Strawberry.png"));
-                Entity strawberry = new EntityBuilder()
-                        .type(fruitType)
-                        .position(new Point(0, 32))
-                        .texture(textureStrawberry)
-                        .hitbox(new SquareHitBox(16))
-                        .isSolid(false)
-                        .build();
-                getLevel().add(strawberry);
-                timeEngine().schedule(15, TimeUnit.SECONDS, () -> getLevel().destroyEntity(strawberry));
+                getLevel().add(listFruits.get(1));
+                timeEngine().schedule(15, TimeUnit.SECONDS, () -> getLevel().destroyEntity(listFruits.get(1)));
                 break;
             default:
                 System.out.println("Can't find this type fruit");
@@ -339,6 +354,17 @@ public class PacMan extends GameApplication {
 
     @Override
     protected void startPlay() {
+        nbLevel += 1;
+
+        currentListFruits.clear();
+
+        for (int i = 0; i<nbLevel; i++) {
+            if (i<listFruits.size())
+                currentListFruits.add(listFruits.get(i));
+        }
+
+        globalVars().put("fruits", nbLevel);
+
         soundEngine().playClip("intro.wav", 0.05);
         uiEngine().display(AssetsLoader.loadView("Overlay.fxml"));
         loadLevel();
@@ -361,9 +387,19 @@ public class PacMan extends GameApplication {
 
         setEvents(pacmanLogic);
 
-        timeEngine().schedule(30, TimeUnit.SECONDS, () -> loadFruit(CHERRY));
-
-        timeEngine().schedule(70, TimeUnit.SECONDS, () -> loadFruit(STRAWBERRY));
+        for (int i = 0; i<currentListFruits.size(); i++) {
+            switch (i) {
+                case 0 :
+                    timeEngine().schedule(30, TimeUnit.SECONDS, () -> loadFruit(CHERRY));
+                    break;
+                case 1:
+                    timeEngine().schedule(60, TimeUnit.SECONDS, () -> loadFruit(STRAWBERRY));
+                    break;
+                default:
+                    System.out.println("No fruit");
+                    break;
+            }
+        }
 
         pacmanLogic.setCanMove(false);
         timeEngine().schedule(4, TimeUnit.SECONDS, () -> {
