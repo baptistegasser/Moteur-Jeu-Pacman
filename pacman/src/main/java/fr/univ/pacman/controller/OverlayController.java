@@ -2,12 +2,10 @@ package fr.univ.pacman.controller;
 
 import fr.univ.engine.assets.AssetsLoader;
 import fr.univ.engine.core.GameApplication;
-import fr.univ.engine.physic.PhysicComponent;
 import fr.univ.engine.render.RenderComponent;
 import fr.univ.engine.time.FutureTask;
 import fr.univ.engine.ui.JFXController;
 import fr.univ.pacman.PacMan;
-import fr.univ.pacman.component.ai.GhostAIComponent;
 import javafx.animation.FadeTransition;
 import javafx.animation.Transition;
 import javafx.application.Platform;

@@ -18,7 +18,6 @@ import fr.univ.engine.render.texture.Texture;
 import fr.univ.engine.time.FutureTask;
 import fr.univ.pacman.component.PacManLogic;
 import fr.univ.pacman.component.ai.GhostAIComponent;
-import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 
 import java.math.BigDecimal;
@@ -331,7 +330,6 @@ public class PacMan extends GameApplication {
             soundEngine().playClip("pac_die.wav", 0.05);
 
             pacmanLogic.stop();
-            pacmanLogic.hit();
             pacmanLogic.setCanMove(false);
 
             pacman.getComponent(PacManLogic.class).setCurrentMode(PacManLogic.Mode.DEATH);

@@ -2,7 +2,6 @@ package fr.univ.engine.math;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
-import java.util.Objects;
 
 /**
  * Representation of a 2D Vector.

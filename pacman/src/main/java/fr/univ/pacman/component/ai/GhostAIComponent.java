@@ -3,7 +3,6 @@ package fr.univ.pacman.component.ai;
 import fr.univ.engine.core.Component;
 import fr.univ.engine.core.TransformComponent;
 import fr.univ.engine.core.entity.Entity;
-import fr.univ.engine.logging.LoggingEngine;
 import fr.univ.engine.math.Point;
 import fr.univ.engine.math.Vector;
 import fr.univ.engine.physic.PhysicComponent;
@@ -93,7 +92,6 @@ public abstract class GhostAIComponent extends Component {
             if (currentGlobalState == State.SCARED) {
                 this.getComponent(PhysicComponent.class).setDirection(this.getComponent(PhysicComponent.class).direction().reverse());
             }
-            LoggingEngine.info(this + " setting current global mode");
         }
 
         switch (state) {

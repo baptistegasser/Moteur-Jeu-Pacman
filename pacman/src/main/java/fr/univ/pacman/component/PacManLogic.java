@@ -3,14 +3,11 @@ package fr.univ.pacman.component;
 import fr.univ.engine.core.Component;
 import fr.univ.engine.core.TransformComponent;
 import fr.univ.engine.core.entity.Entity;
-import fr.univ.engine.logging.LoggingEngine;
 import fr.univ.engine.math.Point;
 import fr.univ.engine.math.Vector;
 import fr.univ.engine.physic.PhysicComponent;
 import fr.univ.engine.physic.hitbox.HitBoxIntersecter;
 import fr.univ.engine.render.RenderComponent;
-
-import java.util.logging.Level;
 
 /**
  * The component handling Pac-Man movement logic.
@@ -88,13 +85,6 @@ public class PacManLogic extends Component {
     public void stop() {
         this.wantedDirection = new Vector(0, 0);
         this.changeDir = true;
-    }
-
-    /**
-     * Pacman hit something
-     */
-    public void hit() {
-        LoggingEngine.log(Level.INFO, "Hit !");
     }
 
     /**
