@@ -60,14 +60,13 @@ public class PacMan extends GameApplication {
         AssetsLoader.loadFont("PressStart2P.ttf");
         uiEngine().display(AssetsLoader.loadView("Overlay.fxml"));
         uiEngine().display(AssetsLoader.loadView("Menu.fxml"));
-        soundEngine().playClip("intro.wav", 0.05);
 
         loadLevel();
 
         List<Entity> ghosts = getLevel().getEntitiesWithComponent(GhostAIComponent.class);
         for (int i = 0; i <= 3; ++i) {
             final int index = i;
-            timeEngine().schedule(i*10, TimeUnit.SECONDS, () -> ghosts.get(index).getComponent(GhostAIComponent.class).spawn());
+            timeEngine().schedule((i*10)+5, TimeUnit.SECONDS, () -> ghosts.get(index).getComponent(GhostAIComponent.class).spawn());
         }
 
         pacmanLogic = getLevel().getSingletonEntity(Type.PACMAN).getComponent(PacManLogic.class);
@@ -79,8 +78,6 @@ public class PacMan extends GameApplication {
             pause();
             uiEngine().display(AssetsLoader.loadView("Pause.fxml"));
         });
-
-        pacmanLogic.setCanMove(true);
 
         setEvents(pacmanLogic);
 
@@ -366,7 +363,11 @@ public class PacMan extends GameApplication {
 
     @Override
     protected void startPlay() {
-        LoggingEngine.info("salut !");
+        soundEngine().playClip("intro.wav", 0.05);
+        pacmanLogic.setCanMove(false);
+        timeEngine().schedule(4, TimeUnit.SECONDS, () -> {
+            pacmanLogic.setCanMove(true);
+        });
     }
 
     public static void main(String[] args) {
