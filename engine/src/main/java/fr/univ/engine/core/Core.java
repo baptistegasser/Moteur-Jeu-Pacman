@@ -171,6 +171,7 @@ public final class Core {
         uiEngine.init();
         physicEngine.init();
         soundEngine.init();
+        timeEngine.init();
     }
 
     /**

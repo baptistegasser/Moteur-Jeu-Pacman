@@ -14,6 +14,12 @@ public class TimeEngine {
      */
     private final PriorityQueue<FutureTask> scheduledTasks = new PriorityQueue<>(Comparator.comparingLong(o -> o.startTime));
 
+    public void init() {
+        if (!scheduledTasks.isEmpty()) {
+            cancelAll();
+        }
+    }
+
     /**
      * Schedule a task to be run in the future.
      *
@@ -48,6 +54,13 @@ public class TimeEngine {
      */
     public void cancel(Object identifier) {
         this.scheduledTasks.removeIf(task -> task.identifier.equals(identifier));
+    }
+
+    /**
+     * Cancel all scheduled tasks.
+     */
+    public void cancelAll() {
+        scheduledTasks.clear();
     }
 
     /**
