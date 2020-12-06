@@ -52,7 +52,7 @@ public class GameFactory extends EntityFactory {
                 .texture(texture)
                 .hitbox(new SquareHitBox(16))
                 .with(new PacManLogic())
-                .speed(PacManLogic.PACMANSPEED)
+                .speed(1.2)
                 .build();
     }
 

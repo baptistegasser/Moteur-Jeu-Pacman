@@ -432,7 +432,7 @@ public class PacMan extends GameApplication {
         pacmanLogic.setCanMove(false);
         timeEngine().schedule(4, TimeUnit.SECONDS, () -> {
             pacmanLogic.setCurrentMode(PacManLogic.Mode.NORMAL);
-            pacmanLogic.getComponent(PhysicComponent.class).setDirection(new Vector(PacManLogic.PACMANSPEED,0));
+            pacmanLogic.getComponent(PhysicComponent.class).setDirection(new Vector(getLevel().getEntities(PACMAN).get(0).getComponent(PhysicComponent.class).getSpeed(),0));
             pacmanLogic.setCanMove(true);
         });
     }
