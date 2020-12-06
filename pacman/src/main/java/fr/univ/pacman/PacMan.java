@@ -377,6 +377,7 @@ public class PacMan extends GameApplication {
     @Override
     protected void startPlay() {
         soundEngine().stopAll();
+        uiEngine().clear();
 
         nbLevel += 1;
 

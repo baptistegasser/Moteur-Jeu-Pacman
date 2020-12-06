@@ -31,4 +31,9 @@ public class Song extends Sound<MediaPlayer> {
     public void setVolume(double volume) {
         player.setVolume(Math.clamp(0.0, 1.0, volume));
     }
+
+    @Override
+    public double getVolume() {
+        return player.getVolume();
+    }
 }

@@ -181,6 +181,8 @@ public class SoundEngine {
             current.stop();
         }
 
+        sound.setVolume(sound.getVolume()*globalVolume);
+
         sound.play();
         keyToSounds.get(key).put(sound.name, sound);
     }
@@ -243,7 +245,13 @@ public class SoundEngine {
      * @param volume the new global volume.
      */
     public void setGlobalVolume(double volume) {
+        double oldVolume = this.globalVolume;
         this.globalVolume = Math.clamp(0.0, 1.0, volume);
+        keyToSounds.forEach((o, sounds) -> {
+            sounds.forEach((s, sound) -> {
+                sound.setVolume((sound.getVolume()/oldVolume)*this.globalVolume);
+            });
+        });
     }
 
     /**

@@ -45,6 +45,13 @@ public abstract class Sound<T> {
     public abstract void setVolume(double volume);
 
     /**
+     * Method to get the sound volume.
+     *
+     * @return the volume level.
+     */
+    public abstract double getVolume();
+
+    /**
      * @return the name of this sound.
      */
     public String getName() {

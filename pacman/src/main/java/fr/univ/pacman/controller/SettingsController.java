@@ -16,11 +16,15 @@ public class SettingsController extends JFXController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         globalVolumeSlider.setValue(GameApplication.app().soundEngine().getGlobalVolume());
+        globalVolumeSlider.valueProperty().addListener($ -> updateVolume());
     }
 
     @FXML
     private void exit() {
-        GameApplication.app().soundEngine().setGlobalVolume(globalVolumeSlider.getValue());
         getView().destroy();
+    }
+
+    private void updateVolume() {
+        GameApplication.app().soundEngine().setGlobalVolume(globalVolumeSlider.getValue());
     }
 }

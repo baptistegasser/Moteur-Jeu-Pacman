@@ -2,7 +2,6 @@ package fr.univ.engine.sound;
 
 import fr.univ.engine.math.Math;
 import javafx.scene.media.AudioClip;
-import javafx.scene.media.MediaPlayer;
 
 /**
  * Sound implementation using a {@link AudioClip} as player.
@@ -25,11 +24,16 @@ public class Clip extends Sound<AudioClip> {
 
     @Override
     public void setLoop() {
-        player.setCycleCount(MediaPlayer.INDEFINITE);
+        player.setCycleCount(AudioClip.INDEFINITE);
     }
 
     @Override
     public void setVolume(double volume) {
         player.setVolume(Math.clamp(0.0, 1.0, volume));
+    }
+
+    @Override
+    public double getVolume() {
+        return player.getVolume();
     }
 }
