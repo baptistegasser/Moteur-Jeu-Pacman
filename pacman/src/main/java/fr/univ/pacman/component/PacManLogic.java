@@ -23,14 +23,17 @@ public class PacManLogic extends Component {
     private double wantedRotation;
     private boolean canMove;
 
+    public static final double PACMANSPEED = 1.2;
+
     public enum Mode {
         NORMAL,
         SUPER,
         RAINBOW,
-        DEATH
+        DEATH,
+        SPAWN
     }
 
-    private Mode currentMode = Mode.NORMAL;
+    private Mode currentMode = Mode.SPAWN;
 
     public void up() {
         if (canMove) {
@@ -82,6 +85,8 @@ public class PacManLogic extends Component {
 
         if (currentMode == Mode.RAINBOW) {
             getComponent(RenderComponent.class).getTexture().setCurrentChannel("super");
+        } else if (currentMode == Mode.SPAWN) {
+            getComponent(RenderComponent.class).getTexture().setCurrentChannel("spawn");
         } else {
             getComponent(RenderComponent.class).getTexture().setCurrentChannel("walking");
         }

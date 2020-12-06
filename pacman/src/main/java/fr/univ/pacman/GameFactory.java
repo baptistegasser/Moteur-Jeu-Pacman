@@ -37,20 +37,22 @@ public class GameFactory extends EntityFactory {
         Texture texture = new Texture(16, 16, 10);
         texture.addSprite("walking", AssetsLoader.loadAnimation(100, Arrays.asList("sprites/animation/pacmanWalk/pacmanWalk1.png", "sprites/animation/pacmanWalk/pacmanWalk2.png")));
 
+        texture.addSprite("spawn", AssetsLoader.loadSprite("sprites/pacmanSpawn.png"));
+
         texture.addSprite("super", AssetsLoader.loadAnimation(100, Arrays.asList("sprites/animation/pacmanWalk/super_open.png", "sprites/animation/pacmanWalk/super_close.png")));
 
         List<String> framesName = new ArrayList<>();
         for (int i = 1; i < 12; i++) framesName.add("sprites/animation/pacmanDeath/pacmanDeath" + i + ".png");
         texture.addSprite("death", AssetsLoader.loadAnimation(70, framesName));
 
-        texture.setCurrentChannel("walking");
+        texture.setCurrentChannel("spawn");
         return new EntityBuilder()
                 .type(Type.PACMAN)
                 .position(tilePos(charPos))
                 .texture(texture)
                 .hitbox(new SquareHitBox(16))
                 .with(new PacManLogic())
-                .speed(0.6)
+                .speed(PacManLogic.PACMANSPEED)
                 .build();
     }
 

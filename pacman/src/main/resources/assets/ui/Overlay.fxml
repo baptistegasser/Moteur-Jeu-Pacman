@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
@@ -23,7 +24,29 @@
             </HBox>
          </children>
          <padding>
-            <Insets left="15.0" />
+            <Insets left="15.0" top="15.0" />
+         </padding>
+      </HBox>
+      <VBox fx:id="ready" alignment="CENTER" prefHeight="552.0" prefWidth="510.0">
+         <children>
+            <Label alignment="CENTER" contentDisplay="TOP" prefHeight="36.0" prefWidth="160.0" style="-fx-font-family: 'Press Start 2P', cursive; -fx-font-size: 13px; -fx-text-fill: yellow;" text="READY !" textFill="#fbff00">
+               <VBox.margin>
+                  <Insets top="13.0" />
+               </VBox.margin>
+               <effect>
+                  <Glow level="0.69" />
+               </effect></Label>
+         </children>
+         <padding>
+            <Insets top="75.0" />
+         </padding>
+      </VBox>
+      <HBox fx:id="fruits" alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="8.0">
+         <VBox.margin>
+            <Insets />
+         </VBox.margin>
+         <padding>
+            <Insets right="100.0" />
          </padding>
       </HBox>
    </children>
