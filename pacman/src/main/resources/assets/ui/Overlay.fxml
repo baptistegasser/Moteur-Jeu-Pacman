@@ -29,7 +29,7 @@
       </HBox>
       <VBox fx:id="ready" alignment="CENTER" prefHeight="552.0" prefWidth="510.0">
          <children>
-            <Label alignment="CENTER" contentDisplay="TOP" prefHeight="36.0" prefWidth="160.0" style="-fx-font-family: 'Press Start 2P', cursive; -fx-text-fill: White; -fx-font-size: 13px; -fx-text-fill: yellow;" styleClass="image-clignote" stylesheets="@blink.css" text="READY !" textFill="#fbff00">
+            <Label alignment="CENTER" contentDisplay="TOP" prefHeight="36.0" prefWidth="160.0" style="-fx-font-family: 'Press Start 2P', cursive; -fx-font-size: 13px; -fx-text-fill: yellow;" text="READY !" textFill="#fbff00">
                <padding>
                   <Insets top="25.0" />
                </padding>

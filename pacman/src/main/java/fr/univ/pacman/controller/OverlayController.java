@@ -6,6 +6,8 @@ import fr.univ.engine.physic.PhysicComponent;
 import fr.univ.engine.time.FutureTask;
 import fr.univ.engine.ui.JFXController;
 import fr.univ.pacman.component.ai.GhostAIComponent;
+import javafx.animation.FadeTransition;
+import javafx.animation.Transition;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -14,6 +16,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.util.Duration;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -35,6 +38,8 @@ public class OverlayController extends JFXController implements Initializable {
         GameApplication.app().globalVars().addListener("score", ($, $$, s) -> Platform.runLater(() -> score.setText("SCORE " + s)));
         GameApplication.app().globalVars().addListener("lives", ($, $$, lifeCount) -> Platform.runLater(() -> displayLives(((int) lifeCount))));
 
+        blink();
+
         FutureTask futureTask = new FutureTask(4, TimeUnit.SECONDS, "DELETEREADY", () -> {
             Platform.runLater(() -> ready.getChildren().clear());
         });
@@ -53,5 +58,14 @@ public class OverlayController extends JFXController implements Initializable {
             lifeImage.setFitWidth(16);
             lives.getChildren().add(lifeImage);
         }
+    }
+
+    private void blink () {
+        FadeTransition textTransition = new FadeTransition(Duration.seconds(0.4), ready);
+        textTransition.setAutoReverse(true);
+        textTransition.setFromValue(0);
+        textTransition.setToValue(1);
+        textTransition.setCycleCount(Transition.INDEFINITE);
+        textTransition.play();
     }
 }
