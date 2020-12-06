@@ -1,6 +1,5 @@
 package fr.univ.pacman.component;
 
-import fr.univ.engine.assets.AssetsLoader;
 import fr.univ.engine.core.Component;
 import fr.univ.engine.core.TransformComponent;
 import fr.univ.engine.core.entity.Entity;
@@ -11,7 +10,6 @@ import fr.univ.engine.physic.PhysicComponent;
 import fr.univ.engine.physic.hitbox.HitBoxIntersecter;
 import fr.univ.engine.render.RenderComponent;
 
-import java.util.ArrayList;
 import java.util.logging.Level;
 
 /**
