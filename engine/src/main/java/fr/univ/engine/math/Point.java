@@ -58,8 +58,8 @@ public class Point {
      * @param point the new point
      */
     public void set(Point point) {
-        this.x = x.add(point.x);
-        this.y = y.add(point.y);
+        this.x = point.x;
+        this.y = point.y;
     }
 
     public void setX(double x) {
