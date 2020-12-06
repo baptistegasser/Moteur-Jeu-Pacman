@@ -19,7 +19,7 @@ public class FutureTask {
     /**
      * A default identifier that can be used when none is given.
      */
-    private final static Object NO_IDENTIFIER = new Object();
+    protected final static Object NO_IDENTIFIER = new Object();
     /**
      * The action to run later.
      */
