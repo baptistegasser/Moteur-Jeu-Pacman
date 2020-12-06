@@ -3,10 +3,12 @@ package fr.univ.pacman.component;
 import fr.univ.engine.assets.AssetsLoader;
 import fr.univ.engine.core.Component;
 import fr.univ.engine.core.TransformComponent;
+import fr.univ.engine.core.entity.Entity;
 import fr.univ.engine.logging.LoggingEngine;
 import fr.univ.engine.math.Point;
 import fr.univ.engine.math.Vector;
 import fr.univ.engine.physic.PhysicComponent;
+import fr.univ.engine.physic.hitbox.HitBoxIntersecter;
 import fr.univ.engine.render.RenderComponent;
 
 import java.util.ArrayList;
@@ -32,7 +34,7 @@ public class PacManLogic extends Component {
 
     public void up() {
         if (canMove) {
-            this.wantedDirection = new Vector(0, -1d);
+            this.wantedDirection = getComponent(PhysicComponent.class).getDirectionSpeed(new Vector(0, -1d));
             this.wantedRotation = 270;
             this.changeDir = true;
         }
@@ -40,7 +42,7 @@ public class PacManLogic extends Component {
 
     public void down() {
         if (canMove) {
-            this.wantedDirection = new Vector(0, 1d);
+            this.wantedDirection = getComponent(PhysicComponent.class).getDirectionSpeed(new Vector(0, 1d));
             this.wantedRotation = 90;
             this.changeDir = true;
         }
@@ -48,7 +50,7 @@ public class PacManLogic extends Component {
 
     public void left() {
         if (canMove) {
-            this.wantedDirection = new Vector(-1d, 0);
+            this.wantedDirection = getComponent(PhysicComponent.class).getDirectionSpeed(new Vector(-1d, 0));
             this.wantedRotation = 180;
             this.changeDir = true;
         }
@@ -56,7 +58,7 @@ public class PacManLogic extends Component {
 
     public void right() {
         if (canMove) {
-            this.wantedDirection = new Vector(1d, 0);
+            this.wantedDirection = getComponent(PhysicComponent.class).getDirectionSpeed(new Vector(1d, 0));
             this.wantedRotation = 0;
             this.changeDir = true;
         }
@@ -111,11 +113,31 @@ public class PacManLogic extends Component {
         // Calculate new pos
         Point newPos = transform.position().copy();
         newPos.add(wantedDirection);
+
+        Entity collisionEntity = getPhysics().canMoveTo(this.getEntity(), newPos);
+
         // Test if can move to new pos
-        if (getPhysics().canMoveTo(this.getEntity(), newPos) == null) {
-            physic.setDirection(physic.getDirectionSpeed(wantedDirection));
+        if (collisionEntity == null) {
+            physic.setDirection(wantedDirection);
             transform.setRotation(wantedRotation);
             changeDir = false;
+        } // If have collision, search an optimize displacement
+        else {
+            Vector collisionSize = HitBoxIntersecter.collisionSize(getComponent(PhysicComponent.class).getHitBox(), newPos,
+                    collisionEntity.getComponent(PhysicComponent.class).getHitBox(),
+                    collisionEntity.getComponent(TransformComponent.class).position());
+
+            Vector realFinalDir = HitBoxIntersecter.getVectorForPasteEdge(wantedDirection, collisionSize, this.getComponent(PhysicComponent.class).getSpeed());
+
+            if (realFinalDir != null) {
+                Point p2 = getComponent(TransformComponent.class).position().copy();
+                p2.add(realFinalDir);
+                if (getPhysics().canMoveTo(getEntity(), p2) == null) {
+                    physic.setDirection(wantedDirection);
+                    transform.setRotation(wantedRotation);
+                    changeDir = false;
+                }
+            }
         }
     }
 }

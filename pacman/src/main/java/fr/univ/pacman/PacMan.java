@@ -128,16 +128,17 @@ public class PacMan extends GameApplication {
         });
 
         physicEngine().onCollision(GHOST, SPAWN_EXIT, (ghost, e2) -> {
-            if (!ghost.getComponent(GhostAIComponent.class).isDead() && !ghost.getComponent(GhostAIComponent.class).isScared())
+            if (!ghost.getComponent(GhostAIComponent.class).isDead() && !ghost.getComponent(GhostAIComponent.class).isScared()) {
                 ghost.getComponent(GhostAIComponent.class).notifySpawnExit();
-            ghost.getComponent(PhysicComponent.class).setSpeed(0.57);
+                ghost.getComponent(PhysicComponent.class).setSpeed(GhostAIComponent.NORMALESPEED);
+            }
         });
 
         physicEngine().onCollision(GHOST, GHOST_BASE, (ghost, e2) -> {
             if(ghost.getComponent(GhostAIComponent.class).isDead())
                 soundEngine().stopSound("ghost_return_spawn.wav");
             ghost.getComponent(GhostAIComponent.class).spawn();
-            ghost.getComponent(PhysicComponent.class).setSpeed(0.57);
+            ghost.getComponent(PhysicComponent.class).setSpeed(GhostAIComponent.NORMALESPEED);
         });
 
         physicEngine().onCollision(PACMAN, GHOST_BASE, (e1, e2) -> {
@@ -257,7 +258,7 @@ public class PacMan extends GameApplication {
         getLevel().getEntitiesWithComponent(GhostAIComponent.class).forEach(ghost -> {
             ghost.getComponent(GhostAIComponent.class).setTakeCurrentGlobalState(true);
             if (!ghost.getComponent(GhostAIComponent.class).isDead())
-                ghost.getComponent(PhysicComponent.class).setSpeed(0.35);
+                ghost.getComponent(PhysicComponent.class).setSpeed(GhostAIComponent.SCAREDSPEED);
         });
 
         timeEngine().cancel("FINISHPOWER");
@@ -268,7 +269,7 @@ public class PacMan extends GameApplication {
             getLevel().getEntitiesWithComponent(GhostAIComponent.class).forEach(ghost -> {
                 ghost.getComponent(GhostAIComponent.class).setTakeCurrentGlobalState(true);
                 if (!ghost.getComponent(GhostAIComponent.class).isDead())
-                    ghost.getComponent(PhysicComponent.class).setSpeed(0.55);
+                    ghost.getComponent(PhysicComponent.class).setSpeed(GhostAIComponent.NORMALESPEED);
             });
         });
 
@@ -348,7 +349,7 @@ public class PacMan extends GameApplication {
         //replaceGhost
         getLevel().getEntitiesWithComponent(GhostAIComponent.class).forEach(ghost -> {
             ghost.getComponent(GhostAIComponent.class).teleportToBase();
-            ghost.getComponent(PhysicComponent.class).setSpeed(0.57);
+            ghost.getComponent(PhysicComponent.class).setSpeed(GhostAIComponent.NORMALESPEED);
         });
     }
 
@@ -360,7 +361,7 @@ public class PacMan extends GameApplication {
         ghost.setDead();
         globalVars().put("score", globalVars().getInt("score")+200);
         soundEngine().playLoop("ghost_return_spawn.wav", 0.15);
-        ghost.getComponent(PhysicComponent.class).setSpeed(1.0);
+        ghost.getComponent(PhysicComponent.class).setSpeed(GhostAIComponent.DEATHSPEED);
     }
 
     @Override

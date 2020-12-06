@@ -22,6 +22,11 @@ import java.util.Random;
  * Base class for ghosts ai components.
  */
 public abstract class GhostAIComponent extends Component {
+
+    public static final double NORMALESPEED = 0.39;
+    public static final double SCAREDSPEED = 0.43;
+    public static final double DEATHSPEED = 1;
+
     /**
      * Possible state of a ghost.
      */
@@ -116,6 +121,7 @@ public abstract class GhostAIComponent extends Component {
         }
 
         Collections.shuffle(validDirections);
+        System.out.println("BEST DIR "+validDirections.get(0).toString()+"\n");
         getComponent(PhysicComponent.class).setDirection(validDirections.get(0));
         updateSpriteByVector(validDirections.get(0));
     }
@@ -134,7 +140,10 @@ public abstract class GhostAIComponent extends Component {
         double bestDistance = Double.MAX_VALUE;
         for (Vector dir : validDirections) {
             Point p = getComponent(TransformComponent.class).position().copy();
+            System.out.println("ACTUAL POS X : "+p.x()+" Y : "+p.y());
             p.add(dir);
+
+            System.out.println("Dir POS X : "+dir.x()+" Y : "+dir.y()+"\n");
 
             double distance = target.distance(p);
             if (distance < bestDistance) {
@@ -144,6 +153,7 @@ public abstract class GhostAIComponent extends Component {
         }
 
         if (bestDir != null) {
+            System.out.println("BEST DIR "+bestDir.toString()+"\n");
             getComponent(PhysicComponent.class).setDirection(bestDir);
             updateSpriteByVector(bestDir);
         }
@@ -168,7 +178,9 @@ public abstract class GhostAIComponent extends Component {
             if (!realDir.sameDirection(currentDir.reverse())) {
                 // They are no collision between them
                 if (collisionEntity == null) {
-                    validDirections.add(realDir);
+                    if (currentDir.sameOrientalDirection(realDir)) {
+                        validDirections.add(realDir);
+                    }
                 } else {
                     // Else we can move for glue the edge
 
@@ -177,38 +189,16 @@ public abstract class GhostAIComponent extends Component {
                             collisionEntity.getComponent(PhysicComponent.class).getHitBox(),
                             collisionEntity.getComponent(TransformComponent.class).position());
 
-                    Vector realFinalDir = null;
+                    Vector realFinalDir = HitBoxIntersecter.getVectorForPasteEdge(realDir, collisionSize, this.getComponent(PhysicComponent.class).getSpeed());
 
-                    //Set the direction vector in function the size of the collision and a possible direction
-                    // we must have two x or two y value different and different than zero
-                    // And the calculation for x or y value depend if they are higher or lower than 0
-                    if (realDir.xValue() > 0 && collisionSize.xValue() > 0
-                            && realDir.x().compareTo(collisionSize.x()) != 0)
-                        realFinalDir = new Vector(realDir.x().subtract(collisionSize.x()).doubleValue(), 0);
-                    else if (realDir.xValue() > 0 && collisionSize.xValue() < 0
-                            && realDir.x().compareTo(collisionSize.x()) != 0)
-                        realFinalDir = new Vector(realDir.x().add(collisionSize.x()).doubleValue(), 0);
-                    else if (realDir.xValue() < 0 && collisionSize.xValue() > 0
-                            && realDir.x().compareTo(collisionSize.x()) != 0)
-                        realFinalDir = new Vector(realDir.x().add(collisionSize.x()).doubleValue(), 0);
-                    else if (realDir.xValue() < 0 && collisionSize.xValue() < 0
-                            && realDir.x().compareTo(collisionSize.x()) != 0)
-                        realFinalDir = new Vector(realDir.x().subtract(collisionSize.x()).doubleValue(), 0);
-                    else if (realDir.yValue() > 0 && collisionSize.yValue() > 0
-                            && realDir.y().compareTo(collisionSize.y()) != 0)
-                        realFinalDir = new Vector(0, realDir.y().subtract(collisionSize.y()).doubleValue());
-                    else if (realDir.yValue() > 0 && collisionSize.yValue() < 0
-                            && realDir.y().compareTo(collisionSize.y()) != 0)
-                        realFinalDir = new Vector(0, realDir.y().add(collisionSize.y()).doubleValue());
-                    else if (realDir.yValue() < 0 && collisionSize.yValue() > 0
-                            && realDir.y().compareTo(collisionSize.y()) != 0)
-                        realFinalDir = new Vector(0, realDir.y().add(collisionSize.y()).doubleValue());
-                    else if (realDir.yValue() < 0 && collisionSize.yValue() < 0
-                            && realDir.y().compareTo(collisionSize.y()) != 0)
-                        realFinalDir = new Vector(0, realDir.y().subtract(collisionSize.y()).doubleValue());
-
+                    // Second verification of I can go here
                     if (realFinalDir != null) {
-                        validDirections.add(realFinalDir);
+                        Point p2 = getComponent(TransformComponent.class).position().copy();
+                        p2.add(realFinalDir);
+                        if (getPhysics().canMoveTo(getEntity(), p2) == null && currentDir.sameOrientalDirection(realFinalDir)) {
+                            System.out.println("realFinalDir " + realFinalDir.toString() + "\n");
+                            validDirections.add(realFinalDir);
+                        }
                     }
                 }
             }

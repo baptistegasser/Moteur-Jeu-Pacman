@@ -77,4 +77,8 @@ public final class PhysicComponent extends Component {
     public void setSpeed(double speed) {
         this.speed = speed;
     }
+
+    public double getSpeed() {
+        return speed;
+    }
 }

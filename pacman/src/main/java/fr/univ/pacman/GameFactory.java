@@ -10,10 +10,7 @@ import fr.univ.engine.render.RenderComponent;
 import fr.univ.engine.render.texture.ISprite;
 import fr.univ.engine.render.texture.Texture;
 import fr.univ.pacman.component.PacManLogic;
-import fr.univ.pacman.component.ai.BlueGhostAIComponent;
-import fr.univ.pacman.component.ai.OrangeGhostAIComponent;
-import fr.univ.pacman.component.ai.PinkGhostAIComponent;
-import fr.univ.pacman.component.ai.RedGhostAIComponent;
+import fr.univ.pacman.component.ai.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -53,7 +50,7 @@ public class GameFactory extends EntityFactory {
                 .texture(texture)
                 .hitbox(new SquareHitBox(16))
                 .with(new PacManLogic())
-                .speed(0.5)
+                .speed(0.6)
                 .build();
     }
 
@@ -198,7 +195,7 @@ public class GameFactory extends EntityFactory {
                 .texture(texture)
                 .hitbox(new SquareHitBox(16))
                 .with(new RedGhostAIComponent())
-                .speed(0.57)
+                .speed(GhostAIComponent.NORMALESPEED)
                 .build();
     }
 
@@ -217,7 +214,7 @@ public class GameFactory extends EntityFactory {
                 .texture(texture)
                 .hitbox(new SquareHitBox(16))
                 .with(new BlueGhostAIComponent())
-                .speed(0.57)
+                .speed(GhostAIComponent.NORMALESPEED)
                 .build();
     }
 
@@ -236,7 +233,7 @@ public class GameFactory extends EntityFactory {
                 .texture(texture)
                 .hitbox(new SquareHitBox(16))
                 .with(new OrangeGhostAIComponent())
-                .speed(0.57)
+                .speed(GhostAIComponent.NORMALESPEED)
                 .build();
     }
 
@@ -255,7 +252,7 @@ public class GameFactory extends EntityFactory {
                 .texture(texture)
                 .hitbox(new SquareHitBox(16))
                 .with(new PinkGhostAIComponent())
-                .speed(0.57)
+                .speed(GhostAIComponent.NORMALESPEED)
                 .build();
     }
 

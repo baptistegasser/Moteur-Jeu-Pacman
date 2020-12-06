@@ -65,4 +65,24 @@ class VectorTest {
         assertEquals(v2, vector.multiplyBy(5));
         assertEquals(v2, vector.multiplyBy(BigDecimal.valueOf(5)));
     }
+
+    @Test
+    void sameOrientalDirection() {
+        Vector v1 = new Vector(0,-3);
+        Vector v2 = new Vector(-2,0);
+
+        assertFalse(vector.sameOrientalDirection(v1));
+        assertTrue(vector.sameOrientalDirection(v2));
+
+        Vector v3 = new Vector(1,2);
+        Vector v4 = new Vector(2,3);
+        Vector v5 = new Vector(-2,1);
+        Vector v6 = new Vector(-2,-1);
+        Vector v7 = new Vector(-1,-4);
+
+        assertTrue(v3.sameOrientalDirection(v4));
+        assertFalse(v3.sameOrientalDirection(v5));
+        assertFalse(v5.sameOrientalDirection(v6));
+        assertTrue(v6.sameOrientalDirection(v7));
+    }
 }

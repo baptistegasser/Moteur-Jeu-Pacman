@@ -121,4 +121,22 @@ public class Vector {
         }
         return getUnitVector().equals(v.getUnitVector());
     }
+
+    /**
+     * Return if two vector have a same orientation, including diagonal.
+     * @param v the vector to confront
+     * @return if they are in same orientation
+     */
+    public boolean sameOrientalDirection(Vector v) {
+        return ((this.xValue() >= 0 && v.xValue() >= 0) ||
+                (this.xValue() <= 0 && v.xValue() <= 0)) &&
+                ((this.yValue() >= 0 && v.yValue() >= 0) ||
+                (this.yValue() <= 0 && v.yValue() <= 0));
+    }
+
+    @Override
+    public String toString() {
+        return " X : " + x +
+                ", Y : " + y;
+    }
 }
