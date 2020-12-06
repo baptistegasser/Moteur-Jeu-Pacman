@@ -34,7 +34,8 @@ public abstract class EntityFactory {
     private final Map<Character, Method> builderMethods;
 
     /**
-     * Constructor, build a list of valid builder methods.
+     * When an EntityFactory is created, find all building method that are
+     * correctly defined and thus can be used to build entities.
      */
     public EntityFactory() {
         this.builderMethods = new HashMap<>();
@@ -52,11 +53,12 @@ public abstract class EntityFactory {
     }
 
     /**
-     * Get an entity from this key.
-     * This will call a builder method that is annotated as such: {@code @From(key)}.
+     * Get an entity from a character.
+     * This will call a builder method that is annotated as such: {@code @From(char)}.
      * If no builder is defined for this key, this will return null.
      *
-     * @param key the key identifying the entity.
+     * @param character the character to identify the builder method.
+     * @param charPos the relative position of the character in the file.
      * @return a new entity instance or null.
      */
     public final Entity getEntity(char character, Point charPos) {

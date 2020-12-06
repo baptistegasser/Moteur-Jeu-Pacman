@@ -14,7 +14,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Class charged of building entities.
+ * Builder class used to create entities more easily.
  */
 public class EntityBuilder {
     /**
@@ -56,55 +56,114 @@ public class EntityBuilder {
     private final List<Component> components;
 
     public EntityBuilder() {
-        // Reserve place for render and physic components.
+        // Reserve place for transform, render and physic components.
         components = new ArrayList<>(Arrays.asList(null, null, null));
     }
 
+    /**
+     * Set the type of the entity.
+     *
+     * @param type the wanted type.
+     * @return this builder allowing to chain methods.
+     */
     public EntityBuilder type(Object type) {
         this.type = type;
         return this;
     }
 
+    /**
+     * Set the spawn position of the entity.
+     *
+     * @param position the spawn position.
+     * @return this builder allowing to chain methods.
+     */
     public EntityBuilder position(Point position) {
         this.position = position;
         return this;
     }
 
+    /**
+     * Set the rotation of the entity.
+     *
+     * @param rotation the start rotation.
+     * @return this builder allowing to chain methods.
+     */
     public EntityBuilder rotation(double rotation) {
         this.rotation = rotation;
         return this;
     }
 
+    /**
+     * Set the hitbox to use for the entity collision.
+     *
+     * @param hitBox the desired hitbox.
+     * @return this builder allowing to chain methods.
+     */
     public EntityBuilder hitbox(HitBox hitBox) {
         this.hitBox = hitBox;
         return this;
     }
 
+    /**
+     * Set if the entity should be solid.
+     *
+     * @param isSolid the desired solidity value.
+     * @return this builder allowing to chain methods.
+     */
     public EntityBuilder isSolid(boolean isSolid) {
         this.isSolid = isSolid;
         return this;
     }
 
+    /**
+     * Set the texture to render the entity.
+     *
+     * @param texture the desired texture.
+     * @return this builder allowing to chain methods.
+     */
     public EntityBuilder texture(Texture texture) {
         this.texture = texture;
         return this;
     }
 
+    /**
+     * Set the direction of the entity at spawn.
+     *
+     * @param direction the desired direction.
+     * @return this builder allowing to chain methods.
+     */
     public EntityBuilder direction(Vector direction) {
         this.direction = direction;
         return this;
     }
 
+    /**
+     * Set the speed of the entity at spawn.
+     *
+     * @param speed the desired speed.
+     * @return this builder allowing to chain methods.
+     */
     public EntityBuilder speed(double speed) {
         this.speed = speed;
         return this;
     }
 
+    /**
+     * Add a component to define the behavior of the entity.
+     *
+     * @param component a component of the entity.
+     * @return this builder allowing to chain methods.
+     */
     public EntityBuilder with(Component component) {
         components.add(component);
         return this;
     }
 
+    /**
+     * Build a new entity with all the attributes values currently set.
+     *
+     * @return an entity instance matching the builder state.
+     */
     public Entity build() {
         if (hitBox != null) {
             hitBox.setSolid(isSolid);

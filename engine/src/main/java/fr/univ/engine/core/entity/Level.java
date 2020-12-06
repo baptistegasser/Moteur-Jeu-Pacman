@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Represent a game level.
+ * Representation of a game level containing entities.
  */
 public class Level {
     /**
@@ -16,7 +16,7 @@ public class Level {
      */
     private final List<Entity> entities = new ArrayList<>();
     /**
-     * A HashSet that contains the entities for a fast contains() check.
+     * A HashSet that contains the entities for a fast {@code contains()} check.
      */
     private final HashSet<Entity> entitiesSet = new HashSet<>();
 

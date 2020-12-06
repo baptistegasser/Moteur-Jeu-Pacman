@@ -5,16 +5,14 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * Map of variables.
- * This map a variable represented as a string to a value.
- * The target value can be any object.
+ * A variable is represented as a string and it's value can be anything.
  */
 public class VarMap {
     /**
-     * The actual map.
+     * The map storing the variables.
      */
     private final HashMap<String, ObjectProperty<Object>> variables;
 
@@ -112,12 +110,12 @@ public class VarMap {
     }
 
     /**
-     * Add a listener on a var value.
+     * Add a listener to call when a var change value.
      *
-     * @param name the var name.
+     * @param name the name of the variable to watch.
      * @param listener the change listener.
      */
-    public void addListener(String name, ChangeListener listener) {
+    public void addListener(String name, ChangeListener<Object> listener) {
         variables.get(name).addListener(listener);
     }
 }

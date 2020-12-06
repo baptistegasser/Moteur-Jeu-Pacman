@@ -19,7 +19,7 @@ import fr.univ.engine.ui.UiEngine;
  */
 public abstract class GameApplication {
     /**
-     * The current instance.
+     * The current instance of game being run.
      */
     private static GameApplication app;
     /**
@@ -30,6 +30,10 @@ public abstract class GameApplication {
      * The global variables of this game.
      */
     private VarMap globalVars;
+
+    //******************************************//
+    //*   lifecycle a game want to implement   *//
+    //******************************************//
 
     /**
      * Method called to let the game set the configuration.
@@ -54,7 +58,7 @@ public abstract class GameApplication {
     protected abstract void startPlay();
 
     //*******************************//
-    //*     attributes getters      *//
+    //*      getters & setters      *//
     //*******************************//
 
     /**
@@ -179,7 +183,7 @@ public abstract class GameApplication {
     /**
      * Method called to launch a new game.
      *
-     * @param args arguments to configure the engine/game
+     * @param args arguments to configure the engine/game.
      */
     public static void launch(String... args) {
         launch(getCallingClass(), args);
@@ -188,7 +192,8 @@ public abstract class GameApplication {
     /**
      * Method called to launch a new game with a specific class.
      *
-     * @param args arguments to configure the engine/game
+     * @param gameClass the class where the game implementation is made.
+     * @param args arguments to configure the engine/game.
      */
     public static void launch(Class<? extends GameApplication> gameClass, String... args) {
         if (app != null) {
@@ -221,7 +226,8 @@ public abstract class GameApplication {
      * Create a new instance of the class that called {@link #launch(String[])}.
      * If the class have no default, empty constructor, this will fail.
      *
-     * @return the new instance of a GameApplication
+     * @param gameClass the game class from which we want a new instance.
+     * @return the new instance of a GameApplication.
      */
     private static GameApplication newInstance(Class<? extends GameApplication> gameClass) {
         try {
@@ -235,7 +241,7 @@ public abstract class GameApplication {
      * Retrieve the class that called the {@link #launch(String[])} method.
      * CREDITS: taken and modified from the JavaFX implementation of {@link  javafx.application.Application#launch(String...)}.
      *
-     * @return the calling class
+     * @return the calling class.
      */
     @SuppressWarnings({"unchecked", "rawtypes"})
     private static Class<? extends GameApplication> getCallingClass() {
