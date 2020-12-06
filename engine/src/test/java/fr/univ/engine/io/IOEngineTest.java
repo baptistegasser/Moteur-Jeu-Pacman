@@ -20,6 +20,7 @@ class IOEngineTest {
     @BeforeAll
     static void beforeAll() {
         ioEngine = new IOEngine();
+        ioEngine.init();
         Z_PRESSED = new KeyEvent(null, null, null, null, null, KeyCode.Z, false, false, false, false);
         S_RELEASED = new KeyEvent(null, null, null, null, null, KeyCode.S, false, false, false, false);
     }
