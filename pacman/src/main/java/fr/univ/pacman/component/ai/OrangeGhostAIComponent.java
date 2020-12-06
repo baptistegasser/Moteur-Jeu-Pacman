@@ -17,6 +17,6 @@ public class OrangeGhostAIComponent extends GhostAIComponent {
         Point pacmanPos = pacman.getComponent(TransformComponent.class).position();
 
         double distance = pacmanPos.distance(getComponent(TransformComponent.class).position());
-        return (distance >= 320) ? pacmanPos : scatterPos;
+        return (distance >= 160) ? pacmanPos : scatterPos;
     }
 }
