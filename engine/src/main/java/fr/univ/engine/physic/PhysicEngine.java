@@ -140,6 +140,7 @@ public class PhysicEngine {
             }
 
             if (HitBoxIntersecter.intersect(h1, p1, h2, p2)) {
+                boolean haveMove = false;
                 // Rollback pos if hit a solid entity but go to paste edge if possible
                 if (h2.isSolid()) {
                     Vector collisionSize = HitBoxIntersecter.collisionSize(h1, p1, h2, p2);
@@ -147,17 +148,20 @@ public class PhysicEngine {
 
                     p1.add(entity.getComponent(PhysicComponent.class).direction().reverse());
                     if (perfectVector != null) {
+                        haveMove = true;
                         p1.add(perfectVector);
                     }
                 }
 
-                // Call the handlers
-                for (CollisionHandler handler : getCollisionHandlers(entity.type(), e2.type())) {
-                    handler.handleCollision(entity, e2);
-                }
-                // Call the handlers is set in other side
-                for (CollisionHandler handler : getCollisionHandlers(e2.type(), entity.type())) {
-                    handler.handleCollision(e2, entity);
+                if (!haveMove) {
+                    // Call the handlers
+                    for (CollisionHandler handler : getCollisionHandlers(entity.type(), e2.type())) {
+                        handler.handleCollision(entity, e2);
+                    }
+                    // Call the handlers is set in other side
+                    for (CollisionHandler handler : getCollisionHandlers(e2.type(), entity.type())) {
+                        handler.handleCollision(e2, entity);
+                    }
                 }
             }
         }

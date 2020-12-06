@@ -23,7 +23,7 @@ import java.util.Random;
  */
 public abstract class GhostAIComponent extends Component {
 
-    public static final double NORMALESPEED = 0.67;
+    public static final double NORMALESPEED = 0.65;
     public static final double SCAREDSPEED = 0.53;
     public static final double DEATHSPEED = 1;
 
