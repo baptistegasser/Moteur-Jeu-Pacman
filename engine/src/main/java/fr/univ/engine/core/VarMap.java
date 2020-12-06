@@ -44,7 +44,8 @@ public class VarMap {
      * @return the value or null if not found.
      */
     public Object get(String name) {
-        return variables.get(name).get();
+        ObjectProperty<Object> object = variables.get(name);
+        return object == null ? null : object.get();
     }
 
     /**
