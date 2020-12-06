@@ -3,12 +3,15 @@ package fr.univ.engine.assets;
 import fr.univ.engine.core.GameApplication;
 import fr.univ.engine.render.texture.Animation;
 import fr.univ.engine.render.texture.Sprite;
+import fr.univ.engine.sound.Song;
+import fr.univ.engine.sound.Clip;
 import fr.univ.engine.ui.JFXController;
 import fr.univ.engine.ui.JFXView;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.image.Image;
 import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Font;
 
 import java.io.InputStream;
@@ -154,47 +157,40 @@ public final class AssetsLoader {
     }
 
     /**
-     * Load a sound from the fonts folder.
-     * Sound are more suited for long running instance, such as background music, dialogues.
+     * Load a song from the fonts folder.
+     * Song are more suited for long running instance, such as background music, dialogues.
      * The name is relative ie:
      *  - sound.wav
      *  - cave/scared.wav
      *
      * @param name the sound full name relative to the sounds folder.
-     * @return a {@link Media} instance.
+     * @return a {@link Song} instance.
      */
-    public static Media loadSound(String name) {
+    public static Song loadSong(String name) {
         String key = ASSETS_ROOT + SOUNDS + name;
-        Media sound = getFromCache(Media.class, key);
 
-        if (sound == null) {
-            URI uri = getResourceURI(key);
-            sound = new Media(uri.toString());
-            cache.put(key, sound);
-        }
-        return sound;
+        URI uri = getResourceURI(key);
+        MediaPlayer player = new MediaPlayer(new Media(uri.toString()));
+        return new Song(player, name);
     }
 
     /**
      * Load an audio clip from the fonts folder.
-     * Audio clips are more suited for short sounds.
+     * Clips are more suited for short sounds.
      * The name is relative ie:
      *  - sound.wav
      *  - gun/ak_47.wav
      *
      * @param name the clip full name relative to the sounds folder.
-     * @return a {@link AudioClip} instance.
+     * @return a {@link Clip} instance.
      */
-    public static AudioClip loadClip(String name) {
+    public static Clip loadClip(String name) {
         String key = ASSETS_ROOT + SOUNDS + name;
-        AudioClip sound = getFromCache(AudioClip.class, key);
 
-        if (sound == null) {
-            URI uri = getResourceURI(key);
-            sound = new AudioClip(uri.toString());
-            cache.put(key, sound);
-        }
-        return sound;
+        URI uri = getResourceURI(key);
+        AudioClip player = new AudioClip(uri.toString());
+
+        return new Clip(player, name);
     }
 
     /**

@@ -1,6 +1,7 @@
 package fr.univ.engine.assets;
 
 import fr.univ.engine.GameEngineTest;
+import fr.univ.engine.sound.Song;
 import javafx.scene.image.Image;
 import javafx.scene.media.Media;
 import javafx.scene.text.Font;
@@ -43,8 +44,8 @@ class AssetsLoaderTest extends GameEngineTest {
     void loadSound() {
         String soundName = "test.wav";
         assertDoesNotThrow(() -> {
-            Media sound = AssetsLoader.loadSound(soundName);
-            assertNotNull(sound);
+            Song song = AssetsLoader.loadSong(soundName);
+            assertNotNull(song);
         });
         assertNotNull(AssetsLoader.getFromCache(Media.class, AssetsLoader.ASSETS_ROOT + AssetsLoader.SOUNDS + soundName));
     }
@@ -56,15 +57,15 @@ class AssetsLoaderTest extends GameEngineTest {
         String imageName = "test.png";
 
         assertDoesNotThrow(() -> AssetsLoader.loadFont(fontName));
-        assertThrows(AssetException.class, () -> AssetsLoader.loadSound(fontName));
+        assertThrows(AssetException.class, () -> AssetsLoader.loadSong(fontName));
         assertThrows(AssetException.class, () -> AssetsLoader.loadImage(fontName));
 
         assertThrows(AssetException.class, () -> AssetsLoader.loadFont(soundName));
-        assertDoesNotThrow(() -> AssetsLoader.loadSound(soundName));
+        assertDoesNotThrow(() -> AssetsLoader.loadSong(soundName));
         assertThrows(AssetException.class, () -> AssetsLoader.loadImage(soundName));
 
         assertThrows(AssetException.class, () -> AssetsLoader.loadFont(imageName));
-        assertThrows(AssetException.class, () -> AssetsLoader.loadSound(imageName));
+        assertThrows(AssetException.class, () -> AssetsLoader.loadSong(imageName));
         assertDoesNotThrow(() -> AssetsLoader.loadImage(imageName));
     }
 }
