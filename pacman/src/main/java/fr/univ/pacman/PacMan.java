@@ -35,6 +35,8 @@ public class PacMan extends GameApplication {
 
     PacManLogic pacmanLogic;
 
+    private static int eatMultipliyer = 0;
+
     public static int nbLevel = 0;
 
     public static final ArrayList<Entity> listFruits = new ArrayList<>();
@@ -268,7 +270,6 @@ public class PacMan extends GameApplication {
             if (!ghost.getComponent(GhostAIComponent.class).isDead())
                 ghost.getComponent(PhysicComponent.class).setSpeed(GhostAIComponent.SCAREDSPEED);
         });
-
         timeEngine().cancel("FINISHPOWER");
 
         FutureTask finishPower = new FutureTask(14, TimeUnit.SECONDS, "FINISHPOWER", () -> {
@@ -276,6 +277,7 @@ public class PacMan extends GameApplication {
             GhostAIComponent.setCurrentGlobalState(GhostAIComponent.State.CHASE);
             getLevel().getEntitiesWithComponent(GhostAIComponent.class).forEach(ghost -> {
                 ghost.getComponent(GhostAIComponent.class).setTakeCurrentGlobalState(true);
+                eatMultipliyer = 0;
                 if (!ghost.getComponent(GhostAIComponent.class).isDead())
                     ghost.getComponent(PhysicComponent.class).setSpeed(GhostAIComponent.NORMALESPEED);
             });
@@ -364,9 +366,12 @@ public class PacMan extends GameApplication {
      * @param ghost
      */
     private void eatGhost(Entity ghost) {
+        eatMultipliyer += 1;
+        int eatPoint = 200*eatMultipliyer;
+        if (eatPoint > 800) eatPoint = 800;
         GhostAIComponent ai = ghost.getComponent(GhostAIComponent.class);
         ai.setDead();
-        globalVars().put("score", globalVars().getInt("score")+200);
+        globalVars().put("score", globalVars().getInt("score")+(200*eatMultipliyer));
         soundEngine().playSong("ghost_return_spawn.wav", 0.15, true, ghost);
         ghost.getComponent(PhysicComponent.class).setSpeed(GhostAIComponent.DEATHSPEED);
     }
