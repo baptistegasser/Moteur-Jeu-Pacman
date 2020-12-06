@@ -189,7 +189,7 @@ public abstract class GhostAIComponent extends Component {
                             collisionEntity.getComponent(PhysicComponent.class).getHitBox(),
                             collisionEntity.getComponent(TransformComponent.class).position());
 
-                    Vector realFinalDir = HitBoxIntersecter.getVectorForPasteEdge(realDir, collisionSize, this.getComponent(PhysicComponent.class).getSpeed());
+                    Vector realFinalDir = realDir.getVectorForPasteEdge(collisionSize, this.getComponent(PhysicComponent.class).getSpeed());
 
                     // Second verification of I can go here
                     if (realFinalDir != null) {

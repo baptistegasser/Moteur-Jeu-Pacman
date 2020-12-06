@@ -166,7 +166,7 @@ public class PacManLogic extends Component {
                     collisionEntity.getComponent(PhysicComponent.class).getHitBox(),
                     collisionEntity.getComponent(TransformComponent.class).position());
 
-            Vector realFinalDir = HitBoxIntersecter.getVectorForPasteEdge(wantedDirection, collisionSize, this.getComponent(PhysicComponent.class).getSpeed());
+            Vector realFinalDir = wantedDirection.getVectorForPasteEdge(collisionSize, this.getComponent(PhysicComponent.class).getSpeed());
 
             if (realFinalDir != null) {
                 Point p2 = getComponent(TransformComponent.class).position().copy();
