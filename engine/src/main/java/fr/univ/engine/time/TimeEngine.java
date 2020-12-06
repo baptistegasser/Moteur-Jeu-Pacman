@@ -53,6 +53,7 @@ public class TimeEngine {
      * @param task the task.
      */
     public void schedule(FutureTask task) {
+        task.schedule(delay);
         scheduledTasks.add(task);
     }
 
@@ -62,7 +63,7 @@ public class TimeEngine {
      * @see FutureTask#FutureTask(long, TimeUnit, Runnable) for the constructor used.
      */
     public void schedule(long runIn, TimeUnit timeUnit, Runnable action) {
-        scheduledTasks.add(new FutureTask(runIn, timeUnit, action));
+        schedule(new FutureTask(runIn, timeUnit, action));
     }
 
     /**

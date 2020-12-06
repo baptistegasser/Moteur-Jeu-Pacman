@@ -10,7 +10,11 @@ public class FutureTask {
      * The time at which this task should start.
      * This time is expressed as a timestamp in nanoseconds.
      */
-    final long startTime;
+    long startTime;
+    /**
+     * The time to add to the timestamp when scheduled to get the start time.
+     */
+    private final long runIn;
     /**
      * An identifier that allow to find this task.
      * The identifier might not be unique allowing to find multiple tasks.
@@ -33,7 +37,7 @@ public class FutureTask {
      * @param action the action to run later.
      */
     public FutureTask(long runIn, Object identifier, Runnable action) {
-        this.startTime = System.nanoTime() + runIn;
+        this.runIn = runIn;
         this.identifier = identifier;
         this.action = action;
     }
@@ -60,5 +64,14 @@ public class FutureTask {
      */
     public FutureTask(long runIn, TimeUnit timeUnit, Runnable action) {
         this(timeUnit.toNanos(runIn), NO_IDENTIFIER, action);
+    }
+
+    /**
+     * Method called when task is scheduled.
+     *
+     * @param delay the delay accumulated to take in account.
+     */
+    void schedule(long delay) {
+        this.startTime = System.nanoTime() + runIn - delay;
     }
 }
