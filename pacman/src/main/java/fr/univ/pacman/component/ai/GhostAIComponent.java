@@ -23,7 +23,7 @@ public abstract class GhostAIComponent extends Component {
 
     public static final double NORMALESPEED = 0.55;
     public static final double SCAREDSPEED = 0.53;
-    public static final double DEATHSPEED = 1;
+    public static final double DEATHSPEED = 2;
 
     /**
      * Possible state of a ghost.
