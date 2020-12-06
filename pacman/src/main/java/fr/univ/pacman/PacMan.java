@@ -367,7 +367,7 @@ public class PacMan extends GameApplication {
     private void eatGhost(Entity ghost) {
         eatMultipliyer += 1;
         int eatPoint = 200*eatMultipliyer;
-        if (eatPoint > 800) eatPoint = 800;
+        if (eatPoint > 1600) eatPoint = 1600;
         GhostAIComponent ai = ghost.getComponent(GhostAIComponent.class);
         ai.setDead();
         globalVars().put("score", globalVars().getInt("score")+(200*eatMultipliyer));
