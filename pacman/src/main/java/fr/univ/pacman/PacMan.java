@@ -100,6 +100,8 @@ public class PacMan extends GameApplication {
 
         physicEngine().onCollision(PACMAN, WALL, this::pacmanWithWall);
 
+        physicEngine().onCollision(PACMAN, GHOST_BASE, (e1, e2) -> pacmanLogic.stop());
+
         physicEngine().onCollision(PACMAN, PAC, this::eatPac);
 
         physicEngine().onCollision(PACMAN, SUPER_PAC, this::eatSuperPac);
@@ -145,9 +147,6 @@ public class PacMan extends GameApplication {
             ghost.getComponent(PhysicComponent.class).setSpeed(GhostAIComponent.NORMALESPEED);
         });
 
-        physicEngine().onCollision(PACMAN, GHOST_BASE, (e1, e2) -> {
-            pacmanLogic.stop();
-        });
     }
 
     /**
@@ -355,6 +354,8 @@ public class PacMan extends GameApplication {
 
     @Override
     protected void startPlay() {
+        soundEngine().stopAll();
+
         nbLevel += 1;
 
         currentListFruits.clear();
