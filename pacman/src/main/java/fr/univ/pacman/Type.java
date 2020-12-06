@@ -11,6 +11,7 @@ public enum Type {
     SUPER_RAINBOW_PAC, // Pac which allow pacman to destroy walls
     WALL, // Walls
     GREATWALL, //Walls around the map, unbreakable
+    DOOR, // Door for jail
     TELEPORT, // Teleport
     SPAWN_EXIT, // Exit of ghost spawn
     GHOST_BASE, // Ghost area (their spawn)

@@ -11,8 +11,14 @@ public abstract class HitBox {
      */
     private boolean isSolid;
 
+    /**
+     * It's a solid nuance, two entity special can cross maybe there are solid
+     */
+    private boolean isSpecial;
+
     public HitBox() {
         this.isSolid = false;
+        this.isSpecial = false;
     }
 
     /**
@@ -29,5 +35,21 @@ public abstract class HitBox {
      */
     public void setSolid(boolean solid) {
         isSolid = solid;
+    }
+
+    /**
+     * @return if is special
+     */
+    public boolean isSpecial() {
+        return isSpecial;
+    }
+
+    /**
+     *  Set if the object is special
+     *
+     * @param special the new speciality
+     */
+    public void setSpecial(boolean special) {
+        isSpecial = special;
     }
 }

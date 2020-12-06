@@ -142,7 +142,7 @@ public class PhysicEngine {
             if (HitBoxIntersecter.intersect(h1, p1, h2, p2)) {
                 boolean haveMove = false;
                 // Rollback pos if hit a solid entity but go to paste edge if possible
-                if (h2.isSolid()) {
+                if (h2.isSolid() && (!h1.isSpecial() || !h2.isSpecial())) {
                     Vector collisionSize = HitBoxIntersecter.collisionSize(h1, p1, h2, p2);
                     Vector perfectVector = HitBoxIntersecter.getVectorForPasteEdge(entity.getComponent(PhysicComponent.class).direction(), collisionSize, entity.getComponent(PhysicComponent.class).getSpeed());
 
@@ -186,8 +186,8 @@ public class PhysicEngine {
         for (Entity e1 : entities) {
             HitBox hb1 = e1.getComponent(PhysicComponent.class).getHitBox();
 
-            // Ignore if self, target have no hitbox or is not solid
-            if (e1 == e || hb1 == null || !hb1.isSolid()) {
+            // Ignore if self, target have no hitbox, is not solid or two object are special
+            if (e1 == e || hb1 == null || !hb1.isSolid() || (hb1.isSpecial() && hb.isSpecial())) {
                 continue;
             }
 

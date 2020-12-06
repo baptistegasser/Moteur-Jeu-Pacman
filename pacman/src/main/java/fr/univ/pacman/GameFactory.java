@@ -6,7 +6,6 @@ import fr.univ.engine.core.entity.EntityBuilder;
 import fr.univ.engine.core.entity.EntityFactory;
 import fr.univ.engine.math.Point;
 import fr.univ.engine.physic.hitbox.SquareHitBox;
-import fr.univ.engine.render.RenderComponent;
 import fr.univ.engine.render.texture.ISprite;
 import fr.univ.engine.render.texture.Texture;
 import fr.univ.pacman.component.PacManLogic;
@@ -89,6 +88,22 @@ public class GameFactory extends EntityFactory {
                 .position(tilePos(charPos))
                 .hitbox(new SquareHitBox(16))
                 .isSolid(true)
+                .build();
+    }
+
+    /**
+     * Setup parameters for door
+     * @param charPos
+     * @return
+     */
+    @From('8')
+    public Entity door(Point charPos) {
+        return new EntityBuilder()
+                .type(Type.DOOR)
+                .position(tilePos(charPos))
+                .hitbox(new SquareHitBox(16))
+                .isSolid(true)
+                .isSpecial(true)
                 .build();
     }
 
