@@ -3,6 +3,8 @@ package fr.univ.engine.math;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.math.BigDecimal;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -13,22 +15,39 @@ class VectorTest {
 
     @BeforeEach
     void setUp() {
-        vector = new Vector(0, 3);
+        vector = new Vector(1, 10);
+    }
+
+    @Test
+    void constructors() {
+        Vector doubleVector = new Vector(1, 2);
+        Vector bigDecimalVector = new Vector(BigDecimal.valueOf(1), BigDecimal.valueOf(2));
+        assertEquals(doubleVector, bigDecimalVector);
     }
 
     @Test
     void x() {
-        assertEquals(0, vector.x());
+        assertEquals(BigDecimal.valueOf(1d), vector.x());
+    }
+
+    @Test
+    void xValue() {
+        assertEquals(1d, vector.xValue());
     }
 
     @Test
     void y() {
-        assertEquals(3, vector.y());
+        assertEquals(BigDecimal.valueOf(10d), vector.y());
     }
 
     @Test
-    void magnitude() {
-        assertEquals(3, vector.magnitude());
+    void yValue() {
+        assertEquals(10d, vector.yValue());
+    }
+
+    @Test
+    void magnitudeValue() {
+        assertEquals(10.04987562112089, vector.magnitudeValue());
     }
 
     @Test
@@ -36,7 +55,14 @@ class VectorTest {
         Vector reverse = vector.reverse();
 
         assertNotSame(reverse, vector);
-        assertEquals(-0.0, reverse.x());
-        assertEquals(-3.0, reverse.y());
+        assertEquals(-1d, reverse.xValue());
+        assertEquals(-10d, reverse.yValue());
+    }
+
+    @Test
+    void multiplyBy() {
+        Vector v2 = new Vector(5d, 50d);
+        assertEquals(v2, vector.multiplyBy(5));
+        assertEquals(v2, vector.multiplyBy(BigDecimal.valueOf(5)));
     }
 }

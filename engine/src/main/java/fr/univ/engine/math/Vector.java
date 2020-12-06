@@ -2,6 +2,7 @@ package fr.univ.engine.math;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
+import java.util.Objects;
 
 /**
  * Representation of a 2D Vector.
@@ -77,7 +78,7 @@ public class Vector {
      * @return a unit vector of magnitude 1 going in the same direction as this vector.
      */
     public Vector getUnitVector() {
-        return new Vector(x.divide(magnitude, MathContext.UNLIMITED), y.divide(magnitude, MathContext.UNLIMITED));
+        return new Vector(x.divide(magnitude, MathContext.DECIMAL128), y.divide(magnitude, MathContext.DECIMAL128));
     }
 
     /**
@@ -100,13 +101,11 @@ public class Vector {
         return new Vector(x.multiply(scale), y.multiply(scale));
     }
 
-    /**
-     * Test if a given vector have the same values.
-     *
-     * @param vector the vector to test.
-     * @return true if these two vector are equals.
-     */
-    public boolean equals(Vector vector) {
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Vector vector = (Vector) o;
         return x.compareTo(vector.x) == 0 && y.compareTo(vector.y) == 0;
     }
 
