@@ -47,7 +47,6 @@ class AssetsLoaderTest extends GameEngineTest {
             Song song = AssetsLoader.loadSong(soundName);
             assertNotNull(song);
         });
-        assertNotNull(AssetsLoader.getFromCache(Media.class, AssetsLoader.ASSETS_ROOT + AssetsLoader.SOUNDS + soundName));
     }
 
     @Test

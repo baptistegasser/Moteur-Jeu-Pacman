@@ -22,7 +22,10 @@ class FutureTaskTest {
         // Create a list, shuffle it than sort it to be sure the constructor set the time correctly
         List<FutureTask> taskList = Arrays.asList(threeHourTask, twoHourTask, oneHourTask);
         Collections.shuffle(taskList);
-        taskList.sort(Comparator.comparingLong(task -> task.startTime));
+        taskList.sort(Comparator.comparingLong(task -> {
+            task.schedule(0);
+            return task.startTime;
+        }));
 
         assertEquals(threeHourTask, taskList.get(2));
         assertEquals(twoHourTask, taskList.get(1));
