@@ -146,6 +146,7 @@ public class Vector {
      * And the calculation for x or y value depend if they are higher or lower than 0
      *
      * @param collisionSize The size of the collision
+     * @param speed the vector speed.
      * @return a vector whi can paste the edge, else null
      */
     public Vector getVectorForPasteEdge(Vector collisionSize, double speed) {

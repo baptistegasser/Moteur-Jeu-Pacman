@@ -64,6 +64,7 @@ public class SoundEngine {
      * Load an and play a clip from assets (short media).
      *
      * @param name the clip name.
+     * @param key the key to identify the sound.
      */
     public void playClip(String name, Object key) {
         playClip(name, 1.0, false, key);
@@ -84,6 +85,7 @@ public class SoundEngine {
      *
      * @param name the clip name.
      * @param volume the wanted output volume level.
+     * @param key the key to identify the sound.
      */
     public void playClip(String name, double volume, Object key) {
         playClip(name, volume, false, key);
@@ -94,7 +96,7 @@ public class SoundEngine {
      *
      * @param name the clip name.
      * @param volume the wanted output volume level.
-     ** @param loop set to true to loop the sound.
+     * @param loop set to true to loop the sound.
      */
     public void playClip(String name, double volume, boolean loop) {
         playClip(name, volume, loop, NO_KEY);
@@ -105,7 +107,8 @@ public class SoundEngine {
      *
      * @param name the clip name.
      * @param volume the wanted output volume level.
-     ** @param loop set to true to loop the sound.
+     * @param loop set to true to loop the sound.
+     * @param key the key to identify the sound.
      */
     public void playClip(String name, double volume, boolean loop, Object key) {
         Clip clip = AssetsLoader.loadClip(name);
@@ -127,6 +130,7 @@ public class SoundEngine {
      * Load an and play a song from assets (long media).
      *
      * @param name the song name.
+     * @param key the key to identify the sound.
      */
     public void playSong(String name, Object key) {
         playSong(name, 1.0, false, key);
@@ -147,6 +151,7 @@ public class SoundEngine {
      *
      * @param name the song name.
      * @param volume the wanted output volume level.
+     * @param key the key to identify the sound.
      */
     public void playSong(String name, double volume, Object key) {
         playSong(name, volume, false, key);
@@ -169,6 +174,7 @@ public class SoundEngine {
      * @param name the song name.
      * @param volume the wanted output volume level.
      * @param loop set to true to loop the sound.
+     * @param key the key to identify the sound.
      */
     public void playSong(String name, double volume, boolean loop, Object key) {
         Song song = AssetsLoader.loadSong(name);

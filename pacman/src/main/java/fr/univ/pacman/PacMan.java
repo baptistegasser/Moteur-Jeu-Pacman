@@ -454,6 +454,8 @@ public class PacMan extends GameApplication {
 
     /**
      * The main, launching the app
+     *
+     * @param args the arguments from command line.
      */
     public static void main(String[] args) {
         launch(args);

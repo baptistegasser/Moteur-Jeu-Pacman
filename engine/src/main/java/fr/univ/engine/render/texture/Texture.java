@@ -70,6 +70,7 @@ public class Texture {
      *
      * @param width the width at which to render.
      * @param height the height at which to render.
+     * @param defaultSprite a sprite to use as default.
      */
     public Texture(double width, double height, ISprite defaultSprite) {
         this(width, height, 0);
@@ -83,6 +84,7 @@ public class Texture {
      * @param width the width at which to render.
      * @param height the height at which to render.
      * @param zIndex the z-index in which to render.
+     * @param defaultSprite a sprite to use as default.
      */
     public Texture(double width, double height, int zIndex, ISprite defaultSprite) {
         this(width, height, zIndex);
