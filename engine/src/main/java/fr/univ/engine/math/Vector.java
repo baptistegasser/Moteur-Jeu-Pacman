@@ -2,6 +2,7 @@ package fr.univ.engine.math;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
+import java.math.RoundingMode;
 
 /**
  * Representation of a 2D Vector.
@@ -110,7 +111,8 @@ public class Vector {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Vector vector = (Vector) o;
-        return x.compareTo(vector.x) == 0 && y.compareTo(vector.y) == 0;
+        return x.setScale(4, RoundingMode.FLOOR).compareTo(vector.x.setScale(4, RoundingMode.FLOOR)) == 0 &&
+                y.setScale(4, RoundingMode.FLOOR).compareTo(vector.y.setScale(4, RoundingMode.FLOOR)) == 0;
     }
 
     /**
@@ -185,11 +187,5 @@ public class Vector {
             }
         }
         return null;
-    }
-
-    @Override
-    public String toString() {
-        return " X : " + x +
-                ", Y : " + y;
     }
 }
