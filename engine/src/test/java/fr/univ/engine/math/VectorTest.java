@@ -46,6 +46,12 @@ class VectorTest {
     }
 
     @Test
+    void magnitude() {
+        Vector v = new Vector(0, 10);
+        assertEquals(BigDecimal.valueOf(10.0), v.magnitude());
+    }
+
+    @Test
     void magnitudeValue() {
         assertEquals(10.04987562112089, vector.magnitudeValue());
     }
@@ -69,7 +75,7 @@ class VectorTest {
     @Test
     void sameOrientalDirection() {
         Vector v1 = new Vector(0,-3);
-        Vector v2 = new Vector(-2,0);
+        Vector v2 = new Vector(2,0);
 
         assertFalse(vector.sameOrientalDirection(v1));
         assertTrue(vector.sameOrientalDirection(v2));
@@ -84,5 +90,25 @@ class VectorTest {
         assertFalse(v3.sameOrientalDirection(v5));
         assertFalse(v5.sameOrientalDirection(v6));
         assertTrue(v6.sameOrientalDirection(v7));
+    }
+
+    @Test
+    void getUnitVector() {
+        Vector v = new Vector(0, 10);
+        Vector unit = new Vector(0, 1);
+        assertEquals(unit, v.getUnitVector());
+    }
+
+    @Test
+    void sameDirection() {
+        Vector v1 = new Vector(2, 3);
+        Vector v2 = new Vector(16, 24);
+        Vector v3 = new Vector(0, 0);
+        assertFalse(v1.sameDirection(v3));
+        assertTrue(v1.sameDirection(v2));
+    }
+
+    @Test
+    void getVectorForPasteEdge() {
     }
 }
