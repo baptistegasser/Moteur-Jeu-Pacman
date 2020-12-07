@@ -9,16 +9,16 @@
 <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="620.0" prefWidth="510.0" spacing="16.0" style="-fx-background-color: rgba(0, 0, 0, .7);" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.univ.pacman.controller.GameOverController">
     <HBox alignment="CENTER" nodeOrientation="LEFT_TO_RIGHT" spacing="8.0">
         <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
-            <Image url="@../textures/sprites/ghosts/orangeGhost.png" />
+            <Image url="@../textures/sprites/ghosts/orangeGhostRight.png" />
         </ImageView>
         <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
-            <Image url="@../textures/sprites/ghosts/blueGhost.png" />
+            <Image url="@../textures/sprites/ghosts/blueGhostRight.png" />
         </ImageView>
         <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
-            <Image url="@../textures/sprites/ghosts/pinkGhost.png" />
+            <Image url="@../textures/sprites/ghosts/pinkGhostRight.png" />
         </ImageView>
         <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
-            <Image url="@../textures/sprites/ghosts/redGhost.png" />
+            <Image url="@../textures/sprites/ghosts/redGhostRight.png" />
         </ImageView>
         <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
             <Image url="@../textures/sprites/pacman.png" />
