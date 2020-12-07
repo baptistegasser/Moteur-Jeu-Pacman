@@ -239,8 +239,8 @@ public class PacMan extends GameApplication {
 
     /**
      * Handle when pacman hit a ghost and chose the action to do
-     * @param pacman
-     * @param ghost
+     * @param pacman Pacman
+     * @param ghost the ghost in the collision
      */
     private void pacmanWithGhost(Entity pacman, Entity ghost) {
         if (ghost.getComponent(GhostAIComponent.class).isDead()) {
@@ -253,7 +253,7 @@ public class PacMan extends GameApplication {
     /**
      * Handle action with walls
      * @param pacman Pacman
-     * @param wall the wall in the colision
+     * @param wall the wall in the collision
      */
     private void pacmanWithWall(Entity pacman, Entity wall) {
         if (pacman.getComponent(PacManLogic.class).isInRainbowMode()) {
@@ -332,6 +332,8 @@ public class PacMan extends GameApplication {
 
     /**
      * Handle when pacman is hit by a fantom who was chasing him
+     *
+     * @param pacman pacman
      */
     private void pacmanHit(Entity pacman) {
         if (!pacman.getComponent(PacManLogic.class).isDeath()) {
@@ -362,6 +364,8 @@ public class PacMan extends GameApplication {
 
     /**
      * Replace entities when PacMan is dying
+     *
+     * @param pacman pacman
      */
     private void replaceEntity(Entity pacman) {
         //Replace PacMan

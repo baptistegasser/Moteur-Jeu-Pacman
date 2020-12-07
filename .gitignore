@@ -5,6 +5,7 @@
 !.idea/runConfigurations
 
 JavaDoc/
+Coverage/
 
 # Maven
 target/
