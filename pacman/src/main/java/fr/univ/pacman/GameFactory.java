@@ -28,8 +28,8 @@ public class GameFactory extends EntityFactory {
 
     /**
      * Setup parameters for pacman
-     * @param charPos
-     * @return
+     * @param charPos the position
+     * @return the entity associated
      */
     @From('P')
     public Entity pacman(Point charPos) {
@@ -57,8 +57,8 @@ public class GameFactory extends EntityFactory {
 
     /**
      * Setup parameters for common walls
-     * @param charPos
-     * @return
+     * @param charPos the position
+     * @return the entity associated
      */
     @From('1')
     public Entity wall(Point charPos) {
@@ -78,8 +78,8 @@ public class GameFactory extends EntityFactory {
 
     /**
      * Setup parameters for unbreakable walls
-     * @param charPos
-     * @return
+     * @param charPos the position
+     * @return the entity associated
      */
     @From('7')
     public Entity greatwall(Point charPos) {
@@ -93,8 +93,8 @@ public class GameFactory extends EntityFactory {
 
     /**
      * Setup parameters for door
-     * @param charPos
-     * @return
+     * @param charPos the position
+     * @return the entity associated
      */
     @From('8')
     public Entity door(Point charPos) {
@@ -109,8 +109,8 @@ public class GameFactory extends EntityFactory {
 
     /**
      * Setup parameters for pacs
-     * @param charPos
-     * @return
+     * @param charPos the position
+     * @return the entity associated
      */
     @From('2')
     public Entity pac(Point charPos) {
@@ -125,8 +125,8 @@ public class GameFactory extends EntityFactory {
 
     /**
      * Setup parameters for superpacs
-     * @param charPos
-     * @return
+     * @param charPos the position
+     * @return the entity associated
      */
     @From('3')
     public Entity superpac(Point charPos) {
@@ -141,8 +141,8 @@ public class GameFactory extends EntityFactory {
 
     /**
      * Setup parameter for rainbowpacs
-     * @param charPos
-     * @return
+     * @param charPos the position
+     * @return the entity associated
      */
     @From('4')
     public Entity rainbowpac(Point charPos) {
@@ -157,8 +157,8 @@ public class GameFactory extends EntityFactory {
 
     /**
      * Setup parameter for the teleport
-     * @param charPos
-     * @return
+     * @param charPos the position
+     * @return the entity associated
      */
     @From('5')
     public Entity teleport(Point charPos) {
@@ -171,8 +171,8 @@ public class GameFactory extends EntityFactory {
 
     /**
      * Setup parameter for the spawn exit
-     * @param charPos
-     * @return
+     * @param charPos the position
+     * @return the entity associated
      */
     @From('S')
     public Entity spawnExit(Point charPos) {
@@ -185,8 +185,8 @@ public class GameFactory extends EntityFactory {
 
     /**
      * Setup parameter for the ghost base
-     * @param charPos
-     * @return
+     * @param charPos the position
+     * @return the entity associated
      */
     @From('G')
     public Entity ghostBase(Point charPos) {
@@ -199,8 +199,8 @@ public class GameFactory extends EntityFactory {
 
     /**
      * Setup parameter or the red ghost
-     * @param charPos
-     * @return
+     * @param charPos the position
+     * @return the entity associated
      */
     @From('R')
     public Entity redGhost(Point charPos) {
@@ -218,8 +218,8 @@ public class GameFactory extends EntityFactory {
 
     /**
      * Setup parameter for the blue ghost
-     * @param charPos
-     * @return
+     * @param charPos the position
+     * @return the entity associated
      */
     @From('B')
     public Entity blueGhost(Point charPos) {
@@ -237,8 +237,8 @@ public class GameFactory extends EntityFactory {
 
     /**
      * Setup the orange ghost
-     * @param charPos
-     * @return
+     * @param charPos the position
+     * @return the entity associated
      */
     @From('O')
     public Entity orangeGhost(Point charPos) {
@@ -256,8 +256,8 @@ public class GameFactory extends EntityFactory {
 
     /**
      * Setup the pink ghost
-     * @param charPos
-     * @return
+     * @param charPos the position
+     * @return the entity associated
      */
     @From('I')
     public Entity pinkGhost(Point charPos) {
@@ -275,8 +275,8 @@ public class GameFactory extends EntityFactory {
 
     /**
      * Setup the textures for all the ghosts : eyes, afraid, dead ...
-     * @param color
-     * @return
+     * @param color the position
+     * @return the entity associated
      */
     private Texture createGhostTexture(String color) {
         Texture texture = new Texture(20, 20, 9);

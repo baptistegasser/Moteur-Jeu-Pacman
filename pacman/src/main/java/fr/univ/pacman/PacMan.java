@@ -32,12 +32,24 @@ import static fr.univ.pacman.Type.*;
  */
 public class PacMan extends GameApplication {
 
+    /**
+     * Represent Pacman
+     */
     PacManLogic pacmanLogic;
 
+    /**
+     * Eat multipliyer for the super-pac (200,400,800,1600)
+     */
     private static int eatMultipliyer = 0;
 
+    /**
+     * Fruit list
+     */
     public static final ArrayList<Entity> listFruits = new ArrayList<>();
 
+    /**
+     * Fruit list for the current level
+     */
     public static ArrayList<Entity> currentListFruits = new ArrayList<>();
 
     /**
@@ -240,8 +252,8 @@ public class PacMan extends GameApplication {
 
     /**
      * Handle action with walls
-     * @param pacman
-     * @param wall
+     * @param pacman Pacman
+     * @param wall the wall in the colision
      */
     private void pacmanWithWall(Entity pacman, Entity wall) {
         if (pacman.getComponent(PacManLogic.class).isInRainbowMode()) {
@@ -252,8 +264,8 @@ public class PacMan extends GameApplication {
 
     /**
      * Handle action when pacman eat a pac
-     * @param pacman
-     * @param pac
+     * @param pacman Pacman
+     * @param pac the pac in the colision
      */
     private void eatPac(Entity pacman, Entity pac) {
         soundEngine().playClip("eating_pac.wav", 0.04);
@@ -265,9 +277,9 @@ public class PacMan extends GameApplication {
     }
 
     /**
-     * Handle hen pacman eat a superpac
-     * @param pacman
-     * @param superPac
+     * Handle when pacman eat a superpac
+     * @param pacman the pac
+     * @param superPac the superpac in the colision
      */
     private void eatSuperPac(Entity pacman, Entity superPac) {
         soundEngine().playClip("eating_pac.wav",0.05);
@@ -301,8 +313,8 @@ public class PacMan extends GameApplication {
 
     /**
      * Handle when action eat a raimbowpac
-     * @param pacman
-     * @param rainbowPac
+     * @param pacman Pacman
+     * @param rainbowPac the rainbow-pac in the colisioon
      */
     private void eatRainbowPac(Entity pacman, Entity rainbowPac) {
         pacmanLogic.setCurrentMode(PacManLogic.Mode.RAINBOW);
@@ -368,7 +380,7 @@ public class PacMan extends GameApplication {
 
     /**
      * Handle when pacman hit a ghost while ghost was scared
-     * @param ghost
+     * @param ghost that has been eat by pacman
      */
     private void eatGhost(Entity ghost) {
         eatMultipliyer += 1;
@@ -381,6 +393,9 @@ public class PacMan extends GameApplication {
         ghost.getComponent(PhysicComponent.class).setSpeed(GhostAIComponent.DEATHSPEED);
     }
 
+    /**
+     * Initialise some variables when the games realy start, or when a player pass a level
+     */
     @Override
     protected void startPlay() {
         soundEngine().stopAll();
@@ -437,6 +452,10 @@ public class PacMan extends GameApplication {
         });
     }
 
+    /**
+     * The main, launching the app
+     * @param args
+     */
     public static void main(String[] args) {
         launch(args);
     }

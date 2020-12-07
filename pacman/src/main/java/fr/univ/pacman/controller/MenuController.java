@@ -5,6 +5,9 @@ import fr.univ.engine.ui.JFXController;
 import fr.univ.pacman.PacMan;
 import javafx.fxml.FXML;
 
+/**
+ * Main menu controller
+ */
 public class MenuController extends JFXController {
 
     @FXML

@@ -20,6 +20,9 @@ import java.util.Random;
  */
 public abstract class GhostAIComponent extends Component {
 
+    /**
+     * Definition for the speed, the scared speed and the death speed.
+     */
     public static final double NORMALESPEED = 0.6;
     public static final double SCAREDSPEED = 0.51;
     public static final double DEATHSPEED = 2;
@@ -129,7 +132,7 @@ public abstract class GhostAIComponent extends Component {
 
     /**
      * Move to the direction that reduce the distance to the target
-     * @param target
+     * @param target the desired target
      */
     private void moveToTarget(Point target) {
         List<Vector> validDirections = getValidDirections();
@@ -240,6 +243,9 @@ public abstract class GhostAIComponent extends Component {
         getComponent(RenderComponent.class).getTexture().setCurrentChannel(textureChannel);
     }
 
+    /**
+     * Spawn a ghost by setting the state to SPAWN
+     */
     public void spawn() {
         List<Entity> exits = getLevel().getEntities(Type.SPAWN_EXIT);
         this.spawnExit = exits.get(new Random().nextInt(exits.size())).getComponent(TransformComponent.class).position();
@@ -247,6 +253,9 @@ public abstract class GhostAIComponent extends Component {
         this.getComponent(PhysicComponent.class).getHitBox().setSpecial(true);
     }
 
+    /**
+     * Notify when a ghost exit the spawn , setting the state o CHASE
+     */
     public void notifySpawnExit() {
         this.state = State.CHASE;
         takeCurrentGlobalState = false;
@@ -270,6 +279,9 @@ public abstract class GhostAIComponent extends Component {
         return currentGlobalState;
     }
 
+    /**
+     * Teleport ghost to the base
+     */
     public void teleportToBase() {
         if (state != State.NONE) {
             getComponent(TransformComponent.class).setPosition(base);

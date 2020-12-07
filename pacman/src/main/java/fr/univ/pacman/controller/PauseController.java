@@ -5,6 +5,9 @@ import fr.univ.engine.core.GameApplication;
 import fr.univ.engine.ui.JFXController;
 import javafx.fxml.FXML;
 
+/**
+ * Game pause controller
+ */
 public class PauseController extends JFXController {
     @FXML
     private void openSettings() {

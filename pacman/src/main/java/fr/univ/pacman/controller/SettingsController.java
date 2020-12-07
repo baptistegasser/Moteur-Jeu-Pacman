@@ -9,6 +9,9 @@ import javafx.scene.control.Slider;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * Setting controller
+ */
 public class SettingsController extends JFXController implements Initializable {
     @FXML
     private Slider globalVolumeSlider;

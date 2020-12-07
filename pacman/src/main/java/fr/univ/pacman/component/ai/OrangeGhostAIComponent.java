@@ -5,12 +5,19 @@ import fr.univ.engine.core.entity.Entity;
 import fr.univ.engine.math.Point;
 import fr.univ.pacman.Type;
 
+/**
+ * Orange ghost class
+ */
 public class OrangeGhostAIComponent extends GhostAIComponent {
     public OrangeGhostAIComponent() {
         this.base = new Point(-8, -32);
         this.scatterPos = new Point(-224, 260);
     }
 
+    /**
+     * Calculate the position to target
+     * @return the position
+     */
     @Override
     protected Point calcTargetPos() {
         Entity pacman = getLevel().getSingletonEntity(Type.PACMAN);

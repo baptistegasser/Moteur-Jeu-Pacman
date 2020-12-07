@@ -7,12 +7,19 @@ import fr.univ.engine.math.Vector;
 import fr.univ.engine.physic.PhysicComponent;
 import fr.univ.pacman.Type;
 
+/**
+ * Blue ghost class
+ */
 public class BlueGhostAIComponent extends GhostAIComponent {
     public BlueGhostAIComponent() {
         this.base = new Point(-16, -32);
         this.scatterPos = new Point(224, 260);
     }
 
+    /**
+     * Calculate the target position
+     * @return the target
+     */
     @Override
     protected Point calcTargetPos() {
         Entity pacman = getLevel().getSingletonEntity(Type.PACMAN);

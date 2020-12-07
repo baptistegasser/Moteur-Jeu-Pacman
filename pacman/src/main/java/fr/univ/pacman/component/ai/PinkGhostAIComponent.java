@@ -6,6 +6,9 @@ import fr.univ.engine.math.Point;
 import fr.univ.engine.physic.PhysicComponent;
 import fr.univ.pacman.Type;
 
+/**
+ * Pink ghost class
+ */
 public class PinkGhostAIComponent extends GhostAIComponent {
 
     /**
@@ -17,6 +20,10 @@ public class PinkGhostAIComponent extends GhostAIComponent {
     }
 
 
+    /**
+     * Calculate target position
+     * @return the target position
+     */
     @Override
     protected Point calcTargetPos() {
         Entity pacman = getLevel().getSingletonEntity(Type.PACMAN);
