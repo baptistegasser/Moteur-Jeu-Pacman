@@ -1,12 +1,17 @@
 package fr.univ.engine.assets;
 
 import fr.univ.engine.GameEngineTest;
+import fr.univ.engine.render.texture.Animation;
+import fr.univ.engine.render.texture.Sprite;
+import fr.univ.engine.sound.Clip;
 import fr.univ.engine.sound.Song;
+import fr.univ.engine.ui.JFXView;
 import javafx.scene.image.Image;
-import javafx.scene.media.Media;
 import javafx.scene.text.Font;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -31,6 +36,24 @@ class AssetsLoaderTest extends GameEngineTest {
     }
 
     @Test
+    void loadSprite() {
+        String imageName = "test.png";
+        assertDoesNotThrow(() -> {
+            Sprite sprite = AssetsLoader.loadSprite(imageName);
+            assertNotNull(sprite);
+        });
+    }
+
+    @Test
+    void loadAnimation() {
+        String imageName = "test.png";
+        assertDoesNotThrow(() -> {
+            Animation animation = AssetsLoader.loadAnimation(100, Collections.singletonList(imageName));
+            assertNotNull(animation);
+        });
+    }
+
+    @Test
     void loadFont() {
         String fontName = "test.ttf";
         assertDoesNotThrow(() -> {
@@ -41,11 +64,33 @@ class AssetsLoaderTest extends GameEngineTest {
     }
 
     @Test
-    void loadSound() {
+    void loadSong() {
         String soundName = "test.wav";
         assertDoesNotThrow(() -> {
             Song song = AssetsLoader.loadSong(soundName);
             assertNotNull(song);
+        });
+    }
+
+    @Test
+    void loadClip() {
+        String soundName = "test.wav";
+        assertDoesNotThrow(() -> {
+            Clip clip = AssetsLoader.loadClip(soundName);
+            assertNotNull(clip);
+        });
+    }
+
+    @Test
+    public void loadView() {
+        String invalid = "invalid.fxml";
+        String notExist = "aaaaaaaaaaa.fxml";
+        String name = "view.fxml";
+        assertDoesNotThrow(() -> {
+            assertThrows(AssetException.class, () -> AssetsLoader.loadView(invalid));
+            assertThrows(AssetException.class, () -> AssetsLoader.loadView(notExist));
+            JFXView view = AssetsLoader.loadView(name);
+            assertNotNull(view);
         });
     }
 
