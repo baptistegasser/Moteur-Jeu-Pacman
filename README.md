@@ -35,10 +35,14 @@ Il est également possible de mettre le jeu en pause en appuyant sur la touche E
 ### Déroulement du jeu
 Le but est de passer de niveau en niveau.
 Pour passer au niveau suivant, Pac-Man doit manger toutes les gommes (pac) d'un niveau.
-Si Pac-Man est touché par un fantôme, il perd une vie. Au bout de trois vies perdu, la partie est perdue.
+Si Pac-Man est touché par un fantôme, il perd une vie. Au bout de trois vies perdues, la partie est perdue.
+
 Il existe 2 bonus :
  * classique -> une grosse gomme qui permet de manger les fantômes.
  * arc-en-ciel -> une gomme arc-en-ciel qui permet de manger les murs en face de soi.
+
+Des fruits apparaissent également dans le labyrinthe, en manger un offre des points.
+Le nombre de fruits est proportionnel au niveau.
 
 ## License
 [MIT](LICENSE)
