@@ -26,6 +26,9 @@ public class Clip extends Sound<AudioClip> {
         player.play();
     }
 
+    /**
+     * Pause the clip by setting the volume to 0
+     */
     @Override
     public void pause() {
         // We can't pause nor unpause, just muting the sound lmao
@@ -33,6 +36,9 @@ public class Clip extends Sound<AudioClip> {
         paused = true;
     }
 
+    /**
+     * Resume the song
+     */
     @Override
     public void unpause() {
         // We can't pause nor unpause, just muting the sound lmao
@@ -40,16 +46,26 @@ public class Clip extends Sound<AudioClip> {
         paused = false;
     }
 
+    /**
+     * Stop the song
+     */
     @Override
     public void stop() {
         player.stop();
     }
 
+    /**
+     * Loop the song
+     */
     @Override
     public void setLoop() {
         player.setCycleCount(AudioClip.INDEFINITE);
     }
 
+    /**
+     * Set the volume
+     * @param volume the desire volume.
+     */
     @Override
     public void setVolume(double volume) {
         if (!paused) {
@@ -58,6 +74,10 @@ public class Clip extends Sound<AudioClip> {
         this.currentVolume = volume;
     }
 
+    /**
+     * Get the volume
+     * @return The volume of the audio clip
+     */
     @Override
     public double getVolume() {
         return player.getVolume();

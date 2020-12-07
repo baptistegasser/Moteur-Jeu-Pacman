@@ -14,6 +14,11 @@ public class Vector {
      */
     private final BigDecimal magnitude;
 
+    /**
+     * Constructor if you pass double
+     * @param x the double
+     * @param y the double
+     */
     public Vector(double x, double y) {
         this(BigDecimal.valueOf(x), BigDecimal.valueOf(y));
     }

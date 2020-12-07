@@ -15,6 +15,11 @@ class KeyBoardEvent {
      */
     public final KeyCode code;
 
+    /**
+     * Constructor
+     * @param code The keycode
+     * @param status The status
+     */
     public KeyBoardEvent(KeyCode code, Status status) {
         this.code = code;
         this.status = status;

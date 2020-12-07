@@ -17,6 +17,10 @@ public abstract class JFXController {
         return this.view;
     }
 
+    /**
+     * Display an element
+     * @param element The UI element
+     */
     protected final void display(UIElement element) {
         view.display(element);
     }

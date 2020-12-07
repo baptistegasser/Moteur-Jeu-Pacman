@@ -7,7 +7,13 @@ import java.math.MathContext;
  * Representation of a point in 2D space.
  */
 public class Point {
+    /**
+     * The X coordinates
+     */
     private BigDecimal x;
+    /**
+     * The Y coordinates
+     */
     private BigDecimal y;
 
     public Point(double x, double y) {
@@ -62,42 +68,73 @@ public class Point {
         this.y = point.y;
     }
 
+    /**
+     * Set value for X
+     * @param x the value
+     */
     public void setX(double x) {
         setX(BigDecimal.valueOf(x));
     }
-
+    /**
+     * Set value for X
+     * @param x the value
+     */
     public void setX(BigDecimal x) {
         this.x = x;
     }
-
+    /**
+     * Increment X by one
+     */
     public void incrementX() {
         incrementX(1.0);
     }
-
+    /**
+     * Add a value to X
+     * @param val the value to add
+     */
     public void incrementX(double val) {
         incrementX(BigDecimal.valueOf(val));
     }
-
+    /**
+     * Add a value to X
+     * @param val the value to add
+     */
     public void incrementX(BigDecimal val) {
         setX(x.add(val));
     }
 
+    /**
+     * Set value for X
+     * @param y the value
+     */
     public void setY(double y) {
         setY(BigDecimal.valueOf(y));
     }
-
+    /**
+     * Set value for X
+     * @param y the value
+     */
     public void setY(BigDecimal y) {
         this.y = y;
     }
 
+    /**
+     * Increment y by one
+     */
     public void incrementY() {
         incrementY(1.0);
     }
-
+    /**
+     * Add a value to Y
+     * @param val the value to add
+     */
     public void incrementY(double val) {
         incrementY(BigDecimal.valueOf(val));
     }
-
+    /**
+     * Add a value to Y
+     * @param val the value to add
+     */
     public void incrementY(BigDecimal val) {
         setY(y.add(val));
     }
@@ -116,6 +153,11 @@ public class Point {
         return distance.doubleValue();
     }
 
+    /**
+     * Check if two point are equals
+     * @param o the point
+     * @return true if the point are equals
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

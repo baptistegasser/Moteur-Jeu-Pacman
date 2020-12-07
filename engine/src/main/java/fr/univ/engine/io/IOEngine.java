@@ -132,11 +132,19 @@ public class IOEngine implements KeyEventHandler {
         }
     }
 
+    /**
+     * Notify when a key is pressed and add it to the queue
+     * @param keyEvent the information about this event
+     */
     @Override
     public void notifyKeyPressed(KeyEvent keyEvent) {
         queue.add(new KeyBoardEvent(keyEvent.getCode(), Status.DOWN));
     }
 
+    /**
+     * Notigy when a key is released and add it to the queue
+     * @param keyEvent the information about this event
+     */
     @Override
     public void notifyKeyReleased(KeyEvent keyEvent) {
         queue.add(new KeyBoardEvent(keyEvent.getCode(), Status.UP));

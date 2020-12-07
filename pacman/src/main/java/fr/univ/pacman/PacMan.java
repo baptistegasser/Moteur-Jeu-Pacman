@@ -376,7 +376,7 @@ public class PacMan extends GameApplication {
         if (eatPoint > 1600) eatPoint = 1600;
         GhostAIComponent ai = ghost.getComponent(GhostAIComponent.class);
         ai.setDead();
-        globalVars().put("score", globalVars().getInt("score")+(200*eatMultipliyer));
+        globalVars().put("score", globalVars().getInt("score")+eatPoint);
         soundEngine().playSong("ghost_return_spawn.wav", 0.15, true, ghost);
         ghost.getComponent(PhysicComponent.class).setSpeed(GhostAIComponent.DEATHSPEED);
     }

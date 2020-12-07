@@ -5,14 +5,25 @@ import fr.univ.engine.render.JFXApp;
 public class UiEngine {
     private UIRoot uiroot;
 
+    /**
+     * Clea the UIRoot
+     */
     public void clear() {
         uiroot.clear();
     }
 
+    /**
+     * Display an UI element
+     * @param element to display
+     */
     public void display(UIElement element) {
         uiroot.display(element);
     }
 
+    /**
+     * Destroy an UI element
+     * @param element to destroy
+     */
     public void destroy(UIElement element) {
         element.destroy();
     }

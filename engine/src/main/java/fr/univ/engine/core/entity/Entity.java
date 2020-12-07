@@ -17,6 +17,11 @@ public class Entity {
      */
     private final List<Component> components;
 
+    /**
+     * Constructor
+     * @param type Type of the entity
+     * @param components Components of the entity
+     */
     public Entity(Object type, List<Component> components) {
         this.type = type;
         this.components = components;

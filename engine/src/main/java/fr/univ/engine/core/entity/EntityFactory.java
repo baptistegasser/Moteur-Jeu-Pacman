@@ -74,6 +74,9 @@ public abstract class EntityFactory {
         }
     }
 
+    /**
+     * Used for tilemap
+     */
     @Target(ElementType.METHOD)
     @Retention(RetentionPolicy.RUNTIME)
     public @interface From {

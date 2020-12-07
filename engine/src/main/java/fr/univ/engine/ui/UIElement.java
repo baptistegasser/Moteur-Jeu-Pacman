@@ -28,11 +28,18 @@ public class UIElement {
         layout.setLayoutX(x);
         layout.setLayoutY(y);
     }
-    
+
+    /**
+     * Display an element in the root
+     * @param element the element to display
+     */
     public final void display(UIElement element) {
         root.display(this, element);
     }
 
+    /**
+     * Destroy an UI element
+     */
     public final void destroy() {
         root.destroy(this);
     }
