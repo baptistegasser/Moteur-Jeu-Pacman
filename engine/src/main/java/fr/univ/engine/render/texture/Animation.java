@@ -43,6 +43,10 @@ public class Animation implements ISprite {
         this.lastFrameChange = System.currentTimeMillis();
     }
 
+    /**
+     * Get the image for the animation
+     * @return the current crame
+     */
     @Override
     public Image getImage() {
         // Init to prevent skipping first image.

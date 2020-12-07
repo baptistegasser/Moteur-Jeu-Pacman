@@ -6,7 +6,13 @@ package fr.univ.engine.physic;
  * between entities of type t1 and t2.
  */
 public class CollisionHandlerWrapper {
+    /**
+     * Object collision 1
+     */
     private final Object t1;
+    /**
+     * Object collision 2
+     */
     private final Object t2;
     /**
      * The handler charged of handling the collision.

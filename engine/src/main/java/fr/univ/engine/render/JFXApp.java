@@ -70,6 +70,10 @@ public final class JFXApp extends Application {
         stage.getScene().setOnKeyReleased(handler::notifyKeyReleased);
     }
 
+    /**
+     * Start the app
+     * @param primaryStage the stage
+     */
     @Override
     public void start(Stage primaryStage) {
         stage = primaryStage;
