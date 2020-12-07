@@ -13,7 +13,7 @@ public class AssetException extends RuntimeException {
     }
 
     /**
-     * Throw a mesage and its cause
+     * Throw a message and its cause
      * @param message The message
      * @param cause The cause
      */

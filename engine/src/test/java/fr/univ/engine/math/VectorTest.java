@@ -198,4 +198,15 @@ class VectorTest {
 
         assertEquals(v31.getVectorForPasteEdge(v32, speed2), new Vector(0,-0.2));
     }
+
+    @Test
+    void testEquals() {
+        Vector v1 = new Vector(2, 3);
+        Vector v2 = new Vector(16, 24);
+        Vector v3 = new Vector(2, 3);
+
+        assertEquals(v1, v1);
+        assertNotEquals(v1, v2);
+        assertEquals(v1, v3);
+    }
 }
