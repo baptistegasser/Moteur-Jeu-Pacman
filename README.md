@@ -1,38 +1,44 @@
-# Game Engine and Pac-Man
+# Moteur de jeu et Pac-Man
 [![GitHub license](https://img.shields.io/github/license/baptistegasser/Moteur-Jeu-Pacman.svg)](LICENSE)
 
-> Project made for the Software Engineering course.
+> Projet réalisé dans le cadre du cours de Génie Logiciel de M1 Informatique.
 
-The goal is to create a functional Game Engine and use it to create a Pac-Man like game
-to demonstrate its usability.
+Le but est de créer un moteur de jeu fonctionnel et d'utiliser celui-ci afin de créer un jeu
+de type Pac-Man afin de démontrer que le moteur est fonctionnel et utilisable.
 
-## Install Dependencies
-- git to clone the project
-- Code written with Java JDK 11 as target and source version
-- Maven v3.6.3+ (previous version might work but might have unpredicted behaviors)
+## Dépendances
+- require Java JDK 11 or superior
+- maven v3.6.3+ (previous version might work but might have unpredicted behaviors)
 
-### Getting started
-First, create a local copy of the repository :
+### Installation
+Cloner le repository git:
 ```shell
 git clone https://github.com/baptistegasser/Moteur-Jeu-Pacman.git
 ```
 
-Install the maven modules :
+Créer le jar:
 ```shell
 cd Moteur-Jeu-Pacman
-mvn clean install
+mvn clean package
 ```
 
-If you don't want the Pac-Man like game, install only the engine's packages :
+Exécuter Pac-Man:
 ```shell
-cd Moteur-Jeu-Pacman/engine
-mvn clean install
+java -jar pacman/shade/pacman.jar
 ```
 
-## Usage
-⚠ In construction
+## Utilisation
+Le jeu se déroule de manière assez intuitive.
+Pac-Man est déplaçable avec les touches fléchées du clavier.
+Il est également possible de mettre le jeu en pause en appuyant sur la touche Echap.
 
-[//]: # (TODO Readme usage section)
+### Déroulement du jeu
+Le but est de passer de niveau en niveau.
+Pour passer au niveau suivant, Pac-Man doit manger toutes les gommes (pac) d'un niveau.
+Si Pac-Man est touché par un fantôme, il perd une vie. Au bout de trois vies perdu, la partie est perdue.
+Il existe 2 bonus :
+ * classique -> une grosse gomme qui permet de manger les fantômes.
+ * arc-en-ciel -> une gomme arc-en-ciel qui permet de manger les murs en face de soi.
 
 ## License
 [MIT](LICENSE)
