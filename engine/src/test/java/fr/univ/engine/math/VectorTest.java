@@ -192,5 +192,10 @@ class VectorTest {
         Vector v30 = new Vector(0.7, -0.4);
 
         assertEquals(v29.getVectorForPasteEdge(v30, speed2), new Vector(0,0));
+
+        Vector v31 = new Vector(0.7, -0.4);
+        Vector v32 = new Vector(0.7, -0.2);
+
+        assertEquals(v31.getVectorForPasteEdge(v32, speed2), new Vector(0,-0.2));
     }
 }
